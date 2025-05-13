@@ -1,0 +1,9 @@
+{
+	"files.associations": {
+		"minishell.h": "c",
+		"memory_resource": "c",
+		"mlx42_int.h": "c",
+		"cub3d.h": "c",
+		"khrplatform.h": "c"
+	}
+}
