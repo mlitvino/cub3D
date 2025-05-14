@@ -6,20 +6,18 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/05/13 18:19:54 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/05/14 17:30:57 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			= cc
 # -Wall -Wextra -Werror
-CFLAGS		= -I$(LIBFT_DIR)/$(INCLD_DIR) -I$(INCLD_DIR) -I$(MLX_DIR)/include
-LIBFLAG		= -L$(MLX_DIR)/build $(MLX) -L/usr/lib -lXext -lX11 -lm -lz -ldl -lglfw -pthread -lm -o
+IFLAGS		= -I$(LIBFT_DIR)/$(INCLD_DIR) -I$(INCLD_DIR) -I$(MLX_DIR)/include
+LFLAGS		= -L$(MLX_DIR)/build $(MLX) -lz -ldl -lglfw -pthread -lm -o
 
 NAME		= cub3D
 LIBFT		= $(LIBFT_DIR)/libft.a
-LIBFT_GIT	= https://github.com/mlitvino/libft.git
 MLX			= $(MLX_DIR)/build/libmlx42.a
-MLX_GIT		= https://github.com/codam-coding-college/MLX42.git
 
 SRC_DIR		= sources
 OBJ_DIR		= objects
@@ -42,14 +40,14 @@ $(MLX):
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INCLD)
 	@[ -d $(OBJ_DIR) ] || mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(IFLAGS) -c $< -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/*/%.c $(INCLD)
 	@[ -d $(OBJ_DIR) ] || mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(IFLAGS) -c $< -o $@
 
 $(NAME): $(OBJ) $(LIBFT)
-	$(CC) $(OBJ) $(LIBFT) $(LIBFLAG) $@
+	$(CC) $(OBJ) $(LIBFT) $(LFLAGS) $@
 
 $(LIBFT):
 	make -C $(LIBFT_DIR) all
@@ -63,6 +61,9 @@ fclean: clean
 	make -C $(MLX_DIR)/build clean
 	make -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
+
+start: all
+	./$(NAME)
 
 re: fclean all
 

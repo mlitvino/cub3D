@@ -3,14 +3,21 @@
         {
             "name": "Linux",
             "includePath": [
+                "/usr/include",
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/includes",
                 "${workspaceFolder}/libft/includes"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c99",
             "cppStandard": "c++14",
+            "browse": {
+                "path": [
+                    "/usr/include",
+                    "${workspaceFolder}/**"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
             "intelliSenseMode": "linux-gcc-x64"
         }
     ],
