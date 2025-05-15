@@ -6,14 +6,14 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/05/14 17:30:57 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/05/15 15:36:38 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			= cc
 # -Wall -Wextra -Werror
-IFLAGS		= -I$(LIBFT_DIR)/$(INCLD_DIR) -I$(INCLD_DIR) -I$(MLX_DIR)/include
-LFLAGS		= -L$(MLX_DIR)/build $(MLX) -lz -ldl -lglfw -pthread -lm -o
+HEADERS		= -I$(LIBFT_DIR)/$(INCLD_DIR) -I$(INCLD_DIR) -I$(MLX_DIR)/include
+LIBS		= -L$(MLX_DIR)/build $(MLX) -lz -ldl -lglfw -pthread -lm -o
 
 NAME		= cub3D
 LIBFT		= $(LIBFT_DIR)/libft.a
@@ -32,7 +32,7 @@ INCLD		= $(INCLD_DIR)/cub3D.h
 
 .SECONDARY: $(OBJ)
 
-all: $(MLX) $(LIBFT) $(NAME)
+all: $(LIBFT) $(MLX) $(NAME)
 
 $(MLX):
 	cmake -S $(MLX_DIR) -B $(MLX_DIR)/build
@@ -40,14 +40,14 @@ $(MLX):
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INCLD)
 	@[ -d $(OBJ_DIR) ] || mkdir -p $(OBJ_DIR)
-	$(CC) $(IFLAGS) -c $< -o $@
+	$(CC) $(HEADERS) -c $< -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/*/%.c $(INCLD)
 	@[ -d $(OBJ_DIR) ] || mkdir -p $(OBJ_DIR)
-	$(CC) $(IFLAGS) -c $< -o $@
+	$(CC) $(HEADERS) -c $< -o $@
 
 $(NAME): $(OBJ) $(LIBFT)
-	$(CC) $(OBJ) $(LIBFT) $(LFLAGS) $@
+	$(CC) $(OBJ) $(LIBFT) $(LIBS) $(HEADERS) -o $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFT_DIR) all

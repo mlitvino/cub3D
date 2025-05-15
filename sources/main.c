@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/14 17:25:35 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:16:06 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	init(t_data *data)
 {
-	int map[4][4] =
+	int temp_map[4][4] =
 	{
 		{0, 0, 0, 0},
 		{0, 1, 1, 1},
 		{0, 1, 'P', 1},
 		{0, 1, 1, 1}
 	};
-	ft_memcpy(data->map, map, sizeof(map));
+	ft_memcpy(data->grid_map, temp_map, sizeof(temp_map));
 }
 
 int	main(int argc, char *argv[])
@@ -36,7 +36,6 @@ int	main(int argc, char *argv[])
 	//init(&data);
 	if(!temp)
 		return (0);
-	mlx_loop(temp);
 	mlx_terminate(temp);
 	return (0);
 }
