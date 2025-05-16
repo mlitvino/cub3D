@@ -6,7 +6,7 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/05/15 15:36:38 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/05/16 16:33:39 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,14 +19,23 @@ NAME		= cub3D
 LIBFT		= $(LIBFT_DIR)/libft.a
 MLX			= $(MLX_DIR)/build/libmlx42.a
 
-SRC_DIR		= sources
-OBJ_DIR		= objects
-LIBFT_DIR	= libft
-INCLD_DIR	= includes
 MLX_DIR		= MLX42
+LIBFT_DIR	= libft
+OBJ_DIR		= objects
+INCLD_DIR	= includes
+SRC_DIR		= sources
+RAY_DIR		= raycasting
 
 SRC			= $(addprefix $(SRC_DIR)/, \
-				main.c)
+				main.c \
+				$(RAY_SRC) \
+				)
+
+RAY_SRC		= $(addprefix $(RAY_DIR)/, \
+				raycast.c \
+				draw_line.c \
+				)
+
 OBJ			= $(addprefix $(OBJ_DIR)/,$(notdir $(SRC:.c=.o)))
 INCLD		= $(INCLD_DIR)/cub3D.h
 

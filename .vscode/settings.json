@@ -10,7 +10,10 @@
 		"glad.h": "c",
 		"memory.h": "c",
 		"stdio.h": "c",
-		"limits.h": "c"
+		"limits.h": "c",
+		"map": "c",
+		"format": "c",
+		"errno.h": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }
