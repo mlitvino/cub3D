@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/17 23:19:53 by mlitvino         ###   ########.fr       */
+/*   Created: 2025/05/17 22:53:42 by mlitvino          #+#    #+#             */
+/*   Updated: 2025/05/17 23:01:57 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int	main(int argc, char *argv[])
+void	show_unit_map(t_data *data)
 {
-	t_data	data;
+	for (int j = 0; j < data->map_h * BLOCK_SIZE; j++)
+	{
+		printf("{");
+		for (int i = 0; i < data->map_w * BLOCK_SIZE; i++)
+		{
+			printf("%d ", data->unit_map[j][i]);
+		}
+		printf("}\n");
+	}
+}
 
-	(void)argc;
-	(void)argv;
-	// parser(data)
-	init_data(&data);
-	show_unit_map(&data);
-	show_char_pos(&data, &data.player);
-	//mlx_loop(data.mlx_data.mlx_ptr);
-	clean_all(&data);
-	return (0);
+void	show_char_pos(t_data *data, t_char *chr)
+{
+	printf("Char x: %d, y: %d\n", chr->pos.x, chr->pos.y);
 }

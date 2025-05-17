@@ -6,11 +6,11 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/05/16 16:33:39 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/05/17 23:19:07 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC			= cc
+CC			= cc -ggdb
 # -Wall -Wextra -Werror
 HEADERS		= -I$(LIBFT_DIR)/$(INCLD_DIR) -I$(INCLD_DIR) -I$(MLX_DIR)/include
 LIBS		= -L$(MLX_DIR)/build $(MLX) -lz -ldl -lglfw -pthread -lm -o
@@ -28,7 +28,10 @@ RAY_DIR		= raycasting
 
 SRC			= $(addprefix $(SRC_DIR)/, \
 				main.c \
+				init.c \
+				clean.c \
 				$(RAY_SRC) \
+				debug.c \
 				)
 
 RAY_SRC		= $(addprefix $(RAY_DIR)/, \
