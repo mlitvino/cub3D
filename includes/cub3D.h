@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/17 23:30:33 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/19 00:45:07 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,35 @@
 # define WIN_H 600
 
 # define FOV 60 // field of view (angle 0-360)
-# define BLOCK_SIZE 2
+# define BLOCK_SIZE 8
 # define TEST_MAPX 4
 # define TEST_MAPY 4
 
 # define EMPTY 0
 # define WALL 1
-# define PLAYER 'P'
+# define PLAYER 3
 
 typedef struct	s_data t_data;
+
+//------------------------------TEST----------------------------------
+# define RESET   "\033[0m"
+# define BLACK   "\033[30m"
+# define RED     "\033[31m"
+# define GREEN   "\033[32m"
+# define YELLOW  "\033[33m"
+# define BLUE    "\033[34m"
+# define MAGENTA "\033[35m"
+# define CYAN    "\033[36m"
+# define WHITE   "\033[37m"
+
+//------------------------------Graphic----------------------------------
+
+typedef struct	s_point
+{
+	int	x;
+	int	y;
+	int	height;
+}				t_point;
 
 typedef	struct	s_rgbt
 {
@@ -42,18 +62,19 @@ typedef	struct	s_rgbt
 	int	rgbt;
 }				t_rgbt;
 
-typedef struct	s_point
+typedef struct	s_proj_plane
 {
-	int	x;
-	int	y;
-	int	height;
-}				t_point;
+	int				dimen[2]; // [0] - WIDTH_WIN [1] - HEIGHT_WIN
+	int				dist; // 160(WIDTH/2) / tan(30)(FOV/2) = 277
+	t_point			center;
+}				t_proj_plane;
 
+//-------------------------------GAME------------------------------------
 typedef struct	s_pov
 {
 	t_point		char_pos;
 	t_point		view_pos;
-	int			field_angl; // = FOV
+	int			fov; // = FOV
 
 }				t_pov; // point of view
 
@@ -71,21 +92,17 @@ typedef struct	s_char
 	int				turn_spd; // angle
 }				t_char; // characters(npc, player)
 
-typedef struct	s_proj_plane
-{
-	int				dimen[2]; // [0] - WIDTH_WIN [1] - HEIGHT_WIN
-	int				dist; // 160(WIDTH/2) / tan(30)(FOV/2) = 277
-	t_point			center;
-}				t_proj_plane;
+//-------------------------------GENERAL------------------------------------
 
-typedef struct	s_mlx_data
+typedef struct	s_mlx
 {
 	mlx_t		*mlx_ptr;
-}				t_mlx_data;
+	mlx_image_t	*img;
+}				t_mlx;
 
 typedef struct	s_data
 {
-	t_mlx_data		mlx_data;
+	t_mlx		mlx_data;
 
 	char			grid_map[4][4];
 	char			**unit_map; // 64 times bigger than map
