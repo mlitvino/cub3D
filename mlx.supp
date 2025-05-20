@@ -60,6 +60,8 @@
    fun:_XimOpenIM
    fun:glfwInit
    fun:mlx_init
+   fun:init_mlx
+   fun:init_data
    fun:main
 }
 {
@@ -71,6 +73,8 @@
    fun:XSetLocaleModifiers
    fun:glfwInit
    fun:mlx_init
+   fun:init_mlx
+   fun:init_data
    fun:main
 }
 {
@@ -87,6 +91,24 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
+   fun:init_mlx
+   fun:init_data
+}
+{
+   mlx
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XlcAddLoader
+   fun:_XlcInitLoader
+   fun:_XOpenLC
+   fun:_XrmInitParseInfo
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.4.0
+   fun:XrmGetStringDatabase
+   fun:glfwInit
+   fun:mlx_init
+   fun:init_mlx
+   fun:init_data
    fun:main
 }
 {
@@ -102,21 +124,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
-}
-{
-   mlx
-   Memcheck:Leak
-   match-leak-kinds: reachable
-   fun:malloc
-   fun:_XlcAddLoader
-   fun:_XlcInitLoader
-   fun:_XOpenLC
-   fun:_XrmInitParseInfo
-   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.4.0
-   fun:XrmGetStringDatabase
-   fun:glfwInit
-   fun:mlx_init
+   fun:init_mlx
+   fun:init_data
    fun:main
 }
 {
@@ -131,6 +140,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
+   fun:init_mlx
+   fun:init_data
    fun:main
 }
 {
@@ -144,6 +155,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
+   fun:init_mlx
+   fun:init_data
    fun:main
 }
 {
@@ -851,7 +864,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -19496,6 +19510,8 @@
    fun:XInitThreads
    fun:glfwInit
    fun:mlx_init
+   fun:init_mlx
+   fun:init_data
    fun:main
 }
 {
@@ -19506,6 +19522,8 @@
    fun:XInitThreads
    fun:glfwInit
    fun:mlx_init
+   fun:init_mlx
+   fun:init_data
    fun:main
 }
 {
@@ -19516,6 +19534,8 @@
    fun:XInitThreads
    fun:glfwInit
    fun:mlx_init
+   fun:init_mlx
+   fun:init_data
    fun:main
 }
 {
@@ -33544,6 +33564,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
+   fun:init_mlx
+   fun:init_data
    fun:main
 }
 {
@@ -40583,6 +40605,8 @@
    fun:XrmInitialize
    fun:glfwInit
    fun:mlx_init
+   fun:init_mlx
+   fun:init_data
    fun:main
 }
 {
@@ -40667,7 +40691,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -40683,7 +40708,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -40699,7 +40725,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -40715,7 +40742,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -40731,7 +40759,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -40747,7 +40776,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -40763,7 +40793,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -40779,7 +40810,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -40795,7 +40827,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -40811,7 +40844,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -40827,7 +40861,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -40843,7 +40878,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -40859,7 +40895,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -40875,7 +40912,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -40891,7 +40929,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -40907,7 +40946,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -40922,6 +40962,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
+   fun:init_mlx
+   fun:init_data
    fun:main
 }
 {
@@ -40938,7 +40980,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -40954,7 +40997,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -40970,7 +41014,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -40986,7 +41031,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -41002,7 +41048,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -41018,7 +41065,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -41033,6 +41081,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
+   fun:init_mlx
+   fun:init_data
    fun:main
 }
 {
@@ -41922,7 +41972,7 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
 }
 {
    mlx
@@ -42009,7 +42059,7 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
 }
 {
    mlx
@@ -42026,6 +42076,8 @@
    fun:dlclose@@GLIBC_2.34
    obj:/usr/lib/x86_64-linux-gnu/libglfw.so.3.3
    fun:mlx_terminate
+   fun:clean_mlx
+   fun:clean_all
    fun:main
 }
 {
@@ -42095,7 +42147,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -42111,7 +42164,8 @@
    fun:XrmGetStringDatabase
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
@@ -42735,6 +42789,8 @@
    fun:XrmInitialize
    fun:glfwInit
    fun:mlx_init
+   fun:init_mlx
+   fun:init_data
    fun:main
 }
 {
@@ -42768,7 +42824,8 @@
    fun:_XimOpenIM
    fun:glfwInit
    fun:mlx_init
-   fun:main
+   fun:init_mlx
+   fun:init_data
 }
 {
    mlx
