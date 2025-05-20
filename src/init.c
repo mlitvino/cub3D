@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/20 18:09:56 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/20 22:03:02 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	init_grid_map(t_data *data)
 	{
 		{0, 1, 1, 1},
 		{1, 1, 1, 1},
-		{1, 0, 0, 1},
-		{PLAYER, 0, 1, 1}
+		{1, PLAYER, 0, 1},
+		{1, 1, 1, 1}
 	};
 
 	ft_memcpy(data->grid_map, temp_map, sizeof(temp_map));
@@ -129,7 +129,6 @@ void	init_mlx(t_data *data)
 
 	mlx_data.textrs_img[SOUTH] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[SOUTH]);
 	mlx_resize_image(mlx_data.textrs_img[SOUTH], BLOCK_SIZE * 100, BLOCK_SIZE * 100);
-
 
 	mlx_image_to_window(mlx_data.mlx_ptr, mlx_data.textrs_img[EAST], 50, 50);
 

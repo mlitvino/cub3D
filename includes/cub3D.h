@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/20 19:06:41 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/21 00:55:58 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,6 @@ void	raycast(t_data *data);
 
 // utils1.c
 double	deg_rad(double deg);
-double	calc_dist(t_point p1, t_point p2);
+// double	calc_dist(t_point p1, t_point p2);
 
 #endif
