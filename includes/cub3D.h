@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/19 00:45:07 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:06:41 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@
 #include "libft.h"
 #include <stdio.h>
 #include <errno.h>
+#include <math.h>
 
 # define BPP sizeof(int32_t)
-# define WIN_W 800
-# define WIN_H 600
+# define WIN_W 320
+# define WIN_H 200
 
 # define FOV 60 // field of view (angle 0-360)
 # define BLOCK_SIZE 8
@@ -30,6 +31,16 @@
 # define EMPTY 0
 # define WALL 1
 # define PLAYER 3
+
+
+enum
+{
+	NORTH,
+	EAST,
+	WEST,
+	SOUTH,
+	MAX_TEX,
+};
 
 typedef struct	s_data t_data;
 
@@ -64,7 +75,11 @@ typedef	struct	s_rgbt
 
 typedef struct	s_proj_plane
 {
-	int				dimen[2]; // [0] - WIDTH_WIN [1] - HEIGHT_WIN
+	/*
+		change in resize win case
+	*/
+	int				width;
+	int				height;
 	int				dist; // 160(WIDTH/2) / tan(30)(FOV/2) = 277
 	t_point			center;
 }				t_proj_plane;
@@ -72,8 +87,8 @@ typedef struct	s_proj_plane
 //-------------------------------GAME------------------------------------
 typedef struct	s_pov
 {
-	t_point		char_pos;
 	t_point		view_pos;
+	int			view_angl;
 	int			fov; // = FOV
 
 }				t_pov; // point of view
@@ -96,8 +111,12 @@ typedef struct	s_char
 
 typedef struct	s_mlx
 {
-	mlx_t		*mlx_ptr;
-	mlx_image_t	*img;
+	mlx_t			*mlx_ptr;
+
+	mlx_image_t		*scr_img;
+
+	mlx_texture_t	*textrs[MAX_TEX];
+	mlx_image_t		*textrs_img[MAX_TEX];
 }				t_mlx;
 
 typedef struct	s_data
@@ -113,7 +132,7 @@ typedef struct	s_data
 
 	t_proj_plane	plane;
 	int				rays_count; // 320(WIDTH_WIN)
-	int				rays_angle; // FOV / rays_count
+	double			rays_angle; // FOV / rays_count
 	t_rgbt			floor_rgb;
 	t_rgbt			cell_rgb;
 }				t_data;
@@ -163,5 +182,12 @@ void	init_data(t_data *data);
 // debug.c
 void	show_char_pos(t_data *data, t_char *chr);
 void	show_unit_map(t_data *data);
+
+// raycast.c
+void	raycast(t_data *data);
+
+// utils1.c
+double	deg_rad(double deg);
+double	calc_dist(t_point p1, t_point p2);
 
 #endif
