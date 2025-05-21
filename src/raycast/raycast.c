@@ -6,11 +6,12 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:43:06 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/21 21:04:57 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/22 02:27:22 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
 
 // typedef struct	s_raycast
 // {
@@ -31,11 +32,14 @@
 // 	rays_data.cur_angle =
 // }
 
+
+
 bool	find_hor_wall(t_data *data, t_point *hor_unit_line, double ray_angl)
 {
-	t_point	char_pos;
-	int		dx;
-	int		dy;
+	t_point		char_pos;
+	double		dx;
+	double		dy;
+
 
 	char_pos = data->player.pos;
 
@@ -43,7 +47,17 @@ bool	find_hor_wall(t_data *data, t_point *hor_unit_line, double ray_angl)
 		dy = -BLOCK_SIZE;
 	else // CHECK IF ray_angl == 0 (straight to the right)
 		dy = BLOCK_SIZE;
-	dx = BLOCK_SIZE / tan(deg_rad(ray_angl));
+
+
+
+	if (270 < ray_angl || (180 < ray_angl && ray_angl < 270))
+	{
+		dx = -BLOCK_SIZE / tan(deg_rad(ray_angl));
+	}
+	else
+	{
+		dx = BLOCK_SIZE / tan(deg_rad(ray_angl));
+	}
 
 
 	if (hor_unit_line->x == -1)
@@ -64,6 +78,7 @@ bool	find_hor_wall(t_data *data, t_point *hor_unit_line, double ray_angl)
 		|| hor_unit_line->y < 0 || hor_unit_line->x < 0
 		|| hor_unit_line->x >= data->map_w * BLOCK_SIZE) // check bound of map
 	{
+		hor_unit_line->inval = true;
 		// printf("x %d, y %d , max x %d , max y %d\n", hor_unit_line->x, hor_unit_line->y,
 		// 	data->map_w * BLOCK_SIZE, data->map_h * BLOCK_SIZE);
 		//ft_putstr_fd("ERROR: attempt to access outside of map\n", 2);
@@ -84,39 +99,73 @@ bool	find_hor_wall(t_data *data, t_point *hor_unit_line, double ray_angl)
 	return (false);
 }
 
+typedef struct	s_dpoint
+{
+	double	x;
+	double	y;
+}				t_dpoint;
+
 bool	find_ver_wall(t_data *data, t_point *ver_unit_line, double ray_angl)
 {
 	t_point	char_pos;
-	int		dx;
-	int		dy;
+	double		dx;
+	double		dy;
+	static		t_dpoint	temp;
 
 	char_pos = data->player.pos;
 
 	if (270 < ray_angl || ray_angl < 90)
+	{
 		dx = BLOCK_SIZE;
+	}
 	else
+	{
 		dx = -BLOCK_SIZE;
-	dy = BLOCK_SIZE * tan(deg_rad(ray_angl));
+	}
 
+	if (ray_angl < 90 || (180 < ray_angl && ray_angl < 270))
+		dy = -BLOCK_SIZE * tan(deg_rad(ray_angl));
+	else
+		dy = BLOCK_SIZE * tan(deg_rad(ray_angl));
+
+
+	printf("\ndx %f dy %f\n", dx, dy);
 
 	if (ver_unit_line->x == -1)
 	{
+		// temp.x = 0;
+		// temp.y = 0;
+
+		// if ((270 < ray_angl) || (ray_angl < 90))
+		// 	temp.x = (ceil((double)char_pos.x / BLOCK_SIZE) * BLOCK_SIZE) + BLOCK_SIZE;
+		// else
+		// 	temp.x = (ceil((double)char_pos.x / BLOCK_SIZE) * BLOCK_SIZE) - 1;
+		// temp.y = char_pos.y + (char_pos.x - temp.x) * tan(deg_rad(ray_angl));
+
 		if ((270 < ray_angl) || (ray_angl < 90))
-			ver_unit_line->x = (floor((double)char_pos.x / BLOCK_SIZE) * BLOCK_SIZE) + BLOCK_SIZE;
+			ver_unit_line->x = (floor(char_pos.x / (double)BLOCK_SIZE) * BLOCK_SIZE) + BLOCK_SIZE;
 		else
-			ver_unit_line->x = (floor((double)char_pos.x / BLOCK_SIZE) * BLOCK_SIZE) - 1;
-		ver_unit_line->y = char_pos.y + ((char_pos.x - ver_unit_line->x) * tan(deg_rad(ray_angl)));
+			ver_unit_line->x = (floor(char_pos.x / (double)BLOCK_SIZE) * BLOCK_SIZE) - 1;
+		ver_unit_line->y = char_pos.y + (char_pos.x - ver_unit_line->x) * tan(deg_rad(ray_angl));
 	}
 	else
 	{
 		ver_unit_line->x += dx;
 		ver_unit_line->y += dy;
+		// temp.x += dx;
+		// temp.y += dy;
 	}
+	// printf("find ver x %f y %f\n", temp.x, temp.y);
+	printf("find ver x %d y %d\n",ver_unit_line->x, ver_unit_line->y);
+
+	// ver_unit_line->y = temp.y;
+	// ver_unit_line->x = temp.x;
 
 	if (ver_unit_line->y >= data->map_h * BLOCK_SIZE
 		|| ver_unit_line->y < 0 || ver_unit_line->x < 0
 		|| ver_unit_line->x >= data->map_w * BLOCK_SIZE) // test check bound
 	{
+		ver_unit_line->inval = true;
 		// printf("ver x %d, y %d , max x %d , max y %d\n", ver_unit_line->x, ver_unit_line->y,
 		// 	data->map_w * BLOCK_SIZE, data->map_h * BLOCK_SIZE);
 		// ft_putstr_fd("ERROR: attempt to access outside of map\n", 2);
@@ -124,13 +173,13 @@ bool	find_ver_wall(t_data *data, t_point *ver_unit_line, double ray_angl)
 	}
 		// printf("x %d, y %d , max x %d , max y %d\n", ver_unit_line->x, ver_unit_line->y,
 		// 	data->map_w * BLOCK_SIZE, data->map_h * BLOCK_SIZE);
-
-	if (data->unit_map[ver_unit_line->y][ver_unit_line->x] == WALL)
+	printf("map %d\n\n", data->unit_map[ver_unit_line->y][ver_unit_line->x]);
+	if (data->unit_map[ver_unit_line->y][ver_unit_line->x] == WALL) // CCHECK CHECK
 		return (true);
 	return (false);
 }
 
-void	calc_dist(int view_angle, t_point char_pos, double ray_angl,
+int	calc_dist(int view_angle, t_point char_pos, double ray_angl,
 		t_point hor_unit_line, t_point ver_unit_line,
 		int *hor_dist, int *ver_dist)
 {
@@ -146,10 +195,21 @@ void	calc_dist(int view_angle, t_point char_pos, double ray_angl,
 
 
 	//remove fishbowl effect
+	printf("before calc hor %d ver %d\n", *hor_dist, *ver_dist); // del
 	beta = ray_angl - view_angle;
 	*hor_dist = *hor_dist * cos(deg_rad(beta));
 	*ver_dist = *ver_dist * cos(deg_rad(beta));
 	printf("after calc hor %d ver %d\n", *hor_dist, *ver_dist); // del
+
+	if (hor_unit_line.inval == true)
+		return (*ver_dist);
+	else if (ver_unit_line.inval == true)
+		return (*hor_dist);
+
+	if (*ver_dist < *hor_dist)
+		return (*ver_dist);
+	else
+		return (*hor_dist);
 }
 
 void	draw_wall(t_data *data, double ray_angl, t_point wall, int wall_dist,
@@ -166,12 +226,7 @@ void	draw_wall(t_data *data, double ray_angl, t_point wall, int wall_dist,
 	scr_img = data->mlx_data.scr_img;
 	wall_h = ceil(BLOCK_SIZE * data->plane.dist / (double)wall_dist); // rounded up?
 	wall_edge = plane.center.y - (wall_h / 2);
-
-	if (wall_edge < 0)
-		wall_edge = plane.center.y;
-
 	wall_rgbt = 0xd333fff5;
-	i = 0;
 
 	printf("p cen y %d\n", plane.center.y);
 	printf("cur ray %d\n", cur_ray); // del
@@ -181,10 +236,11 @@ void	draw_wall(t_data *data, double ray_angl, t_point wall, int wall_dist,
 	printf("wall_edge %d\n", wall_edge);
 	printf("max x %d , max y %d\n", data->map_w * BLOCK_SIZE, data->map_h * BLOCK_SIZE);
 	printf("---\n");
+
+	i = 0;
 	while (i < scr_img->height)
 	{
-		if ((plane.center.y - wall_edge <= i)
-			&& (i <= plane.center.y + wall_edge))
+		if ( (wall_edge <= i) && (i <= wall_edge + wall_h))
 		{
 			mlx_put_pixel(scr_img, cur_ray, i, wall_rgbt);
 			//printf("OK\n");
@@ -208,14 +264,15 @@ void	cast_ray(t_data *data, double ray_angl, int cur_ray)
 	if ((int)ray_angl != 270 && (int)ray_angl != 90)
 		while (find_ver_wall(data, &ver_unit_line, ray_angl) == false)
 			;
-	calc_dist(data->player.pov.view_angl, data->player.pos,
+	int dist = calc_dist(data->player.pov.view_angl, data->player.pos,
 		ray_angl, hor_unit_line, ver_unit_line,
 		&hor_dist, &ver_dist);
 
-	if (hor_dist < ver_dist)
-		draw_wall(data, ray_angl, hor_unit_line, hor_dist, cur_ray);
-	else
-		draw_wall(data, ray_angl, ver_unit_line, ver_dist, cur_ray);
+	draw_wall(data, ray_angl, hor_unit_line, dist, cur_ray);
+	// if (hor_dist < ver_dist)
+	// 	draw_wall(data, ray_angl, hor_unit_line, hor_dist, cur_ray);
+	// else
+	// 	draw_wall(data, ray_angl, ver_unit_line, ver_dist, cur_ray);
 }
 
 void	raycast(t_data *data)
@@ -236,10 +293,9 @@ void	raycast(t_data *data)
 	// printf("min angle: %d\n", (player->pov.view_angl + (FOV / 2)) % 360); // del
 	// printf("max angle: %d\n", (player->pov.view_angl - (FOV / 2)) % 360); // del
 	// printf("rays_angle: %d\n", data->rays_angle); // del
-
 	cur_ray = 0;
 	cur_angle = (player->pov.view_angl + (FOV / 2)) % 360;
-	//cur_angle = 0;
+	// cur_angle = 45;
 	while (cur_ray < data->rays_count)
 	{
 		//printf("cur_ray: %d\n", cur_ray); // del
@@ -252,6 +308,7 @@ void	raycast(t_data *data)
 		cur_angle = cur_angle - data->rays_angle;
 		if (cur_angle < 0)
 			cur_angle = 360 + cur_angle;
-		//break ;
+		// if (cur_ray == 2)
+		// 	break ;
 	}
 }

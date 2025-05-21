@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/21 00:55:58 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/22 02:10:38 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,13 @@
 #include <math.h>
 
 # define BPP sizeof(int32_t)
-# define WIN_W 320
-# define WIN_H 200
 
-# define FOV 60 // field of view (angle 0-360)
-# define BLOCK_SIZE 8
-# define TEST_MAPX 4
+# define WIN_W 600
+# define WIN_H 400
+
+# define FOV 66 // field of view (angle 0-360)
+# define BLOCK_SIZE 128
+# define TEST_MAPX 6
 # define TEST_MAPY 4
 
 # define EMPTY 0
@@ -62,6 +63,7 @@ typedef struct	s_point
 	int	x;
 	int	y;
 	int	height;
+	int	inval;
 }				t_point;
 
 typedef	struct	s_rgbt
@@ -73,7 +75,7 @@ typedef	struct	s_rgbt
 	int	rgbt;
 }				t_rgbt;
 
-typedef struct	s_proj_plane
+typedef struct	s_project
 {
 	/*
 		change in resize win case
@@ -82,7 +84,7 @@ typedef struct	s_proj_plane
 	int				height;
 	int				dist; // 160(WIDTH/2) / tan(30)(FOV/2) = 277
 	t_point			center;
-}				t_proj_plane;
+}				t_project;
 
 //-------------------------------GAME------------------------------------
 typedef struct	s_pov
@@ -123,18 +125,18 @@ typedef struct	s_data
 {
 	t_mlx		mlx_data;
 
-	char			grid_map[4][4];
-	char			**unit_map; // 64 times bigger than map
-	int				map_h;
-	int				map_w;
+	char		grid_map[TEST_MAPY][TEST_MAPX];
+	char		**unit_map; // 64 times bigger than map
+	int			map_h;
+	int			map_w;
 
-	t_char			player;
+	t_char		player;
 
-	t_proj_plane	plane;
-	int				rays_count; // 320(WIDTH_WIN)
-	double			rays_angle; // FOV / rays_count
-	t_rgbt			floor_rgb;
-	t_rgbt			cell_rgb;
+	t_project	plane;
+	int			rays_count; // 320(WIDTH_WIN)
+	double		rays_angle; // FOV / rays_count
+	t_rgbt		floor_rgb;
+	t_rgbt		cell_rgb;
 }				t_data;
 
 
@@ -188,6 +190,6 @@ void	raycast(t_data *data);
 
 // utils1.c
 double	deg_rad(double deg);
-// double	calc_dist(t_point p1, t_point p2);
+double	root_dist(t_point p1, t_point p2);
 
 #endif
