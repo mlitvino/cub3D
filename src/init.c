@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/22 16:34:38 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/23 13:36:00 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	init_mlx(t_data *data)
 	t_mlx	mlx_data;
 
 	ft_memset(&mlx_data, 0, sizeof(t_mlx));
-	//mlx_set_setting(MLX_STRETCH_IMAGE, true); // resize scr_img with resizing win
+	mlx_set_setting(MLX_STRETCH_IMAGE, true); // resize scr_img with resizing win
 	//mlx_set_setting(MLX_HEADLESS, true); // disable_win
 	mlx_data.mlx_ptr = mlx_init(WIN_W, WIN_H, "cub3D", true);
 	mlx_data.scr_img = mlx_new_image(mlx_data.mlx_ptr, WIN_W, WIN_H);
@@ -114,13 +114,13 @@ void	init_mlx(t_data *data)
 		for(int y = 0; y < WIN_H; y++)
 			mlx_put_pixel(mlx_data.scr_img, x, y, 0x000000FF); // BLACK
 
-	mlx_data.textrs[NORTH] = mlx_load_png("./textures/north.png"); // change to path to file
+	mlx_data.textrs[NORTH] = mlx_load_png("./textures/test.png"); // change to path to file
 	// mlx_data.textrs[EAST] = mlx_load_png("./textures/east.png");
 	// mlx_data.textrs[WEST] = mlx_load_png("./textures/west.png");
 	// mlx_data.textrs[SOUTH] = mlx_load_png("./textures/south.png");
 
 	mlx_data.textrs_img[NORTH] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[NORTH]);
-	mlx_resize_image(mlx_data.textrs_img[NORTH], BLOCK_SIZE, BLOCK_SIZE);
+	mlx_resize_image(mlx_data.textrs_img[NORTH], BLOCK_SIZE, BLOCK_SIZE );
 
 	// mlx_data.textrs_img[EAST] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[EAST]);
 	// mlx_resize_image(mlx_data.textrs_img[EAST], BLOCK_SIZE * 100, BLOCK_SIZE * 100);

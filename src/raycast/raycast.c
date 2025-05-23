@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:43:06 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/22 18:00:00 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/23 13:36:51 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,45 +214,28 @@ int	calc_dist(int view_angle, t_point char_pos, double ray_angl,
 		return (*hor_dist);
 }
 
-void	map_wall(t_data *data, double ray_angl, t_point wall, int wall_dist, int cur_ray, int i, int wall_h, int wall_top)
+void	map_wall(t_data *data, double ray_angl, t_point wall, int wall_dist,
+				int cur_ray, int i, int wall_h, int wall_top)
 {
-	// int	offset;
-	// mlx_image_t	*wall_img;
+	int	offset;
+	mlx_image_t	*wall_img;
 
-	// if (wall.y % (BLOCK_SIZE) == 0)
-	// {
-	// 	offset = wall.x % BLOCK_SIZE;
-	// }
-	// else if (wall.x % (BLOCK_SIZE) == 0)
-	// {
-	// 	offset = wall.y % BLOCK_SIZE;
-	// }
+	if (wall.y % (BLOCK_SIZE - 1) == 0)
+	{
+		offset = wall.x % (BLOCK_SIZE - 1);
+	}
+	else if (wall.x % (BLOCK_SIZE ) == 0)
+	{
+		offset = wall.y % (BLOCK_SIZE );
+	}
 
-	// wall_img = data->mlx_data.textrs_img[NORTH];
+	wall_img = data->mlx_data.textrs_img[NORTH];
 
-	// int	tex_y = (i - wall_top) *
-	// int	wall_rgbt = wall_img->pixels[(i * BLOCK_SIZE + offset) * BPP];
+	int tex_y = (i - wall_top) * BLOCK_SIZE / wall_h;
 
-	// mlx_put_pixel(data->mlx_data.scr_img, cur_ray, i, wall_rgbt);
-    int tex_x, tex_y;
-    mlx_image_t *wall_img = data->mlx_data.textrs_img[NORTH];
+	uint32_t color = ((uint32_t*)wall_img->pixels)[tex_y * wall_img->width + offset];
 
-    // pick the correct wall‐slice (x in texture)
-    if (wall.y % BLOCK_SIZE == 0)
-        tex_x = wall.x % BLOCK_SIZE;
-    else
-        tex_x = wall.y % BLOCK_SIZE;
-
-    // map screen‐y (i) to texture‐y; assume wall_h and wall_top are in scope
-    tex_y = (i - wall_top) * BLOCK_SIZE / wall_h;
-
-    // clamp
-    if (tex_x < 0) tex_x = 0; else if (tex_x >= wall_img->width)  tex_x = wall_img->width - 1;
-    if (tex_y < 0) tex_y = 0; else if (tex_y >= wall_img->height) tex_y = wall_img->height - 1;
-
-    // index by pixels[y*width + x]
-    uint32_t color = ((uint32_t*)wall_img->pixels)[ tex_y * wall_img->width + tex_x ];
-    mlx_put_pixel(data->mlx_data.scr_img, cur_ray, i, color);
+	mlx_put_pixel(data->mlx_data.scr_img, cur_ray, i, color);
 }
 
 void	draw_wall(t_data *data, double ray_angl, t_point wall, int wall_dist,
@@ -286,10 +269,14 @@ void	draw_wall(t_data *data, double ray_angl, t_point wall, int wall_dist,
 		if (i < wall_top)
 			mlx_put_pixel(scr_img, cur_ray, i, data->cell_rgb.rgbt);
 		else if (i <= wall_top + wall_h)
-			map_wall(data, ray_angl, wall, wall_dist, cur_ray, i, wall_h, wall_top);
+		{
+			mlx_put_pixel(scr_img, cur_ray, i, 0xccFF);
+			//map_wall(data, ray_angl, wall, wall_dist, cur_ray, i, wall_h, wall_top);
+		}
 		else
 			mlx_put_pixel(scr_img, cur_ray, i, data->floor_rgb.rgbt);
 		i++;
+		//mlx_put_pixel(scr_img, cur_ray, i, 0xFF);
 	}
 }
 

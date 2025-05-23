@@ -6,7 +6,7 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/05/21 15:40:42 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/05/23 13:27:04 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,9 @@ SRC			= $(addprefix $(SRC_DIR)/, \
 				clean.c \
 				$(RAY_SRC) \
 				debug.c \
+				./movement/rotate.c \
+				./movement/movement.c \
+				./movement/event_handler.c \
 				)
 
 RAY_SRC		= $(addprefix $(RAY_DIR)/, \

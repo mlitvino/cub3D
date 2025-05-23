@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/22 02:10:38 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/23 13:30:50 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,27 @@
 
 # define BPP sizeof(int32_t)
 
-# define WIN_W 600
-# define WIN_H 400
+# define WIN_W 1600
+# define WIN_H 1000
 
-# define FOV 66 // field of view (angle 0-360)
-# define BLOCK_SIZE 128
+# define FOV 50 // field of view (angle 0-360)
+# define BLOCK_SIZE 64
 # define TEST_MAPX 6
 # define TEST_MAPY 4
 
 # define EMPTY 0
 # define WALL 1
 # define PLAYER 3
+
+//Movement
+#define DEG_TO_RAD(a) ((a) * M_PI / 180.0) // convert degree to radiant to be used for cos/sin
+#define KEY_W 119
+#define KEY_S 115
+#define KEY_A 97
+#define KEY_D 100
+#define KEY_LEFT_ARROW 65361
+#define KEY_RIGHT_ARROW 65363
+#define KEY_ESC 65307
 
 
 enum
@@ -191,5 +201,12 @@ void	raycast(t_data *data);
 // utils1.c
 double	deg_rad(double deg);
 double	root_dist(t_point p1, t_point p2);
+
+//-------------------------------MOVEMENT------------------------------------
+void key_event_handler(mlx_key_data_t keydata, void *param);
+void move_player(t_char *player, double angle_offset);
+int check_for_wall_collision(t_char *player, double new_x, double new_y);
+void rotate_player_right(t_char *player);
+void rotate_player_left(t_char *player);
 
 #endif
