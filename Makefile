@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
+#    By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/05/20 16:23:48 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/05/22 16:20:05 by ablodorn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,9 @@ SRC			= $(addprefix $(SRC_DIR)/, \
 				clean.c \
 				$(RAY_SRC) \
 				debug.c \
+				event_handler.c \
+				movement.c \
+				rotate.c \
 				)
 
 RAY_SRC		= $(addprefix $(RAY_DIR)/, \

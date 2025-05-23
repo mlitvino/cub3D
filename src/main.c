@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/21 00:25:45 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:22:39 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,11 @@ int	main(int argc, char *argv[])
 	show_unit_map(&data);
 	show_char_pos(&data, &data.player);
 
-	raycast(&data);
+	//raycast(&data);
 
+	mlx_key_hook(data.mlx_data.mlx_ptr, &key_event_handler, &data);  //Eventhook for movement
 	//mlx_loop_hook(data.mlx_data.mlx_ptr, render, &data);
-	//mlx_loop(data.mlx_data.mlx_ptr);
+	mlx_loop(data.mlx_data.mlx_ptr);
 	clean_all(&data);
 	return (0);
 }
