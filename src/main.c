@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/23 13:32:27 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/23 17:34:41 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,29 @@ void	render(void *data_arg)
 	t_data *data;
 
 	data = (t_data *)data_arg;
-	//show_unit_map(data);
-	raycast(&data);
-	mlx_image_to_window(data->mlx_data.mlx_ptr, data->mlx_data.scr_img, 0, 0);
-	sleep(1);
+	// //show_unit_map(data);
+
+	//raycast(data);
+	//randoomize(data);
 	// show_char_pos(data, &data->player);
 	//move
 	//hook
 }
 
-void	hook(mlx_key_data_t key_data, void *data_param)
+/* void	hook(mlx_key_data_t key_data, void *data_param)
 {
 	t_data *data;
 
 	data = (t_data *)data_param;
 	clean_all(data);
-}
+} */
 
 
 
 int	main(int argc, char *argv[])
 {
 	t_data	data;
+
 
 	(void)argc;
 	(void)argv;
@@ -48,8 +49,19 @@ int	main(int argc, char *argv[])
 	//show_unit_map(&data);
 	//show_char_pos(&data, &data.player);
 
-	raycast(&data);
+	//raycast(&data);
 	//mlx_key_hook(data.mlx_data.mlx_ptr, &hook, &data);
+
+
+	data.player.pos.x = 1462;
+	data.player.pos.y = 867;
+	data.player.pov.view_angl = 28;
+
+	raycast(&data);
+	show_char_pos(&data, &data.player);
+	printf("view_angle: %d\n", data.player.pov.view_angl);
+	show_redline(&data);
+
 	mlx_key_hook(data.mlx_data.mlx_ptr, &key_event_handler, &data);  //Eventhook for movement
 
 	mlx_loop_hook(data.mlx_data.mlx_ptr, render, &data);

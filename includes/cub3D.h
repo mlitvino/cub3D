@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/23 13:30:50 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/23 17:31:24 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # define WIN_W 1600
 # define WIN_H 1000
 
-# define FOV 50 // field of view (angle 0-360)
-# define BLOCK_SIZE 64
+# define FOV 60 // field of view (angle 0-360)
+# define BLOCK_SIZE 528
 # define TEST_MAPX 6
 # define TEST_MAPY 4
 
@@ -194,13 +194,15 @@ void	init_data(t_data *data);
 // debug.c
 void	show_char_pos(t_data *data, t_char *chr);
 void	show_unit_map(t_data *data);
+void	show_redline(t_data *data);
 
 // raycast.c
 void	raycast(t_data *data);
 
 // utils1.c
-double	deg_rad(double deg);
-double	root_dist(t_point p1, t_point p2);
+double		deg_rad(double deg);
+double		root_dist(t_point p1, t_point p2);
+uint32_t	extract_rgba(uint8_t *raw);
 
 //-------------------------------MOVEMENT------------------------------------
 void key_event_handler(mlx_key_data_t keydata, void *param);
