@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/23 17:31:24 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/25 19:02:23 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,20 @@
 
 # define BPP sizeof(int32_t)
 
-# define WIN_W 1600
-# define WIN_H 1000
+# define WIN_W 1000
+# define WIN_H 800
 
 # define FOV 60 // field of view (angle 0-360)
-# define BLOCK_SIZE 528
+# define BLOCK_SIZE 512
 # define TEST_MAPX 6
-# define TEST_MAPY 4
+# define TEST_MAPY 5
 
 # define EMPTY 0
 # define WALL 1
 # define PLAYER 3
+
+# define VERTICAL 0
+# define HORIZONT 1
 
 //Movement
 #define DEG_TO_RAD(a) ((a) * M_PI / 180.0) // convert degree to radiant to be used for cos/sin
@@ -68,6 +71,13 @@ typedef struct	s_data t_data;
 
 //------------------------------Graphic----------------------------------
 
+typedef struct	s_dpoint
+{
+	double	x;
+	double	y;
+	double	h;
+}				t_dpoint;
+
 typedef struct	s_point
 {
 	int	x;
@@ -95,6 +105,34 @@ typedef struct	s_project
 	int				dist; // 160(WIDTH/2) / tan(30)(FOV/2) = 277
 	t_point			center;
 }				t_project;
+
+typedef struct	s_raycast
+{
+	t_data		*data;
+	t_project	*plane;
+	mlx_image_t	*scr_img;
+	char		**unit_map;
+
+	int			flor_rgbt;
+	int			ceil_rgbt;
+
+	int			view_angle;
+	t_point		char_pos;
+
+	t_point		hor_wall;
+	t_point		ver_wall;
+	int			hor_dist;
+	int			ver_dist;
+
+	mlx_image_t	*wall_img;
+	int			tex_x;
+
+	double		ray_angle;
+	int			cur_ray;
+	double		beta;
+
+	int			tex_indx;
+}				t_raycast;
 
 //-------------------------------GAME------------------------------------
 typedef struct	s_pov
@@ -145,8 +183,8 @@ typedef struct	s_data
 	t_project	plane;
 	int			rays_count; // 320(WIDTH_WIN)
 	double		rays_angle; // FOV / rays_count
-	t_rgbt		floor_rgb;
-	t_rgbt		cell_rgb;
+	t_rgbt		flor_rgb;
+	t_rgbt		ceil_rgb;
 }				t_data;
 
 
@@ -196,11 +234,32 @@ void	show_char_pos(t_data *data, t_char *chr);
 void	show_unit_map(t_data *data);
 void	show_redline(t_data *data);
 
+// helper.c
+int			calc_norm_dist(t_raycast *raycast);
+void		select_tex(t_raycast *raycast, int axis_flag);
+t_raycast	init_raycast(t_data *data, t_char *player);
+void		fill_ray_info(t_raycast *raycast);
+
 // raycast.c
+void	map_wall(t_raycast *raycast, int y, int wall_h, int wall_top);
+void	render_col(t_raycast *raycast, t_point wall, int wall_dist,
+		int tex_indx);
+void	compre_dist(t_raycast *raycast, t_point hor_wall, t_point ver_wall);
+void	cast_ray(t_raycast *raycast, double ray_angl);
 void	raycast(t_data *data);
 
-// utils1.c
+// find_wall.c
+void	init_wall(t_point char_pos, t_dpoint *temp,
+			double ray_angl, int axis_flag);
+void	adjust_wall(t_dpoint *temp, double dx, double dy);
+void	init_delta(int axis_flag, double *dx, double *dy, double ray_angl);
+void	norm_fract(t_dpoint *temp, t_point *line,
+		int axis_flag, double ray_angl);
+bool	find_wall(t_raycast *raycast, t_point *wall, int axis_flag, int *dist);
+
+// utils.c
 double		deg_rad(double deg);
+double		calc_dist(t_point p1, t_point p2);
 double		root_dist(t_point p1, t_point p2);
 uint32_t	extract_rgba(uint8_t *raw);
 

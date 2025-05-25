@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/23 16:56:41 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/25 17:44:54 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	init_grid_map(t_data *data)
 	{
 		{1, 1, 1, 1, 1, 1},
 		{1, 0, 0, 0, 0, 1},
-		{1, PLAYER, 0, 0, 0, 1},
+		{1, 0, 1, 0, PLAYER, 1},
+		{1, 0, 0, 0, 0, 1},
 		{1, 1, 1, 1, 1, 1},
 	};
 
@@ -72,7 +73,7 @@ void	init_player(t_data *data)
 	player->height = BLOCK_SIZE / 2;
 
 	player->move_spd = BLOCK_SIZE / 8;
-	player->turn_spd = 1;
+	player->turn_spd = 3;
 
 	hitbox = player->hitbox_radius;
 
@@ -110,9 +111,9 @@ void	init_mlx(t_data *data)
 
 	int res1 = mlx_image_to_window(mlx_data.mlx_ptr, mlx_data.scr_img, 0, 0);
 
-	// for (int x = 0; x < WIN_W; x++)
-	// 	for(int y = 0; y < WIN_H; y++)
-	// 		mlx_put_pixel(mlx_data.scr_img, x, y, 0x000000FF); // BLACK
+	for (int x = 0; x < WIN_W; x++)
+		for(int y = 0; y < WIN_H; y++)
+			mlx_put_pixel(mlx_data.scr_img, x, y, 0x000000FF); // BLACK
 
 	mlx_data.textrs[NORTH] = mlx_load_png("./textures/north.png"); // change to path to file
 	mlx_data.textrs[EAST] = mlx_load_png("./textures/east.png");
@@ -150,14 +151,14 @@ void	init_data(t_data *data)
 	data->plane.center.y = WIN_H / 2;
 	data->plane.dist = (WIN_W / 2) / tan(deg_rad(FOV / 2));
 
-	printf("plane_dist %d\n", data->plane.dist); //del
+	//printf("plane_dist %d\n", data->plane.dist); //del
 
 	data->rays_count = WIN_W;
 	data->rays_angle = FOV / (double)data->rays_count;// double?
 	//printf("RAY_ANGLE %f\n", data->rays_angle); //del
 
-	data->floor_rgb.rgbt = 0xffe224fa;
-	data->cell_rgb.rgbt = 0x0286a7fa;
-	// data->floor_rgb.rgbt = 0xFF;
-	// data->cell_rgb.rgbt = 0xFF;
+	data->flor_rgb.rgbt = 0xffe224fa;
+	data->ceil_rgb.rgbt = 0x0286a7fa;
+	// data->flor_rgb.rgbt = 0xFF;
+	// data->ceil_rgb.rgbt = 0xFF;
 }

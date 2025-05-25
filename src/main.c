@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/23 17:34:41 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/24 23:55:13 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,48 +19,33 @@ void	render(void *data_arg)
 	data = (t_data *)data_arg;
 	// //show_unit_map(data);
 
-	//raycast(data);
-	//randoomize(data);
+	raycast(data);
 	// show_char_pos(data, &data->player);
-	//move
-	//hook
 }
-
-/* void	hook(mlx_key_data_t key_data, void *data_param)
-{
-	t_data *data;
-
-	data = (t_data *)data_param;
-	clean_all(data);
-} */
-
-
 
 int	main(int argc, char *argv[])
 {
 	t_data	data;
 
-
 	(void)argc;
 	(void)argv;
-	// parser(data)
 	init_data(&data);
 
 	//show_unit_map(&data);
 	//show_char_pos(&data, &data.player);
 
 	//raycast(&data);
-	//mlx_key_hook(data.mlx_data.mlx_ptr, &hook, &data);
 
+	// 128
+	// data.player.pos.x = 222;
+	// data.player.pos.y = 174;
+	// data.player.pov.view_angl = 270;
 
-	data.player.pos.x = 1462;
-	data.player.pos.y = 867;
-	data.player.pov.view_angl = 28;
-
-	raycast(&data);
-	show_char_pos(&data, &data.player);
-	printf("view_angle: %d\n", data.player.pov.view_angl);
-	show_redline(&data);
+	// raycast(&data);
+	// show_char_pos(&data, &data.player);
+	//printf("view_angle: %d\n", data.player.pov.view_angl);
+	//show_redline(&data);
+	//show_unit_map(&data);
 
 	mlx_key_hook(data.mlx_data.mlx_ptr, &key_event_handler, &data);  //Eventhook for movement
 

@@ -6,7 +6,7 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/05/23 14:13:23 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/05/25 19:02:36 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,8 +40,9 @@ SRC			= $(addprefix $(SRC_DIR)/, \
 
 RAY_SRC		= $(addprefix $(RAY_DIR)/, \
 				raycast.c \
-				draw_line.c \
-				utils1.c \
+				find_wall.c \
+				helper.c \
+				utils.c \
 				)
 
 OBJ			= $(addprefix $(OBJ_DIR)/,$(notdir $(SRC:.c=.o)))
