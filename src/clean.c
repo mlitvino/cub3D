@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 23:12:04 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/20 12:42:02 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/25 00:20:40 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,14 @@
 
 void	clean_map(t_data *data)
 {
-	int	row;
-	int	col;
+	int	y;
 
-	row = 0;
-	col = 0;
-	while (col < data->map_w * BLOCK_SIZE)
+	y = 0;
+	while (y < data->map_h * BLOCK_SIZE)
 	{
-		free(data->unit_map[col]);
-		data->unit_map[col] = NULL;
-		col++;
+		free(data->unit_map[y]);
+		data->unit_map[y] = NULL;
+		y++;
 	}
 	free(data->unit_map);
 	data->unit_map = NULL;
@@ -31,12 +29,18 @@ void	clean_map(t_data *data)
 
 void	clean_mlx(t_data *data)
 {
-	mlx_delete_image(data->mlx_data.mlx_ptr, data->mlx_data.scr_img);
-	mlx_terminate(data->mlx_data.mlx_ptr);
+	t_mlx	mlx_data;
+
+	mlx_data = data->mlx_data;
+	mlx_delete_image(mlx_data.mlx_ptr, mlx_data.scr_img);
+	// mlx_delete_texture(mlx_data.textrs[NORTH]);
+	// mlx_delete_image(mlx_data.mlx_ptr, mlx_data.textrs_img[NORTH]);
+	mlx_terminate(mlx_data.mlx_ptr);
 }
 
 void	clean_all(t_data *data)
 {
 	clean_map(data);
 	clean_mlx(data);
+	exit(0);
 }

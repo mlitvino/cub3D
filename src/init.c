@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/22 16:29:26 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/05/26 13:42:20 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,33 @@
 
 void	init_grid_map(t_data *data)
 {
+	// y 5 x 6, change TEST_MAPY, TEST_MAPX
 	char temp_map[TEST_MAPY][TEST_MAPX] =
 	{
-		{1, 1, 1, 1},
-		{1, 0, 0, 1},
-		{1, PLAYER, 0, 1},
-		{1, 1, 1, 1}
+		{1, 1, 1, 1, 1, 1},
+		{1, 0, 0, 0, 0, 1},
+		{1, 0, 1, 0, PLAYER, 1},
+		{1, 0, 0, 0, 0, 1},
+		{1, 1, 1, 1, 1, 1},
 	};
+
+	// y 14 x 33, change TEST_MAPY, TEST_MAPX
+	// char temp_map[TEST_MAPY][TEST_MAPX] = {
+	// 	{0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+	// 	{0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	// 	{0,0,0,0,0,0,0,0,1,0,1,1,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	// 	{0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	// 	{1,1,1,1,1,1,1,1,1,0,1,1,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	// 	{1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
+	// 	{1,1,1,1,0,1,1,1,1,1,1,1,1,1,0,1,1,1,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0},
+	// 	{1,1,1,1,0,1,1,1,1,1,1,1,1,1,0,1,1,1,0,1,0,1,0,0,1,0,0,0,1,0,0,0,0},
+	// 	{1,1,0,0,0,0,0,0,1,1,0,1,0,1,0,1,1,1,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0},
+	// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0},
+	// 	{1,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,1,1,0,1,0,1,0,0,1,0,0,0,1,0,0,0,0},
+	// 	{1,1,0,0,0,0,0,1,1,1,0,1,1,0,1,0,1,1,1,1,1,0,1,1,1,1,0,1,1,1,0,0,0},
+	// 	{1,1,1,1,0,1,1,1,0,1,1,1,0,1,0,1,0,1,1,1,1,0,1,0,0,0,1,0,0,0,0,0,0},
+	// 	{1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0},
+	// };
 
 	ft_memcpy(data->grid_map, temp_map, sizeof(temp_map));
 }
@@ -68,17 +88,17 @@ void	init_player(t_data *data)
 	player->data = data;
 	player->hitbox_radius = BLOCK_SIZE / 4;
 	player->pov.fov = FOV;
-	player->pov.view_angl = 90;
+	player->pov.view_angl = 0;
 	player->height = BLOCK_SIZE / 2;
 
-	player->move_spd = 1;
-	player->turn_spd = 1;
+	player->move_spd = BLOCK_SIZE / 8;
+	player->turn_spd = 3;
 
 	hitbox = player->hitbox_radius;
 
-	for (int y = 0; y < TEST_MAPX; y++)
+	for(int y = 0; y < TEST_MAPY; y++)
 	{
-		for(int x = 0; x < TEST_MAPY; x++)
+		for (int x = 0; x < TEST_MAPX; x++)
 		{
 			if (data->grid_map[y][x] == PLAYER)
 			{
@@ -102,9 +122,10 @@ void	init_mlx(t_data *data)
 {
 	t_mlx	mlx_data;
 
-	//mlx_set_setting(MLX_STRETCH_IMAGE, true); // resize scr_img with resizing win
+	ft_memset(&mlx_data, 0, sizeof(t_mlx));
+	mlx_set_setting(MLX_STRETCH_IMAGE, true); // resize scr_img with resizing win
 	//mlx_set_setting(MLX_HEADLESS, true); // disable_win
-	mlx_data.mlx_ptr = mlx_init(WIN_W + 100, WIN_H + 100, "cub3D", true);
+	mlx_data.mlx_ptr = mlx_init(WIN_W, WIN_H, "cub3D", true);
 	mlx_data.scr_img = mlx_new_image(mlx_data.mlx_ptr, WIN_W, WIN_H);
 
 	int res1 = mlx_image_to_window(mlx_data.mlx_ptr, mlx_data.scr_img, 0, 0);
@@ -113,22 +134,22 @@ void	init_mlx(t_data *data)
 		for(int y = 0; y < WIN_H; y++)
 			mlx_put_pixel(mlx_data.scr_img, x, y, 0x000000FF); // BLACK
 
-	// mlx_data.textrs[NORTH] = mlx_load_png("./textures/north.png"); // change to path to file
-	// mlx_data.textrs[EAST] = mlx_load_png("./textures/east.png");
-	// mlx_data.textrs[WEST] = mlx_load_png("./textures/west.png");
-	// mlx_data.textrs[SOUTH] = mlx_load_png("./textures/south.png");
+	mlx_data.textrs[NORTH] = mlx_load_png("./textures/wolf.png"); // change to path to file
+	mlx_data.textrs[EAST] = mlx_load_png("./textures/east.png");
+	mlx_data.textrs[WEST] = mlx_load_png("./textures/west.png");
+	mlx_data.textrs[SOUTH] = mlx_load_png("./textures/south.png");
 
-	// mlx_data.textrs_img[NORTH] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[NORTH]);
-	// mlx_resize_image(mlx_data.textrs_img[NORTH], BLOCK_SIZE * 100, BLOCK_SIZE * 100);
+	mlx_data.textrs_img[NORTH] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[NORTH]);
+	mlx_resize_image(mlx_data.textrs_img[NORTH], BLOCK_SIZE, BLOCK_SIZE);
 
-	// mlx_data.textrs_img[EAST] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[EAST]);
-	// mlx_resize_image(mlx_data.textrs_img[EAST], BLOCK_SIZE * 100, BLOCK_SIZE * 100);
+	mlx_data.textrs_img[EAST] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[EAST]);
+	mlx_resize_image(mlx_data.textrs_img[EAST], BLOCK_SIZE, BLOCK_SIZE);
 
-	// mlx_data.textrs_img[WEST] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[WEST]);
-	// mlx_resize_image(mlx_data.textrs_img[WEST], BLOCK_SIZE * 100, BLOCK_SIZE * 100);
+	mlx_data.textrs_img[WEST] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[WEST]);
+	mlx_resize_image(mlx_data.textrs_img[WEST], BLOCK_SIZE, BLOCK_SIZE);
 
-	// mlx_data.textrs_img[SOUTH] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[SOUTH]);
-	// mlx_resize_image(mlx_data.textrs_img[SOUTH], BLOCK_SIZE * 100, BLOCK_SIZE * 100);
+	mlx_data.textrs_img[SOUTH] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[SOUTH]);
+	mlx_resize_image(mlx_data.textrs_img[SOUTH], BLOCK_SIZE, BLOCK_SIZE);
 
 	// mlx_image_to_window(mlx_data.mlx_ptr, mlx_data.textrs_img[EAST], 50, 50);
 
@@ -146,10 +167,17 @@ void	init_data(t_data *data)
 
 
 	data->plane.center.x = WIN_W / 2;
-	data->plane.center.x = WIN_H / 2;
-	data->plane.dist = (WIN_W / 2) / (int)tan(FOV / 2);
+	data->plane.center.y = WIN_H / 2;
+	data->plane.dist = (WIN_W / 2) / tan(deg_rad(FOV / 2));
+
+	//printf("plane_dist %d\n", data->plane.dist); //del
 
 	data->rays_count = WIN_W;
 	data->rays_angle = FOV / (double)data->rays_count;// double?
-	printf("RAY_ANGLE %f\n", data->rays_angle); //del
+	//printf("RAY_ANGLE %f\n", data->rays_angle); //del
+
+	data->flor_rgb.rgbt = 0xffe224fa;
+	data->ceil_rgb.rgbt = 0x0286a7fa;
+	// data->flor_rgb.rgbt = 0xFF;
+	// data->ceil_rgb.rgbt = 0xFF;
 }

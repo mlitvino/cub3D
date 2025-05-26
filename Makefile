@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+         #
+#    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/05/22 16:20:05 by ablodorn         ###   ########.fr        #
+#    Updated: 2025/05/26 13:44:01 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC			= cc -ggdb -Ofast -Wall -Wextra
+CC			= cc -ggdb -Ofast
 # -Wall -Wextra -Werror
 HEADERS		= -I$(LIBFT_DIR)/$(INCLD_DIR) -I$(INCLD_DIR) -I$(MLX_DIR)/include
 LIBS		= -L$(MLX_DIR)/build $(MLX) -lz -ldl -lglfw -pthread -lm -o
@@ -33,15 +33,16 @@ SRC			= $(addprefix $(SRC_DIR)/, \
 				clean.c \
 				$(RAY_SRC) \
 				debug.c \
-				event_handler.c \
-				movement.c \
-				rotate.c \
+				./movement/rotate.c \
+				./movement/movement.c \
+				./movement/event_handler.c \
 				)
 
 RAY_SRC		= $(addprefix $(RAY_DIR)/, \
 				raycast.c \
-				draw_line.c \
-				utils1.c \
+				find_wall.c \
+				helper.c \
+				utils.c \
 				)
 
 OBJ			= $(addprefix $(OBJ_DIR)/,$(notdir $(SRC:.c=.o)))
