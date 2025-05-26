@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/25 19:02:23 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/26 13:37:29 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,7 +235,7 @@ void	show_unit_map(t_data *data);
 void	show_redline(t_data *data);
 
 // helper.c
-int			calc_norm_dist(t_raycast *raycast);
+void		calc_norm_dist(t_raycast *raycast);
 void		select_tex(t_raycast *raycast, int axis_flag);
 t_raycast	init_raycast(t_data *data, t_char *player);
 void		fill_ray_info(t_raycast *raycast);
@@ -258,9 +258,9 @@ void	norm_fract(t_dpoint *temp, t_point *line,
 bool	find_wall(t_raycast *raycast, t_point *wall, int axis_flag, int *dist);
 
 // utils.c
+bool		is_on_map(t_data *data, t_point *p);
 double		deg_rad(double deg);
 double		calc_dist(t_point p1, t_point p2);
-double		root_dist(t_point p1, t_point p2);
 uint32_t	extract_rgba(uint8_t *raw);
 
 //-------------------------------MOVEMENT------------------------------------

@@ -6,13 +6,13 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:59:38 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/25 19:00:21 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/26 12:45:40 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int	calc_norm_dist(t_raycast *raycast)
+void	calc_norm_dist(t_raycast *raycast)
 {
 	double	temp;
 
