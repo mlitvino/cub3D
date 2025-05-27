@@ -15,7 +15,7 @@ void move_player(t_char *player, double angle_offset)
 	angle_rad = DEG_TO_RAD(player->pov.view_angl + angle_offset);
 	//printf("angle_rad: %f\n", angle_rad);
 	dx = cos(angle_rad) * (double)player->move_spd;
-	dy = sin(angle_rad) * player->move_spd;
+	dy = -sin(angle_rad) * player->move_spd;
 	//printf("old_postion x: %d\n", player->pos.x);
 	//printf("old_postion y: %d\n", player->pos.y);
 	new_x = player->pos.x + dx;

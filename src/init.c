@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/26 13:42:20 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/27 16:21:06 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void	init_mlx(t_data *data)
 		for(int y = 0; y < WIN_H; y++)
 			mlx_put_pixel(mlx_data.scr_img, x, y, 0x000000FF); // BLACK
 
-	mlx_data.textrs[NORTH] = mlx_load_png("./textures/wolf.png"); // change to path to file
+	mlx_data.textrs[NORTH] = mlx_load_png("./textures/north.png"); // change to path to file
 	mlx_data.textrs[EAST] = mlx_load_png("./textures/east.png");
 	mlx_data.textrs[WEST] = mlx_load_png("./textures/west.png");
 	mlx_data.textrs[SOUTH] = mlx_load_png("./textures/south.png");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/26 13:43:49 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/27 16:24:43 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,18 @@ void	render(void *data_arg)
 
 	data = (t_data *)data_arg;
 	// //show_unit_map(data);
-
+	if (data->keys.w)
+        move_player(&data->player, 0);
+    if (data->keys.a)
+        move_player(&data->player, 90);
+	if (data->keys.s)
+        move_player(&data->player, 180);
+    if (data->keys.d)
+        move_player(&data->player, -90);
+    if (data->keys.left)
+        rotate_player_right(&data->player);
+    if (data->keys.right)
+        rotate_player_left(&data->player);
 	raycast(data);
 	// show_char_pos(data, &data->player);
 }
