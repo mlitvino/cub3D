@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/26 13:41:51 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/27 16:28:12 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,18 @@ typedef struct	s_raycast
 }				t_raycast;
 
 //-------------------------------GAME------------------------------------
+
+typedef struct s_keys
+{
+	int w;
+	int a;
+	int s;
+	int d;
+	int left;
+	int right;
+	int esc;
+}				t_keys;
+
 typedef struct	s_pov
 {
 	t_point		view_pos;
@@ -179,6 +191,7 @@ typedef struct	s_data
 	int			map_w;
 
 	t_char		player;
+	t_keys		keys;
 
 	t_project	plane;
 	int			rays_count; // 320(WIDTH_WIN)
