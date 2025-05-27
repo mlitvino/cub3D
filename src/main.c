@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/27 16:24:43 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/05/27 16:50:44 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	main(int argc, char *argv[])
 	(void)argv;
 	init_data(&data);
 
+	ft_bzero(&data.keys, sizeof(t_keys));
 	//show_unit_map(&data);
 	//show_char_pos(&data, &data.player);
 

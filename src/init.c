@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/27 16:21:06 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/05/27 16:44:31 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ void	init_player(t_data *data)
 	player->pov.view_angl = 0;
 	player->height = BLOCK_SIZE / 2;
 
-	player->move_spd = BLOCK_SIZE / 8;
-	player->turn_spd = 3;
+	player->move_spd = BLOCK_SIZE / 32;
+	player->turn_spd = 1;
 
 	hitbox = player->hitbox_radius;
 
