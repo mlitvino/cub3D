@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/29 18:03:36 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/30 00:50:03 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,19 @@ typedef struct s_wall
 	mlx_image_t	*img;
 }				t_wall;
 
+typedef struct s_door
+{
+	int				state;
+	int				len;
+	int				grid_x;
+	int				grid_y;
+	int				move_spd;
+	// closing timer?
+
+	struct s_door	*next;
+
+}					t_door;
+
 typedef struct s_raycast
 {
 	t_data		*data;
@@ -206,19 +219,6 @@ typedef struct s_char
 	int			turn_spd;
 
 }				t_char;
-
-typedef struct s_door
-{
-	int				state;
-	int				len;
-	int				grid_x;
-	int				grid_y;
-	int				move_spd;
-	// closing timer?
-
-	struct s_door	*next;
-
-}					t_door;
 
 //-------------------------------GENERAL------------------------------------
 

@@ -6,7 +6,7 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/05/29 14:39:31 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/05/30 00:48:21 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,21 +21,22 @@ MLX			= $(MLX_DIR)/build/libmlx42.a
 
 OBJ_DIR		= obj
 INCLD_DIR	= includes
-SRC_DIR		= src
-RAY_DIR		= raycast
-LIBS_DIR	= lib
+
+LIBS_DIR	= ../lib
 MLX_DIR		= $(LIBS_DIR)/MLX42
 LIBFT_DIR	= $(LIBS_DIR)/libft
+
+SRC_DIR		= src
+RAY_DIR		= raycast
+MOV_DIR		= movement
 
 SRC			= $(addprefix $(SRC_DIR)/, \
 				main.c \
 				init.c \
 				clean.c \
 				$(RAY_SRC) \
+				$(MOV_SRC) \
 				debug.c \
-				./movement/rotate.c \
-				./movement/movement.c \
-				./movement/event_handler.c \
 				)
 
 RAY_SRC		= $(addprefix $(RAY_DIR)/, \
@@ -46,6 +47,12 @@ RAY_SRC		= $(addprefix $(RAY_DIR)/, \
 				utils.c \
 				draw.c \
 				door.c \
+				)
+
+MOV_SRC		= $(addprefix $(MOV_DIR)/, \
+				rotate.c \
+				movement.c \
+				event_handler.c \
 				)
 
 OBJ			= $(addprefix $(OBJ_DIR)/,$(notdir $(SRC:.c=.o)))
@@ -89,3 +96,6 @@ start: all
 re: fclean all
 
 .PHONY: all clean fclean re
+
+
+
