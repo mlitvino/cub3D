@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:57:05 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/29 17:34:59 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/29 20:19:40 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ bool	find_wall(t_raycast *raycast, t_wall *wall, int axis_flag)
 		adjust_wall(&temp, dx, dy);
 		init_wall(char_pos, &temp, raycast->ray_angle, axis_flag);
 		norm_fract(&temp, wall, axis_flag, raycast->ray_angle);
-		if (is_on_map(raycast->data, wall) == false)
+		if (is_on_map(raycast->data, &wall->pos) == false)
 		{
 			wall->dist = INT_MAX;
 			return (true);
