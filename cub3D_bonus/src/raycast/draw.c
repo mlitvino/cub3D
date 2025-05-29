@@ -6,15 +6,24 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 14:20:00 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/29 17:05:28 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/29 17:42:10 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	draw_floor(t_raycast *raycast, int top_flr)
+void	map_wall(t_raycast *raycast, int y, int wall_h, int wall_top)
 {
+	int			tex_y;
+	uint32_t	color;
+	uint8_t		*raw_pixel;
+	int			pixel_i;
 
+	tex_y = (y - wall_top) * BLOCK_SIZE / wall_h;
+	pixel_i = (tex_y * raycast->wall_img->width + raycast->tex_x) * BPP;
+	raw_pixel = &raycast->wall_img->pixels[pixel_i];
+	color = extract_rgba(raw_pixel);
+	mlx_put_pixel(raycast->scr_img, raycast->cur_ray, y, color);
 }
 
 void	render_col(t_raycast *raycast, t_point wall, int wall_dist,
@@ -45,5 +54,4 @@ void	render_col(t_raycast *raycast, t_point wall, int wall_dist,
 				raycast->flor_rgbt);
 		y++;
 	}
-	draw_floor(raycast, wall_top + wall_h);
 }

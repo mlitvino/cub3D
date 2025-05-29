@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/29 17:09:31 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:03:36 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,12 +115,28 @@ typedef struct s_project
 
 }				t_project;
 
+typedef struct s_wall
+{
+	t_point		pos;
+	int			dist;
+	int			type;
+
+	int			h;
+	int			top;
+
+	int			img_x;
+	int			img_y;
+	int			img_i;
+	mlx_image_t	*img;
+}				t_wall;
+
 typedef struct s_raycast
 {
 	t_data		*data;
 	t_project	*plane;
 	mlx_image_t	*scr_img;
 	char		**unit_map;
+	t_door		*doors_list;
 
 	int			flor_rgbt;
 	int			ceil_rgbt;
@@ -128,14 +144,24 @@ typedef struct s_raycast
 	int			view_angle;
 	t_point		char_pos;
 
-	t_point		hor_wall;
-	t_point		ver_wall;
-	int			hor_dist;
-	int			ver_dist;
+	// t_point		hor_wall;
+	// t_point		ver_wall;
+	// int			hor_type;
+	// int			hor_dist;
+	// int			ver_dist;
+	// int			ver_type;
 
 	mlx_image_t	*wall_img;
 	int			tex_x;
 
+
+	t_wall		hor_wall;
+	t_wall		ver_wall;
+	t_wall		wall;
+
+
+
+	int			img_indx;
 	double		ray_angle;
 	int			cur_ray;
 	double		beta;
@@ -187,8 +213,8 @@ typedef struct s_door
 	int				len;
 	int				grid_x;
 	int				grid_y;
+	int				move_spd;
 	// closing timer?
-	// closing speed?
 
 	struct s_door	*next;
 
@@ -237,18 +263,20 @@ void		fill_ray_info(t_raycast *raycast);
 t_door		*create_door(t_door **doors_list, int grid_x,
 				int grid_y);
 
-// raycast.c
+// draw.c
 void		map_wall(t_raycast *raycast, int y, int wall_h,
 				int wall_top);
 void		render_col(t_raycast *raycast, t_point wall,
 				int wall_dist, int tex_indx);
-void		compre_dist(t_raycast *raycast, t_point hor_wall,
-				t_point ver_wall);
+
+// raycast.c
+void		compre_dist(t_raycast *raycast, t_wall *hor_wall,
+				t_wall *ver_wall);
 void		cast_ray(t_raycast *raycast, double ray_angl);
 void		raycast(t_data *data);
 
 // find_wall_utils.c
-bool		is_hit(char **unit_map, t_point *wall);
+bool		is_hit(char **unit_map, t_wall *wall);
 bool		is_on_map(t_data *data, t_point *p);
 
 // find_wall.c
@@ -257,10 +285,9 @@ void		init_wall(t_point char_pos, t_dpoint *temp,
 void		adjust_wall(t_dpoint *temp, double dx, double dy);
 void		init_delta(int axis_flag, double *dx, double *dy,
 				double ray_angl);
-void		norm_fract(t_dpoint *temp, t_point *line, int axis_flag,
+void		norm_fract(t_dpoint *temp, t_wall *wall, int axis_flag,
 				double ray_angl);
-bool		find_wall(t_raycast *raycast, t_point *wall,
-				int axis_flag, int *dist);
+bool		find_wall(t_raycast *raycast, t_wall *wall, int axis_flag);
 
 // utils.c
 double		deg_rad(double deg);

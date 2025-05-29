@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:59:38 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/29 17:07:58 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:04:10 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@ void	calc_norm_dist(t_raycast *raycast)
 {
 	double	temp;
 
-	if (raycast->hor_dist != INT_MAX)
+	if (raycast->hor_wall.dist != INT_MAX)
 	{
-		temp = calc_dist(raycast->char_pos, raycast->hor_wall);
-		raycast->hor_dist = temp * cos(deg_rad(raycast->beta));
+		temp = calc_dist(raycast->char_pos, raycast->hor_wall.pos);
+		raycast->hor_wall.dist = temp * cos(deg_rad(raycast->beta));
 	}
-	if (raycast->ver_dist != INT_MAX)
+	if (raycast->ver_wall.dist != INT_MAX)
 	{
-		temp = calc_dist(raycast->char_pos, raycast->ver_wall);
-		raycast->ver_dist = temp * cos(deg_rad(raycast->beta));
+		temp = calc_dist(raycast->char_pos, raycast->ver_wall.pos);
+		raycast->ver_wall.dist = temp * cos(deg_rad(raycast->beta));
 	}
 }
 
@@ -51,6 +51,7 @@ t_raycast	init_raycast(t_data *data, t_char *player)
 	t_raycast	raycast;
 
 	raycast.data = data;
+	raycast.doors_list = data->doors_list;
 	raycast.plane = &data->plane;
 	raycast.scr_img = data->mlx_data.scr_img;
 	raycast.unit_map = data->unit_map;
@@ -65,9 +66,16 @@ t_raycast	init_raycast(t_data *data, t_char *player)
 
 void	fill_ray_info(t_raycast *raycast)
 {
-	ft_memset(&raycast->hor_wall, -1, sizeof(t_point));
-	ft_memset(&raycast->ver_wall, -1, sizeof(t_point));
-	raycast->hor_dist = 0;
-	raycast->ver_dist = 0;
+	// ft_memset(&raycast->hor_wall, -1, sizeof(t_point));
+	// ft_memset(&raycast->ver_wall, -1, sizeof(t_point));
+	// raycast->hor_dist = 0;
+	// raycast->ver_dist = 0;
+
+	ft_memset(&raycast->hor_wall, -1, sizeof(t_wall));
+	ft_memset(&raycast->ver_wall, -1, sizeof(t_wall));
+
+	raycast->hor_wall.dist = 0;
+	raycast->ver_wall.dist = 0;
+
 	raycast->beta = raycast->ray_angle - raycast->view_angle;
 }

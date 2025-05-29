@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:57:05 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/29 17:05:59 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/29 17:34:59 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,23 +70,38 @@ void	init_delta(int axis_flag, double *dx, double *dy, double ray_angl)
 	}
 }
 
-void	norm_fract(t_dpoint *temp, t_point *line, int axis_flag,
+void	norm_fract(t_dpoint *temp, t_wall *wall, int axis_flag,
 		double ray_angl)
 {
 	if ((axis_flag == VERTICAL && ray_angl > 180) || axis_flag == HORIZONT
 		&& (270 < ray_angl || ray_angl < 90))
 	{
-		line->x = temp->x;
-		line->y = temp->y;
+		wall->pos.x = temp->x;
+		wall->pos.y = temp->y;
 	}
 	else
 	{
-		line->x = ceil(temp->x);
-		line->y = ceil(temp->y);
+		wall->pos.x = ceil(temp->x);
+		wall->pos.y = ceil(temp->y);
 	}
 }
 
-bool	find_wall(t_raycast *raycast, t_point *wall, int axis_flag, int *dist)
+bool	is_hit(char **unit_map, t_wall *wall)
+{
+	if (unit_map[wall->pos.y][wall->pos.x] == WALL)
+	{
+		wall->type = WALL;
+		return (true);
+	}
+	else if (unit_map[wall->pos.y][wall->pos.x] == DOOR)
+	{
+		wall->type = DOOR;
+		return (true);
+	}
+	return (false);
+}
+
+bool	find_wall(t_raycast *raycast, t_wall *wall, int axis_flag)
 {
 	t_dpoint	temp;
 	t_point		char_pos;
@@ -103,10 +118,10 @@ bool	find_wall(t_raycast *raycast, t_point *wall, int axis_flag, int *dist)
 		norm_fract(&temp, wall, axis_flag, raycast->ray_angle);
 		if (is_on_map(raycast->data, wall) == false)
 		{
-			*dist = INT_MAX;
+			wall->dist = INT_MAX;
 			return (true);
 		}
-		if (raycast->unit_map[wall->y][wall->x] == WALL)
+		if (is_hit(raycast->unit_map, wall) == true)
 			return (true);
 	}
 	return (false);

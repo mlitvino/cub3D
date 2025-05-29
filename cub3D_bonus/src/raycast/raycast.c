@@ -6,64 +6,77 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:43:06 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/29 17:06:14 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:07:02 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	map_wall(t_raycast *raycast, int y, int wall_h, int wall_top)
+t_door	*find_door(t_door *doors, t_point pos)
 {
-	int			tex_y;
-	uint32_t	color;
-	uint8_t		*raw_pixel;
-	int			pixel_i;
-
-	tex_y = (y - wall_top) * BLOCK_SIZE / wall_h;
-	pixel_i = (tex_y * raycast->wall_img->width + raycast->tex_x) * BPP;
-	raw_pixel = &raycast->wall_img->pixels[pixel_i];
-	color = extract_rgba(raw_pixel);
-	mlx_put_pixel(raycast->scr_img, raycast->cur_ray, y, color);
+	while (doors)
+	{
+		if (doors->grid_x == pos.x / BLOCK_SIZE)
+			if (doors->grid_y == pos.y / BLOCK_SIZE)
+				return (doors);
+		doors->next;
+	}
+	return (NULL);
 }
 
-void	compre_dist(t_raycast *raycast, t_point hor_wall, t_point ver_wall)
+void	check_type_wall(t_raycast *raycast, t_wall *wall)
 {
-	if (raycast->hor_dist < raycast->ver_dist)
+	t_door	*door;
+
+	if (wall->type == WALL)
+		return ;
+	door = find_door(raycast->doors_list , wall->pos);
+	if (!door)
+	{
+		ft_printf("ERROR: door is not found\n");// check
+		clean_all(raycast->data);
+	}
+	
+}
+
+void	compre_dist(t_raycast *raycast, t_wall *hor_wall, t_wall *ver_wall)
+{
+	if (hor_wall->dist < ver_wall->dist)
 	{
 		select_tex(raycast, HORIZONT);
-		render_col(raycast, hor_wall, raycast->hor_dist, raycast->tex_indx);
+		render_col(raycast, hor_wall->pos, hor_wall->dist, raycast->tex_indx);
 	}
-	else if (raycast->ver_dist < raycast->hor_dist)
+	else if (ver_wall->dist < hor_wall->dist)
 	{
 		select_tex(raycast, VERTICAL);
-		render_col(raycast, ver_wall, raycast->ver_dist, raycast->tex_indx);
+		render_col(raycast, ver_wall->pos, ver_wall->dist, raycast->tex_indx);
 	}
-	else if (raycast->hor_dist != INT_MAX
-		&& raycast->unit_map[hor_wall.y][hor_wall.x - 1] == WALL
-		&& raycast->unit_map[hor_wall.y][hor_wall.x + 1] == WALL)
+	else if (hor_wall->dist != INT_MAX
+		&& raycast->unit_map[hor_wall->pos.y][hor_wall->pos.x - 1] == WALL
+		&& raycast->unit_map[hor_wall->pos.y][hor_wall->pos.x + 1] == WALL)
 	{
 		select_tex(raycast, HORIZONT);
-		render_col(raycast, hor_wall, raycast->hor_dist, raycast->tex_indx);
+		render_col(raycast, hor_wall->pos, hor_wall->dist, raycast->tex_indx);
 	}
 	else
 	{
 		select_tex(raycast, VERTICAL);
-		render_col(raycast, ver_wall, raycast->ver_dist, raycast->tex_indx);
+		render_col(raycast, ver_wall->pos, ver_wall->dist, raycast->tex_indx);
 	}
 }
 
 void	cast_ray(t_raycast *raycast, double ray_angl)
 {
 	if ((int)ray_angl != 180 && (int)ray_angl != 0)
-		find_wall(raycast, &raycast->hor_wall, HORIZONT, &raycast->hor_dist);
+		find_wall(raycast, &raycast->hor_wall, HORIZONT);
 	else
-		raycast->hor_dist = INT_MAX;
+		raycast->hor_wall.dist = INT_MAX;
 	if ((int)ray_angl != 90 && (int)ray_angl != 270)
-		find_wall(raycast, &raycast->ver_wall, VERTICAL, &raycast->ver_dist);
+		find_wall(raycast, &raycast->ver_wall, VERTICAL);
 	else
-		raycast->ver_dist = INT_MAX;
+		raycast->ver_wall.dist = INT_MAX;
 	calc_norm_dist(raycast);
-	compre_dist(raycast, raycast->hor_wall, raycast->ver_wall);
+	compre_dist(raycast, &raycast->hor_wall, &raycast->ver_wall);
 }
 
 void	raycast(t_data *data)

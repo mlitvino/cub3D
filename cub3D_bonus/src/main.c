@@ -6,60 +6,11 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/29 17:09:17 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/29 17:19:41 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-// typedef struct s_wall
-// {
-// 	t_point		pos;
-// 	int			dist;
-// 	int			type;
-
-// 	int			h;
-// 	int			top;
-
-// 	int			img_x;
-// 	int			img_y;
-// 	int			img_i;
-// 	mlx_image_t	*img;
-// }				t_wall;
-
-// typedef struct s_raycast
-// {
-// 	t_data		*data;
-// 	t_project	*plane;
-// 	mlx_image_t	*scr_img;
-// 	char		**unit_map;
-
-// 	int			flor_rgbt;
-// 	int			ceil_rgbt;
-
-// 	int			view_angle;
-// 	t_point		char_pos;
-
-// 	t_point		hor_wall;
-// 	t_point		ver_wall;
-// 	int			hor_type;
-// 	int			hor_dist;
-// 	int			ver_dist;
-// 	int			ver_type;
-// 	// t_wall		hor_wall;
-// 	// t_wall		ver_wall;
-// 	// t_wall		wall;
-
-
-
-// 	int			img_indx;
-// 	double		ray_angle;
-// 	int			cur_ray;
-// 	double		beta;
-
-// 	int			tex_indx;
-
-// }				t_raycast;
 
 void	jump_baby(t_char *player)
 {

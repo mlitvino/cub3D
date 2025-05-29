@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:41:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/29 15:00:24 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/29 17:54:08 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ t_door	*create_door(t_door **doors_list,int grid_x, int grid_y)
 	new_door->grid_x = grid_x;
 	new_door->grid_y = grid_y;
 	new_door->next = NULL;
+	new_door->move_spd = BLOCK_SIZE / 64;
 	// closing timer?
-	// closing speed?
 	temp = *doors_list;
 	while (temp && temp->next)
 		temp = temp->next;
