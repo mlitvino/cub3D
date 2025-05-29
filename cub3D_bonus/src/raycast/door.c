@@ -6,11 +6,23 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:41:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/29 17:54:08 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/30 01:45:16 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+t_door	*find_door(t_door *doors, t_point pos)
+{
+	while (doors)
+	{
+		if (doors->grid_x == pos.x / BLOCK_SIZE)
+			if (doors->grid_y == pos.y / BLOCK_SIZE)
+				return (doors);
+		doors = doors->next;
+	}
+	return (NULL);
+}
 
 t_door	*create_door(t_door **doors_list,int grid_x, int grid_y)
 {

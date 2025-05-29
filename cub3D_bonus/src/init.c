@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/29 15:13:06 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/30 01:28:48 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void	init_grid_map(t_data *data)
 	{
 		{1, 1, 1, 1, 1, 1},
 		{1, 0, 1, 0, 0, 1},
-		{1, DOOR, 1, 0, 0, 1},
+		{1, 1, 1, DOOR, 1, 1},
 		{1, 0, 0, 0, 0, 1},
 		{1, 0, 0, PLAYER, 0, 1},
-		{1, DOOR, 1, 0, 1, DOOR},
+		{1, 0, 1, 0, 1, 1},
 		{1, 0, 1, 0, 1, 0},
 		{1, 1, 1, 1, 1, 1},
 	};
@@ -91,7 +91,7 @@ void	init_player(t_data *data)
 	player->data = data;
 	player->hitbox_radius = BLOCK_SIZE / 4;
 	player->pov.fov = FOV;
-	player->pov.view_angl = 0;
+	player->pov.view_angl = 90;
 	player->height = 2;
 
 	player->move_spd = BLOCK_SIZE / 16;
@@ -142,7 +142,7 @@ void	init_mlx(t_data *data)
 		for(int y = 0; y < WIN_H; y++)
 			mlx_put_pixel(mlx_data.scr_img, x, y, 0x000000FF); // BLACK
 
-	mlx_data.textrs[NORTH] = mlx_load_png("./textures/wolf.png"); // change to path to file
+	mlx_data.textrs[NORTH] = mlx_load_png("./textures/north.png"); // change to path to file
 	mlx_data.textrs[EAST] = mlx_load_png("./textures/east.png");
 	mlx_data.textrs[WEST] = mlx_load_png("./textures/west.png");
 	mlx_data.textrs[SOUTH] = mlx_load_png("./textures/south.png");
@@ -158,6 +158,10 @@ void	init_mlx(t_data *data)
 
 	mlx_data.textrs_img[SOUTH] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[SOUTH]);
 	mlx_resize_image(mlx_data.textrs_img[SOUTH], BLOCK_SIZE, BLOCK_SIZE);
+
+	mlx_data.textrs[DOOR_TEX] = mlx_load_png("./textures/door.png");
+	mlx_data.textrs_img[DOOR_TEX] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[DOOR_TEX]);
+	mlx_resize_image(mlx_data.textrs_img[DOOR_TEX], BLOCK_SIZE, BLOCK_SIZE);
 
 	data->mlx_data = mlx_data;
 }

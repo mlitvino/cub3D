@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 14:20:00 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/29 17:42:10 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/30 01:35:55 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,12 @@ void	render_col(t_raycast *raycast, t_point wall, int wall_dist,
 		raycast->tex_x = wall.x % BLOCK_SIZE;
 	else if (raycast->tex_indx == WEST || raycast->tex_indx == EAST)
 		raycast->tex_x = wall.y % BLOCK_SIZE;
+	else
+	{
+		raycast->tex_x = wall.x % BLOCK_SIZE;
+	}
 	raycast->wall_img = raycast->data->mlx_data.textrs_img[tex_indx];
+
 	y = 0;
 	while (y < raycast->scr_img->height)
 	{

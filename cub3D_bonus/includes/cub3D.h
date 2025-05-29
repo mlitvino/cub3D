@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/30 00:50:03 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/30 01:41:17 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 
 # define BPP sizeof(int32_t)
 
-# define WIN_W 1920
-# define WIN_H 1280
+# define WIN_W 1080
+# define WIN_H 900
 
 # define FOV 60
 # define BLOCK_SIZE 512
@@ -58,6 +58,7 @@ enum
 	EAST,
 	WEST,
 	SOUTH,
+	DOOR_TEX,
 	MAX_TEX,
 };
 
@@ -255,17 +256,16 @@ typedef struct s_data
 //-------------------------------RAYCASTING------------------------------------
 // helper.c
 void		calc_norm_dist(t_raycast *raycast);
-void		select_tex(t_raycast *raycast, int axis_flag);
+void		select_tex(t_raycast *raycast, t_wall *wall, int axis_flag);
 t_raycast	init_raycast(t_data *data, t_char *player);
 void		fill_ray_info(t_raycast *raycast);
 
 // door.c
-t_door		*create_door(t_door **doors_list, int grid_x,
-				int grid_y);
+t_door		*find_door(t_door *doors, t_point pos);
+t_door		*create_door(t_door **doors_list, int grid_x, int grid_y);
 
 // draw.c
-void		map_wall(t_raycast *raycast, int y, int wall_h,
-				int wall_top);
+void		map_wall(t_raycast *raycast, int y, int wall_h, int wall_top);
 void		render_col(t_raycast *raycast, t_point wall,
 				int wall_dist, int tex_indx);
 
@@ -276,7 +276,7 @@ void		cast_ray(t_raycast *raycast, double ray_angl);
 void		raycast(t_data *data);
 
 // find_wall_utils.c
-bool		is_hit(char **unit_map, t_wall *wall);
+bool		check_hit(t_raycast *raycast, t_wall *wall, int axis_flag);
 bool		is_on_map(t_data *data, t_point *p);
 
 // find_wall.c

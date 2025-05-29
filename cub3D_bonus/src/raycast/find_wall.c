@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:57:05 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/29 20:19:40 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/30 01:47:09 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,34 @@ void	norm_fract(t_dpoint *temp, t_wall *wall, int axis_flag,
 	}
 }
 
-bool	is_hit(char **unit_map, t_wall *wall)
+void	extend_door(t_raycast *raycast, t_wall *wall, int axis_flag)
 {
-	if (unit_map[wall->pos.y][wall->pos.x] == WALL)
+	t_door	*door;
+
+	if (wall->type == WALL)
+		return ;
+	door = find_door(raycast->doors_list , wall->pos);
+	if (!door)
+	{
+		ft_printf("ERROR: door is not found\n");// check
+		clean_all(raycast->data);
+	}
+}
+
+bool	check_hit(t_raycast *raycast, t_wall *wall, int axis_flag)
+{
+	if (raycast->unit_map[wall->pos.y][wall->pos.x] == WALL)
 	{
 		wall->type = WALL;
 		return (true);
 	}
-	else if (unit_map[wall->pos.y][wall->pos.x] == DOOR)
+	else if (raycast->unit_map[wall->pos.y][wall->pos.x] == DOOR)
 	{
+		if (extend_door(raycast, wall, axis_flag) == true)
+		{
+			wall->type = DOOR;
+			return (true);
+		}
 		wall->type = DOOR;
 		return (true);
 	}
@@ -121,7 +140,7 @@ bool	find_wall(t_raycast *raycast, t_wall *wall, int axis_flag)
 			wall->dist = INT_MAX;
 			return (true);
 		}
-		if (is_hit(raycast->unit_map, wall) == true)
+		if (check_hit(raycast, wall, axis_flag) == true)
 			return (true);
 	}
 	return (false);

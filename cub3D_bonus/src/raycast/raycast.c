@@ -6,61 +6,34 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:43:06 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/29 18:07:02 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/30 01:30:38 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-t_door	*find_door(t_door *doors, t_point pos)
-{
-	while (doors)
-	{
-		if (doors->grid_x == pos.x / BLOCK_SIZE)
-			if (doors->grid_y == pos.y / BLOCK_SIZE)
-				return (doors);
-		doors->next;
-	}
-	return (NULL);
-}
-
-void	check_type_wall(t_raycast *raycast, t_wall *wall)
-{
-	t_door	*door;
-
-	if (wall->type == WALL)
-		return ;
-	door = find_door(raycast->doors_list , wall->pos);
-	if (!door)
-	{
-		ft_printf("ERROR: door is not found\n");// check
-		clean_all(raycast->data);
-	}
-	
-}
-
 void	compre_dist(t_raycast *raycast, t_wall *hor_wall, t_wall *ver_wall)
 {
 	if (hor_wall->dist < ver_wall->dist)
 	{
-		select_tex(raycast, HORIZONT);
+		select_tex(raycast, hor_wall, HORIZONT);
 		render_col(raycast, hor_wall->pos, hor_wall->dist, raycast->tex_indx);
 	}
 	else if (ver_wall->dist < hor_wall->dist)
 	{
-		select_tex(raycast, VERTICAL);
+		select_tex(raycast, ver_wall, VERTICAL);
 		render_col(raycast, ver_wall->pos, ver_wall->dist, raycast->tex_indx);
 	}
 	else if (hor_wall->dist != INT_MAX
 		&& raycast->unit_map[hor_wall->pos.y][hor_wall->pos.x - 1] == WALL
 		&& raycast->unit_map[hor_wall->pos.y][hor_wall->pos.x + 1] == WALL)
 	{
-		select_tex(raycast, HORIZONT);
+		select_tex(raycast, hor_wall, HORIZONT);
 		render_col(raycast, hor_wall->pos, hor_wall->dist, raycast->tex_indx);
 	}
 	else
 	{
-		select_tex(raycast, VERTICAL);
+		select_tex(raycast, ver_wall, VERTICAL);
 		render_col(raycast, ver_wall->pos, ver_wall->dist, raycast->tex_indx);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:59:38 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/29 18:04:10 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/30 01:32:25 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	calc_norm_dist(t_raycast *raycast)
 	}
 }
 
-void	select_tex(t_raycast *raycast, int axis_flag)
+void	select_tex(t_raycast *raycast, t_wall *wall, int axis_flag)
 {
 	if (axis_flag == VERTICAL)
 	{
@@ -43,6 +43,10 @@ void	select_tex(t_raycast *raycast, int axis_flag)
 			raycast->tex_indx = SOUTH;
 		else
 			raycast->tex_indx = NORTH;
+	}
+	if (wall->type == DOOR)
+	{
+		raycast->tex_indx = DOOR_TEX;
 	}
 }
 
@@ -66,11 +70,6 @@ t_raycast	init_raycast(t_data *data, t_char *player)
 
 void	fill_ray_info(t_raycast *raycast)
 {
-	// ft_memset(&raycast->hor_wall, -1, sizeof(t_point));
-	// ft_memset(&raycast->ver_wall, -1, sizeof(t_point));
-	// raycast->hor_dist = 0;
-	// raycast->ver_dist = 0;
-
 	ft_memset(&raycast->hor_wall, -1, sizeof(t_wall));
 	ft_memset(&raycast->ver_wall, -1, sizeof(t_wall));
 
