@@ -6,11 +6,31 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:41:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/30 01:45:16 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:26:59 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+void	update_doors(t_door *doors)
+{
+	while (doors)
+	{
+		if (doors->state == CLOSING)
+		{
+			doors->len += doors->move_spd;
+			if (doors->len > BLOCK_SIZE)
+				doors->state = CLOSED;
+		}
+		else if (doors->state == OPENING)
+		{
+			doors->len -= doors->move_spd;
+			if (doors->len < 0)
+				doors->state = OPEN;
+		}
+		doors = doors->next;
+	}
+}
 
 t_door	*find_door(t_door *doors, t_point pos)
 {
@@ -24,7 +44,7 @@ t_door	*find_door(t_door *doors, t_point pos)
 	return (NULL);
 }
 
-t_door	*create_door(t_door **doors_list,int grid_x, int grid_y)
+t_door	*create_door(t_door **doors_list, int grid_x, int grid_y)
 {
 	t_door	*new_door;
 	t_door	*temp;
@@ -33,12 +53,11 @@ t_door	*create_door(t_door **doors_list,int grid_x, int grid_y)
 	if (!new_door)
 		return (NULL);
 	new_door->state = CLOSED;
-	new_door->len = BLOCK_SIZE;
+	new_door->len = BLOCK_SIZE / 2;
 	new_door->grid_x = grid_x;
 	new_door->grid_y = grid_y;
 	new_door->next = NULL;
 	new_door->move_spd = BLOCK_SIZE / 64;
-	// closing timer?
 	temp = *doors_list;
 	while (temp && temp->next)
 		temp = temp->next;

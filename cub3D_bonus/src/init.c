@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/30 01:28:48 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:29:51 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 void	init_grid_map(t_data *data)
 {
-	// y 5 x 6, change TEST_MAPY, TEST_MAPX
+	// y 8 x 7, change TEST_MAPY, TEST_MAPX
 	char temp_map[TEST_MAPY][TEST_MAPX] =
 	{
-		{1, 1, 1, 1, 1, 1},
-		{1, 0, 1, 0, 0, 1},
-		{1, 1, 1, DOOR, 1, 1},
-		{1, 0, 0, 0, 0, 1},
-		{1, 0, 0, PLAYER, 0, 1},
-		{1, 0, 1, 0, 1, 1},
-		{1, 0, 1, 0, 1, 0},
-		{1, 1, 1, 1, 1, 1},
+		{1, 1, 1, 1, 1, 1, 1},
+		{1, 0, 1, 0, 0, 1, 1},
+		{1, 1, 1, DOOR, 1, 1, 1},
+		{1, 0, 1, 0, 0, 1, 1},
+		{1, 0, DOOR, PLAYER, 0, DOOR, 1},
+		{1, 0, 1, DOOR, 1, 1, 1},
+		{1, 0, 1, 0, 1, 0, 1},
+		{1, 1, 1, 1, 1, 1, 1},
 	};
 
 	//y 14 x 33, change TEST_MAPY, TEST_MAPX

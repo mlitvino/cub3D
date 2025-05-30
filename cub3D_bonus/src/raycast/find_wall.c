@@ -6,21 +6,21 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:57:05 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/30 01:47:09 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:27:41 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
 void	init_wall(t_point char_pos, t_dpoint *temp, double ray_angl,
-		int axis_flag)
+		int axis)
 {
 	if ((int)temp->h != -1)
 		return ;
-	if (axis_flag == VERTICAL)
+	if (axis == VERTICAL)
 	{
 		temp->x = floor((double)char_pos.x / BLOCK_SIZE) * BLOCK_SIZE;
-		if ((270 < ray_angl) || (ray_angl < 90))
+		if (ISEAST(ray_angl))
 			temp->x += BLOCK_SIZE;
 		else
 			temp->x -= 1;
@@ -40,41 +40,44 @@ void	init_wall(t_point char_pos, t_dpoint *temp, double ray_angl,
 	temp->h = 1;
 }
 
-void	adjust_wall(t_dpoint *temp, double dx, double dy)
+void	adjust_wall(t_raycast *raycast, t_dpoint *temp)
 {
 	if ((int)temp->h == -1)
 		return ;
-	temp->x += dx;
-	temp->y += dy;
+	temp->x += raycast->dx;
+	temp->y += raycast->dy;
 }
 
-void	init_delta(int axis_flag, double *dx, double *dy, double ray_angl)
+void	init_delta(t_raycast *raycast, int axis)
 {
-	if (axis_flag == VERTICAL)
+	double	ray_angl;
+
+	ray_angl = raycast->ray_angle;
+	if (axis == VERTICAL)
 	{
-		*dx = BLOCK_SIZE;
-		*dy = BLOCK_SIZE * tan(deg_rad(ray_angl));
-		if (270 < ray_angl || ray_angl < 90)
-			*dy = -*dy;
+		raycast->dx = BLOCK_SIZE;
+		raycast->dy = BLOCK_SIZE * tan(deg_rad(ray_angl));
+		if (ISEAST(ray_angl))
+			raycast->dy = -raycast->dy;
 		else
-			*dx = -*dx;
+			raycast->dx = -raycast->dx;
 	}
 	else
 	{
-		*dx = BLOCK_SIZE / tan(deg_rad(ray_angl));
-		*dy = BLOCK_SIZE;
-		if (ray_angl < 180)
-			*dy = -*dy;
+		raycast->dx = BLOCK_SIZE / tan(deg_rad(ray_angl));
+		raycast->dy = BLOCK_SIZE;
+		if (ISNORTH(ray_angl))
+			raycast->dy = -raycast->dy;
 		else
-			*dx = -*dx;
+			raycast->dx = -raycast->dx;
 	}
 }
 
-void	norm_fract(t_dpoint *temp, t_wall *wall, int axis_flag,
+void	norm_fract(t_dpoint *temp, t_wall *wall, int axis,
 		double ray_angl)
 {
-	if ((axis_flag == VERTICAL && ray_angl > 180) || axis_flag == HORIZONT
-		&& (270 < ray_angl || ray_angl < 90))
+	if ((axis == VERTICAL && ray_angl > 180) || axis == HORIZONT
+		&& ISEAST(ray_angl))
 	{
 		wall->pos.x = temp->x;
 		wall->pos.y = temp->y;
@@ -86,21 +89,60 @@ void	norm_fract(t_dpoint *temp, t_wall *wall, int axis_flag,
 	}
 }
 
-void	extend_door(t_raycast *raycast, t_wall *wall, int axis_flag)
+void	set_direct(t_door *door, int axis, double ray_angle)
 {
-	t_door	*door;
-
-	if (wall->type == WALL)
-		return ;
-	door = find_door(raycast->doors_list , wall->pos);
-	if (!door)
+	if (axis == VERTICAL)
 	{
-		ft_printf("ERROR: door is not found\n");// check
-		clean_all(raycast->data);
+		if (ISEAST(ray_angle))
+			door->direct = EAST;
+		else
+			door->direct = WEST;
+	}
+	else
+	{
+		if (ISNORTH(ray_angle))
+			door->direct = NORTH;
+		else
+			door->direct = SOUTH;
 	}
 }
 
-bool	check_hit(t_raycast *raycast, t_wall *wall, int axis_flag)
+bool	extend_door(t_raycast *raycast, t_wall *wall, int axis)
+{
+	t_door		*door;
+	t_dpoint	temp;
+	int			offset;
+
+	door = find_door(raycast->doors_list , wall->pos);
+	//set_direct(door, axis, raycast->ray_angle); // is needed?
+	wall->door_len = door->len;
+
+
+	temp.x = wall->pos.x;
+	temp.y = wall->pos.y;
+
+	temp.x += raycast->dx / 2;
+	temp.y += raycast->dy / 2;
+
+	if (is_on_map(raycast->data, &(t_point){(int)temp.x, (int)temp.y}) == false)
+		return (false);
+
+	if (axis == VERTICAL)
+		offset = (int)temp.y % BLOCK_SIZE;
+	else
+		offset = (int)temp.x % BLOCK_SIZE;
+
+	if (raycast->unit_map[(int)temp.y][(int)temp.x] == DOOR
+		&& door->len > offset)
+	{
+		wall->pos.x = temp.x;
+		wall->pos.y = temp.y;
+		return (true);
+	}
+	return (false);
+}
+
+bool	check_hit(t_raycast *raycast, t_wall *wall, int axis)
 {
 	if (raycast->unit_map[wall->pos.y][wall->pos.x] == WALL)
 	{
@@ -109,38 +151,34 @@ bool	check_hit(t_raycast *raycast, t_wall *wall, int axis_flag)
 	}
 	else if (raycast->unit_map[wall->pos.y][wall->pos.x] == DOOR)
 	{
-		if (extend_door(raycast, wall, axis_flag) == true)
+		if (extend_door(raycast, wall, axis) == true)
 		{
 			wall->type = DOOR;
 			return (true);
 		}
-		wall->type = DOOR;
-		return (true);
 	}
 	return (false);
 }
 
-bool	find_wall(t_raycast *raycast, t_wall *wall, int axis_flag)
+bool	find_wall(t_raycast *raycast, t_wall *wall, int axis)
 {
 	t_dpoint	temp;
 	t_point		char_pos;
-	double		dx;
-	double		dy;
 
 	char_pos = raycast->char_pos;
 	temp.h = -1;
-	init_delta(axis_flag, &dx, &dy, raycast->ray_angle);
+	init_delta(raycast, axis);
 	while (1)
 	{
-		adjust_wall(&temp, dx, dy);
-		init_wall(char_pos, &temp, raycast->ray_angle, axis_flag);
-		norm_fract(&temp, wall, axis_flag, raycast->ray_angle);
+		adjust_wall(raycast, &temp);
+		init_wall(char_pos, &temp, raycast->ray_angle, axis);
+		norm_fract(&temp, wall, axis, raycast->ray_angle);
 		if (is_on_map(raycast->data, &wall->pos) == false)
 		{
 			wall->dist = INT_MAX;
 			return (true);
 		}
-		if (check_hit(raycast, wall, axis_flag) == true)
+		if (check_hit(raycast, wall, axis) == true)
 			return (true);
 	}
 	return (false);

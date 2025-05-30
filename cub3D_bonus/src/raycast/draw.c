@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 14:20:00 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/30 01:35:55 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:24:01 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	map_wall(t_raycast *raycast, int y, int wall_h, int wall_top)
 	mlx_put_pixel(raycast->scr_img, raycast->cur_ray, y, color);
 }
 
-void	render_col(t_raycast *raycast, t_point wall, int wall_dist,
+void	render_col(t_raycast *raycast, t_wall *wall, int wall_dist,
 		int tex_indx)
 {
 	int	wall_h;
@@ -36,14 +36,24 @@ void	render_col(t_raycast *raycast, t_point wall, int wall_dist,
 	wall_h = ceil(BLOCK_SIZE * raycast->plane->dist / (double)wall_dist);
 	wall_top = raycast->plane->center.y;
 	wall_top = wall_top - (wall_h / raycast->data->player.height);
-	if (raycast->tex_indx == NORTH || raycast->tex_indx == SOUTH)
-		raycast->tex_x = wall.x % BLOCK_SIZE;
-	else if (raycast->tex_indx == WEST || raycast->tex_indx == EAST)
-		raycast->tex_x = wall.y % BLOCK_SIZE;
-	else
+
+	if (raycast->axis == HORIZONT)
 	{
-		raycast->tex_x = wall.x % BLOCK_SIZE;
+		raycast->tex_x = wall->pos.x % BLOCK_SIZE;
+		if (wall->type == DOOR)
+		{
+			raycast->tex_x = BLOCK_SIZE - (wall->door_len - raycast->tex_x);
+		}
 	}
+	else if (raycast->axis == VERTICAL)
+	{
+		raycast->tex_x = wall->pos.y % BLOCK_SIZE;
+		if (wall->type == DOOR)
+		{
+			raycast->tex_x = BLOCK_SIZE - (wall->door_len - raycast->tex_x);
+		}
+	}
+
 	raycast->wall_img = raycast->data->mlx_data.textrs_img[tex_indx];
 
 	y = 0;

@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/30 01:41:17 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:26:27 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@
 
 # define BPP sizeof(int32_t)
 
-# define WIN_W 1080
-# define WIN_H 900
+# define WIN_W 1920
+# define WIN_H 1080
 
 # define FOV 60
 # define BLOCK_SIZE 512
-# define TEST_MAPX 6
+# define TEST_MAPX 7
 # define TEST_MAPY 8
 
 # define EMPTY 0
@@ -36,21 +36,20 @@
 # define VERTICAL 0
 # define HORIZONT 1
 
+# define DOOR_WALL 4
 # define DOOR 'D'
 # define CLOSED 1
 # define CLOSING 2
 # define OPEN 3
-# define OPENNING 4
+# define OPENING 4
+
+# define ISNORTH(a) (a < 180)
+# define ISSOUTH(a) (a > 180)
+# define ISWEST(a) (90 < a && a < 270)
+# define ISEAST(a) (270 < a || a < 90)
 
 // Movement
 # define DEG_TO_RAD(a) ((a)*M_PI / 180.0)
-# define KEY_W 119
-# define KEY_S 115
-# define KEY_A 97
-# define KEY_D 100
-# define KEY_LEFT_ARROW 65361
-# define KEY_RIGHT_ARROW 65363
-# define KEY_ESC 65307
 
 enum
 {
@@ -121,6 +120,7 @@ typedef struct s_wall
 	t_point		pos;
 	int			dist;
 	int			type;
+	int			door_len;
 
 	int			h;
 	int			top;
@@ -138,7 +138,7 @@ typedef struct s_door
 	int				grid_x;
 	int				grid_y;
 	int				move_spd;
-	// closing timer?
+	int				direct;
 
 	struct s_door	*next;
 
@@ -158,22 +158,16 @@ typedef struct s_raycast
 	int			view_angle;
 	t_point		char_pos;
 
-	// t_point		hor_wall;
-	// t_point		ver_wall;
-	// int			hor_type;
-	// int			hor_dist;
-	// int			ver_dist;
-	// int			ver_type;
-
 	mlx_image_t	*wall_img;
 	int			tex_x;
 
+	double		dx;
+	double		dy;
+	int			axis;
 
 	t_wall		hor_wall;
 	t_wall		ver_wall;
 	t_wall		wall;
-
-
 
 	int			img_indx;
 	double		ray_angle;
@@ -261,12 +255,13 @@ t_raycast	init_raycast(t_data *data, t_char *player);
 void		fill_ray_info(t_raycast *raycast);
 
 // door.c
+void		update_doors(t_door *doors);
 t_door		*find_door(t_door *doors, t_point pos);
 t_door		*create_door(t_door **doors_list, int grid_x, int grid_y);
 
 // draw.c
 void		map_wall(t_raycast *raycast, int y, int wall_h, int wall_top);
-void		render_col(t_raycast *raycast, t_point wall,
+void		render_col(t_raycast *raycast, t_wall *wall,
 				int wall_dist, int tex_indx);
 
 // raycast.c
@@ -282,9 +277,8 @@ bool		is_on_map(t_data *data, t_point *p);
 // find_wall.c
 void		init_wall(t_point char_pos, t_dpoint *temp,
 				double ray_angl, int axis_flag);
-void		adjust_wall(t_dpoint *temp, double dx, double dy);
-void		init_delta(int axis_flag, double *dx, double *dy,
-				double ray_angl);
+void		adjust_wall(t_raycast *raycast, t_dpoint *temp);
+void		init_delta(t_raycast *raycast, int axis_flag);
 void		norm_fract(t_dpoint *temp, t_wall *wall, int axis_flag,
 				double ray_angl);
 bool		find_wall(t_raycast *raycast, t_wall *wall, int axis_flag);

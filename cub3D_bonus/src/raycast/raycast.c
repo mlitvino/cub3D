@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:43:06 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/30 01:30:38 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:27:18 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,29 @@ void	compre_dist(t_raycast *raycast, t_wall *hor_wall, t_wall *ver_wall)
 {
 	if (hor_wall->dist < ver_wall->dist)
 	{
+		raycast->axis = HORIZONT;
 		select_tex(raycast, hor_wall, HORIZONT);
-		render_col(raycast, hor_wall->pos, hor_wall->dist, raycast->tex_indx);
+		render_col(raycast, hor_wall, hor_wall->dist, raycast->tex_indx);
 	}
 	else if (ver_wall->dist < hor_wall->dist)
 	{
+		raycast->axis = VERTICAL;
 		select_tex(raycast, ver_wall, VERTICAL);
-		render_col(raycast, ver_wall->pos, ver_wall->dist, raycast->tex_indx);
+		render_col(raycast, ver_wall, ver_wall->dist, raycast->tex_indx);
 	}
 	else if (hor_wall->dist != INT_MAX
 		&& raycast->unit_map[hor_wall->pos.y][hor_wall->pos.x - 1] == WALL
 		&& raycast->unit_map[hor_wall->pos.y][hor_wall->pos.x + 1] == WALL)
 	{
+		raycast->axis = HORIZONT;
 		select_tex(raycast, hor_wall, HORIZONT);
-		render_col(raycast, hor_wall->pos, hor_wall->dist, raycast->tex_indx);
+		render_col(raycast, hor_wall, hor_wall->dist, raycast->tex_indx);
 	}
 	else
 	{
+		raycast->axis = VERTICAL;
 		select_tex(raycast, ver_wall, VERTICAL);
-		render_col(raycast, ver_wall->pos, ver_wall->dist, raycast->tex_indx);
+		render_col(raycast, ver_wall, ver_wall->dist, raycast->tex_indx);
 	}
 }
 

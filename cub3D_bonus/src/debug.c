@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 22:53:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/29 15:12:33 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/30 17:18:16 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@ void	show_doors(t_door *list)
 			ft_printf("state: OPEN\n");
 		if (list->state == CLOSING)
 			ft_printf("state: CLOSING\n");
-		if (list->state == OPENNING)
-			ft_printf("state: OPENNING\n");
+		if (list->state == OPENING)
+			ft_printf("state: OPENING\n");
 
 		ft_printf("len: %d\n", list->len);
-		ft_printf("grid x %d, grid y %d\n", list->grid_x, list->grid_y);
+		ft_printf("grid x %d, gid y %d\n",	list->grid_x, list->grid_y);
+		ft_printf("middle unit x %d, unit y %d\n",	list->grid_x * BLOCK_SIZE / 2,
+													list->grid_y * BLOCK_SIZE / 2);
 	}
 	ft_printf("----DOOR_END----\n");
 }

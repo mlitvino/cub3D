@@ -27,8 +27,6 @@ void move_player(t_char *player, double angle_offset)
 		player->pos.x += dx;
 		player->pos.y += dy;
 	}
-	//player->pos.x += dx;
-	//player->pos.y += dy;
 }
 
 int check_for_wall_collision(t_char *player, double new_x, double new_y)

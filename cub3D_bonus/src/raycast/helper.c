@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:59:38 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/30 01:32:25 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:28:27 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,23 @@ void	calc_norm_dist(t_raycast *raycast)
 	}
 }
 
-void	select_tex(t_raycast *raycast, t_wall *wall, int axis_flag)
+void	select_tex(t_raycast *raycast, t_wall *wall, int axis)
 {
-	if (axis_flag == VERTICAL)
+	if (axis == VERTICAL)
 	{
-		if (90 < raycast->ray_angle && raycast->ray_angle < 270)
-			raycast->tex_indx = EAST;
-		else
+		if (ISEAST(raycast->ray_angle))
 			raycast->tex_indx = WEST;
+		else
+			raycast->tex_indx = EAST;
 	}
 	else
 	{
-		if (raycast->ray_angle < 180)
+		if (ISSOUTH(raycast->ray_angle))
 			raycast->tex_indx = SOUTH;
 		else
 			raycast->tex_indx = NORTH;
 	}
+
 	if (wall->type == DOOR)
 	{
 		raycast->tex_indx = DOOR_TEX;
@@ -72,9 +73,7 @@ void	fill_ray_info(t_raycast *raycast)
 {
 	ft_memset(&raycast->hor_wall, -1, sizeof(t_wall));
 	ft_memset(&raycast->ver_wall, -1, sizeof(t_wall));
-
 	raycast->hor_wall.dist = 0;
 	raycast->ver_wall.dist = 0;
-
 	raycast->beta = raycast->ray_angle - raycast->view_angle;
 }
