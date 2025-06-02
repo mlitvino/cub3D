@@ -6,11 +6,56 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 22:53:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/30 17:18:16 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:13:31 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+void	show_sprites(t_sprite **sprite_array, t_sprite *sprite_list)
+{
+	int i;
+	t_sprite *tmp;
+
+	ft_printf("==== SPRITES DEBUG ====\n");
+	if (sprite_array)
+	{
+		ft_printf("Sprite Array:\n");
+		i = 0;
+		while (sprite_array[i])
+		{
+			ft_printf("Sprite Array[%d]:\n", i);
+			ft_printf("  pos: x = %d, y = %d\n", sprite_array[i]->pos.x, sprite_array[i]->pos.y);
+			ft_printf("  hitbox_radius: %d\n", sprite_array[i]->hitbox_radius);
+			ft_printf("  tex_cur_img: %d\n", sprite_array[i]->tex_cur_img);
+			ft_printf("  move_spd: %d, turn_spd: %d\n", sprite_array[i]->move_spd, sprite_array[i]->turn_spd);
+			ft_printf("  img_x: %d, img_y: %d, img_i: %d\n", sprite_array[i]->img_x, sprite_array[i]->img_y, sprite_array[i]->img_i);
+			ft_printf("  walkable: %d, type: %d\n", sprite_array[i]->walkable, sprite_array[i]->type);
+			ft_printf("  dist: %d\n\n", sprite_array[i]->dist);
+			i++;
+		}
+	}
+	if (sprite_list)
+	{
+		ft_printf("Sprite Linked List:\n");
+		i = 0;
+		tmp = sprite_list;
+		while (tmp)
+		{
+			ft_printf("Sprite %d:\n", i);
+			ft_printf("  pos: x = %d, y = %d\n", tmp->pos.x, tmp->pos.y);
+			ft_printf("  hitbox_radius: %d\n", tmp->hitbox_radius);
+			ft_printf("  tex_cur_img: %d\n", tmp->tex_cur_img);
+			ft_printf("  move_spd: %d, turn_spd: %d\n", tmp->move_spd, tmp->turn_spd);
+			ft_printf("  img_x: %d, img_y: %d, img_i: %d\n", tmp->img_x, tmp->img_y, tmp->img_i);
+			ft_printf("  walkable: %d, type: %d\n", tmp->walkable, tmp->type);
+			ft_printf("  dist: %d\n\n", tmp->dist);
+			i++;
+			tmp = tmp->next;
+		}
+	}
+	ft_printf("==== END SPRITES DEBUG ====\n");
+}
 
 void	show_doors(t_door *list)
 {

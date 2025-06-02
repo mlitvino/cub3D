@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/30 18:29:51 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:18:54 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,27 @@ void	init_grid_map(t_data *data)
 	char temp_map[TEST_MAPY][TEST_MAPX] =
 	{
 		{1, 1, 1, 1, 1, 1, 1},
-		{1, 0, 1, 0, 0, 1, 1},
-		{1, 1, 1, DOOR, 1, 1, 1},
-		{1, 0, 1, 0, 0, 1, 1},
-		{1, 0, DOOR, PLAYER, 0, DOOR, 1},
-		{1, 0, 1, DOOR, 1, 1, 1},
-		{1, 0, 1, 0, 1, 0, 1},
+		{1, WOLF, PLAYER, WOLF, 0, 0, 1},
+		{1, 0, 0, 0, 0, 0, 1},
+		{1, WOLF, 0, 1, 0, 0, 1},
+		{1, 0, 0, 0, 0, 0, 1},
+		{1, 0, 0, WOLF, 0, 0, 1},
+		{1, 0, 0, 0, 0, 0, 1},
 		{1, 1, 1, 1, 1, 1, 1},
 	};
+
+	// DOOR MAP
+	// char temp_map[TEST_MAPY][TEST_MAPX] =
+	// {
+	// 	{1, 1, 1, 1, 1, 1, 1},
+	// 	{1, 0, 1, 0, 0, 1, 1},
+	// 	{1, 1, 1, DOOR, 1, 1, 1},
+	// 	{1, 0, 1, 0, 0, 1, 1},
+	// 	{1, 0, DOOR, PLAYER, 0, DOOR, 1},
+	// 	{1, 0, 1, DOOR, 1, 1, 1},
+	// 	{1, 0, 1, 0, 1, 0, 1},
+	// 	{1, 1, 1, 1, 1, 1, 1},
+	// };
 
 	//y 14 x 33, change TEST_MAPY, TEST_MAPX
 	// char temp_map[TEST_MAPY][TEST_MAPX] = {
@@ -110,7 +123,17 @@ void	init_player(t_data *data)
 			}
 			if (data->grid_map[y][x] == DOOR)
 			{
-				if (create_door(&data->doors_list, x, y) == NULL)
+				if (create_door(&data->door_list, x, y) == NULL)
+					clean_all(data); // IMRPOVE
+			}
+			// if (data->grid_map[y][x] == CANDLE)
+			// {
+			// 	if (create_sprite(&data->door_list, CANDLE, x, y) == NULL)
+			// 		clean_all(data); // IMRPOVE
+			// }
+			if (data->grid_map[y][x] == WOLF)
+			{
+				if (create_sprite(data, WOLF, x, y) == NULL)
 					clean_all(data); // IMRPOVE
 			}
 		}
@@ -142,26 +165,30 @@ void	init_mlx(t_data *data)
 		for(int y = 0; y < WIN_H; y++)
 			mlx_put_pixel(mlx_data.scr_img, x, y, 0x000000FF); // BLACK
 
-	mlx_data.textrs[NORTH] = mlx_load_png("./textures/north.png"); // change to path to file
-	mlx_data.textrs[EAST] = mlx_load_png("./textures/east.png");
-	mlx_data.textrs[WEST] = mlx_load_png("./textures/west.png");
-	mlx_data.textrs[SOUTH] = mlx_load_png("./textures/south.png");
 
+	mlx_data.textrs[NORTH] = mlx_load_png("./textures/north.png"); // change to path to file
 	mlx_data.textrs_img[NORTH] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[NORTH]);
 	mlx_resize_image(mlx_data.textrs_img[NORTH], BLOCK_SIZE, BLOCK_SIZE);
 
+	mlx_data.textrs[EAST] = mlx_load_png("./textures/east.png");
 	mlx_data.textrs_img[EAST] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[EAST]);
 	mlx_resize_image(mlx_data.textrs_img[EAST], BLOCK_SIZE, BLOCK_SIZE);
 
+	mlx_data.textrs[WEST] = mlx_load_png("./textures/west.png");
 	mlx_data.textrs_img[WEST] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[WEST]);
 	mlx_resize_image(mlx_data.textrs_img[WEST], BLOCK_SIZE, BLOCK_SIZE);
 
+	mlx_data.textrs[SOUTH] = mlx_load_png("./textures/south.png");
 	mlx_data.textrs_img[SOUTH] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[SOUTH]);
 	mlx_resize_image(mlx_data.textrs_img[SOUTH], BLOCK_SIZE, BLOCK_SIZE);
 
 	mlx_data.textrs[DOOR_TEX] = mlx_load_png("./textures/door.png");
 	mlx_data.textrs_img[DOOR_TEX] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[DOOR_TEX]);
 	mlx_resize_image(mlx_data.textrs_img[DOOR_TEX], BLOCK_SIZE, BLOCK_SIZE);
+
+	mlx_data.textrs[WOLF_STAY] = mlx_load_png("./textures/wolf.png");
+	mlx_data.textrs_img[WOLF_STAY] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[WOLF_STAY]);
+	mlx_resize_image(mlx_data.textrs_img[WOLF_STAY], BLOCK_SIZE, BLOCK_SIZE);
 
 	data->mlx_data = mlx_data;
 }

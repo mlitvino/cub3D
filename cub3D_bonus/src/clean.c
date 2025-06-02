@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 23:12:04 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/29 14:07:49 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/02 14:28:59 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,22 @@ void	clean_mlx(t_data *data)
 
 void	clean_obj(t_data *data)
 {
-	t_door	*cur_door;
+	t_door		*cur_door;
+	t_sprite	*cur_sprite;
 
-	cur_door = data->doors_list;
+	cur_door = data->door_list;
 	while (cur_door)
 	{
-		free(cur_door);
 		cur_door = cur_door->next;
+		free(data->door_list);
+		data->door_list = cur_door;
+	}
+	cur_sprite = data->sprite_list;
+	while (cur_sprite)
+	{
+		cur_sprite = cur_sprite->next;
+		free(data->sprite_list);
+		data->sprite_list = cur_sprite;
 	}
 }
 
@@ -56,6 +65,6 @@ void	clean_all(t_data *data)
 {
 	clean_map(data);
 	clean_mlx(data);
-	//clean_obj(data);
+	clean_obj(data);
 	exit(0);
 }

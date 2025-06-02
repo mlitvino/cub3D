@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/30 18:04:07 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:15:14 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,11 @@ void	render(void *data_arg)
 
 
 	//jump_baby(&data->player);
-	t_door *door = data->doors_list;
+	t_door *door = data->door_list;
 	open_close(door);
 	update_doors(door);
 
-	raycast(data);
+	//raycast(data);
 	// show_char_pos(data, &data->player);
 }
 
@@ -101,10 +101,10 @@ int	main(int argc, char *argv[])
 
 	ft_bzero(&data.keys, sizeof(t_keys));
 	//show_unit_map(&data);
-	//show_char_pos(&data, &data.player);
-	show_doors(data.doors_list);
+	show_char_pos(&data, &data.player);
+	//show_doors(data.door_list);
 
-	//raycast(&data);
+	raycast(&data);
 
 	mlx_key_hook(data.mlx_data.mlx_ptr, &key_event_handler, &data);  //Eventhook for movement
 

@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:57:05 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/30 18:27:41 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/02 13:23:40 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ bool	extend_door(t_raycast *raycast, t_wall *wall, int axis)
 	t_dpoint	temp;
 	int			offset;
 
-	door = find_door(raycast->doors_list , wall->pos);
+	door = find_door(raycast->door_list , wall->pos.x, wall->pos.y);
 	//set_direct(door, axis, raycast->ray_angle); // is needed?
 	wall->door_len = door->len;
 

@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/30 18:26:27 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:14:51 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,24 @@
 # define WIN_H 1080
 
 # define FOV 60
-# define BLOCK_SIZE 512
+# define BLOCK_SIZE 64
 # define TEST_MAPX 7
 # define TEST_MAPY 8
 
 # define EMPTY 0
 # define WALL 1
 # define PLAYER 3
+# define WOLF 'B' // BEAST, W - taken by player's char in subject
+# define CANDLE 'C'
 
-# define VERTICAL 0
-# define HORIZONT 1
-
-# define DOOR_WALL 4
 # define DOOR 'D'
 # define CLOSED 1
 # define CLOSING 2
 # define OPEN 3
 # define OPENING 4
+
+# define VERTICAL 0
+# define HORIZONT 1
 
 # define ISNORTH(a) (a < 180)
 # define ISSOUTH(a) (a > 180)
@@ -51,15 +52,16 @@
 // Movement
 # define DEG_TO_RAD(a) ((a)*M_PI / 180.0)
 
-enum
+typedef enum e_texture
 {
 	NORTH,
 	EAST,
 	WEST,
 	SOUTH,
 	DOOR_TEX,
-	MAX_TEX,
-};
+	WOLF_STAY,
+	MAX_TEX
+}	t_texture;
 
 typedef struct s_data	t_data;
 
@@ -129,6 +131,7 @@ typedef struct s_wall
 	int			img_y;
 	int			img_i;
 	mlx_image_t	*img;
+
 }				t_wall;
 
 typedef struct s_door
@@ -144,13 +147,38 @@ typedef struct s_door
 
 }					t_door;
 
+typedef struct s_sprite
+{
+	mlx_image_t		*cur_img;
+	int				tex_cur_img;
+	mlx_image_t		**tex_imgs;
+
+	int				hitbox_radius;
+	t_point			pos;
+
+	int				move_spd;
+	int				turn_spd;
+
+	int				img_x;
+	int				img_y;
+	int				img_i;
+
+	int				walkable;// is needed?
+	int				type;// ENEMY, OBJECT, is needed?
+	int				dist;
+
+	struct s_sprite	*next;
+
+}	t_sprite;
+
 typedef struct s_raycast
 {
 	t_data		*data;
 	t_project	*plane;
 	mlx_image_t	*scr_img;
 	char		**unit_map;
-	t_door		*doors_list;
+	t_door		*door_list;
+	int			rays_dist[WIN_W];
 
 	int			flor_rgbt;
 	int			ceil_rgbt;
@@ -175,6 +203,8 @@ typedef struct s_raycast
 	double		beta;
 
 	int			tex_indx;
+
+	int			sprite_count;
 
 }				t_raycast;
 
@@ -225,6 +255,7 @@ typedef struct s_mlx
 
 	mlx_texture_t		*textrs[MAX_TEX];
 	mlx_image_t			*textrs_img[MAX_TEX];
+
 }						t_mlx;
 
 typedef struct s_data
@@ -236,7 +267,9 @@ typedef struct s_data
 	int					map_h;
 	int					map_w;
 
-	t_door				*doors_list;
+	t_door				*door_list;
+	t_sprite			*sprite_list;
+
 	t_char				player;
 	t_keys				keys;
 
@@ -245,6 +278,7 @@ typedef struct s_data
 	double				rays_angle;
 	t_rgbt				flor_rgb;
 	t_rgbt				ceil_rgb;
+
 }						t_data;
 
 //-------------------------------RAYCASTING------------------------------------
@@ -256,8 +290,11 @@ void		fill_ray_info(t_raycast *raycast);
 
 // door.c
 void		update_doors(t_door *doors);
-t_door		*find_door(t_door *doors, t_point pos);
+t_door		*find_door(t_door *doors, int unit_x, int unit_y);
 t_door		*create_door(t_door **doors_list, int grid_x, int grid_y);
+
+// sprite.c
+t_sprite	*create_sprite(t_data *data, int type, int grid_x, int grid_y);
 
 // draw.c
 void		map_wall(t_raycast *raycast, int y, int wall_h, int wall_top);
@@ -311,6 +348,7 @@ void		init_mlx(t_data *data);
 void		init_data(t_data *data);
 
 // debug.c
+void		show_sprites(t_sprite **sprite_array, t_sprite *sprite_list);
 void		show_doors(t_door *list);
 void		show_char_pos(t_data *data, t_char *chr);
 void		show_unit_map(t_data *data);

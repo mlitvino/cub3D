@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:59:38 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/30 18:28:27 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/02 13:23:42 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_raycast	init_raycast(t_data *data, t_char *player)
 	t_raycast	raycast;
 
 	raycast.data = data;
-	raycast.doors_list = data->doors_list;
+	raycast.door_list = data->door_list;
 	raycast.plane = &data->plane;
 	raycast.scr_img = data->mlx_data.scr_img;
 	raycast.unit_map = data->unit_map;
