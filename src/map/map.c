@@ -1,35 +1,8 @@
 #include "cub3D.h"
 
-int valid_map(t_data *data, char *file)
-{
-	char **padded_map;
-
-	padded_map = pad_map(data->grid_map, data->map_h);
-	if (!valid_extension(file))
-	{
-		printf("Error\n Invalid map extension\n");
-		return (0);
-	}
-	if (!valid_player_count(data->grid_map, data))
-	{
-		printf("Error\n Invalid player count\n");
-		return (0);
-	}
-	if (!valid_characters(data->grid_map))
-	{
-		printf("Error\n Invalid character found inside the map\n");
-		return (0);
-	}
-	if (!check_map_borders(data->grid_map, data->map_h) || is_valid_surrounding(padded_map, data->map_h, data->map_w))
-	{
-		printf("Error\n Map not surrounded by walls\n");
-		return (0);
-	}
-	return (1);
-}
 
 // check characters and file extension
-int	valid_player_count(char **map, t_data *data)
+static int	valid_player_count(char **map)
 {
 	int	player_count;
 	int	i;
@@ -45,8 +18,8 @@ int	valid_player_count(char **map, t_data *data)
 			if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'W' || map[i][j] == 'E')
 			{
 				player_count++;
-				data->player->pos.x = i;
-				data->player->pos.x = j;
+				//data->player.pos.x = i;
+				//data->player.pos.x = j;
 			}
 			j++;
 		}
@@ -58,21 +31,7 @@ int	valid_player_count(char **map, t_data *data)
 		return (1);
 }
 
-int	valid_extension(const char *filename)
-{
-	int			len;
-	const char	*extension;
-
-	extension = ".cub";
-	len = ft_strlen(filename);
-	if (len < 5)
-		return (0);
-	if (ft_strncmp(filename + (len - 4), extension, 4))
-		return (0);
-	return (1);
-}
-
-int	valid_characters(char **map)
+static int	valid_characters(char **map)
 {
 	int	i;
 	int	j;
@@ -112,23 +71,26 @@ static int	longest_line(char **map, int height)
 	return (max_len);
 }
 
-char **pad_map(char **map, int height)
+static char **pad_map(char **map, int height, t_data *data)
 {
 	char	**padded_map;
 	int		line_len;
-	int		max_len;
-	int		i;
+	int		i = 0;
 	int		j;
 
-	padded_map = malloc(sizeof(char *) * (height + 1));
-    if (!padded_map)
-        return (NULL);
-	max_len = longest_line(map, height);
+	//while (map[i])
+		//printf("%s\n", map[i++]);
+	padded_map = malloc(sizeof(char *) * (height));
+	if (!padded_map)
+	{
+    	return (NULL);
+	}
+	data->map_w = longest_line(map, height);
 	i = 0;
 	while (i < height)
 	{
 		line_len = ft_strlen(map[i]);
-		padded_map[i] = malloc(sizeof(char) * (max_len + 1));
+		padded_map[i] = malloc(sizeof(char) * (data->map_w + 1));
 		if (!padded_map[i])
 		{
 			while(i > 0)
@@ -136,23 +98,30 @@ char **pad_map(char **map, int height)
 			free(padded_map);
 			return (NULL);
 		}
-		ft_strcpy(padded_map[i], map[i]);
+		padded_map[i] = ft_strdup(map[i]);
+		if (!padded_map[i])
+		{
+			while(i > 0)
+				free(padded_map[--i]);
+			free(padded_map);
+			return (NULL);
+		}
 		j = line_len;
-		while (j < max_len)
-			padded_map[i][j] = 'P';
-		padded_map[i][max_len] = '\0';
+		while (j < data->map_w)
+			padded_map[i][j++] = 'P';
+		padded_map[i][data->map_w] = '\0';
 		i++;
 	}
 	padded_map[height] = NULL;
-    return padded_map;
+    return (padded_map);
 }
 
 // map borders
-
-int check_map_borders(char **map, int height)
+static int check_map_borders(char **map, int height)
 {
     int i;
     int len;
+	int j;
 
     if (height < 3)
         return (0);
@@ -162,7 +131,10 @@ int check_map_borders(char **map, int height)
     while (i < len)
     {
         if (map[0][i] != '1' && map[0][i] != ' ')
+		{
+			printf("1\n");
             return (0);
+		}
         i++;
     }
 	//Check last row
@@ -171,20 +143,35 @@ int check_map_borders(char **map, int height)
     while (i < len)
     {
         if (map[height - 1][i] != '1' && map[height - 1][i] != ' ')
+		{
+			printf("2\n");
             return (0);
+		}
         i++;
     }
     // Check middle rows: first and last character must be '1'
     i = 1;
     while (i < height - 1)
     {
-        len = strlen(map[i]);
+		j = 0;
+        len = ft_strlen(map[i]);
         if (len < 3)
+        {
+			printf("3\n");
             return (0);
-        if (map[i][0] != '1')
+		}
+		while(map[i][j] == ' ')
+			j++;
+        if (map[i][j] != '1')
+        {
+			printf("4\n");
             return (0);
+		}
         if (map[i][len - 1] != '1')
+		{
+			printf("5\n");
             return (0);
+		}
         i++;
 	}
     return (1);
@@ -239,4 +226,34 @@ int is_valid_surrounding(char **map, int height, int width)
         row++;
     }
     return (1);
+}
+
+static int	error_free_return(char *message, t_data *data)
+{
+	ft_putstr_fd(message, 2);
+	free_map(data->grid_map, -1);
+	return (0);
+}
+
+int valid_map(t_data *data)
+{
+	int i = 0;
+	while(data->work_map[i])
+		printf("%s\n", data->work_map[i++]);
+	data->grid_map = pad_map(data->work_map, data->map_h, data);
+	if (!data->grid_map)
+	{
+		perror("cub3D 6:");
+		return (0);
+	}
+	if (!valid_player_count(data->work_map))
+		return (error_free_return("Error\nInvalid player count\n", data));
+	if (!valid_characters(data->work_map))
+		return (error_free_return("Error\nInvalid character found inside the map\n", data));
+	if (!check_map_borders(data->work_map, data->map_h))
+		return (error_free_return("Error\nMap not surrounded by walls and/or invalid space inside the map\n", data));
+	if (!is_valid_surrounding(data->work_map, data->map_h, data->map_w))
+		return (error_free_return("Error\nMap not surrounded by walls and/or invalid space inside the map\n", data));
+	free(data->work_map);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/27 16:28:12 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/03 16:06:15 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <math.h>
+#include <fcntl.h>
 
 # define BPP sizeof(int32_t)
 
@@ -177,6 +178,9 @@ typedef struct	s_mlx
 
 	mlx_image_t		*scr_img;
 
+	char			**ceiling_colour;
+	char			**floor_colour;
+	char			*tex_path[MAX_TEX];
 	mlx_texture_t	*textrs[MAX_TEX];
 	mlx_image_t		*textrs_img[MAX_TEX];
 }				t_mlx;
@@ -185,8 +189,11 @@ typedef struct	s_data
 {
 	t_mlx		mlx_data;
 
-	char		grid_map[TEST_MAPY][TEST_MAPX];
+	char		**grid_map;
+	char		**work_map;
 	char		**unit_map; // 64 times bigger than map
+	char		**map_data;
+	int			line_count;
 	int			map_h;
 	int			map_w;
 
@@ -282,5 +289,23 @@ void move_player(t_char *player, double angle_offset);
 int check_for_wall_collision(t_char *player, double new_x, double new_y);
 void rotate_player_right(t_char *player);
 void rotate_player_left(t_char *player);
+
+//----------------------------------PARSING-----------------------------------------
+
+char **read_file(char *filename, t_data *data);
+void	error_exit(t_data *data, char * message);
+void	perror_exit(t_data *data);
+int	return_invalid_element(int i);
+int valid_map(t_data *data);
+int is_empty_line(char *line);
+char	**free_map(char **map, int fd);
+void	free_colours_textures_strings(t_data *data);
+char *set_colour(t_data *data, char *line, int *i, int done);
+int valid_colours(t_data *data);
+void set_floor_ceiling(t_data *data, char *element, char *line);
+int	is_valid_data(char **map, t_data *data, int line_count);
+int	is_valid_path(char *path);
+int valid_wall_paths(t_data *data);
+void	init_null(t_data *data);
 
 #endif

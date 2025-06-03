@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
+#    By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/05/26 13:44:01 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/06/03 16:05:42 by ablodorn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,13 @@ SRC			= $(addprefix $(SRC_DIR)/, \
 				./movement/rotate.c \
 				./movement/movement.c \
 				./movement/event_handler.c \
+				./map/cub3d_file.c	\
+				./map/error.c	\
+				./map/map.c	\
+				./map/map_utils.c	\
+				./map/valid_colour.c	\
+				./map/valid_cub3d_file.c	\
+				./map/valid_texture_path.c \
 				)
 
 RAY_SRC		= $(addprefix $(RAY_DIR)/, \
