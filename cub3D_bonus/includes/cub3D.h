@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/02 16:14:51 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/05 19:14:34 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define WIN_H 1080
 
 # define FOV 60
-# define BLOCK_SIZE 64
+# define BLOCK_SIZE 512
 # define TEST_MAPX 7
 # define TEST_MAPY 8
 
@@ -159,11 +159,9 @@ typedef struct s_sprite
 	int				move_spd;
 	int				turn_spd;
 
-	int				img_x;
-	int				img_y;
-	int				img_i;
+	t_point			size;
 
-	int				walkable;// is needed?
+	int				walkable;
 	int				type;// ENEMY, OBJECT, is needed?
 	int				dist;
 

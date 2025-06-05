@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:43:06 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/02 16:50:18 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/05 19:27:14 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,70 @@ void	sort_sprite_dist(t_raycast *raycast, t_sprite **sprite_array)
 	}
 }
 
+void	calc_sprite_size(t_raycast *raycast, t_sprite **sprite_array)
+{
+	t_dpoint	rel;
+	t_sprite *test = sprite_array[0];
+	double	sprte_angle;
+	double	q;
+
+	rel.x = test->pos.x - raycast->char_pos.x;
+	rel.y = test->pos.y - raycast->char_pos.y;
+	sprte_angle = atan2(-rel.y, rel.x) * (180 / M_PI);
+
+	if (sprte_angle < 0)
+		sprte_angle += 360;
+	else if (sprte_angle > 360)
+		sprte_angle -= 360;
+
+	q = raycast->view_angle + (FOV / 2) - sprte_angle;
+
+	if (raycast->view_angle < 90 && sprte_angle > 270)
+		q += 360;
+
+	if (raycast->view_angle > 270 && sprte_angle < 90)
+		q -= 360;
+
+	test->size.x = q * (WIN_W / FOV);
+	test->size.y = raycast->plane->center.y; // add player's height ?
+	test->size.height = ceil(BLOCK_SIZE * raycast->plane->dist / (double)test->dist);
+	ft_printf("test dist %d\n", test->dist);
+	int test_width = test->size.height;
+
+	int test_top = raycast->plane->center.y;
+	test_top = test_top - (test->size.height / 2);
+	int	test_left = test->size.x - (test_width / 2);
+
+	int x = test_left;
+	while (x < test_left + test_width)
+	{
+		//ft_printf("test %d, wall %d\n", test->dist, raycast->rays_dist[x]);
+		if ( test->dist < raycast->rays_dist[x])
+		{
+
+			int y = test_top;
+			while (y < test_top + test->size.height)
+			{
+				//ft_printf("test %d, wall %d\n", test->dist, raycast->rays_dist[x]);
+				int tex_x = (x - test_left) * BLOCK_SIZE / test->size.height;
+				int	tex_y = (y - test_top) * BLOCK_SIZE / test->size.height;
+
+				uint32_t	color;
+				uint8_t		*raw_pixel;
+
+				int pixel_i = (tex_y * test->tex_imgs[WOLF_STAY]->width + tex_x) * BPP;
+				raw_pixel = &test->tex_imgs[WOLF_STAY]->pixels[pixel_i];
+				color = extract_rgba(raw_pixel);
+				if (0 <= y && y < WIN_H && 0 <= x && x < WIN_W)
+					mlx_put_pixel(raycast->scr_img, x, y, color);
+				y++;
+			}
+
+		}
+		x++;
+	}
+}
+
 void	handle_sprites(t_raycast *raycast)
 {
 	t_sprite	**sprite_array;
@@ -133,8 +197,8 @@ void	handle_sprites(t_raycast *raycast)
 	calc_sprite_dist(raycast, sprite_array);
 	//show_sprites(sprite_array, NULL);
 	sort_sprite_dist(raycast, sprite_array);
-	//show_sprites(sprite_array, NULL); 
-
+	//show_sprites(sprite_array, NULL);
+	calc_sprite_size(raycast, sprite_array);
 	free(sprite_array);
 }
 

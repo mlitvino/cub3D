@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/02 16:18:54 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/05 19:16:15 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ void	init_grid_map(t_data *data)
 	char temp_map[TEST_MAPY][TEST_MAPX] =
 	{
 		{1, 1, 1, 1, 1, 1, 1},
-		{1, WOLF, PLAYER, WOLF, 0, 0, 1},
+		{1, 0, WOLF, 0, 0, 0, 1},
+		{1, 0, PLAYER, 0, 0, 0, 1},
 		{1, 0, 0, 0, 0, 0, 1},
-		{1, WOLF, 0, 1, 0, 0, 1},
+		{1, 0, 0, 1, 0, 0, 1},
 		{1, 0, 0, 0, 0, 0, 1},
-		{1, 0, 0, WOLF, 0, 0, 1},
 		{1, 0, 0, 0, 0, 0, 1},
 		{1, 1, 1, 1, 1, 1, 1},
 	};
@@ -211,7 +211,7 @@ void	init_data(t_data *data)
 	//printf("plane_dist %d\n", data->plane.dist); //del
 
 	data->rays_count = WIN_W;
-	data->rays_angle = FOV / (double)data->rays_count;// double?
+	data->rays_angle = FOV / (double)data->rays_count;
 	//printf("RAY_ANGLE %f\n", data->rays_angle); //del
 
 	data->flor_rgb.rgbt = 0x545454fc;
