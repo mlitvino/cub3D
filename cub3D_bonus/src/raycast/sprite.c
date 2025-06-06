@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 13:20:49 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/02 15:32:06 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/06 14:52:03 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_sprite	*create_sprite(t_data *data, int type, int grid_x, int grid_y)
 	{
 		new_sprite->tex_imgs = data->mlx_data.textrs_img;
 		new_sprite->cur_img = new_sprite->tex_imgs[WOLF_STAY];
-		new_sprite->tex_cur_img = WOLF_STAY;
+		new_sprite->state = WOLF_STAY;
 		new_sprite->walkable = false;
 		new_sprite->type = WOLF;
 

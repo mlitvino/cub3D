@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/05 19:14:34 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/06 15:03:04 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,7 @@ typedef struct s_point
 {
 	int			x;
 	int			y;
-	int			height;
-	int			inval;
+	int			h;
 
 }				t_point;
 
@@ -150,7 +149,7 @@ typedef struct s_door
 typedef struct s_sprite
 {
 	mlx_image_t		*cur_img;
-	int				tex_cur_img;
+	int				state;
 	mlx_image_t		**tex_imgs;
 
 	int				hitbox_radius;
@@ -160,6 +159,12 @@ typedef struct s_sprite
 	int				turn_spd;
 
 	t_point			size;
+	t_point			tex_p;
+
+	int				height;
+	int				width;
+	int				top;
+	int				left;
 
 	int				walkable;
 	int				type;// ENEMY, OBJECT, is needed?

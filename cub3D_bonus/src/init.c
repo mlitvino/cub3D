@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/05 19:16:15 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/06 13:55:01 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ void	init_grid_map(t_data *data)
 	char temp_map[TEST_MAPY][TEST_MAPX] =
 	{
 		{1, 1, 1, 1, 1, 1, 1},
-		{1, 0, WOLF, 0, 0, 0, 1},
-		{1, 0, PLAYER, 0, 0, 0, 1},
 		{1, 0, 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0, 0, 1},
+		{1, PLAYER, 0, 0, 0, 0, 1},
 		{1, 0, 0, 1, 0, 0, 1},
 		{1, 0, 0, 0, 0, 0, 1},
-		{1, 0, 0, 0, 0, 0, 1},
+		{1, WOLF, 0, 0, 0, 0, 1},
 		{1, 1, 1, 1, 1, 1, 1},
 	};
 
@@ -104,7 +104,7 @@ void	init_player(t_data *data)
 	player->data = data;
 	player->hitbox_radius = BLOCK_SIZE / 4;
 	player->pov.fov = FOV;
-	player->pov.view_angl = 90;
+	player->pov.view_angl = 270;
 	player->height = 2;
 
 	player->move_spd = BLOCK_SIZE / 16;
