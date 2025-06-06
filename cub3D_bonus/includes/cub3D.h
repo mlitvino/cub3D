@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/06 18:28:47 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/06 19:35:26 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 
 # define FOV 60
 # define BLOCK_SIZE 512
-# define TEST_MAPX 7
-# define TEST_MAPY 8
+# define TEST_MAPX 33
+# define TEST_MAPY 14
 
 # define EMPTY 0
 # define WALL 1
@@ -260,6 +260,7 @@ typedef struct s_mlx
 	mlx_t				*mlx_ptr;
 
 	mlx_image_t			*scr_img;
+	mlx_image_t			*minimap;
 
 	mlx_texture_t		*textrs[MAX_TEX];
 	mlx_image_t			*textrs_img[MAX_TEX];
@@ -323,6 +324,9 @@ void		compre_dist(t_raycast *raycast, t_wall *hor_wall,
 void		cast_ray(t_raycast *raycast, double ray_angl);
 void		handle_sprites(t_raycast *raycast);
 void		raycast(t_data *data);
+
+// minimap.c
+void		draw_minimap(t_data *data, mlx_image_t *minimap, char **unit_map, t_point char_pos);
 
 // find_wall_utils.c
 bool		check_hit(t_raycast *raycast, t_wall *wall, int axis_flag);

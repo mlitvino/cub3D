@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/05 19:19:24 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/06 19:36:28 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,10 @@ void	render(void *data_arg)
 	update_doors(door);
 
 	raycast(data);
-	// show_char_pos(data, &data->player);
+
+	draw_minimap(data, data->mlx_data.minimap, data->unit_map, data->player.pos);
+
+	//show_char_pos(data, &data->player);
 }
 
 int	main(int argc, char *argv[])
