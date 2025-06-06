@@ -63,6 +63,20 @@ static void	set_key_flag(t_keys *k, mlx_key_data_t keydata, int value)
         k->esc = value;
 }
 
+void	change_wolf(t_data *data, int new_state)
+{
+	t_sprite *sprite;
+
+	sprite = data->sprite_list;
+	while (sprite)
+	{
+		sprite->state = new_state;
+		sprite->cur_img = sprite->tex_imgs[new_state];
+
+		sprite = sprite->next;
+	}
+}
+
 void	key_event_handler(mlx_key_data_t keydata, void *param)
 {
 	t_data *data = (t_data *)param;
@@ -71,10 +85,30 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 	{
 		data->plane.center.y += 200;
 	}
-	if (keydata.key == 'T')
+	else if (keydata.key == 'T')
 	{
 		data->plane.center.y -= 200;
 	}
+
+
+	if (keydata.key == '1')
+	{
+		change_wolf(data, WOLF_STAY);
+	}
+	if (keydata.key == '2')
+	{
+		change_wolf(data, WOLF_WALK1);
+	}
+	if (keydata.key == '3')
+	{
+		change_wolf(data, WOLF_WALK2);
+	}
+	if (keydata.key == '4')
+	{
+		change_wolf(data, WOLF_ATTCK);
+	}
+
+
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 	{
 		clean_all(data);

@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/06 13:55:01 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/06 18:22:12 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	init_grid_map(t_data *data)
 		{1, 0, 0, 0, 0, 0, 1},
 		{1, 0, 0, 0, 0, 0, 1},
 		{1, PLAYER, 0, 0, 0, 0, 1},
-		{1, 0, 0, 1, 0, 0, 1},
+		{1, WOLF, WOLF, WOLF, 0, 0, 1},
 		{1, 0, 0, 0, 0, 0, 1},
 		{1, WOLF, 0, 0, 0, 0, 1},
 		{1, 1, 1, 1, 1, 1, 1},
@@ -186,9 +186,23 @@ void	init_mlx(t_data *data)
 	mlx_data.textrs_img[DOOR_TEX] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[DOOR_TEX]);
 	mlx_resize_image(mlx_data.textrs_img[DOOR_TEX], BLOCK_SIZE, BLOCK_SIZE);
 
-	mlx_data.textrs[WOLF_STAY] = mlx_load_png("./textures/wolf.png");
+
+	
+	mlx_data.textrs[WOLF_STAY] = mlx_load_png("./textures/wolf/wolf_stay.png");
 	mlx_data.textrs_img[WOLF_STAY] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[WOLF_STAY]);
 	mlx_resize_image(mlx_data.textrs_img[WOLF_STAY], BLOCK_SIZE, BLOCK_SIZE);
+
+	mlx_data.textrs[WOLF_WALK1] = mlx_load_png("./textures/wolf/wolf_walk1.png");
+	mlx_data.textrs_img[WOLF_WALK1] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[WOLF_WALK1]);
+	mlx_resize_image(mlx_data.textrs_img[WOLF_WALK1], BLOCK_SIZE, BLOCK_SIZE);
+
+	mlx_data.textrs[WOLF_WALK2] = mlx_load_png("./textures/wolf/wolf_walk2.png");
+	mlx_data.textrs_img[WOLF_WALK2] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[WOLF_WALK2]);
+	mlx_resize_image(mlx_data.textrs_img[WOLF_WALK2], BLOCK_SIZE, BLOCK_SIZE);
+
+	mlx_data.textrs[WOLF_ATTCK] = mlx_load_png("./textures/wolf/wolf_attck.png");
+	mlx_data.textrs_img[WOLF_ATTCK] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[WOLF_ATTCK]);
+	mlx_resize_image(mlx_data.textrs_img[WOLF_ATTCK], BLOCK_SIZE, BLOCK_SIZE);
 
 	data->mlx_data = mlx_data;
 }
@@ -196,9 +210,9 @@ void	init_mlx(t_data *data)
 void	init_data(t_data *data)
 {
 	ft_memset(data, 0, sizeof(t_data));
+	init_mlx(data);
 	init_maps(data);
 	init_player(data);
-	init_mlx(data);
 
 	data->plane.width = WIN_W; // TEST
 	data->plane.height = WIN_H; // TEST

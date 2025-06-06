@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:24:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/29 17:35:50 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/06 18:26:47 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 bool	is_on_map(t_data *data, t_point *p)
 {
-	return ((0 <= p->x && p->x < data->map_w * BLOCK_SIZE) && (0 <= p->y
-			&& p->y < data->map_h * BLOCK_SIZE));
+	return ((0 <= p->x && p->x < data->map_w * BLOCK_SIZE)
+			&& (0 <= p->y && p->y < data->map_h * BLOCK_SIZE));
 }

@@ -6,7 +6,7 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/02 15:27:54 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/06/06 18:29:03 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,10 +44,11 @@ RAY_SRC		= $(addprefix $(RAY_DIR)/, \
 				find_wall.c \
 				find_wall_utils.c \
 				helper.c \
-				utils.c \
+				raycast_utils.c \
 				draw.c \
 				door.c \
 				sprite.c \
+				sprite_init.c \
 				)
 
 MOV_SRC		= $(addprefix $(MOV_DIR)/, \

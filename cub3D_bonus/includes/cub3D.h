@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/06 15:03:04 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/06 18:28:47 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@
 # define EMPTY 0
 # define WALL 1
 # define PLAYER 3
-# define WOLF 'B' // BEAST, W - taken by player's char in subject
 # define CANDLE 'C'
+
+# define WOLF 'B' // BEAST, W - taken by player's char in subject
 
 # define DOOR 'D'
 # define CLOSED 1
@@ -60,6 +61,9 @@ typedef enum e_texture
 	SOUTH,
 	DOOR_TEX,
 	WOLF_STAY,
+	WOLF_WALK1,
+	WOLF_WALK2,
+	WOLF_ATTCK,
 	MAX_TEX
 }	t_texture;
 
@@ -165,6 +169,7 @@ typedef struct s_sprite
 	int				width;
 	int				top;
 	int				left;
+	double			angle;
 
 	int				walkable;
 	int				type;// ENEMY, OBJECT, is needed?
@@ -297,7 +302,15 @@ t_door		*find_door(t_door *doors, int unit_x, int unit_y);
 t_door		*create_door(t_door **doors_list, int grid_x, int grid_y);
 
 // sprite.c
+void		sort_sprite_dist(t_raycast *raycast, t_sprite **sprite_array);
+double		calc_angl_dif(t_raycast *raycast, t_sprite *srpite);
+void		calc_sprite(t_raycast *raycast, t_sprite **sprites);
+void		draw_sprite_pix(t_raycast *raycast, t_sprite *sprite, int x, int y);
+void		draw_sprite(t_raycast *raycast, t_sprite *sprite);
+
+// sprite_init.c
 t_sprite	*create_sprite(t_data *data, int type, int grid_x, int grid_y);
+t_sprite	**init_spite_array(t_raycast *raycast);
 
 // draw.c
 void		map_wall(t_raycast *raycast, int y, int wall_h, int wall_top);
@@ -308,6 +321,7 @@ void		render_col(t_raycast *raycast, t_wall *wall,
 void		compre_dist(t_raycast *raycast, t_wall *hor_wall,
 				t_wall *ver_wall);
 void		cast_ray(t_raycast *raycast, double ray_angl);
+void		handle_sprites(t_raycast *raycast);
 void		raycast(t_data *data);
 
 // find_wall_utils.c
