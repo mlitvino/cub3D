@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/06 19:35:26 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/08 23:15:34 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,17 @@
 
 # define BPP sizeof(int32_t)
 
-# define WIN_W 1920
-# define WIN_H 1080
+# define WIN_W 1000
+# define WIN_H 800
 
 # define FOV 60
 # define BLOCK_SIZE 512
 # define TEST_MAPX 33
 # define TEST_MAPY 14
+
+# define SCALE 20
+# define ICON_SIZE 8
+# define ICON_BASE 3
 
 # define EMPTY 0
 # define WALL 1
@@ -325,8 +329,20 @@ void		cast_ray(t_raycast *raycast, double ray_angl);
 void		handle_sprites(t_raycast *raycast);
 void		raycast(t_data *data);
 
+// minimap_player.c
+int			edge_function(t_point a, t_point b, t_point c);
+bool		point_in_triangle(t_point p, t_point a, t_point b, t_point c);
+void		norm_base(t_point *base_left, t_point *base_right, t_point *max, t_point *min);
+void	fill_icon_with_color(mlx_image_t *minimap,
+							t_point *tip, t_point *base_left, t_point *base_right);
+void	draw_player(double view_angle, mlx_image_t *minimap, int mid_x, int mid_y);
+
 // minimap.c
-void		draw_minimap(t_data *data, mlx_image_t *minimap, char **unit_map, t_point char_pos);
+void		draw_line(mlx_image_t *img, t_point p1, t_point p2, int color);
+void	draw_background(mlx_image_t *minimap);
+void	draw_obj(t_data *data, t_point *mid_img, mlx_image_t *minimap);
+void	draw_minimap(t_data *data, mlx_image_t *minimap, char **unit_map, t_point char_pos);
+
 
 // find_wall_utils.c
 bool		check_hit(t_raycast *raycast, t_wall *wall, int axis_flag);

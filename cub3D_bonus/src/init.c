@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/06 19:36:15 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/08 19:05:02 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 void	init_grid_map(t_data *data)
 {
-	// y 8 x 7, change TEST_MAPY, TEST_MAPX
+	//y 8 x 7, change TEST_MAPY, TEST_MAPX
 	// char temp_map[TEST_MAPY][TEST_MAPX] =
 	// {
 	// 	{1, 1, 1, 1, 1, 1, 1},
 	// 	{1, 0, 0, PLAYER, 0, 0, 1},
 	// 	{1, 0, 0, 0, 0, 0, 1},
 	// 	{1, 0, 0, 0, 0, 0, 1},
-	// 	{1, WOLF, WOLF, WOLF, 0, 0, 1},
+	// 	{1, 1, 1, DOOR, 1, 1, 1},
+	// 	{1, 0, 0, WOLF, 0, 0, 1},
 	// 	{1, 0, 0, 0, 0, 0, 1},
-	// 	{1, WOLF, 0, 0, 0, 0, 1},
 	// 	{1, 1, 1, 1, 1, 1, 1},
 	// };
 
@@ -50,8 +50,8 @@ void	init_grid_map(t_data *data)
 		{1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
 		{1,1,1,1,0,1,1,1,1,1,1,1,1,1,0,1,1,1,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0},
 		{1,1,1,1,0,1,1,1,1,1,1,1,1,1,0,1,1,1,0,1,0,1,0,0,1,0,0,0,1,0,0,0,0},
-		{1,1,0,0,0,0,0,0,1,1,0,1,WOLF,1,0,1,1,1,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0},
-		{1,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0},
+		{1,1,0,0,0,0,0,0,1,1,0,1,0,1,0,1,1,1,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0},
 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,0,1,0,0,1,0,0,0,1,0,0,0,0},
 		{1,1,0,0,0,0,0,1,1,1,0,1,1,0,1,0,1,1,1,1,1,0,1,1,1,1,0,1,1,1,0,0,0},
 		{1,1,1,1,0,1,1,1,0,1,1,1,0,1,0,1,0,1,1,1,1,0,1,0,0,0,1,0,0,0,0,0,0},
@@ -126,16 +126,16 @@ void	init_player(t_data *data)
 				if (create_door(&data->door_list, x, y) == NULL)
 					clean_all(data); // IMRPOVE
 			}
-			// if (data->grid_map[y][x] == CANDLE)
-			// {
-			// 	if (create_sprite(&data->door_list, CANDLE, x, y) == NULL)
-			// 		clean_all(data); // IMRPOVE
-			// }
 			if (data->grid_map[y][x] == WOLF)
 			{
 				if (create_sprite(data, WOLF, x, y) == NULL)
 					clean_all(data); // IMRPOVE
 			}
+			// if (data->grid_map[y][x] == CANDLE)
+			// {
+			// 	if (create_sprite(&data->door_list, CANDLE, x, y) == NULL)
+			// 		clean_all(data); // IMRPOVE
+			// }
 		}
 	}
 
@@ -166,7 +166,7 @@ void	init_mlx(t_data *data)
 			mlx_put_pixel(mlx_data.scr_img, x, y, 0x000000FF); // BLACK
 
 
-	mlx_data.minimap = mlx_new_image(mlx_data.mlx_ptr, WIN_W / 4, WIN_H / 4);
+	mlx_data.minimap = mlx_new_image(mlx_data.mlx_ptr, WIN_W / 4, WIN_W / 4);
 
 	int res2 = mlx_image_to_window(mlx_data.mlx_ptr, mlx_data.minimap, 0, 0);
 
@@ -234,11 +234,8 @@ void	init_data(t_data *data)
 	data->plane.center.y = WIN_H / 2;
 	data->plane.dist = (WIN_W / 2) / tan(deg_rad(FOV / 2));
 
-	//printf("plane_dist %d\n", data->plane.dist); //del
-
 	data->rays_count = WIN_W;
 	data->rays_angle = FOV / (double)data->rays_count;
-	//printf("RAY_ANGLE %f\n", data->rays_angle); //del
 
 	data->flor_rgb.rgbt = 0x545454fc;
 	data->ceil_rgb.rgbt = 0xFF;

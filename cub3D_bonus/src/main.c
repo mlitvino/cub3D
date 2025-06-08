@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/06 19:36:28 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/08 22:53:59 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,36 @@ void	open_close(t_door *doors)
 	}
 }
 
+#include <stdio.h>
+#include <sys/time.h>
+
+void show_fps(void)
+{
+    static struct timeval last = {0, 0};
+    static int frames = 0;
+    struct timeval now;
+    double elapsed;
+
+    gettimeofday(&now, NULL);
+
+    // Initialize last on first call
+    if (last.tv_sec == 0 && last.tv_usec == 0)
+    {
+        last = now;
+        return;
+    }
+
+    frames++;
+    elapsed = (now.tv_sec - last.tv_sec) + (now.tv_usec - last.tv_usec) / 1000000.0;
+
+    if (elapsed >= 1.0)
+    {
+        printf("FPS: %d\n", frames);
+        frames = 0;
+        last = now;
+    }
+}
+
 void	render(void *data_arg)
 {
 	t_data *data;
@@ -83,13 +113,14 @@ void	render(void *data_arg)
 
 
 	//jump_baby(&data->player);
+
 	t_door *door = data->door_list;
 	open_close(door);
 	update_doors(door);
 
 	raycast(data);
-
-	draw_minimap(data, data->mlx_data.minimap, data->unit_map, data->player.pos);
+	show_fps();
+	//draw_minimap(data, data->mlx_data.minimap, data->unit_map, data->player.pos);
 
 	//show_char_pos(data, &data->player);
 }
@@ -107,13 +138,9 @@ int	main(int argc, char *argv[])
 	show_char_pos(&data, &data.player);
 	//show_doors(data.door_list);
 
-
-	ft_printf("spr x %d, spr y %d\n", data.sprite_list->pos.x, data.sprite_list->pos.y);
-
 	//raycast(&data);
 
 	mlx_key_hook(data.mlx_data.mlx_ptr, &key_event_handler, &data);  //Eventhook for movement
-
 	mlx_loop_hook(data.mlx_data.mlx_ptr, render, &data);
 	mlx_loop(data.mlx_data.mlx_ptr);
 	clean_all(&data);
