@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_player.c                                      :+:      :+:    :+:   */
+/*   minimap_player.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 23:08:27 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/08 23:11:03 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:07:15 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	edge_function(t_point a, t_point b, t_point c)
 {
-	return (c.x - a.x) * (b.y - a.y) - (c.y - a.y) * (b.x - a.x);
+	return ((c.x - a.x) * (b.y - a.y) - (c.y - a.y) * (b.x - a.x));
 }
 
 bool	point_in_triangle(t_point p, t_point a, t_point b, t_point c)
@@ -26,12 +26,12 @@ bool	point_in_triangle(t_point p, t_point a, t_point b, t_point c)
 	d1 = edge_function(a, b, p);
 	d2 = edge_function(b, c, p);
 	d3 = edge_function(c, a, p);
-	bool has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
-	bool has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
-	return !(has_neg && has_pos);
+	return (!(((d1 < 0) || (d2 < 0) || (d3 < 0))
+			&& ((d1 > 0) || (d2 > 0) || (d3 > 0))));
 }
 
-void	norm_base(t_point *base_left, t_point *base_right, t_point *max, t_point *min)
+void	norm_base(t_point *base_left, t_point *base_right,
+				t_point *max, t_point *min)
 {
 	if (base_left->x < min->x)
 		min->x = base_left->x;
@@ -45,14 +45,14 @@ void	norm_base(t_point *base_left, t_point *base_right, t_point *max, t_point *m
 		min->x = base_right->x;
 	else if (base_right->x > max->x)
 		max->x = base_right->x;
-	if (base_left->y < min->y)
-		min->y = base_left->y;
+	if (base_right->y < min->y)
+		min->y = base_right->y;
 	else if (base_right->y > max->y)
 		max->y = base_right->y;
 }
 
 void	fill_icon_with_color(mlx_image_t *minimap,
-							t_point *tip, t_point *base_left, t_point *base_right)
+						t_point *tip, t_point *base_left, t_point *base_right)
 {
 	t_point	min;
 	t_point	max;
@@ -64,7 +64,7 @@ void	fill_icon_with_color(mlx_image_t *minimap,
 	scr.y = min.y;
 	while (scr.y <= max.y)
 	{
-		scr.x = max.x;
+		scr.x = min.x;
 		while (scr.x <= max.x)
 		{
 			if (point_in_triangle(scr, *tip, *base_left, *base_right))
@@ -75,7 +75,8 @@ void	fill_icon_with_color(mlx_image_t *minimap,
 	}
 }
 
-void	draw_player(double view_angle, mlx_image_t *minimap, int mid_x, int mid_y)
+void	draw_player(double view_angle, mlx_image_t *minimap,
+					int mid_x, int mid_y)
 {
 	t_point		tip;
 	t_point		base_left;
@@ -91,7 +92,7 @@ void	draw_player(double view_angle, mlx_image_t *minimap, int mid_x, int mid_y)
 	base_right.x = mid_x + ICON_BASE * cos(perp_angle.y);
 	base_right.y = mid_y - ICON_BASE * sin(perp_angle.y);
 	fill_icon_with_color(minimap, &tip, &base_left, &base_right);
-	draw_line(minimap, tip, base_left, 0xFFFFFFFF);
-	draw_line(minimap, tip, base_right, 0xFFFFFFFF);
-	draw_line(minimap, base_left, base_right, 0xFFFFFFFF);
+	draw_line(minimap, &tip, &base_left, 0xFFFFFFFF);
+	draw_line(minimap, &tip, &base_right, 0xFFFFFFFF);
+	draw_line(minimap, &base_left, &base_right, 0xFFFFFFFF);
 }

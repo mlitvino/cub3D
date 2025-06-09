@@ -6,36 +6,11 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:39:09 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/08 23:11:52 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:47:07 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-void draw_line(mlx_image_t *img, t_point p1, t_point p2, int color)
-{
-	int dx = abs(p2.x - p1.x), sx = p1.x < p2.x ? 1 : -1;
-	int dy = -abs(p2.y - p1.y), sy = p1.y < p2.y ? 1 : -1;
-	int err = dx + dy, e2;
-
-	while (1)
-	{
-		mlx_put_pixel(img, p1.x, p1.y, color);
-		if (p1.x == p2.x && p1.y == p2.y)
-			break;
-		e2 = 2 * err;
-		if (e2 >= dy)
-		{
-			err += dy;
-			p1.x += sx;
-		}
-		if (e2 <= dx)
-		{
-			err += dx;
-			p1.y += sy;
-		}
-	}
-}
 
 void	put_minimap_pix(t_data *data, t_point map_pos, int x, int y)
 {
@@ -59,7 +34,7 @@ void	draw_background(mlx_image_t *minimap)
 		y = 0;
 		while (y < minimap->height)
 		{
-			mlx_put_pixel(minimap, x, y, 0xFF);
+			mlx_put_pixel(minimap, x, y, 0xAA);
 			y++;
 		}
 		x++;
@@ -70,7 +45,7 @@ void	draw_obj(t_data *data, t_point *mid_img, mlx_image_t *minimap)
 {
 	int		x;
 	int		y;
-	t_point map_pos;
+	t_point	map_pos;
 	int		step;
 
 	step = BLOCK_SIZE / SCALE;
@@ -91,7 +66,7 @@ void	draw_obj(t_data *data, t_point *mid_img, mlx_image_t *minimap)
 	}
 }
 
-void	draw_minimap(t_data *data, mlx_image_t *minimap, char **unit_map, t_point char_pos)
+void	draw_minimap(t_data *data, mlx_image_t *minimap)
 {
 	t_point	mid_img;
 

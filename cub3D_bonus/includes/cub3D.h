@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/08 23:15:34 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:48:39 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 
 # define BPP sizeof(int32_t)
 
-# define WIN_W 1000
-# define WIN_H 800
+# define WIN_W 1280
+# define WIN_H 720
 
 # define FOV 60
 # define BLOCK_SIZE 512
@@ -337,11 +337,14 @@ void	fill_icon_with_color(mlx_image_t *minimap,
 							t_point *tip, t_point *base_left, t_point *base_right);
 void	draw_player(double view_angle, mlx_image_t *minimap, int mid_x, int mid_y);
 
+// minimap_utils.c
+void	init_d_step(t_point *p1, t_point *p2, t_point *d, t_point *step);
+void	draw_line(mlx_image_t *img, t_point *p1, t_point *p2, int color);
+
 // minimap.c
-void		draw_line(mlx_image_t *img, t_point p1, t_point p2, int color);
 void	draw_background(mlx_image_t *minimap);
 void	draw_obj(t_data *data, t_point *mid_img, mlx_image_t *minimap);
-void	draw_minimap(t_data *data, mlx_image_t *minimap, char **unit_map, t_point char_pos);
+void	draw_minimap(t_data *data, mlx_image_t *minimap);
 
 
 // find_wall_utils.c
