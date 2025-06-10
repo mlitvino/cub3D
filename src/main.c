@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/03 16:02:18 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/10 13:59:41 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,21 +54,15 @@ int	main(int argc, char *argv[])
 		free_map(data.map_data, -1);
 		return (1);
 	}
-	free_map(data.map_data, -1); //not needed anymore
+	free_map(data.map_data, -1);
 	if (!valid_map(&data))
 	{
 		free_colours_textures_strings(&data);
 		free_map(data.work_map, -1);
 		return (1);
 	}
-	if (!valid_wall_paths(&data))
-	{
-		free_colours_textures_strings(&data);
-		free_map(data.grid_map, -1);
-		return (1);
-	}
+	return (0);
 	init_data(&data);
-
 	ft_bzero(&data.keys, sizeof(t_keys));
 	//show_unit_map(&data);
 	//show_char_pos(&data, &data.player);
@@ -90,6 +84,8 @@ int	main(int argc, char *argv[])
 
 	mlx_loop_hook(data.mlx_data.mlx_ptr, render, &data);
 	mlx_loop(data.mlx_data.mlx_ptr);
+	free_map(data.grid_map, -1);
+	free_colours_textures_strings(&data);
 	clean_all(&data);
 	return (0);
 }

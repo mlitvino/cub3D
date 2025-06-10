@@ -1,46 +1,34 @@
 #include "cub3D.h"
 
-int	return_invalid_element(int i)
+int	return_invalid_element(void)
 {
 	ft_putstr_fd("Error\nInvalid or missing map element\n", 2);
-	printf("i: %d\n", i);
 	return (0);
 }
 
-void	perror_exit(t_data *data)
+int error_exit(char * message)
 {
-	if (data->mlx_data.tex_path[NORTH])
-		free(data->mlx_data.tex_path[NORTH]);
-	if (data->mlx_data.tex_path[WEST])
-		free(data->mlx_data.tex_path[WEST]);
-	if (data->mlx_data.tex_path[SOUTH])
-		free(data->mlx_data.tex_path[SOUTH]);
-	if (data->mlx_data.tex_path[EAST])
-		free(data->mlx_data.tex_path[EAST]);
-	if (data->mlx_data.ceiling_colour)
-		free(data->mlx_data.ceiling_colour);
-	if (data->mlx_data.floor_colour)
-		free(data->mlx_data.ceiling_colour);
-	free_map(data->map_data, -1);
-	perror("cub3D 5:");
-	exit (1);
+	ft_putstr_fd(message, 2);
+	return (0);
 }
 
-void	error_exit(t_data *data, char * message)
+char	**error_return(char *message)
 {
-	if (data->mlx_data.tex_path[NORTH])
-		free(data->mlx_data.tex_path[NORTH]);
-	if (data->mlx_data.tex_path[SOUTH])
-		free(data->mlx_data.tex_path[SOUTH]);
-	if (data->mlx_data.tex_path[WEST])
-		free(data->mlx_data.tex_path[WEST]);
-	if (data->mlx_data.tex_path[EAST])
-		free(data->mlx_data.tex_path[EAST]);
-	if (data->mlx_data.floor_colour)
-		free(data->mlx_data.floor_colour);
-	if (data->mlx_data.ceiling_colour)
-		free(data->mlx_data.ceiling_colour);
-	free_map(data->map_data, -1);
 	ft_putstr_fd(message, 2);
-	exit (1);
+	return (NULL);
+}
+
+int free_return(int *data)
+{
+	if (data)
+		free(data);
+	return (0);
+}
+
+
+int	perror_free_map(char **map)
+{
+	perror("cub3D");
+	free_map(map, -1);
+	return (0);
 }

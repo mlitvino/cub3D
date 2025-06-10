@@ -6,7 +6,7 @@
 #    By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/03 16:05:42 by ablodorn         ###   ########.fr        #
+#    Updated: 2025/06/10 13:51:05 by ablodorn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,12 +36,18 @@ SRC			= $(addprefix $(SRC_DIR)/, \
 				./movement/rotate.c \
 				./movement/movement.c \
 				./movement/event_handler.c \
-				./map/cub3d_file.c	\
-				./map/error.c	\
-				./map/map.c	\
-				./map/map_utils.c	\
-				./map/valid_colour.c	\
-				./map/valid_cub3d_file.c	\
+				./map/perror.c \
+				./map/error.c \
+				./map/free.c \
+				./map/colour_utils.c \
+				./map/file_utils.c \
+				./map/read_file.c \
+				./map/colour.c \
+				./map/map_borders.c \
+				./map/map_utils.c \
+				./map/map.c \
+				./map/surrounding.c \
+				./map/valid_file.c \
 				./map/valid_texture_path.c \
 				)
 

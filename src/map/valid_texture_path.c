@@ -1,6 +1,6 @@
 #include "cub3D.h"
 
-int	is_valid_path(char *path)
+/*int	is_valid_path(char *path)
 {
 	if (access(path, F_OK) != 0)
 	{
@@ -20,4 +20,4 @@ int valid_wall_paths(t_data *data)
 	if (!is_valid_path(data->mlx_data.tex_path[NORTH]) || !is_valid_path(data->mlx_data.tex_path[SOUTH]) || !is_valid_path(data->mlx_data.tex_path[WEST]) || !is_valid_path(data->mlx_data.tex_path[EAST]))
 		return (0);
 	return (1);
-}
+}*/

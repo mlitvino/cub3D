@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/03 16:06:15 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/10 13:56:28 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,6 @@
 
 //Movement
 #define DEG_TO_RAD(a) ((a) * M_PI / 180.0) // convert degree to radiant to be used for cos/sin
-#define KEY_W 119
-#define KEY_S 115
-#define KEY_A 97
-#define KEY_D 100
-#define KEY_LEFT_ARROW 65361
-#define KEY_RIGHT_ARROW 65363
-#define KEY_ESC 65307
 
 
 enum
@@ -292,20 +285,51 @@ void rotate_player_left(t_char *player);
 
 //----------------------------------PARSING-----------------------------------------
 
-char **read_file(char *filename, t_data *data);
-void	error_exit(t_data *data, char * message);
-void	perror_exit(t_data *data);
-int	return_invalid_element(int i);
-int valid_map(t_data *data);
-int is_empty_line(char *line);
+//free error functions
+int	return_invalid_element(void);
+int error_exit(char * message);
+char	**error_return(char *message);
+int free_return(int *data);
+int	perror_free_map(char **map);
 char	**free_map(char **map, int fd);
 void	free_colours_textures_strings(t_data *data);
-char *set_colour(t_data *data, char *line, int *i, int done);
+int	error_free_return(char *message, t_data *data);
+int	free_map_return(t_data *data);
+int 	free_error_exit(char *line, char *colour);
+char **perror_return(void);
+int	perror_return_int(int *data);
+char **perror_free(char **map_data, int fd);
+int	perror_exit(char *line);
+char	*perror_exit_null(void);
+
+//utils
+int	valid_end_of_string(int *i, int done, char *line, char *colour);
+int	valid_colour_number(char *colour, int floor_ceiling, int rgb, t_data *data);
 int valid_colours(t_data *data);
-void set_floor_ceiling(t_data *data, char *element, char *line);
-int	is_valid_data(char **map, t_data *data, int line_count);
-int	is_valid_path(char *path);
-int valid_wall_paths(t_data *data);
+char *set_colour(char *line, int *i, int done);
+int	set_rgb(int	floor_or_ceiling, char *line_trim, int *i, t_data *data);
+int free_element_map(int *element, t_data *data);
+int	create_temp_map(char **map, int *i, t_data *data);
+int	is_identifier(char *line);
+int	is_map_element(char *line, int *map_element, t_data *data);
+int is_empty_line(char *line);
 void	init_null(t_data *data);
+int	fill_map(t_data *data, char **map_data, int fd);
+int	valid_extension(const char *filename);
+char **pad_map(char **map, int height, t_data *data);
+void	set_angle(char angle, t_data *data);
+
+int set_floor_colour(t_data * data, char *line_trim, int *i);
+int set_ceiling_colour(t_data * data, char *line_trim, int *i);
+int set_floor_ceiling(t_data *data, char *element, char *line);
+char **read_file(char *filename, t_data *data);
+int valid_map(t_data *data);
+int is_valid_surrounding(char **map, int height, int width);
+int	is_valid_data(char **map, t_data *data, int line_count);
+int check_map_borders(char **map, int height);
+int	longest_line(char **map, int height);
+int	fill_padded_map(int height, t_data *data, char **padded_map, char **map);
+int	last_line_no_newline(char *line);
+int check_double_element_wall(int *map_element, char *element, char *line, t_data *data);
 
 #endif

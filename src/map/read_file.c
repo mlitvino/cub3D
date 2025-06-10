@@ -45,26 +45,24 @@ static int	count_lines(const char *filename)
 	return (count + 1);
 }
 
-static int	valid_extension(const char *filename)
-{
-	int			len;
-	const char	*extension;
 
-	extension = ".cub";
-	len = ft_strlen(filename);
-	if (len < 5)
-		return (0);
-	if (ft_strncmp(filename + (len - 4), extension, 4))
-		return (0);
-	return (1);
-}
-static void	remove_newlines(char **lines)
+static void	remove_newlines_empty_lines(char **lines, int line_count)
 {
 	int		i;
 	int		len;
+	int		count;
 
 	if (!lines)
 		return ;
+	count = line_count - 1;
+	if (!lines[count])
+		count--;
+	while (is_empty_line(lines[count]))
+	{
+		free(lines[count]);
+		lines[count] = NULL;
+		count--;
+	}
 	i = 0;
 	while (lines[i])
 	{
@@ -75,56 +73,40 @@ static void	remove_newlines(char **lines)
 	}
 }
 
+int	last_line_no_newline(char *line)
+{
+	int i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '\n')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+
 char **read_file(char *filename, t_data *data)
 {
 	char	**map_data;
-	int		i;
 	int		fd;
-	char *	line;
 
-	i = 0;
 	if (!valid_extension(filename))
-	{
-		ft_putstr_fd("Error\nInvalid map extension\n", 2);
-		return (NULL);
-	}
+		return (error_return("Error\nInvalid file extension\n"));
 	data->line_count = count_lines(filename);
 	if (data->line_count < 9)
-	{
-		ft_putstr_fd("Error\nInvalid file content\n", 2);
-		return (NULL);
-	}
+		return (error_return("Error\nInvalid file content\n"));
 	map_data = ft_calloc((data->line_count) + 1, sizeof(char *));
 	if (!map_data)
-	{
-		return (NULL);
-		perror("cub3D 1");
-	}
+		return (perror_return());
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-	{
-		perror("cub3D 2");
-		return (NULL);
-	}
-	line = get_next_line(fd);
-	if (!line)
-	{
-		perror("cub3D 3");
-		return (free_map(map_data, fd));
-	}
-	//printf("line_coutn: %d\n", data->line_count); ///////////////////////
-	while (line != NULL)
-	{
-		map_data[i++] = line;
-		line = get_next_line(fd);
-		if (!line && i < data->line_count)
-		{
-			perror("cub3D 4");
-			return (free_map(map_data, fd));
-		}
-	}
-	map_data[i] = NULL;
-	remove_newlines(map_data);
+		return (perror_return());
+	if (!fill_map(data, map_data, fd))
+		return (perror_free(map_data, fd));
+	remove_newlines_empty_lines(map_data, data->line_count);
 	close(fd);
 	return (map_data);
 }
