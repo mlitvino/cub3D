@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 14:20:00 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/06 17:07:51 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:13:19 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,15 @@ void	map_wall(t_raycast *raycast, int y, int wall_h, int wall_top)
 	raw_pixel = &raycast->wall_img->pixels[pixel_i];
 	color = extract_rgba(raw_pixel);
 	mlx_put_pixel(raycast->scr_img, raycast->cur_ray, y, color);
+}
+
+void	draw_floor(t_raycast *raycast, int y)
+{
+	while (y < raycast->scr_img->height)
+	{
+
+		y++;
+	}
 }
 
 void	render_col(t_raycast *raycast, t_wall *wall, int wall_dist,
@@ -65,8 +74,11 @@ void	render_col(t_raycast *raycast, t_wall *wall, int wall_dist,
 		else if (y < wall_top + wall_h)
 			map_wall(raycast, y, wall_h, wall_top);
 		else
+		{
 			mlx_put_pixel(raycast->scr_img, raycast->cur_ray, y,
 				raycast->flor_rgbt);
+		}
 		y++;
 	}
+	//draw_floor(raycast, y);
 }
