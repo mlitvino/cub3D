@@ -20,6 +20,7 @@
 # include <math.h>
 # include <stdio.h>
 # include <fcntl.h>
+#include <sys/time.h>
 
 # define BPP sizeof(int32_t)
 
@@ -153,6 +154,8 @@ typedef struct s_door
 	int				move_spd;
 	int				direct;
 
+	struct timeval	time_opened;
+
 	struct s_door	*next;
 
 }					t_door;
@@ -186,6 +189,46 @@ typedef struct s_sprite
 
 }	t_sprite;
 
+
+
+//-------------------------------GAME------------------------------------
+
+typedef struct s_keys
+{
+	int			w;
+	int			a;
+	int			s;
+	int			d;
+	int			left;
+	int			right;
+	int			esc;
+
+}				t_keys;
+
+typedef struct s_pov
+{
+	t_point		view_pos;
+	int			view_angl;
+	int			fov;
+
+}				t_pov;
+
+typedef struct s_char
+{
+	t_data		*data;
+
+	int			door_facing;
+	t_pov		pov;
+	double		height;
+
+	int			hitbox_radius;
+	t_point		pos;
+
+	int			move_spd;
+	int			turn_spd;
+
+}				t_char;
+
 typedef struct s_raycast
 {
 	t_data		*data;
@@ -194,6 +237,7 @@ typedef struct s_raycast
 	char		**unit_map;
 	t_door		*door_list;
 	int			rays_dist[WIN_W];
+	t_char		*player;
 
 	int			flor_rgbt;
 	int			ceil_rgbt;
@@ -222,43 +266,6 @@ typedef struct s_raycast
 	int			sprite_count;
 
 }				t_raycast;
-
-//-------------------------------GAME------------------------------------
-
-typedef struct s_keys
-{
-	int			w;
-	int			a;
-	int			s;
-	int			d;
-	int			left;
-	int			right;
-	int			esc;
-
-}				t_keys;
-
-typedef struct s_pov
-{
-	t_point		view_pos;
-	int			view_angl;
-	int			fov;
-
-}				t_pov;
-
-typedef struct s_char
-{
-	t_data		*data;
-
-	t_pov		pov;
-	double		height;
-
-	int			hitbox_radius;
-	t_point		pos;
-
-	int			move_spd;
-	int			turn_spd;
-
-}				t_char;
 
 //-------------------------------GENERAL------------------------------------
 
@@ -454,5 +461,6 @@ int check_double_element_wall(int *map_element, char *element, char *line, t_dat
 int	check_doors(char **map);
 
 void handle_mouse_rotation(t_data *game);
+void open_door(t_data *data);
 
 #endif

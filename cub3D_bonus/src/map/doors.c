@@ -42,3 +42,8 @@ int	check_doors(char **map)
 	return (1);
 }
 
+
+
+
+
+

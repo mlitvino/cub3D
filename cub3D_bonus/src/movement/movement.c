@@ -53,7 +53,7 @@ int open_closed_door(t_char *player, double x, double y)
 	t_door *door;
 
 	door = find_door(player->data->door_list, x, y);
-	if (door->state != OPEN)
+	if (door && door->state != OPEN)
 		return (0);
 	else
 		return (1);
@@ -74,20 +74,28 @@ int can_move_door(t_char *player, double new_x, double new_y)
 	cell_right  = floor((new_x + player->hitbox_radius));
 	if (cell_top < 0 || cell_left < 0 ||
 		cell_bottom >= player->data->map_h * BLOCK_SIZE || cell_right >= player->data->map_w * BLOCK_SIZE)
+	{
 		return (0);
+	}
 	if (unit_map[cell_top][cell_left] == DOOR ||
 	unit_map[cell_top][cell_right] == DOOR ||
 	unit_map[cell_bottom][cell_left] == DOOR ||
 	unit_map[cell_bottom][cell_right] == DOOR)
+	{
 		return (open_closed_door(player, new_x, new_y));
+	}
 	return (1);
 }
 
 int check_for_wall_collision(t_char *player, double new_x, double new_y)
 {
 	if (!can_move_wall(player, new_x, new_y))
+	{
 		return (1);
+	}
 	if (!can_move_door(player, new_x, new_y))
+	{
 		return (1);
+	}
 	return (0);
 }

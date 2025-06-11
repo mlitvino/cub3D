@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:59:38 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/02 13:23:42 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/11 15:59:35 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ void	select_tex(t_raycast *raycast, t_wall *wall, int axis)
 	if (wall->type == DOOR)
 	{
 		raycast->tex_indx = DOOR_TEX;
+
+		if (raycast->cur_ray == WIN_W / 2)
+		{
+			raycast->player->door_facing = wall->dist;
+		}
 	}
 }
 
@@ -56,6 +61,8 @@ t_raycast	init_raycast(t_data *data, t_char *player)
 	t_raycast	raycast;
 
 	raycast.data = data;
+	raycast.player = player;
+	//raycast->player.door_facing = 0;
 	raycast.door_list = data->door_list;
 	raycast.plane = &data->plane;
 	raycast.scr_img = data->mlx_data.scr_img;

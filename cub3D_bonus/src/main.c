@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/11 14:14:56 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/11 15:57:14 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	render(void *data_arg)
 	//jump_baby(&data->player);
 
 	t_door *door = data->door_list;
-	open_close(door);
+	//open_close(door);
 	update_doors(door);
 
 	raycast(data);

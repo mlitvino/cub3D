@@ -89,8 +89,6 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 	{
 		data->plane.center.y -= 200;
 	}
-
-
 	if (keydata.key == '1')
 	{
 		change_wolf(data, WOLF_STAY);
@@ -107,8 +105,10 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 	{
 		change_wolf(data, WOLF_ATTCK);
 	}
-
-
+	if (keydata.key == MLX_KEY_SPACE /*&& is_center_door */)
+	{
+		open_door(data);
+	}
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 	{
 		clean_all(data);
