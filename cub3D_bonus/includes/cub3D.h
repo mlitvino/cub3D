@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/09 16:48:39 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/11 18:44:13 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,17 @@
 
 # define BPP sizeof(int32_t)
 
-# define WIN_W 1280
-# define WIN_H 720
+# define WIN_W 1920
+# define WIN_H 1080
 
 # define FOV 60
 # define BLOCK_SIZE 512
 # define TEST_MAPX 33
 # define TEST_MAPY 14
 
-# define SCALE 20
-# define ICON_SIZE 8
-# define ICON_BASE 3
+# define SCALE 40
+# define ICON_SIZE 16
+# define ICON_BASE 6
 
 # define EMPTY 0
 # define WALL 1
@@ -64,6 +64,7 @@ typedef enum e_texture
 	WEST,
 	SOUTH,
 	DOOR_TEX,
+	FLOOR_TEX,
 	WOLF_STAY,
 	WOLF_WALK1,
 	WOLF_WALK2,

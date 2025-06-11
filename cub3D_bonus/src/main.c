@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/08 22:53:59 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/11 18:47:34 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	render(void *data_arg)
 
 	raycast(data);
 	show_fps();
-	//draw_minimap(data, data->mlx_data.minimap, data->unit_map, data->player.pos);
+	draw_minimap(data, data->mlx_data.minimap);
 
 	//show_char_pos(data, &data->player);
 }

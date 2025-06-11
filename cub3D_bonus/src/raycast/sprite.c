@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 13:20:49 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/06 18:24:40 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:55:08 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,10 @@ void	calc_sprite(t_raycast *raycast, t_sprite **sprites)
 		if (sprites[i]->dist < BLOCK_SIZE / 5)
 			sprites[i]->dist = BLOCK_SIZE / 5;
 		tempH = BLOCK_SIZE * raycast->plane->dist / (double)sprites[i]->dist;
-		sprites[i]->height = ceil(tempH);
+		sprites[i]->height = ceil(tempH) * 0.8;
 		sprites[i]->width = sprites[i]->height;
 		sprites[i]->top = raycast->plane->center.y;
-		sprites[i]->top -= (sprites[i]->height / 2);
+		sprites[i]->top -= (sprites[i]->height / 1.4);
 		sprites[i]->left = sprites[i]->size.x - (sprites[i]->width / 2);
 		i++;
 	}

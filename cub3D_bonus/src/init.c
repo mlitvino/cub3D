@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/08 19:05:02 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/11 18:11:48 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ void	init_grid_map(t_data *data)
 	char temp_map[TEST_MAPY][TEST_MAPX] = {
 		{0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 		{0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{0,0,0,0,0,0,0,0,1,0,1,1,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{0,0,0,0,0,0,0,0,1,0,1,1,0,0,PLAYER,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		{0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,1,1,1,1,1,1,1,1,0,1,1,0,0,PLAYER,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,1,1,1,1,1,1,1,1,0,1,1,0,0,WOLF,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		{1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
 		{1,1,1,1,0,1,1,1,1,1,1,1,1,1,0,1,1,1,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0},
 		{1,1,1,1,0,1,1,1,1,1,1,1,1,1,0,1,1,1,0,1,0,1,0,0,1,0,0,0,1,0,0,0,0},
@@ -104,8 +104,8 @@ void	init_player(t_data *data)
 	player->data = data;
 	player->hitbox_radius = BLOCK_SIZE / 4;
 	player->pov.fov = FOV;
-	player->pov.view_angl = 90;
-	player->height = 2;
+	player->pov.view_angl = 270;
+	player->height = 1.25;
 
 	player->move_spd = BLOCK_SIZE / 16;
 	player->turn_spd = 2;
@@ -155,7 +155,8 @@ void	init_mlx(t_data *data)
 
 	ft_memset(&mlx_data, 0, sizeof(t_mlx));
 	mlx_set_setting(MLX_STRETCH_IMAGE, true); // resize scr_img with resizing win
-	//mlx_set_setting(MLX_HEADLESS, true); // disable_win
+	// mlx_set_setting(MLX_HEADLESS, true); // disable_win
+	//mlx_set_setting(MLX_FULLSCREEN, true); // disable_win
 	mlx_data.mlx_ptr = mlx_init(WIN_W, WIN_H, "cub3D", true);
 	mlx_data.scr_img = mlx_new_image(mlx_data.mlx_ptr, WIN_W, WIN_H);
 
@@ -178,25 +179,31 @@ void	init_mlx(t_data *data)
 	mlx_set_instance_depth(&mlx_data.minimap->instances[res2], 1);
 
 
-	mlx_data.textrs[NORTH] = mlx_load_png("./textures/north.png"); // change to path to file
+	mlx_data.textrs[NORTH] = mlx_load_png("./textures/forest.png"); // change to path to file
 	mlx_data.textrs_img[NORTH] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[NORTH]);
 	mlx_resize_image(mlx_data.textrs_img[NORTH], BLOCK_SIZE, BLOCK_SIZE);
 
-	mlx_data.textrs[EAST] = mlx_load_png("./textures/east.png");
+	mlx_data.textrs[EAST] = mlx_load_png("./textures/forest.png");
 	mlx_data.textrs_img[EAST] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[EAST]);
 	mlx_resize_image(mlx_data.textrs_img[EAST], BLOCK_SIZE, BLOCK_SIZE);
 
-	mlx_data.textrs[WEST] = mlx_load_png("./textures/west.png");
+	mlx_data.textrs[WEST] = mlx_load_png("./textures/forest.png");
 	mlx_data.textrs_img[WEST] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[WEST]);
 	mlx_resize_image(mlx_data.textrs_img[WEST], BLOCK_SIZE, BLOCK_SIZE);
 
-	mlx_data.textrs[SOUTH] = mlx_load_png("./textures/south.png");
+	mlx_data.textrs[SOUTH] = mlx_load_png("./textures/forest.png");
 	mlx_data.textrs_img[SOUTH] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[SOUTH]);
 	mlx_resize_image(mlx_data.textrs_img[SOUTH], BLOCK_SIZE, BLOCK_SIZE);
 
 	mlx_data.textrs[DOOR_TEX] = mlx_load_png("./textures/door.png");
 	mlx_data.textrs_img[DOOR_TEX] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[DOOR_TEX]);
 	mlx_resize_image(mlx_data.textrs_img[DOOR_TEX], BLOCK_SIZE, BLOCK_SIZE);
+
+
+	mlx_data.textrs[FLOOR_TEX] = mlx_load_png("./textures/grass.png");
+	mlx_data.textrs_img[FLOOR_TEX] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[FLOOR_TEX]);
+	mlx_resize_image(mlx_data.textrs_img[FLOOR_TEX], BLOCK_SIZE, BLOCK_SIZE);
+
 
 
 
