@@ -32,6 +32,7 @@
 # define SCALE 40
 # define ICON_SIZE 16
 # define ICON_BASE 6
+# define MODIF_BRIGHT 1
 
 # define EMPTY 0
 # define WALL 1
@@ -319,6 +320,7 @@ t_sprite	*create_sprite(t_data *data, int type, int grid_x, int grid_y);
 t_sprite	**init_spite_array(t_raycast *raycast);
 
 // draw.c
+void		add_shadow(uint32_t *color, int *dist);
 void		map_wall(t_raycast *raycast, int y, int wall_h, int wall_top);
 void		render_col(t_raycast *raycast, t_wall *wall,
 				int wall_dist, int tex_indx);

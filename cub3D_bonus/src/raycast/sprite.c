@@ -95,6 +95,7 @@ void	draw_sprite_pix(t_raycast *raycast, t_sprite *sprite, int x, int y)
 	pixel_i = (tex_p.y * sprite->cur_img->width + tex_p.x) * BPP;
 	raw_pixel = &sprite->cur_img->pixels[pixel_i];
 	color = extract_rgba(raw_pixel);
+	add_shadow(&color, &sprite->dist);
 	if ((color & 0xFF) > 150)
 		mlx_put_pixel(raycast->scr_img, x, y, color);
 }

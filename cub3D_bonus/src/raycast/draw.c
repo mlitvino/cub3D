@@ -18,7 +18,7 @@ void	add_shadow(uint32_t *color, int *dist)
 	uint8_t		*raw_pixel;
 
 	raw_pixel = (uint8_t *)color;
-	inten = (BLOCK_SIZE) / (double)*dist;
+	inten = (BLOCK_SIZE * MODIF_BRIGHT) / (double)*dist;
 	if (inten < 1)
 	{
 		*(++raw_pixel) *= inten;
@@ -38,12 +38,12 @@ void	map_wall(t_raycast *raycast, int y, int wall_h, int wall_top)
 	pixel_i = (tex_y * raycast->wall_img->width + raycast->tex_x) * BPP;
 	raw_pixel = &raycast->wall_img->pixels[pixel_i];
 	color = extract_rgba(raw_pixel);
-	add_shadow(&color, &raycast->rays_dist[raycast->cur_ray]);
+	add_shadow(&color, &raycast->data->rays_dist[raycast->cur_ray]);
 	mlx_put_pixel(raycast->scr_img, raycast->cur_ray, y, color);
 }
 void	draw_floor(t_raycast *raycast, int y)
 {
-	double		dist;
+	int		dist;
 	double		ratio;
 	t_point		floor_tex;
 	mlx_image_t	*img;
@@ -73,6 +73,7 @@ void	draw_floor(t_raycast *raycast, int y)
 		pixel_i = (texY * img->width + texX) * BPP;
 		raw_pixel = &img->pixels[pixel_i];
 		color = extract_rgba(raw_pixel);
+		add_shadow(&color, &dist);
 		mlx_put_pixel(raycast->scr_img, raycast->cur_ray, y, color);
 		y++;
 	}
