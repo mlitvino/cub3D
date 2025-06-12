@@ -6,56 +6,25 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 14:20:00 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/11 18:49:36 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/12 13:07:46 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	add_dark(t_raycast *raycast, uint32_t *color)
+void	add_shadow(uint32_t *color, int *dist)
 {
 	double		inten;
 	uint8_t		*raw_pixel;
 
 	raw_pixel = (uint8_t *)color;
-	inten = 1.0;
-	raycast->wall.dist = raycast->rays_dist[raycast->cur_ray];
-
-	if (raycast->wall.dist < BLOCK_SIZE)
+	inten = (BLOCK_SIZE) / (double)*dist;
+	if (inten < 1)
 	{
-
-		inten = 1;
+		*(++raw_pixel) *= inten;
+		*(++raw_pixel) *= inten;
+		*(++raw_pixel) *= inten;
 	}
-	else if (raycast->wall.dist < BLOCK_SIZE * 2)
-	{
-		inten /= 2.0;
-	}
-	else if (raycast->wall.dist < BLOCK_SIZE * 3)
-	{
-		inten /= 3.0;
-	}
-	else if (raycast->wall.dist < BLOCK_SIZE * 4)
-	{
-		inten /= 4.0;
-	}
-	else if (raycast->wall.dist < BLOCK_SIZE * 5)
-	{
-		inten = 0.2;
-	}
-	else
-	{
-		inten = 0.1;
-	}
-
-
-	inten = (BLOCK_SIZE) / (double)raycast->wall.dist;
-
-	if (inten > 1)
-		inten = 1;
-
-	raw_pixel[1] = raw_pixel[1] * inten;
-	raw_pixel[2] = raw_pixel[2] * inten;
-	raw_pixel[3] = raw_pixel[3] * inten;
 }
 
 void	map_wall(t_raycast *raycast, int y, int wall_h, int wall_top)
@@ -69,7 +38,7 @@ void	map_wall(t_raycast *raycast, int y, int wall_h, int wall_top)
 	pixel_i = (tex_y * raycast->wall_img->width + raycast->tex_x) * BPP;
 	raw_pixel = &raycast->wall_img->pixels[pixel_i];
 	color = extract_rgba(raw_pixel);
-	add_dark(raycast, &color);
+	add_shadow(&color, &raycast->rays_dist[raycast->cur_ray]);
 	mlx_put_pixel(raycast->scr_img, raycast->cur_ray, y, color);
 }
 void	draw_floor(t_raycast *raycast, int y)
@@ -85,7 +54,7 @@ void	draw_floor(t_raycast *raycast, int y)
 	uint8_t		*raw_pixel;
 
 	img = raycast->data->mlx_data.textrs_img[FLOOR_TEX];
-	double st = (double)BLOCK_SIZE / 4;
+	double st = (double)BLOCK_SIZE / 2;
 	while (y < raycast->scr_img->height)
 	{
 		ratio = st / (y - raycast->plane->center.y);
@@ -98,8 +67,8 @@ void	draw_floor(t_raycast *raycast, int y)
 		floor_tex.x += raycast->char_pos.x;
 		floor_tex.y += raycast->char_pos.y;
 
-		texX = (int)floor(floor_tex.x) % BLOCK_SIZE;
-		texY = abs((int)floor(floor_tex.y) % BLOCK_SIZE);
+		texX = floor_tex.x % BLOCK_SIZE;
+		texY = abs(floor_tex.y % BLOCK_SIZE);
 
 		pixel_i = (texY * img->width + texX) * BPP;
 		raw_pixel = &img->pixels[pixel_i];
