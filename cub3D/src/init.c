@@ -88,7 +88,7 @@ void	init_player(t_data *data)
 	player->data = data;
 	player->hitbox_radius = BLOCK_SIZE / 4;
 	player->pov.fov = FOV;
-	player->pov.view_angl = 0;
+	//player->pov.view_angl = 0;
 	player->height = BLOCK_SIZE / 2;
 
 	player->move_spd = BLOCK_SIZE / 16;
@@ -132,10 +132,18 @@ void	init_mlx(t_data *data)
 		for(int y = 0; y < WIN_H; y++)
 			mlx_put_pixel(mlx_data.scr_img, x, y, 0x000000FF); // BLACK
 
-	mlx_data.textrs[NORTH] = mlx_load_png("./textures/north.png"); // change to path to file
-	mlx_data.textrs[EAST] = mlx_load_png("./textures/east.png");
-	mlx_data.textrs[WEST] = mlx_load_png("./textures/west.png");
-	mlx_data.textrs[SOUTH] = mlx_load_png("./textures/south.png");
+	mlx_data.textrs[NORTH] = mlx_load_png("./textures/north.png"); //argument: data->mlx_data->tex_path[NORTH]
+	//if (!mlx_data.textrs[NORTH])
+		//return (0);
+	mlx_data.textrs[EAST] = mlx_load_png("./textures/east.png"); //argument: data->mlx_data->tex_path[EAST]
+	//if (!mlx_data.textrs[EAST])
+		//return (0);
+	mlx_data.textrs[WEST] = mlx_load_png("./textures/west.png"); //argument: data->mlx_data->tex_path[WEST]
+	//if (!mlx_data.textrs[WEST])
+		//return (0);
+	mlx_data.textrs[SOUTH] = mlx_load_png("./textures/south.png"); //argument: data->mlx_data->tex_path[SOUTH]
+	//if (!mlx_data.textrs[SOUTH])
+		//return (0);
 
 	mlx_data.textrs_img[NORTH] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[NORTH]);
 	mlx_resize_image(mlx_data.textrs_img[NORTH], BLOCK_SIZE, BLOCK_SIZE);
@@ -170,8 +178,13 @@ void	init_data(t_data *data)
 	data->rays_angle = FOV / (double)data->rays_count;// double?
 	//printf("RAY_ANGLE %f\n", data->rays_angle); //del
 
-	data->flor_rgb.rgbt = 0xffe224fa;
-	data->ceil_rgb.rgbt = 0x0286a7fa;
+	//data->flor_rgb.rgbt = 0xffe224fa;
+	//data->ceil_rgb.rgbt = 0x0286a7fa;
+	//printf("r: %d g: %d b: %d\n", data->flor_rgb.r, data->flor_rgb.g, data->flor_rgb.b);
+	data->flor_rgb.rgbt = (0xFF << 24) | (data->flor_rgb.r) | (data->flor_rgb.g << 8) | (data->flor_rgb.b << 16);
+	//printf("flor: %d\n", data->flor_rgb.rgbt);
+	//printf("rgbt (hex): 0x%08X\n", data->flor_rgb.rgbt);
+	data->ceil_rgb.rgbt = (0xFF << 24) |(data->ceil_rgb.r)  | (data->ceil_rgb.g  << 8) | (data->ceil_rgb.b  << 16);
 	// data->flor_rgb.rgbt = 0xFF;
 	// data->ceil_rgb.rgbt = 0xFF;
 }

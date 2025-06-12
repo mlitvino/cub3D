@@ -17,7 +17,10 @@
 		"array": "c",
 		"string": "c",
 		"string_view": "c",
-		"span": "c"
+		"span": "c",
+		"xutility": "c",
+		"vector": "c",
+		"xstring": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

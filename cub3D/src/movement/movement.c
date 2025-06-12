@@ -3,25 +3,20 @@
 void move_player(t_char *player, double angle_offset)
 {
 	double angle_rad;
-	double dx;
-	double dy;
-	double new_x;
-	double new_y;
+	int dx;
+	int dy;
+	int new_x;
+	int new_y;
 
-	//int tile_y = (int)(player->pos.y) / BLOCK_SIZE;
-	//int tile_x = (int)(player->pos.x) / BLOCK_SIZE;
-	//printf("player is standing in tile  (%d, %d)\n", tile_y, tile_x);
-	//printf("view_angle: %d\n", player->pov.view_angl);
 	angle_rad = DEG_TO_RAD(player->pov.view_angl + angle_offset);
-	dx = cos(angle_rad) * (double)player->move_spd;
+	dx = cos(angle_rad) * player->move_spd;
 	dy = -sin(angle_rad) * player->move_spd;
 	new_x = player->pos.x + dx;
 	new_y = player->pos.y + dy;
-	if (!check_for_wall_collision(player, new_x, new_y))
-	{
+	if (!check_for_wall_collision(player, new_x, player->pos.y))
 		player->pos.x += dx;
+	if (!check_for_wall_collision(player, player->pos.x, new_y))
 		player->pos.y += dy;
-	}
 }
 
 int can_move_wall(t_char *player, double new_x, double new_y)

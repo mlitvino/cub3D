@@ -81,7 +81,7 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 		mlx_close_window(data->mlx_data.mlx_ptr);
 		return ;
 	}
-	if (keydata.action == MLX_PRESS /*|| keydata.action == MLX_REPEAT*/)
+	if (keydata.action == MLX_PRESS)
 		set_key_flag(&data->keys, keydata, 1);
 	else if (keydata.action == MLX_RELEASE)
 		set_key_flag(&data->keys, keydata, 0);

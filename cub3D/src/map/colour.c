@@ -5,12 +5,15 @@ int set_floor_colour(t_data * data, char *line_trim, int *i)
 	data->mlx_data.floor_colour[0] = set_colour(line_trim , i, 0);
 	if (!data->mlx_data.floor_colour[0])
 		return (0);
+	data->flor_rgb.r = ft_atoi(data->mlx_data.floor_colour[0]);
 	data->mlx_data.floor_colour[1] = set_colour(line_trim , i, 0);
 	if (!data->mlx_data.floor_colour[1])
 		return (0);
+	data->flor_rgb.g = ft_atoi(data->mlx_data.floor_colour[1]);
 	data->mlx_data.floor_colour[2] = set_colour(line_trim , i, 1);
 	if (!data->mlx_data.floor_colour[2])
 		return (0);
+	data->flor_rgb.b = ft_atoi(data->mlx_data.floor_colour[2]);
 	data->mlx_data.floor_colour[3] = NULL;
 	return (1);
 }
@@ -20,12 +23,15 @@ int set_ceiling_colour(t_data * data, char *line_trim, int *i)
 	data->mlx_data.ceiling_colour[0] = set_colour(line_trim , i, 0);
 	if (!data->mlx_data.ceiling_colour[0])
 		return (0);
+	data->ceil_rgb.r = ft_atoi(data->mlx_data.ceiling_colour[0]);
 	data->mlx_data.ceiling_colour[1] = set_colour(line_trim , i, 0);
 	if (!data->mlx_data.ceiling_colour[1])
 		return (0);
+	data->ceil_rgb.g = ft_atoi(data->mlx_data.ceiling_colour[1]);
 	data->mlx_data.ceiling_colour[2] = set_colour(line_trim , i, 1);
 	if (!data->mlx_data.ceiling_colour[2])
 		return (0);
+	data->ceil_rgb.b = ft_atoi(data->mlx_data.ceiling_colour[2]);
 	data->mlx_data.ceiling_colour[3] = NULL;
 	return (1);
 }

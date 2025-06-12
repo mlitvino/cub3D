@@ -45,7 +45,6 @@ static int	count_lines(const char *filename)
 	return (count + 1);
 }
 
-
 static void	remove_newlines_empty_lines(char **lines, int line_count)
 {
 	int		i;

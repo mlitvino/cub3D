@@ -61,40 +61,49 @@ void	render(void *data_arg)
     if (data->keys.right)
         rotate_player_left(&data->player);
 	raycast(data);
-	show_fps();
+	//show_fps();
 	// show_char_pos(data, &data->player);
+}
+
+int	parsing_file(t_data *data, char **argv, int argc)
+{
+	if(argc != 2)
+	{
+		printf("Usage: ./cub3D 'file'\n");
+		return (0);
+	}
+	init_null(data);
+	data->map_data = read_file(argv[1], data);
+	if (!data->map_data)
+		return (0);
+	if (!is_valid_data(data->map_data, data, data->line_count))
+	{
+		free_colours_textures_strings(data);
+		free_map(data->map_data, -1);
+		return (0);
+	}
+	free_map(data->map_data, -1);
+	if (!valid_map(data))
+	{
+		free_colours_textures_strings(data);
+		free_map(data->work_map, -1);
+		return (0);
+	}
+	//this needs to be freed later: free_colours_textures_strings() call and grid_map.
+	return (1);
 }
 
 int	main(int argc, char *argv[])
 {
 	t_data	data;
 
-	if(argc != 2)
-	{
-		printf("Usage: ./cub3D 'file'\n");
+	ft_memset(&data, 0, sizeof(t_data));
+	if (!parsing_file(&data, argv, argc))
 		return (1);
-	}
-	init_null(&data);
-	data.map_data = read_file(argv[1], &data);
-	if (!data.map_data)
-		return (1);
-	if (!is_valid_data(data.map_data, &data, data.line_count))
-	{
-		free_colours_textures_strings(&data);
-		free_map(data.map_data, -1);
-		return (1);
-	}
-	free_map(data.map_data, -1);
-	if (!valid_map(&data))
-	{
-		free_colours_textures_strings(&data);
-		free_map(data.work_map, -1);
-		return (1);
-	}
 	init_data(&data);
 	ft_bzero(&data.keys, sizeof(t_keys));
 	//show_unit_map(&data);
-	show_char_pos(&data, &data.player);
+	//show_char_pos(&data, &data.player);
 
 	//raycast(&data);
 
