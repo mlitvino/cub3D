@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:59:38 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/02 13:23:42 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:07:36 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,34 @@ void	select_tex(t_raycast *raycast, t_wall *wall, int axis)
 	}
 }
 
-t_raycast	init_raycast(t_data *data, t_char *player)
+t_raycast	*init_raycast(t_data *data, t_char *player, t_raycast *raycast)
 {
-	t_raycast	raycast;
+	int			i;
 
-	raycast.data = data;
-	raycast.door_list = data->door_list;
-	raycast.plane = &data->plane;
-	raycast.scr_img = data->mlx_data.scr_img;
-	raycast.unit_map = data->unit_map;
-	raycast.flor_rgbt = data->flor_rgb.rgbt;
-	raycast.ceil_rgbt = data->ceil_rgb.rgbt;
-	raycast.ray_angle = (player->pov.view_angl + (FOV / 2)) % 360;
-	raycast.cur_ray = 0;
-	raycast.view_angle = player->pov.view_angl;
-	raycast.char_pos = player->pos;
+	i = 0;
+	while (i < MAX_THRD)
+	{
+		raycast[i].data = data;
+		raycast[i].door_list = data->door_list;
+		raycast[i].plane = &data->plane;
+		raycast[i].scr_img = data->mlx_data.scr_img;
+		raycast[i].unit_map = data->unit_map;
+		raycast[i].flor_rgbt = data->flor_rgb.rgbt;
+		raycast[i].ceil_rgbt = data->ceil_rgb.rgbt;
+
+		raycast[i].thread_chunk = data->rays_count / MAX_THRD;
+		raycast[i].ray_angle = (player->pov.view_angl + (FOV / 2)) % 360;
+
+		raycast[i].ray_angle -= (data->rays_angle * i * raycast[i].thread_chunk);
+		if (raycast[i].ray_angle < 0)
+			raycast[i].ray_angle = 360 + raycast[i].ray_angle;
+
+		raycast[i].cur_ray = 0;
+		raycast[i].view_angle = player->pov.view_angl;
+		raycast[i].char_pos = player->pos;
+		raycast[i].thrd_i = i;
+		i++;
+	}
 	return (raycast);
 }
 

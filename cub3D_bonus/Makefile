@@ -6,7 +6,7 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/09 16:47:23 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/06/12 18:18:47 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,7 @@ RAY_SRC		= $(addprefix $(RAY_DIR)/, \
 				door.c \
 				sprite.c \
 				sprite_init.c \
+				thread.c \
 				)
 
 MOV_SRC		= $(addprefix $(MOV_DIR)/, \

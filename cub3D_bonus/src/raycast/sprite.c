@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 13:20:49 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/11 17:55:08 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/12 18:16:19 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,10 @@ void	calc_sprite(t_raycast *raycast, t_sprite **sprites)
 		if (sprites[i]->dist < BLOCK_SIZE / 5)
 			sprites[i]->dist = BLOCK_SIZE / 5;
 		tempH = BLOCK_SIZE * raycast->plane->dist / (double)sprites[i]->dist;
-		sprites[i]->height = ceil(tempH) * 0.8;
+		sprites[i]->height = ceil(tempH);
 		sprites[i]->width = sprites[i]->height;
 		sprites[i]->top = raycast->plane->center.y;
-		sprites[i]->top -= (sprites[i]->height / 1.4);
+		sprites[i]->top -= (sprites[i]->height / 2);
 		sprites[i]->left = sprites[i]->size.x - (sprites[i]->width / 2);
 		i++;
 	}
@@ -102,25 +102,27 @@ void	draw_sprite_pix(t_raycast *raycast, t_sprite *sprite, int x, int y)
 
 void	draw_sprite(t_raycast *raycast, t_sprite *sprite)
 {
-	int	x;
+	int	cur_x;
+	int	end_x;
 	int	y;
 
-	x = sprite->left;
-	if (x < 0)
-		x = 0;
-	while (x < sprite->left + sprite->width && x < WIN_W)
+	cur_x = sprite->left + raycast->thread_chunk * raycast->thrd_i;
+	end_x = cur_x + raycast->thread_chunk + 1;
+	if (cur_x < 0)
+		cur_x = 0;
+	while (cur_x < end_x && cur_x < sprite->left + sprite->width && cur_x < WIN_W)
 	{
-		if(sprite->dist < raycast->rays_dist[x])
+		if(sprite->dist < raycast->data->rays_dist[cur_x])
 		{
 			y = sprite->top;
 			if (y < 0)
 				y = 0;
 			while (y < sprite->top + sprite->height && y < WIN_H)
 			{
-				draw_sprite_pix(raycast, sprite, x, y);
+				draw_sprite_pix(raycast, sprite, cur_x, y);
 				y++;
 			}
 		}
-		x++;
+		cur_x++;
 	}
 }

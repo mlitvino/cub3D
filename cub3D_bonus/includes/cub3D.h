@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/11 18:44:13 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/12 18:32:54 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,14 @@
 # include <errno.h>
 # include <math.h>
 # include <stdio.h>
+# include <pthread.h>
 
 # define BPP sizeof(int32_t)
 
-# define WIN_W 1920
-# define WIN_H 1080
+# define WIN_W 1280
+# define WIN_H 720
+
+# define MAX_THRD 6
 
 # define FOV 60
 # define BLOCK_SIZE 512
@@ -32,7 +35,7 @@
 # define SCALE 40
 # define ICON_SIZE 16
 # define ICON_BASE 6
-# define MODIF_BRIGHT 1
+# define MODIF_BRIGHT 2
 
 # define EMPTY 0
 # define WALL 1
@@ -73,7 +76,8 @@ typedef enum e_texture
 	MAX_TEX
 }	t_texture;
 
-typedef struct s_data	t_data;
+typedef struct s_data		t_data;
+typedef struct s_raycast	t_raycast;
 
 //------------------------------TEST----------------------------------
 # define RESET "\033[0m"
@@ -192,7 +196,11 @@ typedef struct s_raycast
 	mlx_image_t	*scr_img;
 	char		**unit_map;
 	t_door		*door_list;
-	int			rays_dist[WIN_W];
+
+	int			thread_chunk;
+	t_sprite	*thread_sprite;
+	pthread_t	threads[MAX_THRD];
+	int			thrd_i;
 
 	int			flor_rgbt;
 	int			ceil_rgbt;
@@ -290,6 +298,7 @@ typedef struct s_data
 
 	t_project			plane;
 	int					rays_count;
+	int					rays_dist[WIN_W];
 	double				rays_angle;
 	t_rgbt				flor_rgb;
 	t_rgbt				ceil_rgb;
@@ -297,10 +306,15 @@ typedef struct s_data
 }						t_data;
 
 //-------------------------------RAYCASTING------------------------------------
+// thread.c
+void	*thread_sprite(void *arg);
+void	*thread_raycast(void *arg);
+void	init_threads(t_raycast *raycast, void *(routine)(void *arg));
+
 // helper.c
 void		calc_norm_dist(t_raycast *raycast);
 void		select_tex(t_raycast *raycast, t_wall *wall, int axis_flag);
-t_raycast	init_raycast(t_data *data, t_char *player);
+t_raycast	*init_raycast(t_data *data, t_char *player, t_raycast *raycast);
 void		fill_ray_info(t_raycast *raycast);
 
 // door.c

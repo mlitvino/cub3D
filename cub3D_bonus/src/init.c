@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/11 18:11:48 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/12 18:31:49 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	init_grid_map(t_data *data)
 		{0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		{0,0,0,0,0,0,0,0,1,0,1,1,0,0,PLAYER,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		{0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,1,1,1,1,1,1,1,1,0,1,1,0,0,WOLF,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,1,1,1,1,1,1,1,1,0,1,1,0,0,WOLF,WOLF,WOLF,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		{1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
 		{1,1,1,1,0,1,1,1,1,1,1,1,1,1,0,1,1,1,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0},
 		{1,1,1,1,0,1,1,1,1,1,1,1,1,1,0,1,1,1,0,1,0,1,0,0,1,0,0,0,1,0,0,0,0},
@@ -105,7 +105,7 @@ void	init_player(t_data *data)
 	player->hitbox_radius = BLOCK_SIZE / 4;
 	player->pov.fov = FOV;
 	player->pov.view_angl = 270;
-	player->height = 1.25;
+	player->height = 2;
 
 	player->move_spd = BLOCK_SIZE / 16;
 	player->turn_spd = 2;
@@ -155,7 +155,6 @@ void	init_mlx(t_data *data)
 
 	ft_memset(&mlx_data, 0, sizeof(t_mlx));
 	mlx_set_setting(MLX_STRETCH_IMAGE, true); // resize scr_img with resizing win
-	// mlx_set_setting(MLX_HEADLESS, true); // disable_win
 	//mlx_set_setting(MLX_FULLSCREEN, true); // disable_win
 	mlx_data.mlx_ptr = mlx_init(WIN_W, WIN_H, "cub3D", true);
 	mlx_data.scr_img = mlx_new_image(mlx_data.mlx_ptr, WIN_W, WIN_H);
@@ -200,7 +199,7 @@ void	init_mlx(t_data *data)
 	mlx_resize_image(mlx_data.textrs_img[DOOR_TEX], BLOCK_SIZE, BLOCK_SIZE);
 
 
-	mlx_data.textrs[FLOOR_TEX] = mlx_load_png("./textures/grass.png");
+	mlx_data.textrs[FLOOR_TEX] = mlx_load_png("./textures/grass2.png");
 	mlx_data.textrs_img[FLOOR_TEX] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[FLOOR_TEX]);
 	mlx_resize_image(mlx_data.textrs_img[FLOOR_TEX], BLOCK_SIZE, BLOCK_SIZE);
 
@@ -222,6 +221,8 @@ void	init_mlx(t_data *data)
 	mlx_data.textrs[WOLF_ATTCK] = mlx_load_png("./textures/wolf/wolf_attck.png");
 	mlx_data.textrs_img[WOLF_ATTCK] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[WOLF_ATTCK]);
 	mlx_resize_image(mlx_data.textrs_img[WOLF_ATTCK], BLOCK_SIZE, BLOCK_SIZE);
+
+	mlx_set_icon(mlx_data.mlx_ptr, mlx_data.textrs[WOLF_STAY]);
 
 	data->mlx_data = mlx_data;
 }
