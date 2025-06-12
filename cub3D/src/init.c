@@ -132,18 +132,18 @@ void	init_mlx(t_data *data)
 		for(int y = 0; y < WIN_H; y++)
 			mlx_put_pixel(mlx_data.scr_img, x, y, 0x000000FF); // BLACK
 
-	mlx_data.textrs[NORTH] = mlx_load_png("./textures/north.png"); //argument: data->mlx_data->tex_path[NORTH]
-	//if (!mlx_data.textrs[NORTH])
-		//return (0);
-	mlx_data.textrs[EAST] = mlx_load_png("./textures/east.png"); //argument: data->mlx_data->tex_path[EAST]
-	//if (!mlx_data.textrs[EAST])
-		//return (0);
-	mlx_data.textrs[WEST] = mlx_load_png("./textures/west.png"); //argument: data->mlx_data->tex_path[WEST]
-	//if (!mlx_data.textrs[WEST])
-		//return (0);
-	mlx_data.textrs[SOUTH] = mlx_load_png("./textures/south.png"); //argument: data->mlx_data->tex_path[SOUTH]
-	//if (!mlx_data.textrs[SOUTH])
-		//return (0);
+	mlx_data.textrs[NORTH] = mlx_load_png(data->mlx_data.tex_path[NORTH]); //argument: data->mlx_data->tex_path[NORTH]
+	if (!mlx_data.textrs[NORTH])
+		exit (0);
+	mlx_data.textrs[EAST] = mlx_load_png(data->mlx_data.tex_path[EAST]); //argument: data->mlx_data->tex_path[EAST]
+	if (!mlx_data.textrs[EAST])
+		exit (0);
+	mlx_data.textrs[WEST] = mlx_load_png(data->mlx_data.tex_path[WEST]); //argument: data->mlx_data->tex_path[WEST]
+	if (!mlx_data.textrs[WEST])
+		exit (0);
+	mlx_data.textrs[SOUTH] = mlx_load_png(data->mlx_data.tex_path[SOUTH]); //argument: data->mlx_data->tex_path[SOUTH]
+	if (!mlx_data.textrs[SOUTH])
+		exit (0);
 
 	mlx_data.textrs_img[NORTH] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[NORTH]);
 	mlx_resize_image(mlx_data.textrs_img[NORTH], BLOCK_SIZE, BLOCK_SIZE);
