@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:43:06 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/12 18:20:26 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:28:23 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,37 @@ void	cast_ray(t_raycast *raycast, double ray_angl)
 	compre_dist(raycast, &raycast->hor_wall, &raycast->ver_wall);
 }
 
+void	chck_facing_enemy(t_raycast *raycast, t_sprite **sprite_array, t_char *player)
+{
+	int	i;
+
+	i = 0;
+	player->facing_statue = NULL;
+	player->facing_enemy = NULL;
+	while (sprite_array[i])
+		i++;
+	while (i >= 0)
+	{
+		if (!player->facing_enemy && sprite_array[i]->type == WOLF
+			&& sprite_array[i]->left < raycast->scr_img->width / 2
+			&& raycast->scr_img->width / 2 < sprite_array[i]->left + sprite_array[i]->width
+			&& sprite_array[i]->top < raycast->scr_img->height / 2
+			&& raycast->scr_img->height / 2 < sprite_array[i]->top + sprite_array[i]->height)
+		{
+			player->facing_enemy = sprite_array[i];
+		}
+		else if (!player->facing_statue && sprite_array[i]->type == STATUE
+			&& ((sprite_array[i]->size.x + sprite_array[i]->width / 4 >= 0)
+				&& (sprite_array[i]->size.x + sprite_array[i]->width / 4 < raycast->scr_img->width))
+			&& ((sprite_array[i]->size.y - sprite_array[i]->width / 4 >= 0)
+				|| (sprite_array[i]->size.x + sprite_array[i]->width / 4 < raycast->scr_img->width)))
+		{
+			player->facing_statue = sprite_array[i];
+		}
+		i--;
+	}
+}
+
 void	handle_sprites(t_raycast *raycast)
 {
 	t_sprite	**sprite_array;
@@ -69,6 +100,7 @@ void	handle_sprites(t_raycast *raycast)
 	sprite_array = init_spite_array(raycast);
 	calc_sprite(raycast, sprite_array);
 	sort_sprite_dist(raycast, sprite_array);
+	chck_facing_enemy(raycast, sprite_array, raycast->player);
 	i = 0;
 	while (sprite_array[i])
 	{

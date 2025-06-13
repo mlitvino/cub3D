@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/12 18:31:49 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/13 14:49:56 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,9 +131,9 @@ void	init_player(t_data *data)
 				if (create_sprite(data, WOLF, x, y) == NULL)
 					clean_all(data); // IMRPOVE
 			}
-			// if (data->grid_map[y][x] == CANDLE)
+			// if (data->grid_map[y][x] == LAMP)
 			// {
-			// 	if (create_sprite(&data->door_list, CANDLE, x, y) == NULL)
+			// 	if (create_sprite(&data->door_list, LAMP, x, y) == NULL)
 			// 		clean_all(data); // IMRPOVE
 			// }
 		}
@@ -199,11 +199,9 @@ void	init_mlx(t_data *data)
 	mlx_resize_image(mlx_data.textrs_img[DOOR_TEX], BLOCK_SIZE, BLOCK_SIZE);
 
 
-	mlx_data.textrs[FLOOR_TEX] = mlx_load_png("./textures/grass2.png");
+	mlx_data.textrs[FLOOR_TEX] = mlx_load_png("./textures/grass.png");
 	mlx_data.textrs_img[FLOOR_TEX] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[FLOOR_TEX]);
 	mlx_resize_image(mlx_data.textrs_img[FLOOR_TEX], BLOCK_SIZE, BLOCK_SIZE);
-
-
 
 
 	mlx_data.textrs[WOLF_STAY] = mlx_load_png("./textures/wolf/wolf_stay.png");
@@ -244,7 +242,6 @@ void	init_data(t_data *data)
 
 	data->rays_count = WIN_W;
 	data->rays_angle = FOV / (double)data->rays_count;
-
 	data->flor_rgb.rgbt = 0x545454fc;
 	data->ceil_rgb.rgbt = 0xFF;
 	// data->flor_rgb.rgbt = 0xFF;

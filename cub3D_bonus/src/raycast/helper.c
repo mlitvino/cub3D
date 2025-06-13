@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:59:38 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/12 15:07:36 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/13 14:55:08 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ t_raycast	*init_raycast(t_data *data, t_char *player, t_raycast *raycast)
 	while (i < MAX_THRD)
 	{
 		raycast[i].data = data;
+		raycast[i].player = player;
 		raycast[i].door_list = data->door_list;
 		raycast[i].plane = &data->plane;
 		raycast[i].scr_img = data->mlx_data.scr_img;

@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/12 18:32:54 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:14:59 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 
 # define BPP sizeof(int32_t)
 
-# define WIN_W 1280
-# define WIN_H 720
+# define WIN_W 1920
+# define WIN_H 1080
 
 # define MAX_THRD 6
 
@@ -40,9 +40,11 @@
 # define EMPTY 0
 # define WALL 1
 # define PLAYER 3
-# define CANDLE 'C'
+# define LAMP 'L'
 
-# define WOLF 'B' // BEAST, W - taken by player's char in subject
+
+# define WOLF 'B'
+# define STATUE 'C'
 
 # define DOOR 'D'
 # define CLOSED 1
@@ -182,7 +184,7 @@ typedef struct s_sprite
 	double			angle;
 
 	int				walkable;
-	int				type;// ENEMY, OBJECT, is needed?
+	int				type;
 	int				dist;
 
 	struct s_sprite	*next;
@@ -196,6 +198,8 @@ typedef struct s_raycast
 	mlx_image_t	*scr_img;
 	char		**unit_map;
 	t_door		*door_list;
+
+	t_char		*player;
 
 	int			thread_chunk;
 	t_sprite	*thread_sprite;
@@ -259,6 +263,8 @@ typedef struct s_char
 	t_pov		pov;
 	double		height;
 
+	t_sprite	*facing_enemy;
+	t_sprite	*facing_statue;
 	int			hitbox_radius;
 	t_point		pos;
 
