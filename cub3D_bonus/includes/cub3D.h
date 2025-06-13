@@ -112,7 +112,7 @@ typedef struct s_rgbt
 	int			g;
 	int			b;
 	int			t;
-	int			rgbt;
+	uint32_t 	rgbt;
 
 }				t_rgbt;
 

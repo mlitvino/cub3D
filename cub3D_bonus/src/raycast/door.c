@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:41:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/11 16:52:08 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/13 13:38:45 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static int *check_for_door(char **map, int row, int col)
     return (NULL);
 }
 
+
 void open_door(t_data *data)
 {
 	int *coordinates;
@@ -65,14 +66,17 @@ void open_door(t_data *data)
 	t_door *door;
 
 	coordinates = check_for_door(data->grid_map, data->player.pos.y, data->player.pos.x);
-	door_x = coordinates[1];
-	door_y = coordinates[0];
-	free(coordinates);
-	door = find_door(data->door_list, door_x *BLOCK_SIZE, door_y *BLOCK_SIZE);
-	if (door)
+	if (coordinates)
 	{
-		door->state = OPENING;
-		door->time_opened = get_current_time();
+		door_x = coordinates[1];
+		door_y = coordinates[0];
+		free(coordinates);
+		door = find_door(data->door_list, door_x *BLOCK_SIZE, door_y *BLOCK_SIZE);
+		if (door && data->player.door_facing != 0 && data->player.door_facing < BLOCK_SIZE * 3)
+		{
+			door->state = OPENING;
+			door->time_opened = get_current_time();
+		}
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:59:38 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/11 15:59:35 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/13 13:39:56 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_raycast	init_raycast(t_data *data, t_char *player)
 
 	raycast.data = data;
 	raycast.player = player;
-	//raycast->player.door_facing = 0;
+	raycast.player->door_facing = 0;
 	raycast.door_list = data->door_list;
 	raycast.plane = &data->plane;
 	raycast.scr_img = data->mlx_data.scr_img;
