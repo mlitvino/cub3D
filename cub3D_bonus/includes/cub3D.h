@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/13 15:14:59 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/14 01:29:00 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 
 # define BPP sizeof(int32_t)
 
-# define WIN_W 1920
-# define WIN_H 1080
+# define WIN_W 1280
+# define WIN_H 720
 
 # define MAX_THRD 6
 
@@ -37,11 +37,12 @@
 # define ICON_BASE 6
 # define MODIF_BRIGHT 2
 
+# define STATUE_MAX_VIS 4
+
 # define EMPTY 0
 # define WALL 1
 # define PLAYER 3
 # define LAMP 'L'
-
 
 # define WOLF 'B'
 # define STATUE 'C'
@@ -75,11 +76,17 @@ typedef enum e_texture
 	WOLF_WALK1,
 	WOLF_WALK2,
 	WOLF_ATTCK,
+	STATUE_GREY,
+	STATUE_RED,
+	STATUE_FACE,
+	CROSSBOW1,
+	CROSSBOW2,
 	MAX_TEX
 }	t_texture;
 
 typedef struct s_data		t_data;
 typedef struct s_raycast	t_raycast;
+typedef struct s_char		t_char;
 
 //------------------------------TEST----------------------------------
 # define RESET "\033[0m"
@@ -308,6 +315,9 @@ typedef struct s_data
 	double				rays_angle;
 	t_rgbt				flor_rgb;
 	t_rgbt				ceil_rgb;
+
+	int					test1;
+	int					test2;
 
 }						t_data;
 

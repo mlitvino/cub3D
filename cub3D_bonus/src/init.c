@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/13 14:49:56 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/14 02:14:54 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	init_grid_map(t_data *data)
 		{0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 		{0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		{0,0,0,0,0,0,0,0,1,0,1,1,0,0,PLAYER,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{0,0,0,0,0,0,0,0,1,0,0,1,0,0,STATUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		{1,1,1,1,1,1,1,1,1,0,1,1,0,0,WOLF,WOLF,WOLF,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		{1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
 		{1,1,1,1,0,1,1,1,1,1,1,1,1,1,0,1,1,1,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0},
@@ -131,6 +131,11 @@ void	init_player(t_data *data)
 				if (create_sprite(data, WOLF, x, y) == NULL)
 					clean_all(data); // IMRPOVE
 			}
+			if (data->grid_map[y][x] == STATUE)
+			{
+				if (create_sprite(data, STATUE, x, y) == NULL)
+					clean_all(data); // IMRPOVE
+			}
 			// if (data->grid_map[y][x] == LAMP)
 			// {
 			// 	if (create_sprite(&data->door_list, LAMP, x, y) == NULL)
@@ -147,6 +152,9 @@ void	init_player(t_data *data)
 	for (int y = pos_y - hitbox; y <= pos_y + hitbox; y++)
 		for (int x = pos_x - hitbox; x <= pos_x + hitbox; x++)
 			data->unit_map[y][x] = PLAYER;
+
+	player->facing_statue = NULL;
+	player->facing_enemy = NULL;
 }
 
 void	init_mlx(t_data *data)
@@ -174,8 +182,8 @@ void	init_mlx(t_data *data)
 		for(int y = 0; y < mlx_data.minimap->height; y++)
 			mlx_put_pixel(mlx_data.minimap, x, y, 0xFF / 2); // BLACK
 
-	mlx_set_instance_depth(&mlx_data.scr_img->instances[res1], 0);
-	mlx_set_instance_depth(&mlx_data.minimap->instances[res2], 1);
+	mlx_set_instance_depth(&mlx_data.scr_img->instances[res1], 1);
+	mlx_set_instance_depth(&mlx_data.minimap->instances[res2], 2);
 
 
 	mlx_data.textrs[NORTH] = mlx_load_png("./textures/forest.png"); // change to path to file
@@ -220,8 +228,37 @@ void	init_mlx(t_data *data)
 	mlx_data.textrs_img[WOLF_ATTCK] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[WOLF_ATTCK]);
 	mlx_resize_image(mlx_data.textrs_img[WOLF_ATTCK], BLOCK_SIZE, BLOCK_SIZE);
 
-	mlx_set_icon(mlx_data.mlx_ptr, mlx_data.textrs[WOLF_STAY]);
+	mlx_data.textrs[STATUE_GREY] = mlx_load_png("./textures/statue/statue_grey.png");
+	mlx_data.textrs_img[STATUE_GREY] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[STATUE_GREY]);
+	mlx_resize_image(mlx_data.textrs_img[STATUE_GREY], BLOCK_SIZE, BLOCK_SIZE);
 
+	mlx_data.textrs[STATUE_RED] = mlx_load_png("./textures/statue/statue_red.png");
+	mlx_data.textrs_img[STATUE_RED] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[STATUE_RED]);
+	mlx_resize_image(mlx_data.textrs_img[STATUE_RED], BLOCK_SIZE, BLOCK_SIZE);
+
+	mlx_data.textrs[STATUE_FACE] = mlx_load_png("./textures/statue/statue_face.png");
+	mlx_data.textrs_img[STATUE_FACE] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[STATUE_FACE]);
+	mlx_resize_image(mlx_data.textrs_img[STATUE_FACE], mlx_data.scr_img->width, mlx_data.scr_img->height);
+
+	mlx_data.textrs[CROSSBOW1] = mlx_load_png("./textures/crossbow1.png");
+	mlx_data.textrs_img[CROSSBOW1] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[CROSSBOW1]);
+	mlx_resize_image(mlx_data.textrs_img[CROSSBOW1], mlx_data.scr_img->width, mlx_data.scr_img->height);
+
+	mlx_data.textrs[CROSSBOW2] = mlx_load_png("./textures/crossbow2.png");
+	mlx_data.textrs_img[CROSSBOW2] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[CROSSBOW2]);
+	mlx_resize_image(mlx_data.textrs_img[CROSSBOW2], mlx_data.scr_img->width, mlx_data.scr_img->height);
+
+
+
+	// data->test1 = mlx_image_to_window(mlx_data.mlx_ptr, mlx_data.textrs_img[CROSSBOW1], 0, 0);
+	data->test1 = mlx_image_to_window(mlx_data.mlx_ptr, mlx_data.textrs_img[STATUE_FACE], 0, 0);
+	mlx_set_instance_depth(&mlx_data.textrs_img[STATUE_FACE]->instances[data->test1], 4);
+
+	data->test2 = mlx_image_to_window(mlx_data.mlx_ptr, mlx_data.textrs_img[CROSSBOW2], 0, 0);
+	mlx_set_instance_depth(&mlx_data.textrs_img[CROSSBOW2]->instances[data->test2], 3);
+
+
+	mlx_set_icon(mlx_data.mlx_ptr, mlx_data.textrs[WOLF_STAY]);
 	data->mlx_data = mlx_data;
 }
 

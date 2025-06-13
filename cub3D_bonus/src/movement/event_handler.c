@@ -63,16 +63,18 @@ static void	set_key_flag(t_keys *k, mlx_key_data_t keydata, int value)
         k->esc = value;
 }
 
-void	change_wolf(t_data *data, int new_state)
+void	change_sprite_state(t_data *data, int type, int new_state)
 {
 	t_sprite *sprite;
 
 	sprite = data->sprite_list;
 	while (sprite)
 	{
-		sprite->state = new_state;
-		sprite->cur_img = sprite->tex_imgs[new_state];
-
+		if (sprite->type == type)
+		{
+			sprite->state = new_state;
+			sprite->cur_img = sprite->tex_imgs[new_state];
+		}
 		sprite = sprite->next;
 	}
 }
@@ -92,20 +94,33 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 
 
 	if (keydata.key == '1')
+		change_sprite_state(data, WOLF, WOLF_STAY);
+	else if (keydata.key == '2')
+		change_sprite_state(data, WOLF, WOLF_WALK1);
+	else if (keydata.key == '3')
+		change_sprite_state(data, WOLF, WOLF_WALK2);
+	else if (keydata.key == '4')
+		change_sprite_state(data, WOLF, WOLF_ATTCK);
+
+	if (keydata.key == '5')
+		change_sprite_state(data, STATUE, STATUE_GREY);
+	else if (keydata.key == '6')
+		change_sprite_state(data, STATUE, STATUE_RED);
+	else if (keydata.key == '7')
 	{
-		change_wolf(data, WOLF_STAY);
+		// data->mlx_data.textrs_img[CROSSBOW1]->instances[0].x -= 100;
+		// data->mlx_data.textrs_img[CROSSBOW1]->instances[0].y -= 100;
+		// mlx_set_instance_depth(&data->mlx_data.textrs_img[CROSSBOW1]->instances[data->test1], 3);
+		// mlx_set_instance_depth(&data->mlx_data.textrs_img[CROSSBOW2]->instances[data->test2], 0);
+		data->player.facing_statue = data->sprite_list;
 	}
-	if (keydata.key == '2')
+	else if (keydata.key == '8')
 	{
-		change_wolf(data, WOLF_WALK1);
-	}
-	if (keydata.key == '3')
-	{
-		change_wolf(data, WOLF_WALK2);
-	}
-	if (keydata.key == '4')
-	{
-		change_wolf(data, WOLF_ATTCK);
+		// data->mlx_data.textrs_img[CROSSBOW1]->instances[0].x += 100;
+		// data->mlx_data.textrs_img[CROSSBOW1]->instances[0].y += 100;
+		// mlx_set_instance_depth(&data->mlx_data.textrs_img[CROSSBOW1]->instances[data->test1], 0);
+		// mlx_set_instance_depth(&data->mlx_data.textrs_img[CROSSBOW2]->instances[data->test2], 3);
+		data->player.facing_statue = NULL;
 	}
 
 

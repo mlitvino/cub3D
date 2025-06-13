@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycast_init.c                                     :+:      :+:    :+:   */
+/*   sprite_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:23:13 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/06 18:24:12 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/13 23:15:13 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,22 @@ t_sprite	*create_sprite(t_data *data, int type, int grid_x, int grid_y)
 		new_sprite->state = WOLF_STAY;
 		new_sprite->walkable = false;
 		new_sprite->type = WOLF;
+
+		// general?
+		new_sprite->hitbox_radius = BLOCK_SIZE / 2;
+		new_sprite->move_spd = BLOCK_SIZE / 16;
+		new_sprite->turn_spd = 2;
+		new_sprite->pos.y = (grid_y * BLOCK_SIZE) + BLOCK_SIZE / 2;
+		new_sprite->pos.x = (grid_x * BLOCK_SIZE) + BLOCK_SIZE / 2;
+		new_sprite->dist = 0;
+	}
+	else if (type == STATUE)
+	{
+		new_sprite->tex_imgs = data->mlx_data.textrs_img;
+		new_sprite->cur_img = new_sprite->tex_imgs[STATUE_GREY];
+		new_sprite->state = STATUE_GREY;
+		new_sprite->walkable = false;
+		new_sprite->type = STATUE;
 
 		// general?
 		new_sprite->hitbox_radius = BLOCK_SIZE / 2;
