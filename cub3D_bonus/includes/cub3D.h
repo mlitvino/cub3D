@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/14 01:29:00 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/15 12:26:37 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define SCALE 40
 # define ICON_SIZE 16
 # define ICON_BASE 6
-# define MODIF_BRIGHT 2
+# define MODIF_BRIGHT 20
 
 # define STATUE_MAX_VIS 4
 
@@ -426,5 +426,6 @@ void		show_doors(t_door *list);
 void		show_char_pos(t_data *data, t_char *chr);
 void		show_unit_map(t_data *data);
 void		show_redline(t_data *data);
+void		draw_aim_cross(mlx_image_t *scr_img);
 
 #endif

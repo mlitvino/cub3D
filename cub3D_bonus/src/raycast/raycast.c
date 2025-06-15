@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:43:06 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/14 02:32:21 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/15 12:12:14 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,25 +70,30 @@ void	chck_facing_enemy(t_raycast *raycast, t_sprite **sprite_array, t_char *play
 	while (sprite_array && sprite_array[i])
 		i++;
 	i--;
+
+	int WID = 6;
 	while (i >= 0)
 	{
-		// if (!player->facing_enemy && sprite_array[i]->type == WOLF
-		// 	&& sprite_array[i]->left < raycast->scr_img->width / 2
-		// 	&& raycast->scr_img->width / 2 < sprite_array[i]->left + sprite_array[i]->width
-		// 	&& sprite_array[i]->top < raycast->scr_img->height / 2
-		// 	&& raycast->scr_img->height / 2 < sprite_array[i]->top + sprite_array[i]->height)
-		// {
-		// 	player->facing_enemy = sprite_array[i];
-		// }
-		// if (!player->facing_statue && sprite_array[i]->type == STATUE
-		// 	&& ((sprite_array[i]->size.x + sprite_array[i]->width / 4 >= 0)
-		// 		&& (sprite_array[i]->size.x + sprite_array[i]->width / 4 < raycast->scr_img->width))
-		// 	&& ((sprite_array[i]->size.y - sprite_array[i]->width / 4 >= 0)
-		// 		|| (sprite_array[i]->size.x + sprite_array[i]->width / 4 < raycast->scr_img->width)))
+		if (!player->facing_enemy && (sprite_array[i]->type == WOLF || sprite_array[i]->type == STATUE)
+			&& raycast->data->rays_dist[raycast->scr_img->width / 2] > sprite_array[i]->dist
+			&& sprite_array[i]->left < raycast->scr_img->width / 2
+			&& raycast->scr_img->width / 2 < sprite_array[i]->left + sprite_array[i]->width
+			&& sprite_array[i]->top < raycast->scr_img->height / 2
+			&& raycast->scr_img->height / 2 < sprite_array[i]->top + sprite_array[i]->height)
+		{
+			player->facing_enemy = sprite_array[i];
+		}
 		if (!player->facing_statue && sprite_array[i]->type == STATUE)
 		{
 			if (sprite_array[i]->dist < STATUE_MAX_VIS * BLOCK_SIZE)
-				player->facing_statue = sprite_array[i];
+			{
+				if	(!(sprite_array[i]->size.x + sprite_array[i]->width / WID < 0
+					|| sprite_array[i]->size.x - sprite_array[i]->width / WID >= raycast->scr_img->width)
+					&& !(sprite_array[i]->size.y + sprite_array[i]->height / 3 < 0
+					|| sprite_array[i]->size.y - sprite_array[i]->height / 3 >= raycast->scr_img->height)
+				)
+					player->facing_statue = sprite_array[i];
+			}
 		}
 		i--;
 	}

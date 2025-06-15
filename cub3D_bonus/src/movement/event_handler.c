@@ -85,11 +85,11 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 
 	if (keydata.key == 'R')
 	{
-		data->plane.center.y += 200;
+		data->plane.center.y += 111;
 	}
 	else if (keydata.key == 'T')
 	{
-		data->plane.center.y -= 200;
+		data->plane.center.y -= 114;
 	}
 
 
@@ -123,6 +123,20 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 		data->player.facing_statue = NULL;
 	}
 
+
+	if (keydata.key == 'Q')
+	{
+		t_sprite *enemy = data->player.facing_enemy;
+		if (enemy)
+		{
+			printf("type_name: %s\n", enemy->type == WOLF ? "WOLF" : enemy->type == STATUE ? "STATUE" : "UNKNOWN");
+			printf("x %d, y %d\n", enemy->pos.x, enemy->pos.y);
+		}
+		else
+		{
+			printf("Enemy is not in center of screen\n");
+		}
+	}
 
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 	{

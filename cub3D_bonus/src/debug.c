@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 22:53:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/05 18:26:06 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/15 12:25:59 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,4 +118,12 @@ void	show_redline(t_data *data)
 {
 	for (int y = 0; y < data->mlx_data.scr_img->height; y++)
 		mlx_put_pixel(data->mlx_data.scr_img, data->plane.center.x, y, 0xFF0000FF);
+}
+
+void	draw_aim_cross(mlx_image_t *scr_img)
+{
+	for (int x = scr_img->width / 2 - 10; x < scr_img->width / 2 + 10; x++)
+		mlx_put_pixel(scr_img, x, scr_img->height / 2, 0xFF0000FF);
+	for (int y = scr_img->height / 2 - 10; y < scr_img->height / 2 + 10; y++)
+		mlx_put_pixel(scr_img, scr_img->width / 2, y, 0xFF0000FF);
 }
