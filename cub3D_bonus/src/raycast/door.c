@@ -57,17 +57,15 @@ static struct timeval get_current_time(void)
     return (NULL);
 }*/
 
-static int *check_for_door(char **map, double player_x, double player_y, t_data *data)
+static int *check_for_door(char **map, int player_x, int player_y, t_data *data)
 {
-	double step_size = 100.0;
-	int i = 0;
-	int map_x;
-	int map_y;
+	int i;
 	int *coordinates;
 	double dir_x;
 	double dir_y;
 	double angle_rad;
 
+	i = 0;
 	angle_rad = DEG_TO_RAD(data->player.pov.view_angl);
 	dir_x = cos(angle_rad);
 	dir_y = -sin(angle_rad);
@@ -78,20 +76,16 @@ static int *check_for_door(char **map, double player_x, double player_y, t_data 
 	//printf("Tile in front: (%d, %d) = %c\n", front_y, front_x, map[front_y][front_x]);
 	while (i < 5)
 	{
-		player_x += dir_x * step_size;
-		player_y += dir_y * step_size;
+		player_x += dir_x * 80;
+		player_y += dir_y * 80;
 
-		map_x = (int)(player_x) / BLOCK_SIZE;
-		map_y = (int)(player_y) / BLOCK_SIZE;
-
-		if (map[map_y][map_x] == 'D')
+		if (map[(player_y /BLOCK_SIZE)][(player_x / BLOCK_SIZE)] == 'D')
 		{
 			coordinates = malloc(2 * sizeof(int));
 			if (!coordinates)
 				return (NULL);
-			coordinates[0] = map_y;
-			coordinates[1] = map_x;
-	
+			coordinates[0] = player_y / BLOCK_SIZE;
+			coordinates[1] = player_x / BLOCK_SIZE;
 			return (coordinates);
 		}
 		i++;
