@@ -50,7 +50,7 @@ void	jump_baby(t_char *player)
 
 }
 
-void	open_close(t_door *doors)
+/*void	open_close(t_door *doors)
 {
 	while (doors)
 	{
@@ -60,7 +60,7 @@ void	open_close(t_door *doors)
 			doors->state = CLOSING;
 		doors = doors->next;
 	}
-}
+}*/
 
 #include <stdio.h>
 #include <sys/time.h>
@@ -116,7 +116,7 @@ void	render(void *data_arg)
 
 	t_door *door = data->door_list;
 	//open_close(door);
-	update_doors(door);
+	update_doors(door, data);
 
 	raycast(data);
 	show_fps();

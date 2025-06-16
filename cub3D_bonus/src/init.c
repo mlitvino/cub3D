@@ -107,7 +107,7 @@ void	init_player(t_data *data)
 	//player->pov.view_angl = 90;
 	player->height = 2;
 
-	player->move_spd = BLOCK_SIZE / 16;
+	player->move_spd = BLOCK_SIZE / 24;
 	player->turn_spd = 2;
 
 	hitbox = player->hitbox_radius;

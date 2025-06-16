@@ -63,7 +63,7 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 	}
 	if (keydata.key == MLX_KEY_SPACE /*&& is_center_door */)
 	{
-		open_door(data);
+		open_close_door(data);
 	}
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 	{
