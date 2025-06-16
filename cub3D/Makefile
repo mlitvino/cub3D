@@ -6,14 +6,14 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/16 14:17:59 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/06/16 18:08:55 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			= cc -Ofast -Wall -Wextra -Werror
 
 HEADERS		= -I$(LIBFT_DIR)/$(INCLD_DIR) -I$(INCLD_DIR) -I$(MLX_DIR)/include
-LIBS		= -L$(MLX_DIR)/build $(MLX) -lz -ldl -lglfw -pthread -lm -o
+LIBS		= -L$(MLX_DIR)/build $(MLX) -lz -ldl -lglfw -pthread -lm
 
 NAME		= cub3D
 LIBFT		= $(LIBFT_DIR)/libft.a
@@ -102,9 +102,6 @@ fclean: clean
 	make -C $(MLX_DIR)/build clean
 	make -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
-
-start: all
-	./$(NAME) test.cub
 
 re: fclean all
 

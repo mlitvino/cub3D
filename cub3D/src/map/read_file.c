@@ -101,7 +101,7 @@ char	**read_file(char *filename, t_data *data)
 		return (perror_return());
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		return (perror_return());
+		return (perror_free(map_data, fd));
 	if (!fill_map(data, map_data, fd))
 		return (perror_free(map_data, fd));
 	remove_newlines_empty_lines(map_data, data->line_count);

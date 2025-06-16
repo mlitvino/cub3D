@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/16 14:40:21 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/16 18:00:15 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	render(void *data_arg)
 {
-	t_data *data;
+	t_data	*data;
 
 	data = (t_data *)data_arg;
 	if (data->keys.w)
@@ -34,7 +34,7 @@ void	render(void *data_arg)
 
 int	parsing_file(t_data *data, char **argv, int argc)
 {
-	if(argc != 2)
+	if (argc != 2)
 	{
 		printf("Usage: ./cub3D 'file'\n");
 		return (0);
@@ -67,10 +67,9 @@ int	main(int argc, char *argv[])
 	if (!parsing_file(&data, argv, argc))
 		return (1);
 	init_data(&data);
-	ft_bzero(&data.keys, sizeof(t_keys));
 	mlx_key_hook(data.mlx_data.mlx_ptr, &key_event_handler, &data);
 	mlx_loop_hook(data.mlx_data.mlx_ptr, render, &data);
 	mlx_loop(data.mlx_data.mlx_ptr);
-	clean_all(&data);
+	clean_all(&data, NULL);
 	return (0);
 }
