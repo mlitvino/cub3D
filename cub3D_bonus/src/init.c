@@ -6,13 +6,13 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/14 02:14:54 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/16 13:38:43 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	init_grid_map(t_data *data)
+/*void	init_grid_map(t_data *data)
 {
 	//y 8 x 7, change TEST_MAPY, TEST_MAPX
 	// char temp_map[TEST_MAPY][TEST_MAPX] =
@@ -59,7 +59,7 @@ void	init_grid_map(t_data *data)
 	};
 
 	ft_memcpy(data->grid_map, temp_map, sizeof(temp_map));
-}
+}*/
 
 void	init_unit_map(t_data *data)
 {
@@ -86,9 +86,9 @@ void	init_unit_map(t_data *data)
 
 void	init_maps(t_data *data)
 {
-	init_grid_map(data);
-	data->map_h = TEST_MAPY;
-	data->map_w = TEST_MAPX;
+	//init_grid_map(data);
+	//data->map_h = TEST_MAPY;
+	//data->map_w = TEST_MAPX;
 	init_unit_map(data);
 }
 
@@ -104,7 +104,7 @@ void	init_player(t_data *data)
 	player->data = data;
 	player->hitbox_radius = BLOCK_SIZE / 4;
 	player->pov.fov = FOV;
-	player->pov.view_angl = 270;
+	//player->pov.view_angl = 90;
 	player->height = 2;
 
 	player->move_spd = BLOCK_SIZE / 16;
@@ -112,9 +112,10 @@ void	init_player(t_data *data)
 
 	hitbox = player->hitbox_radius;
 
-	for(int y = 0; y < TEST_MAPY; y++)
+	printf("x %d y %d\n", data->map_h, data->map_w);
+	for(int y = 0; y < data->map_h; y++)
 	{
-		for (int x = 0; x < TEST_MAPX; x++)
+		for (int x = 0; x < data->map_w; x++)
 		{
 			if (data->grid_map[y][x] == PLAYER)
 			{
@@ -146,6 +147,8 @@ void	init_player(t_data *data)
 
 	player->pos.x = pos_x;
 	player->pos.y = pos_y;
+
+	printf("pos x %d, pos y %d\n", pos_x, pos_y);
 
 	data->unit_map[pos_y][pos_x] = PLAYER;
 
@@ -264,14 +267,9 @@ void	init_mlx(t_data *data)
 
 void	init_data(t_data *data)
 {
-	ft_memset(data, 0, sizeof(t_data));
 	init_mlx(data);
 	init_maps(data);
 	init_player(data);
-
-	data->plane.width = WIN_W; // TEST
-	data->plane.height = WIN_H; // TEST
-
 
 	data->plane.center.x = WIN_W / 2;
 	data->plane.center.y = WIN_H / 2;

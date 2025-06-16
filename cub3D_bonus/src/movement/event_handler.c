@@ -1,49 +1,5 @@
 #include "cub3D.h"
 
-/*void key_event_handler(mlx_key_data_t keydata, void *param)
-{
-	t_data *data;
-	t_char *player;
-
-	data = (t_data *)param;
-	player = &data->player;
-
-	// Only react on key press, not release
-	if (keydata.action != MLX_PRESS)
-		return;
-	if (keydata.key == 'W')
-		move_player(player, 0);
-	else if (keydata.key == 'S')
-		move_player(player, 180);
-	else if (keydata.key == 'A')
-		move_player(player, 90);
-	else if (keydata.key == 'D')
-		move_player(player, -90);
-	else if (keydata.key == KEY_LEFT_ARROW)
-		rotate_player_left(player);
-	else if (keydata.key == KEY_RIGHT_ARROW)
-		rotate_player_right(player);
-	else if (keydata.key == 'C')
-	{
-		clean_all(data);
-	}
-	else if (keydata.key == 'E')
-	{
-		data->player.pov.view_angl += 5;
-		if (data->player.pov.view_angl < 0)
-			data->player.pov.view_angl = 360 + data->player.pov.view_angl;
-	}
-	else if (keydata.key == 'Q')
-	{
-		data->player.pov.view_angl -= 5;
-		if (data->player.pov.view_angl < 0)
-			data->player.pov.view_angl = 360 + data->player.pov.view_angl;
-	}
-	// raycast(data);
-	// show_char_pos(data, player);
-	// printf("view_angle: %d\n", player->pov.view_angl);
-	// show_redline(data);
-}*/
 
 static void	set_key_flag(t_keys *k, mlx_key_data_t keydata, int value)
 {
@@ -91,8 +47,6 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 	{
 		data->plane.center.y -= 114;
 	}
-
-
 	if (keydata.key == '1')
 		change_sprite_state(data, WOLF, WOLF_STAY);
 	else if (keydata.key == '2')
@@ -137,7 +91,10 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 			printf("Enemy is not in center of screen\n");
 		}
 	}
-
+	if (keydata.key == MLX_KEY_SPACE /*&& is_center_door */)
+	{
+		open_door(data);
+	}
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 	{
 		clean_all(data);

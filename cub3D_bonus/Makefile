@@ -6,7 +6,7 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/12 18:18:47 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/06/16 13:38:13 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,20 @@ SRC			= $(addprefix $(SRC_DIR)/, \
 				$(RAY_SRC) \
 				$(MOV_SRC) \
 				debug.c \
+				./map/perror.c \
+				./map/error.c \
+				./map/free.c \
+				./map/colour_utils.c \
+				./map/file_utils.c \
+				./map/read_file.c \
+				./map/colour.c \
+				./map/map_borders.c \
+				./map/map_utils.c \
+				./map/map.c \
+				./map/surrounding.c \
+				./map/valid_file.c \
+				./map/valid_texture_path.c \
+				./map/doors.c \
 				)
 
 RAY_SRC		= $(addprefix $(RAY_DIR)/, \

@@ -42,6 +42,8 @@ void	clean_mlx(t_data *data)
 
 void	clean_all(t_data *data)
 {
+	free_map(data->grid_map, -1);
+	free_colours_textures_strings(data);
 	clean_map(data);
 	clean_mlx(data);
 	exit(0);

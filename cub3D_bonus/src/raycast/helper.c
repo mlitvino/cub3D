@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:59:38 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/13 14:55:08 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/16 13:43:26 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ void	select_tex(t_raycast *raycast, t_wall *wall, int axis)
 	if (wall->type == DOOR)
 	{
 		raycast->tex_indx = DOOR_TEX;
+
+		if (raycast->cur_ray == WIN_W / 2)
+		{
+			raycast->player->door_facing = wall->dist;
+		}
 	}
 }
 
@@ -60,6 +65,9 @@ t_raycast	*init_raycast(t_data *data, t_char *player, t_raycast *raycast)
 	{
 		raycast[i].data = data;
 		raycast[i].player = player;
+
+		raycast[i].player->door_facing = 0;
+
 		raycast[i].door_list = data->door_list;
 		raycast[i].plane = &data->plane;
 		raycast[i].scr_img = data->mlx_data.scr_img;

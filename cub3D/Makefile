@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
+#    By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
 #    Updated: 2025/05/30 00:46:02 by mlitvino         ###   ########.fr        #
@@ -37,6 +37,18 @@ SRC			= $(addprefix $(SRC_DIR)/, \
 				$(RAY_SRC) \
 				$(MOV_SRC) \
 				debug.c \
+				./map/perror.c \
+				./map/error.c \
+				./map/free.c \
+				./map/colour_utils.c \
+				./map/file_utils.c \
+				./map/read_file.c \
+				./map/colour.c \
+				./map/map_borders.c \
+				./map/map_utils.c \
+				./map/map.c \
+				./map/surrounding.c \
+				./map/valid_file.c \
 				)
 
 RAY_SRC		= $(addprefix $(RAY_DIR)/, \

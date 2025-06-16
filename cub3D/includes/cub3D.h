@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/27 16:28:12 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/11 13:36:37 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <math.h>
+#include <fcntl.h>
 
 # define BPP sizeof(int32_t)
 
@@ -29,23 +30,15 @@
 # define TEST_MAPX 6
 # define TEST_MAPY 5
 
-# define EMPTY 0
-# define WALL 1
-# define PLAYER 3
+# define EMPTY '0'
+# define WALL '1'
+# define PLAYER 'N'
 
 # define VERTICAL 0
 # define HORIZONT 1
 
 //Movement
 #define DEG_TO_RAD(a) ((a) * M_PI / 180.0) // convert degree to radiant to be used for cos/sin
-#define KEY_W 119
-#define KEY_S 115
-#define KEY_A 97
-#define KEY_D 100
-#define KEY_LEFT_ARROW 65361
-#define KEY_RIGHT_ARROW 65363
-#define KEY_ESC 65307
-
 
 enum
 {
@@ -177,6 +170,9 @@ typedef struct	s_mlx
 
 	mlx_image_t		*scr_img;
 
+	char			**ceiling_colour;
+	char			**floor_colour;
+	char			*tex_path[MAX_TEX];
 	mlx_texture_t	*textrs[MAX_TEX];
 	mlx_image_t		*textrs_img[MAX_TEX];
 }				t_mlx;
@@ -185,8 +181,11 @@ typedef struct	s_data
 {
 	t_mlx		mlx_data;
 
-	char		grid_map[TEST_MAPY][TEST_MAPX];
+	char		**grid_map;
 	char		**unit_map; // 64 times bigger than map
+	char		**map_data;
+	char		**work_map;
+	int			line_count;
 	int			map_h;
 	int			map_w;
 
@@ -282,5 +281,53 @@ void move_player(t_char *player, double angle_offset);
 int check_for_wall_collision(t_char *player, double new_x, double new_y);
 void rotate_player_right(t_char *player);
 void rotate_player_left(t_char *player);
+
+
+//----------------------------------PARSING-----------------------------------------
+
+//free error functions
+int	return_invalid_element(void);
+int error_exit(char * message);
+char	**error_return(char *message);
+int free_return(int *data);
+int	perror_free_map(char **map);
+char	**free_map(char **map, int fd);
+void	free_colours_textures_strings(t_data *data);
+int	error_free_return(char *message, t_data *data);
+int	free_map_return(t_data *data);
+int 	free_error_exit(char *line, char *colour);
+char **perror_return(void);
+int	perror_return_int(int *data);
+char **perror_free(char **map_data, int fd);
+int	perror_exit(char *line);
+char	*perror_exit_null(void);
+
+//utils
+int	valid_end_of_string(int *i, int done, char *line, char *colour);
+int	valid_colour_number(char *colour, int floor_ceiling, int rgb, t_data *data);
+int valid_colours(t_data *data);
+char *set_colour(char *line, int *i, int done);
+int	set_rgb(int	floor_or_ceiling, char *line_trim, int *i, t_data *data);
+int free_element_map(int *element, t_data *data);
+int	create_temp_map(char **map, int *i, t_data *data);
+int	is_identifier(char *line);
+int	is_map_element(char *line, int *map_element, t_data *data);
+int is_empty_line(char *line);
+void	init_null(t_data *data);
+int	fill_map(t_data *data, char **map_data, int fd);
+int	valid_extension(const char *filename);
+char **pad_map(char **map, int height, t_data *data);
+int set_floor_colour(t_data * data, char *line_trim, int *i);
+int set_ceiling_colour(t_data * data, char *line_trim, int *i);
+int set_floor_ceiling(t_data *data, char *element, char *line);
+char **read_file(char *filename, t_data *data);
+int valid_map(t_data *data);
+int is_valid_surrounding(char **map, t_data *data);
+int	is_valid_data(char **map, t_data *data, int line_count);
+int check_map_borders(char **map, int height);
+int	longest_line(char **map, int height);
+int	fill_padded_map(int height, t_data *data, char **padded_map, char **map);
+int	last_line_no_newline(char *line);
+int check_double_element_wall(int *map_element, char *element, char *line, t_data *data);
 
 #endif

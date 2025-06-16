@@ -6,13 +6,13 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/27 16:44:31 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/11 13:37:30 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	init_grid_map(t_data *data)
+/*void	init_grid_map(t_data *data)
 {
 	// y 5 x 6, change TEST_MAPY, TEST_MAPX
 	char temp_map[TEST_MAPY][TEST_MAPX] =
@@ -43,7 +43,7 @@ void	init_grid_map(t_data *data)
 	// };
 
 	ft_memcpy(data->grid_map, temp_map, sizeof(temp_map));
-}
+}*/
 
 void	init_unit_map(t_data *data)
 {
@@ -70,9 +70,9 @@ void	init_unit_map(t_data *data)
 
 void	init_maps(t_data *data)
 {
-	init_grid_map(data);
-	data->map_h = TEST_MAPY;
-	data->map_w = TEST_MAPX;
+	//init_grid_map(data);
+	//data->map_h = TEST_MAPY;
+	//data->map_w = TEST_MAPX;
 	init_unit_map(data);
 }
 
@@ -88,17 +88,17 @@ void	init_player(t_data *data)
 	player->data = data;
 	player->hitbox_radius = BLOCK_SIZE / 4;
 	player->pov.fov = FOV;
-	player->pov.view_angl = 0;
+	//player->pov.view_angl = 0;
 	player->height = BLOCK_SIZE / 2;
 
-	player->move_spd = BLOCK_SIZE / 32;
-	player->turn_spd = 1;
+	player->move_spd = BLOCK_SIZE / 16;
+	player->turn_spd = 2;
 
 	hitbox = player->hitbox_radius;
 
-	for(int y = 0; y < TEST_MAPY; y++)
+	for(int y = 0; y < data->map_h; y++)
 	{
-		for (int x = 0; x < TEST_MAPX; x++)
+		for (int x = 0; x < data->map_w; x++)
 		{
 			if (data->grid_map[y][x] == PLAYER)
 			{
@@ -107,10 +107,8 @@ void	init_player(t_data *data)
 			}
 		}
 	}
-
 	player->pos.x = pos_x;
 	player->pos.y = pos_y;
-
 	data->unit_map[pos_y][pos_x] = PLAYER;
 
 	for (int y = pos_y - hitbox; y <= pos_y + hitbox; y++)
@@ -134,10 +132,18 @@ void	init_mlx(t_data *data)
 		for(int y = 0; y < WIN_H; y++)
 			mlx_put_pixel(mlx_data.scr_img, x, y, 0x000000FF); // BLACK
 
-	mlx_data.textrs[NORTH] = mlx_load_png("./textures/north.png"); // change to path to file
-	mlx_data.textrs[EAST] = mlx_load_png("./textures/east.png");
-	mlx_data.textrs[WEST] = mlx_load_png("./textures/west.png");
-	mlx_data.textrs[SOUTH] = mlx_load_png("./textures/south.png");
+	mlx_data.textrs[NORTH] = mlx_load_png(data->mlx_data.tex_path[NORTH]); //argument: data->mlx_data->tex_path[NORTH]
+	if (!mlx_data.textrs[NORTH])
+		exit (0);
+	mlx_data.textrs[EAST] = mlx_load_png(data->mlx_data.tex_path[EAST]); //argument: data->mlx_data->tex_path[EAST]
+	if (!mlx_data.textrs[EAST])
+		exit (0);
+	mlx_data.textrs[WEST] = mlx_load_png(data->mlx_data.tex_path[WEST]); //argument: data->mlx_data->tex_path[WEST]
+	if (!mlx_data.textrs[WEST])
+		exit (0);
+	mlx_data.textrs[SOUTH] = mlx_load_png(data->mlx_data.tex_path[SOUTH]); //argument: data->mlx_data->tex_path[SOUTH]
+	if (!mlx_data.textrs[SOUTH])
+		exit (0);
 
 	mlx_data.textrs_img[NORTH] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[NORTH]);
 	mlx_resize_image(mlx_data.textrs_img[NORTH], BLOCK_SIZE, BLOCK_SIZE);
@@ -162,10 +168,6 @@ void	init_data(t_data *data)
 	init_player(data);
 	init_mlx(data);
 
-	data->plane.width = WIN_W; // TEST
-	data->plane.height = WIN_H; // TEST
-
-
 	data->plane.center.x = WIN_W / 2;
 	data->plane.center.y = WIN_H / 2;
 	data->plane.dist = (WIN_W / 2) / tan(deg_rad(FOV / 2));
@@ -176,8 +178,13 @@ void	init_data(t_data *data)
 	data->rays_angle = FOV / (double)data->rays_count;// double?
 	//printf("RAY_ANGLE %f\n", data->rays_angle); //del
 
-	data->flor_rgb.rgbt = 0xffe224fa;
-	data->ceil_rgb.rgbt = 0x0286a7fa;
+	//data->flor_rgb.rgbt = 0xffe224fa;
+	//data->ceil_rgb.rgbt = 0x0286a7fa;
+	//printf("r: %d g: %d b: %d\n", data->flor_rgb.r, data->flor_rgb.g, data->flor_rgb.b);
+	data->flor_rgb.rgbt = (0xFF) | (data->flor_rgb.b << 8) | (data->flor_rgb.g << 16) | (data->flor_rgb.r << 24);
+	//printf("flor: %d\n", data->flor_rgb.rgbt);
+	//printf("rgbt (hex): 0x%08X\n", data->flor_rgb.rgbt);
+	data->ceil_rgb.rgbt = (0xFF) |(data->ceil_rgb.b << 8)  | (data->ceil_rgb.g  << 16) | (data->ceil_rgb.r  << 24);
 	// data->flor_rgb.rgbt = 0xFF;
 	// data->ceil_rgb.rgbt = 0xFF;
 }
