@@ -37,6 +37,18 @@ SRC			= $(addprefix $(SRC_DIR)/, \
 				$(RAY_SRC) \
 				$(MOV_SRC) \
 				debug.c \
+				./map/perror.c \
+				./map/error.c \
+				./map/free.c \
+				./map/colour_utils.c \
+				./map/file_utils.c \
+				./map/read_file.c \
+				./map/colour.c \
+				./map/map_borders.c \
+				./map/map_utils.c \
+				./map/map.c \
+				./map/surrounding.c \
+				./map/valid_file.c \
 				)
 
 RAY_SRC		= $(addprefix $(RAY_DIR)/, \
