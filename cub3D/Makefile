@@ -49,7 +49,6 @@ SRC			= $(addprefix $(SRC_DIR)/, \
 				./map/map.c \
 				./map/surrounding.c \
 				./map/valid_file.c \
-				./map/valid_texture_path.c \
 				)
 
 RAY_SRC		= $(addprefix $(RAY_DIR)/, \
