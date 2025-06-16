@@ -6,12 +6,12 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/16 13:44:50 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/06/16 14:17:59 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC			= cc -ggdb -Ofast
-# -Wall -Wextra -Werror
+CC			= cc -Ofast -Wall -Wextra -Werror
+
 HEADERS		= -I$(LIBFT_DIR)/$(INCLD_DIR) -I$(INCLD_DIR) -I$(MLX_DIR)/include
 LIBS		= -L$(MLX_DIR)/build $(MLX) -lz -ldl -lglfw -pthread -lm -o
 
@@ -29,6 +29,7 @@ LIBFT_DIR	= $(LIBS_DIR)/libft
 SRC_DIR		= src
 RAY_DIR		= raycast
 MOV_DIR		= movement
+MAP_DIR		= map
 
 SRC			= $(addprefix $(SRC_DIR)/, \
 				main.c \
@@ -36,19 +37,7 @@ SRC			= $(addprefix $(SRC_DIR)/, \
 				clean.c \
 				$(RAY_SRC) \
 				$(MOV_SRC) \
-				debug.c \
-				./map/perror.c \
-				./map/error.c \
-				./map/free.c \
-				./map/colour_utils.c \
-				./map/file_utils.c \
-				./map/read_file.c \
-				./map/colour.c \
-				./map/map_borders.c \
-				./map/map_utils.c \
-				./map/map.c \
-				./map/surrounding.c \
-				./map/valid_file.c \
+				$(MAP_SRC) \
 				)
 
 RAY_SRC		= $(addprefix $(RAY_DIR)/, \
@@ -56,6 +45,21 @@ RAY_SRC		= $(addprefix $(RAY_DIR)/, \
 				find_wall.c \
 				helper.c \
 				utils.c \
+				)
+
+MAP_SRC		= $(addprefix $(MAP_DIR)/, \
+				perror.c \
+				error.c \
+				free.c \
+				colour_utils.c \
+				file_utils.c \
+				read_file.c \
+				colour.c \
+				map_borders.c \
+				map_utils.c \
+				map.c \
+				surrounding.c \
+				valid_file.c \
 				)
 
 MOV_SRC		= $(addprefix $(MOV_DIR)/, \

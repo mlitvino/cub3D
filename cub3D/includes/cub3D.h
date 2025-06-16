@@ -3,42 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/11 13:36:37 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/16 14:44:39 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-#include "MLX42/MLX42_Int.h"
-#include "libft.h"
-#include <stdio.h>
-#include <errno.h>
-#include <math.h>
-#include <fcntl.h>
+# include "MLX42/MLX42_Int.h"
+# include "libft.h"
+# include <stdio.h>
+# include <errno.h>
+# include <math.h>
+# include <fcntl.h>
 
 # define BPP sizeof(int32_t)
 
 # define WIN_W 1000
 # define WIN_H 800
 
-# define FOV 60 // field of view (angle 0-360)
+# define FOV 60
 # define BLOCK_SIZE 512
-# define TEST_MAPX 6
-# define TEST_MAPY 5
 
-# define EMPTY '0'
 # define WALL '1'
-# define PLAYER 'N'
 
 # define VERTICAL 0
 # define HORIZONT 1
 
-//Movement
-#define DEG_TO_RAD(a) ((a) * M_PI / 180.0) // convert degree to radiant to be used for cos/sin
+#define DEG_TO_RAD(a) ((a) * M_PI / 180.0)
 
 enum
 {
@@ -50,17 +45,6 @@ enum
 };
 
 typedef struct	s_data t_data;
-
-//------------------------------TEST----------------------------------
-# define RESET   "\033[0m"
-# define BLACK   "\033[30m"
-# define RED     "\033[31m"
-# define GREEN   "\033[32m"
-# define YELLOW  "\033[33m"
-# define BLUE    "\033[34m"
-# define MAGENTA "\033[35m"
-# define CYAN    "\033[36m"
-# define WHITE   "\033[37m"
 
 //------------------------------Graphic----------------------------------
 
@@ -76,7 +60,6 @@ typedef struct	s_point
 	int	x;
 	int	y;
 	int	height;
-	int	inval;
 }				t_point;
 
 typedef	struct	s_rgbt
@@ -95,7 +78,7 @@ typedef struct	s_project
 	*/
 	int				width;
 	int				height;
-	int				dist; // 160(WIDTH/2) / tan(30)(FOV/2) = 277
+	int				dist;
 	t_point			center;
 }				t_project;
 
@@ -144,23 +127,23 @@ typedef struct	s_pov
 {
 	t_point		view_pos;
 	int			view_angl;
-	int			fov; // = FOV
+	int			fov;
 
-}				t_pov; // point of view
+}				t_pov;
 
 typedef struct	s_char
 {
 	t_data			*data;
 
 	t_pov			pov;
-	int				height; // BLOCK_SIZE / 2
+	int				height;
 
 	int				hitbox_radius;
 	t_point			pos;
 
-	int				move_spd; // units
-	int				turn_spd; // angle
-}				t_char; // characters(npc, player)
+	int				move_spd;
+	int				turn_spd;
+}				t_char;
 
 //-------------------------------GENERAL------------------------------------
 
@@ -182,7 +165,7 @@ typedef struct	s_data
 	t_mlx		mlx_data;
 
 	char		**grid_map;
-	char		**unit_map; // 64 times bigger than map
+	char		**unit_map;
 	char		**map_data;
 	char		**work_map;
 	int			line_count;
@@ -193,41 +176,13 @@ typedef struct	s_data
 	t_keys		keys;
 
 	t_project	plane;
-	int			rays_count; // 320(WIDTH_WIN)
-	double		rays_angle; // FOV / rays_count
+	int			rays_count;
+	double		rays_angle;
 	t_rgbt		flor_rgb;
 	t_rgbt		ceil_rgb;
 }				t_data;
 
-
-//TEMP
-typedef struct s_2dpoint
-{
-	double	x;
-	double	y;
-	double	h;
-	int		color;
-}	t_2dpoint;
-
-typedef struct s_color
-{
-	int		r;
-	int		g;
-	int		b;
-	int		gradient;
-	double	t;
-}	t_color;
-
-typedef struct s_delta
-{
-	double	dx;
-	double	dy;
-}	t_delta;
-//END_TEMP
-
 //-------------------------------RAYCASTING------------------------------------
-// draw_line.c
-void	draw_line(t_data *data, t_2dpoint p0, t_2dpoint p1);
 
 // clean.c
 void	clean_map(t_data *data);

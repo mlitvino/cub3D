@@ -15,8 +15,8 @@ static void	set_angle(int *count, t_data *data, char angle)
 
 static void	set_pos(t_data *data, int j, int i)
 {
-	data->player.pos.x = j;
-	data->player.pos.y = i;
+	data->player.pos.x = (j * BLOCK_SIZE) + BLOCK_SIZE / 2;
+	data->player.pos.y = (i * BLOCK_SIZE) + BLOCK_SIZE / 2;
 }
 
 static int	valid_player_count(char **map, t_data *data)

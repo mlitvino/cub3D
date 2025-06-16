@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:43:06 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/28 14:00:11 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/16 14:20:55 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	render_col(t_raycast *raycast, t_point wall, int wall_dist,
 		raycast->tex_x = wall.y % BLOCK_SIZE;
 	raycast->wall_img = raycast->data->mlx_data.textrs_img[tex_indx];
 	y = 0;
-	while (y < raycast->scr_img->height)
+	while (y < (int)raycast->scr_img->height)
 	{
 		if (y < wall_top)
 			mlx_put_pixel(raycast->scr_img, raycast->cur_ray, y,
