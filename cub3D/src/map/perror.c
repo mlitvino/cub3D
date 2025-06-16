@@ -2,20 +2,20 @@
 
 char	**perror_return(void)
 {
-	perror("cub3D1");
+	perror("cub3D");
 	return (NULL);
 }
 
 int	perror_return_int(int *data)
 {
-	perror("cub3D3");
+	perror("cub3D");
 	free(data);
 	return (0);
 }
 
 char	**perror_free(char **map_data, int fd)
 {
-	perror("cub3D2");
+	perror("cub3D");
 	return (free_map(map_data, fd));
 }
 
