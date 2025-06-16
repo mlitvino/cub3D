@@ -3,14 +3,97 @@
 /*                                                        :::      ::::::::   */
 /*   door.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:41:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/02 13:23:36 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/13 13:38:45 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+static struct timeval get_current_time(void) 
+{
+    struct timeval now;
+
+    gettimeofday(&now, NULL);
+    return (now);
+}
+
+static int *check_for_door(char **map, int row, int col)
+{
+    int delta_row;
+    int delta_col;
+    int n_row;
+    int n_col;
+    int *coordinates;
+
+	row = row / BLOCK_SIZE;
+	col = col / BLOCK_SIZE;
+    delta_row = -1;
+    while (delta_row <= 1)
+    {
+        delta_col = -1;
+        while (delta_col <= 1)
+        {
+            if (!(delta_row == 0 && delta_col == 0))
+            {
+                n_row = row + delta_row;
+                n_col = col + delta_col;
+                if (map[n_row][n_col] == 'D')
+                {
+                    coordinates = malloc(2 * sizeof(int));
+                    if (!coordinates)
+                        return (NULL);
+                    coordinates[0] = n_row;
+                    coordinates[1] = n_col;
+                    return (coordinates);
+                }
+            }
+            delta_col++;
+        }
+        delta_row++;
+    }
+    return (NULL);
+}
+
+
+void open_door(t_data *data)
+{
+	int *coordinates;
+	int	door_x;
+	int	door_y;
+	t_door *door;
+
+	coordinates = check_for_door(data->grid_map, data->player.pos.y, data->player.pos.x);
+	if (coordinates)
+	{
+		door_x = coordinates[1];
+		door_y = coordinates[0];
+		free(coordinates);
+		door = find_door(data->door_list, door_x *BLOCK_SIZE, door_y *BLOCK_SIZE);
+		if (door && data->player.door_facing != 0 && data->player.door_facing < BLOCK_SIZE * 3)
+		{
+			door->state = OPENING;
+			door->time_opened = get_current_time();
+		}
+	}
+}
+
+static int has_10_seconds_passed(struct timeval start) 
+{
+    struct timeval now;
+
+	now = get_current_time();
+    long seconds = now.tv_sec - start.tv_sec;
+    long microseconds = now.tv_usec - start.tv_usec;
+    if (microseconds < 0) 
+	{
+        seconds -= 1;
+        microseconds += 1000000;
+    }
+    return (seconds >= 10);
+}
 
 void	update_doors(t_door *doors)
 {
@@ -27,6 +110,11 @@ void	update_doors(t_door *doors)
 			doors->len -= doors->move_spd;
 			if (doors->len < 0)
 				doors->state = OPEN;
+		}
+		if (doors->state == OPEN)
+		{
+			if (has_10_seconds_passed(doors->time_opened))
+				doors->state = CLOSING;
 		}
 		doors = doors->next;
 	}
@@ -53,7 +141,7 @@ t_door	*create_door(t_door **door_list, int grid_x, int grid_y)
 	if (!new_door)
 		return (NULL);
 	new_door->state = CLOSED;
-	new_door->len = BLOCK_SIZE / 2;
+	new_door->len = BLOCK_SIZE;
 	new_door->grid_x = grid_x;
 	new_door->grid_y = grid_y;
 	new_door->next = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/08 22:53:59 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/11 15:57:14 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,12 +110,12 @@ void	render(void *data_arg)
         rotate_player_right(&data->player);
     if (data->keys.right)
         rotate_player_left(&data->player);
-
+	handle_mouse_rotation(data);
 
 	//jump_baby(&data->player);
 
 	t_door *door = data->door_list;
-	open_close(door);
+	//open_close(door);
 	update_doors(door);
 
 	raycast(data);
@@ -129,10 +129,35 @@ int	main(int argc, char *argv[])
 {
 	t_data	data;
 
-	(void)argc;
-	(void)argv;
+	ft_memset(&data, 0, sizeof(t_data));
+	if(argc != 2)
+	{
+		printf("Usage: ./cub3D 'file'\n");
+		return (1);
+	}
+	init_null(&data);
+	data.map_data = read_file(argv[1], &data);
+	if (!data.map_data)
+		return (1);
+	if (!is_valid_data(data.map_data, &data, data.line_count))
+	{
+		free_colours_textures_strings(&data);
+		free_map(data.map_data, -1);
+		return (1);
+	}
+	free_map(data.map_data, -1);
+	if (!valid_map(&data))
+	{
+		free_colours_textures_strings(&data);
+		free_map(data.work_map, -1);
+		return (1);
+	}
+	// int i = 0;
+	// while(data.grid_map[i])
+	// 	printf("%s\n", data.grid_map[i++]);
+	// printf("x %d y %d\n", data.map_h, data.map_w);
+	// return (0);
 	init_data(&data);
-
 	ft_bzero(&data.keys, sizeof(t_keys));
 	//show_unit_map(&data);
 	show_char_pos(&data, &data.player);

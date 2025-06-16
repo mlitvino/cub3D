@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/08 16:43:16 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/11 13:46:50 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,20 +61,45 @@ void	render(void *data_arg)
     if (data->keys.right)
         rotate_player_left(&data->player);
 	raycast(data);
-	show_fps();
+	//show_fps();
 	// show_char_pos(data, &data->player);
 }
 
-
+int	parsing_file(t_data *data, char **argv, int argc)
+{
+	if(argc != 2)
+	{
+		printf("Usage: ./cub3D 'file'\n");
+		return (0);
+	}
+	init_null(data);
+	data->map_data = read_file(argv[1], data);
+	if (!data->map_data)
+		return (0);
+	if (!is_valid_data(data->map_data, data, data->line_count))
+	{
+		free_colours_textures_strings(data);
+		free_map(data->map_data, -1);
+		return (0);
+	}
+	free_map(data->map_data, -1);
+	if (!valid_map(data))
+	{
+		free_colours_textures_strings(data);
+		free_map(data->work_map, -1);
+		return (0);
+	}
+	return (1);
+}
 
 int	main(int argc, char *argv[])
 {
 	t_data	data;
 
-	(void)argc;
-	(void)argv;
+	ft_memset(&data, 0, sizeof(t_data));
+	if (!parsing_file(&data, argv, argc))
+		return (1);
 	init_data(&data);
-
 	ft_bzero(&data.keys, sizeof(t_keys));
 	//show_unit_map(&data);
 	//show_char_pos(&data, &data.player);
@@ -91,7 +116,7 @@ int	main(int argc, char *argv[])
 	//printf("view_angle: %d\n", data.player.pov.view_angl);
 	//show_redline(&data);
 	//show_unit_map(&data);
-
+	
 	mlx_key_hook(data.mlx_data.mlx_ptr, &key_event_handler, &data);
 	mlx_loop_hook(data.mlx_data.mlx_ptr, render, &data);
 	mlx_loop(data.mlx_data.mlx_ptr);
