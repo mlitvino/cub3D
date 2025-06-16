@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 14:20:00 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/12 13:07:46 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/16 13:24:38 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,19 @@ void	draw_floor(t_raycast *raycast, int y)
 
 	img = raycast->data->mlx_data.textrs_img[FLOOR_TEX];
 	double st = (double)BLOCK_SIZE / 2;
+
+	double b_cos = cos(deg_rad(raycast->beta));
+	double a_cos = cos(deg_rad(raycast->ray_angle));
+	double a_sin = sin(deg_rad(raycast->ray_angle));
+
 	while (y < raycast->scr_img->height)
 	{
 		ratio = st / (y - raycast->plane->center.y);
 		dist = raycast->plane->dist * ratio;
-		dist /= cos(deg_rad(raycast->beta));
+		dist /= b_cos;
 
-		floor_tex.x = dist * cos(deg_rad(raycast->ray_angle));
-		floor_tex.y = dist * -sin(deg_rad(raycast->ray_angle));
+		floor_tex.x = dist * a_cos;
+		floor_tex.y = dist * -a_sin;
 
 		floor_tex.x += raycast->char_pos.x;
 		floor_tex.y += raycast->char_pos.y;
@@ -75,6 +80,18 @@ void	draw_floor(t_raycast *raycast, int y)
 		color = extract_rgba(raw_pixel);
 		add_shadow(&color, &dist);
 		mlx_put_pixel(raycast->scr_img, raycast->cur_ray, y, color);
+		y++;
+	}
+}
+
+void	draw_ceiling(t_raycast *raycast, int *y, int wall_top)
+{
+	int	tex_x = raycast->ray_angle;
+	int	tex_y = raycast->plane->center.y;
+
+	while (y < wall_top && y < raycast->scr_img->height)
+	{
+
 		y++;
 	}
 }
@@ -110,11 +127,16 @@ void	render_col(t_raycast *raycast, t_wall *wall, int wall_dist,
 	raycast->wall_img = raycast->data->mlx_data.textrs_img[tex_indx];
 
 	y = 0;
+
+	draw_ceiling(raycast, &y, wall_top);
+
 	while (y < raycast->scr_img->height)
 	{
 		if (y < wall_top )
+		{
 			mlx_put_pixel(raycast->scr_img, raycast->cur_ray, y,
 				raycast->ceil_rgbt);
+		}
 		else if (y < wall_top + wall_h)
 			map_wall(raycast, y, wall_h, wall_top);
 		else
