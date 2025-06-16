@@ -1,6 +1,24 @@
 #include "cub3D.h"
 
-// check characters and file extension
+static void	set_angle(int *count, t_data *data, char angle)
+{
+	(*count)++;
+	if (angle == 'N')
+		data->player.pov.view_angl = 90;
+	if (angle == 'S')
+		data->player.pov.view_angl = 270;
+	if (angle == 'W')
+		data->player.pov.view_angl = 180;
+	if (angle == 'E')
+		data->player.pov.view_angl = 0;
+}
+
+static void	set_pos(t_data *data, int j, int i)
+{
+	data->player.pos.x = j;
+	data->player.pos.y = i;
+}
+
 static int	valid_player_count(char **map, t_data *data)
 {
 	int	player_count;
@@ -14,12 +32,11 @@ static int	valid_player_count(char **map, t_data *data)
 		j = 0;
 		while (map[i][j])
 		{
-			if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'W' || map[i][j] == 'E')
+			if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'W'
+				|| map[i][j] == 'E')
 			{
-				player_count++;
-				set_angle(map[i][j], data);
-				data->player.pos.x = i;
-				data->player.pos.x = j;
+				set_angle(&player_count, data, map[i][j]);
+				set_pos(data, j, i);
 			}
 			j++;
 		}
@@ -42,7 +59,7 @@ static int	valid_characters(char **map)
 		j = 0;
 		while (map[i][j])
 		{
-			if (!ft_strchr("01NSWED ", map[i][j])) //can add extra characters for bonus
+			if (!ft_strchr("01NSWED ", map[i][j]))
 				return (0);
 			j++;
 		}
@@ -51,70 +68,30 @@ static int	valid_characters(char **map)
 	return (1);
 }
 
-// pad the map with "P"
-
-int	longest_line(char **map, int height)
+int	valid_map(t_data *data)
 {
-	int i;
-	int max_len;
-	int	len;
+	char	*msg;
 
-	max_len = 0;
-	i = 0;
-	while(i < height)
-	{
-		len = ft_strlen(map[i]);
-		if (len > max_len)
-            max_len = len;
-		i++;
-	}
-	return (max_len);
-}
-
-int	fill_padded_map(int height, t_data *data, char **padded_map, char **map)
-{
-	int		i;
-	int		j;
-	int		line_len;
-
-	i = 0;
-	while (i < height)
-	{
-		line_len = ft_strlen(map[i]);
-		padded_map[i] = malloc(sizeof(char) * (data->map_w + 1));
-		if (!padded_map[i])
-			return (perror_free_map(padded_map));
-		j = 0;
-		while (j < line_len)
-		{
-			padded_map[i][j] = map[i][j];
-			j++;
-		}
-		//j = line_len;
-		while (j < data->map_w)
-			padded_map[i][j++] = 'P';
-		padded_map[i][data->map_w] = '\0';
-		i++;
-	}
-	padded_map[height] = NULL;
-	return (1);
-}
-
-// map borders
-
-int valid_map(t_data *data)
-{
 	data->grid_map = pad_map(data->work_map, data->map_h, data);
 	if (!data->grid_map)
 		return (0);
 	if (!valid_player_count(data->work_map, data))
 		return (error_free_return("Error\nInvalid player count\n", data));
 	if (!valid_characters(data->work_map))
-		return (error_free_return("Error\nInvalid character found inside the map\n", data));
+	{
+		msg = "Error\nInvalid character found inside the map\n";
+		return (error_free_return(msg, data));
+	}
 	if (!check_map_borders(data->work_map, data->map_h))
-		return (error_free_return("Error\nMap not surrounded by walls and/or invalid space inside the map\n", data));
-	if (!is_valid_surrounding(data->grid_map, data->map_h, data->map_w))
-		return (error_free_return("Error\nMap not surrounded by walls and/or invalid space inside the map\n", data));
+	{
+		msg = "Error\nMap not surrounded by walls and/or invalid space found\n";
+		return (error_free_return(msg, data));
+	}
+	if (!is_valid_surrounding(data->grid_map, data))
+	{
+		msg = "Error\nMap not surrounded by walls and/or invalid space found\n";
+		return (error_free_return(msg, data));
+	}
 	free_map(data->work_map, -1);
 	return (1);
 }

@@ -3,7 +3,7 @@ SO ./textures/south.png
 WE ./textures/west.png
 EA ./textures/east.png
 F 226,226,226
-C 226,226,226
+C 0,0,226
 
         1111111111111111111111111
         1N00000000110000000000001

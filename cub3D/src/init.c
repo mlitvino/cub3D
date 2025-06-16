@@ -181,10 +181,10 @@ void	init_data(t_data *data)
 	//data->flor_rgb.rgbt = 0xffe224fa;
 	//data->ceil_rgb.rgbt = 0x0286a7fa;
 	//printf("r: %d g: %d b: %d\n", data->flor_rgb.r, data->flor_rgb.g, data->flor_rgb.b);
-	data->flor_rgb.rgbt = (0xFF << 24) | (data->flor_rgb.r) | (data->flor_rgb.g << 8) | (data->flor_rgb.b << 16);
+	data->flor_rgb.rgbt = (0xFF) | (data->flor_rgb.b << 8) | (data->flor_rgb.g << 16) | (data->flor_rgb.r << 24);
 	//printf("flor: %d\n", data->flor_rgb.rgbt);
 	//printf("rgbt (hex): 0x%08X\n", data->flor_rgb.rgbt);
-	data->ceil_rgb.rgbt = (0xFF << 24) |(data->ceil_rgb.r)  | (data->ceil_rgb.g  << 8) | (data->ceil_rgb.b  << 16);
+	data->ceil_rgb.rgbt = (0xFF) |(data->ceil_rgb.b << 8)  | (data->ceil_rgb.g  << 16) | (data->ceil_rgb.r  << 24);
 	// data->flor_rgb.rgbt = 0xFF;
 	// data->ceil_rgb.rgbt = 0xFF;
 }

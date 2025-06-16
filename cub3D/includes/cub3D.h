@@ -317,14 +317,12 @@ void	init_null(t_data *data);
 int	fill_map(t_data *data, char **map_data, int fd);
 int	valid_extension(const char *filename);
 char **pad_map(char **map, int height, t_data *data);
-void	set_angle(char angle, t_data *data);
-
 int set_floor_colour(t_data * data, char *line_trim, int *i);
 int set_ceiling_colour(t_data * data, char *line_trim, int *i);
 int set_floor_ceiling(t_data *data, char *element, char *line);
 char **read_file(char *filename, t_data *data);
 int valid_map(t_data *data);
-int is_valid_surrounding(char **map, int height, int width);
+int is_valid_surrounding(char **map, t_data *data);
 int	is_valid_data(char **map, t_data *data, int line_count);
 int check_map_borders(char **map, int height);
 int	longest_line(char **map, int height);

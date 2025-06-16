@@ -1,6 +1,6 @@
 #include "cub3D.h"
 
-int free_element_map(int *element, t_data *data)
+int	free_element_map(int *element, t_data *data)
 {
 	free(element);
 	return (free_map_return(data));
@@ -8,16 +8,16 @@ int free_element_map(int *element, t_data *data)
 
 int	create_temp_map(char **map, int *i, t_data *data)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	while (map[(*i)] != NULL && !is_empty_line(map[(*i)]))
 	{
 		data->work_map[j] = ft_strdup(map[(*i)]);
-		if(!data->work_map[j])
+		if (!data->work_map[j])
 		{
 			perror("cub3D:");
-			free_map(data->work_map , - 1);
+			free_map(data->work_map, -1);
 			return (0);
 		}
 		(*i)++;
@@ -36,10 +36,11 @@ int	create_temp_map(char **map, int *i, t_data *data)
 
 int	is_identifier(char *line)
 {
-	int identifier;
+	int	identifier;
 
 	identifier = 0;
-	if (!ft_strncmp(line, "NO ", 3) || !ft_strncmp(line, "SO ", 3) || !ft_strncmp(line, "EA ", 3) || !ft_strncmp(line, "WE ", 3))
+	if (!ft_strncmp(line, "NO ", 3) || !ft_strncmp(line, "SO ", 3)
+		|| !ft_strncmp(line, "EA ", 3) || !ft_strncmp(line, "WE ", 3))
 		identifier = 1;
 	if (!ft_strncmp(line, "F ", 2) || !ft_strncmp(line, "C ", 2))
 		identifier = 1;
@@ -65,3 +66,20 @@ int	is_map_element(char *line, int *map_element, t_data *data)
 	return (1);
 }
 
+int	longest_line(char **map, int height)
+{
+	int		i;
+	int		max_len;
+	int		len;
+
+	max_len = 0;
+	i = 0;
+	while (i < height)
+	{
+		len = ft_strlen(map[i]);
+		if (len > max_len)
+			max_len = len;
+		i++;
+	}
+	return (max_len);
+}

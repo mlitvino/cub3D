@@ -89,7 +89,6 @@ int	parsing_file(t_data *data, char **argv, int argc)
 		free_map(data->work_map, -1);
 		return (0);
 	}
-	//this needs to be freed later: free_colours_textures_strings() call and grid_map.
 	return (1);
 }
 
