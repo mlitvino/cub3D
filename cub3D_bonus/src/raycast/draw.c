@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 14:20:00 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/16 13:24:38 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/16 14:08:17 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,11 @@ void	draw_ceiling(t_raycast *raycast, int *y, int wall_top)
 	int	tex_x = raycast->ray_angle;
 	int	tex_y = raycast->plane->center.y;
 
-	while (y < wall_top && y < raycast->scr_img->height)
-	{
+	// while (y < wall_top && y < raycast->scr_img->height)
+	// {
 
-		y++;
-	}
+	// 	y++;
+	// }
 }
 
 void	render_col(t_raycast *raycast, t_wall *wall, int wall_dist,

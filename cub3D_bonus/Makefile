@@ -6,7 +6,7 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/16 13:38:13 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/06/16 13:44:55 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -111,7 +111,7 @@ fclean: clean
 	rm -f $(NAME)
 
 start: all
-	./$(NAME)
+	./$(NAME) test.cub
 
 re: fclean all
 
