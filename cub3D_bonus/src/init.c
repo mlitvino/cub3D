@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/11 14:11:34 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/17 16:10:54 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,8 @@ void	init_mlx(t_data *data)
 	mlx_resize_image(mlx_data.textrs_img[WOLF_ATTCK], BLOCK_SIZE, BLOCK_SIZE);
 
 	data->mlx_data = mlx_data;
+
+	mlx_set_cursor_mode(data->mlx_data.mlx_ptr, MLX_MOUSE_DISABLED); //hides mouse
 }
 
 void	init_data(t_data *data)
