@@ -2,22 +2,25 @@
 
 static int is_walkable(char c)
 {
-    return (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W' || c == 'D');
+    return (c == '0' || c == 'N' || c == 'S'
+        || c == 'E' || c == 'W' || c == 'D' || c == 'B' || c == 'C' || c == 'F');
 }
 
 static int is_allowed_adjacent(char c)
 {
-    return (c == '0' || c == '1' || c == 'N' || c == 'S' || c == 'E' || c == 'W' || c == 'D');
+    return (c == '0' || c == '1' || c == 'N' || c == 'S'
+        || c == 'E' || c == 'W' || c == 'D'|| c == 'B' || c == 'C' || c == 'F');
 }
+
 
 static int check_single_neighbor(char **map, int n_row, int n_col, int height, int width)
 {
-	char neighbor;
+    char neighbor;
 
     if (n_row >= 0 && n_row < height &&
         n_col >= 0 && n_col < width)
     {
-    	neighbor = map[n_row][n_col];
+        neighbor = map[n_row][n_col];
         if (!is_allowed_adjacent(neighbor))
             return (0);
     }
@@ -31,9 +34,9 @@ static int check_neighbors(char **map, int row, int col, int height, int width)
     int delta_row;
     int delta_col;
     int n_row;
-	int n_col;
+    int n_col;
 
-	delta_row = -1;
+    delta_row = -1;
     while (delta_row <= 1)
     {
         delta_col = -1;

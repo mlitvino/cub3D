@@ -42,10 +42,12 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 	if (keydata.key == 'R')
 	{
 		data->plane.center.y += 111;
+		printf("new plane y %d\n", data->plane.center.y);
 	}
 	else if (keydata.key == 'T')
 	{
 		data->plane.center.y -= 114;
+		printf("new plane y %d\n", data->plane.center.y);
 	}
 	if (keydata.key == '1')
 		change_sprite_state(data, WOLF, WOLF_STAY);
@@ -64,17 +66,17 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 	{
 		// data->mlx_data.textrs_img[CROSSBOW1]->instances[0].x -= 100;
 		// data->mlx_data.textrs_img[CROSSBOW1]->instances[0].y -= 100;
-		// mlx_set_instance_depth(&data->mlx_data.textrs_img[CROSSBOW1]->instances[data->test1], 3);
-		// mlx_set_instance_depth(&data->mlx_data.textrs_img[CROSSBOW2]->instances[data->test2], 0);
-		data->player.facing_statue = data->sprite_list;
+		mlx_set_instance_depth(&data->mlx_data.textrs_img[CROSSBOW1]->instances[data->test1], 3);
+		mlx_set_instance_depth(&data->mlx_data.textrs_img[CROSSBOW2]->instances[data->test2], 0);
+		//data->player.facing_statue = data->sprite_list;
 	}
 	else if (keydata.key == '8')
 	{
 		// data->mlx_data.textrs_img[CROSSBOW1]->instances[0].x += 100;
 		// data->mlx_data.textrs_img[CROSSBOW1]->instances[0].y += 100;
-		// mlx_set_instance_depth(&data->mlx_data.textrs_img[CROSSBOW1]->instances[data->test1], 0);
-		// mlx_set_instance_depth(&data->mlx_data.textrs_img[CROSSBOW2]->instances[data->test2], 3);
-		data->player.facing_statue = NULL;
+		mlx_set_instance_depth(&data->mlx_data.textrs_img[CROSSBOW1]->instances[data->test1], 0);
+		mlx_set_instance_depth(&data->mlx_data.textrs_img[CROSSBOW2]->instances[data->test2], 3);
+		// data->player.facing_statue = NULL;
 	}
 
 

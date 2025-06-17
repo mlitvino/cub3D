@@ -38,17 +38,18 @@
 # define SCALE 20
 # define ICON_SIZE 8
 # define ICON_BASE 3
-# define MODIF_BRIGHT 20
+# define MODIF_BRIGHT 3
 
-# define STATUE_MAX_VIS 4
+# define STATUE_MAX_VIS 2
 
 # define EMPTY '0'
 # define WALL '1'
-# define PLAYER 'N'
 
 # define STATUE 'C'
+# define FLOOR 'F'
 
-# define WOLF 'B' // BEAST, W - taken by player's char in subject
+
+# define WOLF 'B'
 
 # define DOOR 'D'
 # define CLOSED 1
@@ -75,6 +76,9 @@ typedef enum e_texture
 	SOUTH,
 	DOOR_TEX,
 	FLOOR_TEX,
+	GROUND_TEX,
+	CEIL_TEX,
+	SKY_TEX,
 	WOLF_STAY,
 	WOLF_WALK1,
 	WOLF_WALK2,
@@ -186,6 +190,10 @@ typedef struct s_sprite
 	int				move_spd;
 	int				turn_spd;
 
+	int				walkable;
+	int				type;
+	int				dist;
+
 	t_point			size;
 	t_point			tex_p;
 
@@ -194,10 +202,6 @@ typedef struct s_sprite
 	int				top;
 	int				left;
 	double			angle;
-
-	int				walkable;
-	int				type;// ENEMY, OBJECT, is needed?
-	int				dist;
 
 	struct s_sprite	*next;
 

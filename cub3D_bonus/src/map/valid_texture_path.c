@@ -1,5 +1,7 @@
 #include "cub3D.h"
 
+
+#     define remove it
 /*int	is_valid_path(char *path)
 {
 	if (access(path, F_OK) != 0)

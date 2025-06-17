@@ -6,60 +6,11 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/16 13:38:43 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/17 17:33:50 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-/*void	init_grid_map(t_data *data)
-{
-	//y 8 x 7, change TEST_MAPY, TEST_MAPX
-	// char temp_map[TEST_MAPY][TEST_MAPX] =
-	// {
-	// 	{1, 1, 1, 1, 1, 1, 1},
-	// 	{1, 0, 0, PLAYER, 0, 0, 1},
-	// 	{1, 0, 0, 0, 0, 0, 1},
-	// 	{1, 0, 0, 0, 0, 0, 1},
-	// 	{1, 1, 1, DOOR, 1, 1, 1},
-	// 	{1, 0, 0, WOLF, 0, 0, 1},
-	// 	{1, 0, 0, 0, 0, 0, 1},
-	// 	{1, 1, 1, 1, 1, 1, 1},
-	// };
-
-	// DOOR MAP
-	// char temp_map[TEST_MAPY][TEST_MAPX] =
-	// {
-	// 	{1, 1, 1, 1, 1, 1, 1},
-	// 	{1, 0, 1, 0, 0, 1, 1},
-	// 	{1, 1, 1, DOOR, 1, 1, 1},
-	// 	{1, 0, 1, 0, 0, 1, 1},
-	// 	{1, 0, DOOR, PLAYER, 0, DOOR, 1},
-	// 	{1, 0, 1, DOOR, 1, 1, 1},
-	// 	{1, 0, 1, 0, 1, 0, 1},
-	// 	{1, 1, 1, 1, 1, 1, 1},
-	// };
-
-	//y 14 x 33, change TEST_MAPY, TEST_MAPX
-	char temp_map[TEST_MAPY][TEST_MAPX] = {
-		{0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-		{0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{0,0,0,0,0,0,0,0,1,0,1,1,0,0,PLAYER,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{0,0,0,0,0,0,0,0,1,0,0,1,0,0,STATUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,1,1,1,1,1,1,1,1,0,1,1,0,0,WOLF,WOLF,WOLF,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
-		{1,1,1,1,0,1,1,1,1,1,1,1,1,1,0,1,1,1,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0},
-		{1,1,1,1,0,1,1,1,1,1,1,1,1,1,0,1,1,1,0,1,0,1,0,0,1,0,0,0,1,0,0,0,0},
-		{1,1,0,0,0,0,0,0,1,1,0,1,0,1,0,1,1,1,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,0,1,0,0,1,0,0,0,1,0,0,0,0},
-		{1,1,0,0,0,0,0,1,1,1,0,1,1,0,1,0,1,1,1,1,1,0,1,1,1,1,0,1,1,1,0,0,0},
-		{1,1,1,1,0,1,1,1,0,1,1,1,0,1,0,1,0,1,1,1,1,0,1,0,0,0,1,0,0,0,0,0,0},
-		{1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0},
-	};
-
-	ft_memcpy(data->grid_map, temp_map, sizeof(temp_map));
-}*/
 
 void	init_unit_map(t_data *data)
 {
@@ -75,9 +26,8 @@ void	init_unit_map(t_data *data)
 		x = 0;
 		while (x < data->map_w)
 		{
-			if (data->grid_map[y / BLOCK_SIZE][x] != PLAYER)
-				ft_memset(&data->unit_map[y][x * BLOCK_SIZE],
-					data->grid_map[y / BLOCK_SIZE][x], BLOCK_SIZE);
+			ft_memset(&data->unit_map[y][x * BLOCK_SIZE],
+				data->grid_map[y / BLOCK_SIZE][x], BLOCK_SIZE);
 			x++;
 		}
 		y++;
@@ -86,16 +36,11 @@ void	init_unit_map(t_data *data)
 
 void	init_maps(t_data *data)
 {
-	//init_grid_map(data);
-	//data->map_h = TEST_MAPY;
-	//data->map_w = TEST_MAPX;
 	init_unit_map(data);
 }
 
 void	init_player(t_data *data)
 {
-	int		pos_x;
-	int		pos_y;
 	t_char *player;
 	int		hitbox;
 
@@ -117,11 +62,6 @@ void	init_player(t_data *data)
 	{
 		for (int x = 0; x < data->map_w; x++)
 		{
-			if (data->grid_map[y][x] == PLAYER)
-			{
-				pos_y = (y * BLOCK_SIZE) + BLOCK_SIZE / 2;
-				pos_x = (x * BLOCK_SIZE) + BLOCK_SIZE / 2;
-			}
 			if (data->grid_map[y][x] == DOOR)
 			{
 				if (create_door(&data->door_list, x, y) == NULL)
@@ -144,20 +84,6 @@ void	init_player(t_data *data)
 			// }
 		}
 	}
-
-	player->pos.x = pos_x;
-	player->pos.y = pos_y;
-
-	printf("pos x %d, pos y %d\n", pos_x, pos_y);
-
-	data->unit_map[pos_y][pos_x] = PLAYER;
-
-	for (int y = pos_y - hitbox; y <= pos_y + hitbox; y++)
-		for (int x = pos_x - hitbox; x <= pos_x + hitbox; x++)
-			data->unit_map[y][x] = PLAYER;
-
-	player->facing_statue = NULL;
-	player->facing_enemy = NULL;
 }
 
 void	init_mlx(t_data *data)
@@ -166,7 +92,7 @@ void	init_mlx(t_data *data)
 
 	ft_memset(&mlx_data, 0, sizeof(t_mlx));
 	mlx_set_setting(MLX_STRETCH_IMAGE, true); // resize scr_img with resizing win
-	//mlx_set_setting(MLX_FULLSCREEN, true); // disable_win
+	mlx_set_setting(MLX_FULLSCREEN, true); // disable_win
 	mlx_data.mlx_ptr = mlx_init(WIN_W, WIN_H, "cub3D", true);
 	mlx_data.scr_img = mlx_new_image(mlx_data.mlx_ptr, WIN_W, WIN_H);
 
@@ -210,9 +136,24 @@ void	init_mlx(t_data *data)
 	mlx_resize_image(mlx_data.textrs_img[DOOR_TEX], BLOCK_SIZE, BLOCK_SIZE);
 
 
-	mlx_data.textrs[FLOOR_TEX] = mlx_load_png("./textures/grass.png");
+	mlx_data.textrs[SKY_TEX] = mlx_load_png("./textures/sky.png");
+	mlx_data.textrs_img[SKY_TEX] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[SKY_TEX]);
+	mlx_resize_image(mlx_data.textrs_img[SKY_TEX], 1440, 4000);
+
+	mlx_data.textrs[CEIL_TEX] = mlx_load_png("./textures/wood_floor.png");
+	mlx_data.textrs_img[CEIL_TEX] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[CEIL_TEX]);
+	mlx_resize_image(mlx_data.textrs_img[CEIL_TEX], 1440, 3000);
+
+	mlx_data.textrs[FLOOR_TEX] = mlx_load_png("./textures/wood_floor.png");
 	mlx_data.textrs_img[FLOOR_TEX] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[FLOOR_TEX]);
 	mlx_resize_image(mlx_data.textrs_img[FLOOR_TEX], BLOCK_SIZE, BLOCK_SIZE);
+
+
+	mlx_data.textrs[GROUND_TEX] = mlx_load_png("./textures/grass.png");
+	mlx_data.textrs_img[GROUND_TEX] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[GROUND_TEX]);
+	mlx_resize_image(mlx_data.textrs_img[GROUND_TEX], BLOCK_SIZE, BLOCK_SIZE);
+
+
 
 
 	mlx_data.textrs[WOLF_STAY] = mlx_load_png("./textures/wolf/wolf_stay.png");
@@ -251,11 +192,12 @@ void	init_mlx(t_data *data)
 	mlx_data.textrs_img[CROSSBOW2] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[CROSSBOW2]);
 	mlx_resize_image(mlx_data.textrs_img[CROSSBOW2], mlx_data.scr_img->width, mlx_data.scr_img->height);
 
-
-
 	// data->test1 = mlx_image_to_window(mlx_data.mlx_ptr, mlx_data.textrs_img[CROSSBOW1], 0, 0);
 	data->test1 = mlx_image_to_window(mlx_data.mlx_ptr, mlx_data.textrs_img[STATUE_FACE], 0, 0);
 	mlx_set_instance_depth(&mlx_data.textrs_img[STATUE_FACE]->instances[data->test1], 4);
+
+	data->test1 = mlx_image_to_window(mlx_data.mlx_ptr, mlx_data.textrs_img[CROSSBOW1], 0, 0);
+	mlx_set_instance_depth(&mlx_data.textrs_img[CROSSBOW1]->instances[data->test1], 0);
 
 	data->test2 = mlx_image_to_window(mlx_data.mlx_ptr, mlx_data.textrs_img[CROSSBOW2], 0, 0);
 	mlx_set_instance_depth(&mlx_data.textrs_img[CROSSBOW2]->instances[data->test2], 3);

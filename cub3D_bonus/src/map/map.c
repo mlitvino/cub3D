@@ -18,8 +18,8 @@ static int	valid_player_count(char **map, t_data *data)
 			{
 				player_count++;
 				set_angle(map[i][j], data);
-				data->player.pos.x = i;
-				data->player.pos.x = j;
+				data->player.pos.y = i * BLOCK_SIZE;
+				data->player.pos.x = j * BLOCK_SIZE;
 			}
 			j++;
 		}
@@ -42,7 +42,7 @@ static int	valid_characters(char **map)
 		j = 0;
 		while (map[i][j])
 		{
-			if (!ft_strchr("01NSWED ", map[i][j])) //can add extra characters for bonus
+			if (!ft_strchr("01NSWEDBCF ", map[i][j])) //can add extra characters for bonus
 				return (0);
 			j++;
 		}
