@@ -20,7 +20,7 @@ static struct timeval get_current_time(void)
     return (now);
 }
 
-static int *check_for_door(char **map, int row, int col)
+/*static int *check_for_door(char **map, int row, int col)
 {
     int delta_row;
     int delta_col;
@@ -55,27 +55,67 @@ static int *check_for_door(char **map, int row, int col)
         delta_row++;
     }
     return (NULL);
+}*/
+
+static int *check_for_door(char **map, int player_x, int player_y, t_data *data)
+{
+	int i;
+	int *coordinates;
+	double dir_x;
+	double dir_y;
+	double angle_rad;
+
+	i = 0;
+	angle_rad = DEG_TO_RAD(data->player.pov.view_angl);
+	dir_x = cos(angle_rad);
+	dir_y = -sin(angle_rad);
+
+	//int front_x = (int)(data->player.pos.x + cos(angle_rad) * BLOCK_SIZE) / BLOCK_SIZE;
+	//int front_y = (int)(data->player.pos.y + sin(angle_rad) * BLOCK_SIZE) / BLOCK_SIZE;
+
+	//printf("Tile in front: (%d, %d) = %c\n", front_y, front_x, map[front_y][front_x]);
+	while (i < 5)
+	{
+		player_x += dir_x * 80;
+		player_y += dir_y * 80;
+
+		if (map[(player_y /BLOCK_SIZE)][(player_x / BLOCK_SIZE)] == 'D')
+		{
+			coordinates = malloc(2 * sizeof(int));
+			if (!coordinates)
+				return (NULL);
+			coordinates[0] = player_y / BLOCK_SIZE;
+			coordinates[1] = player_x / BLOCK_SIZE;
+			return (coordinates);
+		}
+		i++;
+	}
+	return (NULL);
 }
 
-
-void open_door(t_data *data)
+void open_close_door(t_data *data)
 {
 	int *coordinates;
 	int	door_x;
 	int	door_y;
 	t_door *door;
 
-	coordinates = check_for_door(data->grid_map, data->player.pos.y, data->player.pos.x);
+	coordinates = check_for_door(data->grid_map, data->player.pos.x, data->player.pos.y, data);
 	if (coordinates)
 	{
 		door_x = coordinates[1];
 		door_y = coordinates[0];
 		free(coordinates);
 		door = find_door(data->door_list, door_x *BLOCK_SIZE, door_y *BLOCK_SIZE);
-		if (door && data->player.door_facing != 0 && data->player.door_facing < BLOCK_SIZE * 3)
+		if (door)
 		{
-			door->state = OPENING;
-			door->time_opened = get_current_time();
+			if (door->state == CLOSED)
+			{
+				door->state = OPENING;
+				door->time_opened = get_current_time();
+			}
+			else if (door->state == OPEN)
+				door->state = CLOSING;
 		}
 	}
 }
@@ -90,20 +130,37 @@ static int has_10_seconds_passed(struct timeval start)
     if (microseconds < 0) 
 	{
         seconds -= 1;
-        microseconds += 1000000;
+        microseconds += 100000;
     }
-    return (seconds >= 10);
+    return (seconds >= 5);
 }
 
-void	update_doors(t_door *doors)
+int player_inside_door(t_data *data, t_door *door)
+{
+	int i;
+	int player_grid_x;
+	int player_grid_y;
+
+	player_grid_x = data->player.pos.x / BLOCK_SIZE;
+	player_grid_y = data->player.pos.y / BLOCK_SIZE;
+	if (door->grid_y == player_grid_y && door->grid_x == player_grid_x)
+		return (1);
+	else
+		return (0);
+}	
+
+void	update_doors(t_door *doors, t_data *data)
 {
 	while (doors)
 	{
 		if (doors->state == CLOSING)
 		{
-			doors->len += doors->move_spd;
-			if (doors->len > BLOCK_SIZE)
-				doors->state = CLOSED;
+			if (!player_inside_door(data, doors))
+			{
+				doors->len += doors->move_spd;
+				if (doors->len > BLOCK_SIZE)
+					doors->state = CLOSED;
+			}
 		}
 		else if (doors->state == OPENING)
 		{
@@ -114,7 +171,10 @@ void	update_doors(t_door *doors)
 		if (doors->state == OPEN)
 		{
 			if (has_10_seconds_passed(doors->time_opened))
-				doors->state = CLOSING;
+			{
+				if (!player_inside_door(data, doors))
+					doors->state = CLOSING;
+			}
 		}
 		doors = doors->next;
 	}

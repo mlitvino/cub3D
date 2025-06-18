@@ -1,8 +1,9 @@
 #include "cub3D.h"
 
 
-static void	set_key_flag(t_keys *k, mlx_key_data_t keydata, int value)
+static void	set_key_flag(t_keys *k, mlx_key_data_t keydata, int value, t_data *data)
 {
+
 	if (keydata.key == 'W')
         k->w = value;
 	else if (keydata.key == MLX_KEY_A)
@@ -17,6 +18,7 @@ static void	set_key_flag(t_keys *k, mlx_key_data_t keydata, int value)
         k->right = value;
 	else if (keydata.key == MLX_KEY_ESCAPE)
         k->esc = value;
+	data->player.is_moving = (k->w || k->a || k->s || k->d);
 }
 
 void	change_sprite_state(t_data *data, int type, int new_state)
@@ -93,7 +95,7 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 	}
 	if (keydata.key == MLX_KEY_SPACE /*&& is_center_door */)
 	{
-		open_door(data);
+		open_close_door(data);
 	}
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 	{
@@ -101,7 +103,7 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 		return ;
 	}
 	if (keydata.action == MLX_PRESS /*|| keydata.action == MLX_REPEAT*/)
-		set_key_flag(&data->keys, keydata, 1);
+		set_key_flag(&data->keys, keydata, 1, data);
 	else if (keydata.action == MLX_RELEASE)
-		set_key_flag(&data->keys, keydata, 0);
+		set_key_flag(&data->keys, keydata, 0, data);
 }

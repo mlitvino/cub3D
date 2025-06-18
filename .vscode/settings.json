@@ -20,7 +20,8 @@
 		"span": "c",
 		"xutility": "c",
 		"vector": "c",
-		"xstring": "c"
+		"xstring": "c",
+		"iosfwd": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

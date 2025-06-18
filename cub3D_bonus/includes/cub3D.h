@@ -243,6 +243,10 @@ typedef struct s_char
 	int			move_spd;
 	int			turn_spd;
 
+	int is_moving;
+	int mov_height;
+	double bobbing_time;
+
 }				t_char;
 
 typedef struct s_raycast
@@ -348,7 +352,7 @@ t_raycast	*init_raycast(t_data *data, t_char *player, t_raycast *raycast);
 void		fill_ray_info(t_raycast *raycast);
 
 // door.c
-void		update_doors(t_door *doors);
+void		update_doors(t_door *doors, t_data *data);
 t_door		*find_door(t_door *doors, int unit_x, int unit_y);
 t_door		*create_door(t_door **doors_list, int grid_x, int grid_y);
 
@@ -493,6 +497,6 @@ int check_double_element_wall(int *map_element, char *element, char *line, t_dat
 int	check_doors(char **map);
 
 void handle_mouse_rotation(t_data *game);
-void open_door(t_data *data);
+void open_close_door(t_data *data);
 
 #endif

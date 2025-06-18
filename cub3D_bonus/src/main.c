@@ -11,77 +11,29 @@
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-
 #include <stdio.h>
 #include <sys/time.h>
 
-void show_fps(void)
-{
-    static struct timeval last = {0, 0};
-    static int frames = 0;
-    struct timeval now;
-    double elapsed;
-
-    gettimeofday(&now, NULL);
-
-    // Initialize last on first call
-    if (last.tv_sec == 0 && last.tv_usec == 0)
-    {
-        last = now;
-        return;
-    }
-
-    frames++;
-    elapsed = (now.tv_sec - last.tv_sec) + (now.tv_usec - last.tv_usec) / 1000000.0;
-
-    if (elapsed >= 1.0)
-    {
-        printf("FPS: %d\n", frames);
-        frames = 0;
-        last = now;
+static void update_bobbing(t_char *player, double delta_time) 
+{	
+    if (player->is_moving) 
+	{
+        player->bobbing_time += delta_time * 10.0; // Tune the speed of bobbing
+        player->height = 2 + sin(player->bobbing_time) * 0.2;
+    } 
+	else 
+	{
+        if (fabs(player->height - player->height) > 0.1)
+            player->height = player->height * 0.9 + player->height * 0.1;
+        else 
+		{
+            player->height = 2;
+            player->bobbing_time = 0;
+        }
     }
 }
 
-void	jump_baby(t_char *player)
-{
-	static int shake_sum = 0;
-	static int shake_right = 0;
-	int	shake_step = player->hitbox_radius / 8;
-	static int jump_up = 0;
-	double	jump_step = 0.05;
-
-	if (jump_up == true)
-	{
-		player->height += jump_step;
-		if (player->height > 2)
-			jump_up = 0;
-	}
-	else
-	{
-		player->height -= jump_step;
-		if (player->height < 1.5)
-			jump_up = 1;
-	}
-
-	if (shake_right == 1)
-	{
-		player->pos.x += shake_step;
-		shake_sum += shake_step;
-		if (shake_sum > player->hitbox_radius / 2)
-			shake_right = 0;
-	}
-	else
-	{
-		player->pos.x -= shake_step;
-		shake_sum -= shake_step;
-		if (shake_sum < player->hitbox_radius / 8)
-			shake_right = 1;
-	}
-
-}
-
-void	open_close(t_door *doors)
+/*void	open_close(t_door *doors)
 {
 	while (doors)
 	{
@@ -91,7 +43,7 @@ void	open_close(t_door *doors)
 			doors->state = CLOSING;
 		doors = doors->next;
 	}
-}
+}*/
 
 void	adjust_image_alpha(mlx_image_t *img, int new_alpha)
 {
@@ -157,12 +109,25 @@ void	update_statues(t_data *data, t_char *player, t_sprite *sprites)
 	}
 }
 
+long get_time_in_ms(void)
+{
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+}
+
 void	render(void *data_arg)
 {
 	t_data *data;
+	static long previous_time = 0;
+	long current_time;
+    double delta_time;
 
 	data = (t_data *)data_arg;
 	// //show_unit_map(data);
+	current_time = get_time_in_ms();
+	delta_time = (current_time - previous_time) / 1000.0;
+    previous_time = current_time;
 	if (data->keys.w)
         move_player(&data->player, 0);
     if (data->keys.a)
@@ -175,13 +140,13 @@ void	render(void *data_arg)
         rotate_player_right(&data->player);
     if (data->keys.right)
         rotate_player_left(&data->player);
-	handle_mouse_rotation(data);
+	//handle_mouse_rotation(data);
 
-	//jump_baby(&data->player);
+	update_bobbing(&data->player, delta_time);
 
 	t_door *door = data->door_list;
 	//open_close(door);
-	update_doors(door);
+	update_doors(door, data);
 	update_statues(data, &data->player, data->sprite_list);
 
 	raycast(data);

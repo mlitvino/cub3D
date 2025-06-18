@@ -107,9 +107,10 @@ void	init_player(t_data *data)
 	//player->pov.view_angl = 90;
 	player->height = 2;
 
-	player->move_spd = BLOCK_SIZE / 16;
+	player->move_spd = BLOCK_SIZE / 24;
 	player->turn_spd = 2;
 
+	player->is_moving = 0;
 	hitbox = player->hitbox_radius;
 
 	printf("x %d y %d\n", data->map_h, data->map_w);
@@ -263,6 +264,8 @@ void	init_mlx(t_data *data)
 
 	mlx_set_icon(mlx_data.mlx_ptr, mlx_data.textrs[WOLF_STAY]);
 	data->mlx_data = mlx_data;
+
+	//mlx_set_cursor_mode(data->mlx_data.mlx_ptr, MLX_MOUSE_DISABLED); //hides mouse
 }
 
 void	init_data(t_data *data)

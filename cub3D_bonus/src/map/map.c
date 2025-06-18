@@ -18,7 +18,7 @@ static int	valid_player_count(char **map, t_data *data)
 			{
 				player_count++;
 				set_angle(map[i][j], data);
-				data->player.pos.x = i;
+				data->player.pos.y = i;
 				data->player.pos.x = j;
 			}
 			j++;
