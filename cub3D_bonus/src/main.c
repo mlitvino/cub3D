@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "cub3D.h"
+#include <stdio.h>
+#include <sys/time.h>
 
 static void update_bobbing(t_char *player, double delta_time) 
 {	
@@ -42,10 +44,6 @@ static void update_bobbing(t_char *player, double delta_time)
 		doors = doors->next;
 	}
 }*/
-
-#include <stdio.h>
-#include <sys/time.h>
-
 void show_fps(void)
 {
     static struct timeval last = {0, 0};
