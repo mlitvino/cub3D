@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:43:06 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/16 14:20:55 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/18 20:17:34 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,11 @@ void	compre_dist(t_raycast *raycast, t_point hor_wall, t_point ver_wall)
 
 void	cast_ray(t_raycast *raycast, double ray_angl)
 {
-	if ((int)ray_angl != 180 && (int)ray_angl != 0)
+	if ((int)ray_angl != 180)
 		find_wall(raycast, &raycast->hor_wall, HORIZONT, &raycast->hor_dist);
 	else
 		raycast->hor_dist = INT_MAX;
-	if ((int)ray_angl != 90 && (int)ray_angl != 270)
+	if ((int)ray_angl != 90)
 		find_wall(raycast, &raycast->ver_wall, VERTICAL, &raycast->ver_dist);
 	else
 		raycast->ver_dist = INT_MAX;

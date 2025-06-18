@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:57:05 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/16 14:21:35 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/18 15:44:16 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ bool	find_wall(t_raycast *raycast, t_point *wall, int axis_flag, int *dist)
 
 	char_pos = raycast->char_pos;
 	temp.h = -1;
+	temp.x = -1;
+	temp.y = -1;
 	init_delta(axis_flag, &dx, &dy, raycast->ray_angle);
 	while (1)
 	{
