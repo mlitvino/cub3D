@@ -6,18 +6,19 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/16 13:44:55 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/06/19 01:25:30 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			= cc -ggdb -Ofast
 # -Wall -Wextra -Werror
-HEADERS		= -I$(LIBFT_DIR)/$(INCLD_DIR) -I$(INCLD_DIR) -I$(MLX_DIR)/include
-LIBS		= -L$(MLX_DIR)/build $(MLX) -lz -ldl -lglfw -pthread -lm -o
+HEADERS		= -I$(LIBFT_DIR)/$(INCLD_DIR) -I$(INCLD_DIR) -I$(MLX_DIR)/include -I$(RAYLIB_DIR)
+LIBS		= -L$(MLX_DIR)/build $(MLX) $(RAYLIB) -lz -ldl -lglfw -pthread -lm -o
 
 NAME		= cub3D
 LIBFT		= $(LIBFT_DIR)/libft.a
 MLX			= $(MLX_DIR)/build/libmlx42.a
+RAYLIB		= $(RAYLIB_DIR)/libraylib.a
 
 OBJ_DIR		= obj
 INCLD_DIR	= includes
@@ -25,6 +26,7 @@ INCLD_DIR	= includes
 LIBS_DIR	= ../lib
 MLX_DIR		= $(LIBS_DIR)/MLX42
 LIBFT_DIR	= $(LIBS_DIR)/libft
+RAYLIB_DIR	= $(LIBS_DIR)/raylib/src
 
 SRC_DIR		= src
 RAY_DIR		= raycast
@@ -37,6 +39,7 @@ SRC			= $(addprefix $(SRC_DIR)/, \
 				minimap.c \
 				minimap_player.c \
 				minimap_utils.c \
+				audio.c \
 				$(RAY_SRC) \
 				$(MOV_SRC) \
 				debug.c \
@@ -80,11 +83,22 @@ INCLD		= $(INCLD_DIR)/cub3D.h
 
 .SECONDARY: $(OBJ)
 
-all: $(LIBFT) $(MLX) $(NAME)
+all: $(LIBFT) $(MLX) $(RAYLIB) $(NAME)
+
+$(RAYLIB):
+	make -C $(RAYLIB_DIR)
 
 $(MLX):
 	cmake -S $(MLX_DIR) -B $(MLX_DIR)/build
 	cmake --build $(MLX_DIR)/build -j6
+	@echo "Weakening MLX42 static library..."
+	@mkdir -p $(MLX_DIR)/weakened
+	@cd $(MLX_DIR)/weakened && \
+	ar x ../build/libmlx42.a && \
+	rm -rf ../build/libmlx42.a && \
+	objcopy --weaken glad.c.o && \
+	ar rcs ../build/libmlx42.a *.o && \
+	cd ..
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INCLD)
 	@[ -d $(OBJ_DIR) ] || mkdir -p $(OBJ_DIR)

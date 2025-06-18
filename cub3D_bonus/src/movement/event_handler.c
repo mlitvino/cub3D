@@ -43,6 +43,7 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 	{
 		data->plane.center.y += 111;
 		printf("new plane y %d\n", data->plane.center.y);
+		PlaySound(data->test3);
 	}
 	else if (keydata.key == 'T')
 	{

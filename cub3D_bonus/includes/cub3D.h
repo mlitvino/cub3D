@@ -14,7 +14,10 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# include "raylib.h"
+
 # include "MLX42/MLX42_Int.h"
+
 # include "libft.h"
 # include <errno.h>
 # include <math.h>
@@ -38,7 +41,7 @@
 # define SCALE 20
 # define ICON_SIZE 8
 # define ICON_BASE 3
-# define MODIF_BRIGHT 3
+# define MODIF_BRIGHT 4
 
 # define STATUE_MAX_VIS 2
 
@@ -83,6 +86,7 @@ typedef enum e_texture
 	WOLF_WALK1,
 	WOLF_WALK2,
 	WOLF_ATTCK,
+	WOLF_DEAD,
 	STATUE_GREY,
 	STATUE_RED,
 	STATUE_FACE,
@@ -91,20 +95,14 @@ typedef enum e_texture
 	MAX_TEX
 }	t_texture;
 
+typedef enum e_audio
+{
+	MAX_AUDIO
+}	t_audio;
+
 typedef struct s_data		t_data;
 typedef struct s_raycast	t_raycast;
 typedef struct s_char		t_char;
-
-//------------------------------TEST----------------------------------
-# define RESET "\033[0m"
-# define BLACK "\033[30m"
-# define RED "\033[31m"
-# define GREEN "\033[32m"
-# define YELLOW "\033[33m"
-# define BLUE "\033[34m"
-# define MAGENTA "\033[35m"
-# define CYAN "\033[36m"
-# define WHITE "\033[37m"
 
 //------------------------------Graphic----------------------------------
 
@@ -309,6 +307,12 @@ typedef struct s_mlx
 
 }						t_mlx;
 
+// typedef struct s_audio
+// {
+// 	Music	music;
+// 	Sound	sound;
+// }			t_audio;
+
 typedef struct s_data
 {
 	t_mlx				mlx_data;
@@ -336,6 +340,8 @@ typedef struct s_data
 
 	int					test1;
 	int					test2;
+
+	Sound				test3;
 
 }						t_data;
 
@@ -425,6 +431,9 @@ void		rotate_player_right(t_char *player);
 void		rotate_player_left(t_char *player);
 
 //-------------------------------GENERAL------------------------------------
+
+// audio.c
+void		init_audio(t_data *data);
 
 // clean.c
 void		clean_map(t_data *data);
