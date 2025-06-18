@@ -227,6 +227,10 @@ typedef struct s_char
 	int			move_spd;
 	int			turn_spd;
 
+	int is_moving;
+	int mov_height;
+	double bobbing_time;
+
 }				t_char;
 
 typedef struct s_raycast

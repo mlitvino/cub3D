@@ -20,7 +20,7 @@ void handle_mouse_rotation(t_data *game)
 	int center_x = WIN_W / 2;
 	int center_y = WIN_H / 2;
 	int delta_x, delta_y;
-	float sensitivity = 0.06f;
+	float sensitivity = 0.006f;
 	int vertical_speed = 1;
 
 	mlx_get_mouse_pos(game->mlx_data.mlx_ptr, &x, &y);
