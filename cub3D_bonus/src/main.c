@@ -19,7 +19,7 @@ static void update_bobbing(t_char *player, double delta_time)
     if (player->is_moving) 
 	{
         player->bobbing_time += delta_time * 10.0; // Tune the speed of bobbing
-        player->height = 2 + sin(player->bobbing_time) * 0.2;
+        player->height = 2 + (-sin(player->bobbing_time)) * 0.2;
     } 
 	else 
 	{
@@ -30,6 +30,33 @@ static void update_bobbing(t_char *player, double delta_time)
             player->height = 2;
             player->bobbing_time = 0;
         }
+    }
+}
+
+void show_fps(void)
+{
+    static struct timeval last = {0, 0};
+    static int frames = 0;
+    struct timeval now;
+    double elapsed;
+
+    gettimeofday(&now, NULL);
+
+    // Initialize last on first call
+    if (last.tv_sec == 0 && last.tv_usec == 0)
+    {
+        last = now;
+        return;
+    }
+
+    frames++;
+    elapsed = (now.tv_sec - last.tv_sec) + (now.tv_usec - last.tv_usec) / 1000000.0;
+
+    if (elapsed >= 1.0)
+    {
+        printf("FPS: %d\n", frames);
+        frames = 0;
+        last = now;
     }
 }
 
@@ -142,7 +169,7 @@ void	render(void *data_arg)
         rotate_player_left(&data->player);
 	//handle_mouse_rotation(data);
 
-	update_bobbing(&data->player, delta_time);
+	//update_bobbing(&data->player, delta_time);
 
 	t_door *door = data->door_list;
 	//open_close(door);
