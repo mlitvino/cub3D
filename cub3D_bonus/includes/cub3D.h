@@ -183,6 +183,8 @@ typedef struct s_sprite
 	int				hitbox_radius;
 	t_point			pos;
 
+	double			dist_player;
+
 	int				move_spd;
 	int				turn_spd;
 
@@ -206,6 +208,11 @@ typedef struct s_sprite
 
 
 //-------------------------------GAME------------------------------------
+
+typedef struct s_path {
+    t_point pos;                // The current position on the grid (x, y)
+    struct s_bfs_node *parent;  // Pointer to the node we came from
+} t_path;
 
 typedef struct s_keys
 {

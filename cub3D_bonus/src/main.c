@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/16 13:40:01 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:24:16 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,9 +167,9 @@ void	render(void *data_arg)
         rotate_player_right(&data->player);
     if (data->keys.right)
         rotate_player_left(&data->player);
-	//handle_mouse_rotation(data);
+	handle_mouse_rotation(data);
 
-	//update_bobbing(&data->player, delta_time);
+	update_bobbing(&data->player, delta_time);
 
 	t_door *door = data->door_list;
 	//open_close(door);

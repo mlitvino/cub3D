@@ -16,11 +16,13 @@ void rotate_player_left(t_char *player)
 
 void handle_mouse_rotation(t_data *game)
 {
-	int x, y;
+	int x; 
+	int y;
 	int center_x = WIN_W / 2;
 	int center_y = WIN_H / 2;
-	int delta_x, delta_y;
-	float sensitivity = 0.006f;
+	int delta_x; 
+	int delta_y;
+	float sensitivity = 0.06f;
 	int vertical_speed = 1;
 
 	mlx_get_mouse_pos(game->mlx_data.mlx_ptr, &x, &y);
@@ -33,7 +35,7 @@ void handle_mouse_rotation(t_data *game)
 	else if (game->player.pov.view_angl < 0)
 		game->player.pov.view_angl += 360;
 
-	game->plane.center.y -= delta_y * vertical_speed;
+	game->plane.center.y -= (delta_y * vertical_speed) / 2;
 
 	if (game->plane.center.y > WIN_H)
 		game->plane.center.y = WIN_H;
