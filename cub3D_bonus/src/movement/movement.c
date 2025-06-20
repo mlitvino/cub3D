@@ -3,8 +3,8 @@
 void move_player(t_char *player, double angle_offset)
 {
 	double angle_rad;
-	int dx;
-	int dy;
+	double dx;
+	double dy;
 	int new_x;
 	int new_y;
 

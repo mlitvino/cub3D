@@ -41,7 +41,7 @@
 # define SCALE 20
 # define ICON_SIZE 8
 # define ICON_BASE 3
-# define MODIF_BRIGHT 4
+# define MODIF_BRIGHT 2
 
 # define STATUE_MAX_VIS 2
 
@@ -224,7 +224,7 @@ typedef struct s_keys
 typedef struct s_pov
 {
 	t_point		view_pos;
-	int			view_angl;
+	double		view_angl;
 	int			fov;
 
 }				t_pov;
@@ -240,7 +240,7 @@ typedef struct s_char
 	int			hitbox_radius;
 	t_sprite	*facing_enemy;
 	t_sprite	*facing_statue;
-	t_point		pos;
+	t_dpoint		pos;
 
 	int			move_spd;
 	int			turn_spd;
@@ -265,7 +265,7 @@ typedef struct s_raycast
 	int			flor_rgbt;
 	int			ceil_rgbt;
 
-	int			view_angle;
+	double		view_angle;
 	t_point		char_pos;
 
 	mlx_image_t	*wall_img;

@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:59:38 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/16 13:43:26 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/20 14:42:22 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ t_raycast	*init_raycast(t_data *data, t_char *player, t_raycast *raycast)
 		raycast[i].ceil_rgbt = data->ceil_rgb.rgbt;
 
 		raycast[i].thread_chunk = data->rays_count / MAX_THRD;
-		raycast[i].ray_angle = (player->pov.view_angl + (FOV / 2)) % 360;
+
+		raycast[i].ray_angle = fmod((player->pov.view_angl + (FOV / 2)), 360);
 
 		raycast[i].ray_angle -= (data->rays_angle * i * raycast[i].thread_chunk);
 		if (raycast[i].ray_angle < 0)
@@ -84,7 +85,8 @@ t_raycast	*init_raycast(t_data *data, t_char *player, t_raycast *raycast)
 
 		raycast[i].cur_ray = 0;
 		raycast[i].view_angle = player->pov.view_angl;
-		raycast[i].char_pos = player->pos;
+		raycast[i].char_pos.x = player->pos.x;
+		raycast[i].char_pos.y = player->pos.y;
 		raycast[i].thrd_i = i;
 		i++;
 	}
