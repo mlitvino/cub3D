@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/20 15:02:51 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/20 19:53:38 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,6 @@ void	init_mlx(t_data *data)
 
 	mlx_set_setting(MLX_STRETCH_IMAGE, true); // resize scr_img with resizing win
 	//mlx_set_setting(MLX_FULLSCREEN, true); // disable_win
-	printf("HERE\n");
-	printf("HERE\n");
 
 	// if (!glfwInit())
 	// {
@@ -158,7 +156,7 @@ void	init_mlx(t_data *data)
 
 	mlx_data.textrs[SKY_TEX] = mlx_load_png("./textures/sky.png");
 	mlx_data.textrs_img[SKY_TEX] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[SKY_TEX]);
-	mlx_resize_image(mlx_data.textrs_img[SKY_TEX], 1440, 4000);
+	mlx_resize_image(mlx_data.textrs_img[SKY_TEX], 1440, 5000);
 
 	mlx_data.textrs[CEIL_TEX] = mlx_load_png("./textures/wood_ceil.png");
 	mlx_data.textrs_img[CEIL_TEX] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[CEIL_TEX]);

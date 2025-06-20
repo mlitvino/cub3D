@@ -43,7 +43,9 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 	{
 		data->plane.center.y += 111;
 		printf("new plane y %d\n", data->plane.center.y);
-		PlaySound(data->test3);
+
+		if (IsMusicStreamPlaying(data->music[M_FOREST]) == false)
+			PlayMusicStream(data->music[M_FOREST]);
 	}
 	else if (keydata.key == 'T')
 	{
@@ -93,6 +95,8 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 		{
 			printf("Enemy is not in center of screen\n");
 		}
+		if (IsSoundPlaying(data->sound[S_SHOT]) == false)
+			PlaySound(data->sound[S_SHOT]);
 	}
 	if (keydata.key == MLX_KEY_SPACE /*&& is_center_door */)
 	{

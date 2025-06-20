@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 23:12:04 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/02 14:28:59 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/20 19:24:31 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,6 @@ void	clean_all(t_data *data)
 	clean_map(data);
 	clean_mlx(data);
 	clean_obj(data);
+	clean_audio(data);
 	exit(0);
 }

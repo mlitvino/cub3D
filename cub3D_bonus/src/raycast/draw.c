@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 14:20:00 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/20 14:21:57 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/20 18:14:55 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,7 @@ void	render_col(t_raycast *raycast, t_wall *wall, int wall_dist,
 		{
 			// mlx_put_pixel(raycast->scr_img, raycast->cur_ray, y,
 			// 	raycast->ceil_rgbt);
-			draw_ceiling(raycast, wall_top, y, &y);
+			//draw_ceiling(raycast, wall_top, y, &y);
 		}
 		else if (y < wall_top + wall_h)
 			map_wall(raycast, y, wall_h, wall_top);

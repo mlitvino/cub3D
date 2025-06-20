@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   door.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:41:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/13 13:38:45 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/20 17:47:41 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static struct timeval get_current_time(void) 
+static struct timeval get_current_time(void)
 {
     struct timeval now;
 
@@ -74,20 +74,23 @@ void open_door(t_data *data)
 		door = find_door(data->door_list, door_x *BLOCK_SIZE, door_y *BLOCK_SIZE);
 		if (door && data->player.door_facing != 0 && data->player.door_facing < BLOCK_SIZE * 3)
 		{
+			if (door->state == CLOSED);
+				if (IsSoundPlaying(data->sound[S_DOOR]) == false)
+					PlaySound(data->sound[S_DOOR]);
 			door->state = OPENING;
 			door->time_opened = get_current_time();
 		}
 	}
 }
 
-static int has_10_seconds_passed(struct timeval start) 
+static int has_10_seconds_passed(struct timeval start)
 {
     struct timeval now;
 
 	now = get_current_time();
     long seconds = now.tv_sec - start.tv_sec;
     long microseconds = now.tv_usec - start.tv_usec;
-    if (microseconds < 0) 
+    if (microseconds < 0)
 	{
         seconds -= 1;
         microseconds += 1000000;

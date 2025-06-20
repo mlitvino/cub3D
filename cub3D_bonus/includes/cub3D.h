@@ -41,7 +41,7 @@
 # define SCALE 20
 # define ICON_SIZE 8
 # define ICON_BASE 3
-# define MODIF_BRIGHT 2
+# define MODIF_BRIGHT 1
 
 # define STATUE_MAX_VIS 2
 
@@ -95,10 +95,32 @@ typedef enum e_texture
 	MAX_TEX
 }	t_texture;
 
-typedef enum e_audio
+
+# define S_DOOR_PATH "audio/gate_open.mp3"
+# define S_SHOT_PATH "audio/shot_reloading.mp3"
+# define S_RELOADING_PATH "audio/reloading.mp3"
+
+# define M_STORM_PATH "audio/storm.mp3"
+# define M_FOREST_PATH "audio/forest.mp3"
+# define M_PLAYER_STEP_PATH "audio/player_step.mp3"
+# define M_WOLF_STEP_PATH "audio/wolf_step.mp3"
+
+typedef enum e_music
 {
-	MAX_AUDIO
-}	t_audio;
+	M_PLAYER_STEP,
+	M_WOLF_STEP,
+	M_FOREST,
+	M_STORM,
+	MAX_MUSIC
+}	e_music;
+
+typedef enum e_sound
+{
+	S_SHOT,
+	S_RELOADING,
+	S_DOOR,
+	MAX_SOUND
+}	e_sound;
 
 typedef struct s_data		t_data;
 typedef struct s_raycast	t_raycast;
@@ -307,12 +329,6 @@ typedef struct s_mlx
 
 }						t_mlx;
 
-// typedef struct s_audio
-// {
-// 	Music	music;
-// 	Sound	sound;
-// }			t_audio;
-
 typedef struct s_data
 {
 	t_mlx				mlx_data;
@@ -341,7 +357,10 @@ typedef struct s_data
 	int					test1;
 	int					test2;
 
-	Sound				test3;
+	Music				music[MAX_MUSIC];
+	char				*music_path[MAX_MUSIC];
+	Sound				sound[MAX_SOUND];
+	char				*sound_path[MAX_SOUND];
 
 }						t_data;
 
@@ -433,6 +452,7 @@ void		rotate_player_left(t_char *player);
 //-------------------------------GENERAL------------------------------------
 
 // audio.c
+void		clean_audio(t_data *data);
 void		init_audio(t_data *data);
 
 // clean.c
