@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 13:20:49 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/12 18:16:19 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/20 14:16:58 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,10 @@ void	calc_sprite(t_raycast *raycast, t_sprite **sprites)
 		sprites[i]->height = ceil(tempH);
 		sprites[i]->width = sprites[i]->height;
 		sprites[i]->top = raycast->plane->center.y;
-		sprites[i]->top -= (sprites[i]->height / 2);
+
+		double h_ratio = 1 + (raycast->data->player.height / (BLOCK_SIZE / 2));
+
+		sprites[i]->top -= (sprites[i]->height / h_ratio);
 		sprites[i]->left = sprites[i]->size.x - (sprites[i]->width / 2);
 		i++;
 	}

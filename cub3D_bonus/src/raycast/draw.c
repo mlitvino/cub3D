@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 14:20:00 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/17 17:29:11 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/20 14:21:57 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ void	draw_floor(t_raycast *raycast, int y)
 	uint8_t		*raw_pixel;
 
 	img = raycast->data->mlx_data.textrs_img[GROUND_TEX];
-	double st = (double)BLOCK_SIZE / 2;
+
+	//double st = (double)BLOCK_SIZE / 2;
+	double st = BLOCK_SIZE / (1 + ((BLOCK_SIZE / 2) / raycast->data->player.height));
 
 	double b_cos = cos(deg_rad(raycast->beta));
 	double a_cos = cos(deg_rad(raycast->ray_angle));
@@ -126,7 +128,9 @@ void	draw_ceiling(t_raycast *raycast, int wall_top, int y, int *p_y)
 	uint8_t		*raw_pixel;
 
 	img = raycast->data->mlx_data.textrs_img[CEIL_TEX];
-	double st = (double)BLOCK_SIZE / 2;
+
+	//double st = (double)BLOCK_SIZE / 2;
+	double st = BLOCK_SIZE / (1 + ((BLOCK_SIZE / 2) / raycast->data->player.height));
 
 	double b_cos = cos(deg_rad(raycast->beta));
 	double a_cos = cos(deg_rad(raycast->ray_angle));
@@ -154,12 +158,12 @@ void	draw_ceiling(t_raycast *raycast, int wall_top, int y, int *p_y)
 			pixel_i = (texY * img->width + texX) * BPP;
 			raw_pixel = &img->pixels[pixel_i];
 			color = extract_rgba(raw_pixel);
-			//add_shadow(&color, &dist);
+			add_shadow(&color, &dist);
 			mlx_put_pixel(raycast->scr_img, raycast->cur_ray, y, color);
 		}
 		y++;
 	}
-	*p_y = y;
+	*p_y = y - 1;
 }
 
 void	render_col(t_raycast *raycast, t_wall *wall, int wall_dist,
@@ -169,9 +173,12 @@ void	render_col(t_raycast *raycast, t_wall *wall, int wall_dist,
 	int	wall_top;
 	int	y;
 
-	wall_h = ceil(BLOCK_SIZE * raycast->plane->dist / (double)wall_dist);
+	wall_h = ceil((BLOCK_SIZE) * raycast->plane->dist / (double)wall_dist);
 	wall_top = raycast->plane->center.y;
-	wall_top = wall_top - (wall_h / raycast->data->player.height);
+
+	double h_ratio = 1 + (raycast->data->player.height / (BLOCK_SIZE / 2));
+
+	wall_top = wall_top - (wall_h / h_ratio);
 
 	if (raycast->axis == HORIZONT)
 	{
