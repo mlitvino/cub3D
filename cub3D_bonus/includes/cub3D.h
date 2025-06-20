@@ -38,9 +38,9 @@
 # define TEST_MAPX 50
 # define TEST_MAPY 14
 
-# define SCALE 20
-# define ICON_SIZE 8
-# define ICON_BASE 3
+# define SCALE 40
+# define ICON_SIZE 16
+# define ICON_BASE 6
 # define MODIF_BRIGHT 1
 
 # define STATUE_MAX_VIS 2
@@ -104,6 +104,9 @@ typedef enum e_texture
 # define M_FOREST_PATH "audio/forest.mp3"
 # define M_PLAYER_STEP_PATH "audio/player_step.mp3"
 # define M_WOLF_STEP_PATH "audio/wolf_step.mp3"
+
+
+# define GREEN_COL 0x00d118ff
 
 typedef enum e_music
 {

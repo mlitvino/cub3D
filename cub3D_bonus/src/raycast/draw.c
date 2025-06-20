@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 14:20:00 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/20 18:14:55 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/20 23:16:37 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	draw_floor(t_raycast *raycast, int y)
 	double a_cos = cos(deg_rad(raycast->ray_angle));
 	double a_sin = sin(deg_rad(raycast->ray_angle));
 
-	while (y < raycast->scr_img->height)
+	while (y < (int)raycast->scr_img->height)
 	{
 		ratio = st / (y - raycast->plane->center.y);
 		dist = raycast->plane->dist * ratio;
@@ -101,11 +101,11 @@ void	draw_sky(t_raycast *raycast, int y, int wall_top)
 	mlx_image_t *sky = raycast->data->mlx_data.textrs_img[SKY_TEX];
 	int tex_x = (raycast->ray_angle / 360.0) * sky->width;
 
-	while (y < wall_top && y < raycast->scr_img->height)
+	while (y < wall_top && y < (int)raycast->scr_img->height)
 	{
 		int	tex_y = sky->height - (raycast->plane->center.y - y);
 		if (tex_y < 0) tex_y = 0;
-		if (tex_y >= sky->height) tex_y = sky->height - 1;
+		if (tex_y >= (int)sky->height) tex_y = sky->height - 1;
 
 		int pixel_i = (tex_y * sky->width + tex_x) * BPP;
 		uint8_t *raw_pixel = &sky->pixels[pixel_i];
@@ -136,7 +136,7 @@ void	draw_ceiling(t_raycast *raycast, int wall_top, int y, int *p_y)
 	double a_cos = cos(deg_rad(raycast->ray_angle));
 	double a_sin = sin(deg_rad(raycast->ray_angle));
 
-	while (y < raycast->scr_img->height && y < wall_top)
+	while (y < (int)raycast->scr_img->height && y < wall_top)
 	{
 		ratio = st / (raycast->plane->center.y - y);
 		dist = raycast->plane->dist * ratio;
@@ -203,7 +203,7 @@ void	render_col(t_raycast *raycast, t_wall *wall, int wall_dist,
 
 	draw_sky(raycast, y, wall_top);
 
-	while (y < raycast->scr_img->height)
+	while (y < (int)raycast->scr_img->height)
 	{
 		if (y < wall_top)
 		{

@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:57:05 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/16 14:07:33 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/20 23:12:07 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ void	init_delta(t_raycast *raycast, int axis)
 void	norm_fract(t_dpoint *temp, t_wall *wall, int axis,
 		double ray_angl)
 {
-	if ((axis == VERTICAL && ray_angl > 180) || axis == HORIZONT
-		&& ISEAST(ray_angl))
+	if ((axis == VERTICAL && ray_angl > 180)
+		|| (axis == HORIZONT && ISEAST(ray_angl)))
 	{
 		wall->pos.x = temp->x;
 		wall->pos.y = temp->y;
@@ -124,7 +124,7 @@ bool	extend_door(t_raycast *raycast, t_wall *wall, int axis)
 	temp.x += raycast->dx / 2;
 	temp.y += raycast->dy / 2;
 
-	if (is_on_map(raycast->data, &(t_point){(int)temp.x, (int)temp.y}) == false)
+	if (is_on_map(raycast->data, &(t_point){(int)temp.x, (int)temp.y, 0}) == false)
 		return (false);
 
 	if (axis == VERTICAL)
@@ -167,6 +167,8 @@ bool	find_wall(t_raycast *raycast, t_wall *wall, int axis)
 
 	char_pos = raycast->char_pos;
 	temp.h = -1;
+	temp.x = -1;
+	temp.y = -1;
 	init_delta(raycast, axis);
 	while (1)
 	{

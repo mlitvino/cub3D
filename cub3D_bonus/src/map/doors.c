@@ -25,6 +25,7 @@ int	check_doors(char **map)
 	int i;
 	int j;
 
+	i = 0;
 	while(map[i])
 	{
 		j = 0;

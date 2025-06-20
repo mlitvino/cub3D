@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 22:53:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/18 17:06:46 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/20 23:14:36 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,19 +111,20 @@ void	show_unit_map(t_data *data)
 
 void	show_char_pos(t_data *data, t_char *chr)
 {
+	(void)data;
 	ft_printf("Char x: %d, y: %d\n", chr->pos.x, chr->pos.y);
 }
 
 void	show_redline(t_data *data)
 {
-	for (int y = 0; y < data->mlx_data.scr_img->height; y++)
+	for (int y = 0; y < (int)data->mlx_data.scr_img->height; y++)
 		mlx_put_pixel(data->mlx_data.scr_img, data->plane.center.x, y, 0xFF0000FF);
 }
 
 void	draw_aim_cross(mlx_image_t *scr_img)
 {
-	for (int x = scr_img->width / 2 - 10; x < scr_img->width / 2 + 10; x++)
+	for (int x = scr_img->width / 2 - 10; x < (int)scr_img->width / 2 + 10; x++)
 		mlx_put_pixel(scr_img, x, scr_img->height / 2, 0xFF0000FF);
-	for (int y = scr_img->height / 2 - 10; y < scr_img->height / 2 + 10; y++)
+	for (int y = scr_img->height / 2 - 10; y < (int)scr_img->height / 2 + 10; y++)
 		mlx_put_pixel(scr_img, scr_img->width / 2, y, 0xFF0000FF);
 }

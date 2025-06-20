@@ -6,11 +6,11 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/20 15:00:51 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/06/20 23:06:23 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC			= cc -ggdb -Ofast
+CC			= cc -ggdb -Ofast -Wall -Wextra
 # -Wall -Wextra -Werror
 HEADERS		= -I$(LIBFT_DIR)/$(INCLD_DIR) -I$(INCLD_DIR) -I$(MLX_DIR)/include -I$(RAYLIB_DIR)
 LIBS		= -L$(MLX_DIR)/build $(MLX) $(RAYLIB) -lz -ldl -lglfw -pthread -lm -o

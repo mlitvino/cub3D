@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/20 19:53:38 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/20 23:07:36 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	init_maps(t_data *data)
 void	init_player(t_data *data)
 {
 	t_char *player;
-	int		hitbox;
 
 	player = &data->player;
 
@@ -53,8 +52,6 @@ void	init_player(t_data *data)
 
 	player->move_spd = BLOCK_SIZE / 16;
 	player->turn_spd = 2;
-
-	hitbox = player->hitbox_radius;
 
 	printf("x %d y %d\n", data->map_h, data->map_w);
 	for(int y = 0; y < data->map_h; y++)
@@ -125,9 +122,9 @@ void	init_mlx(t_data *data)
 
 	int res2 = mlx_image_to_window(mlx_data.mlx_ptr, mlx_data.minimap, 0, 0);
 
-	for (int x = 0; x < mlx_data.minimap->width; x++)
-		for(int y = 0; y < mlx_data.minimap->height; y++)
-			mlx_put_pixel(mlx_data.minimap, x, y, 0xFF / 2); // BLACK
+	// for (int x = 0; x < mlx_data.minimap->width; x++)
+	// 	for(int y = 0; y < mlx_data.minimap->height; y++)
+	// 		mlx_put_pixel(mlx_data.minimap, x, y, 0xFF / 2); // BLACK
 
 	mlx_set_instance_depth(&mlx_data.scr_img->instances[res1], 1);
 	mlx_set_instance_depth(&mlx_data.minimap->instances[res2], 2);

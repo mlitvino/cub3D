@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/20 19:46:02 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/20 23:33:48 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,26 +164,26 @@ void	render(void *data_arg)
 	data = (t_data *)data_arg;
 	// //show_unit_map(data);
 	if (data->keys.w)
-        move_player(&data->player, 0);
+		move_player(&data->player, 0);
 
-    if (data->keys.a)
-        move_player(&data->player, 90);
+	if (data->keys.a)
+		move_player(&data->player, 90);
 
 	if (data->keys.s)
-        move_player(&data->player, 180);
+		move_player(&data->player, 180);
 
-    if (data->keys.d)
-        move_player(&data->player, -90);
+	if (data->keys.d)
+		move_player(&data->player, -90);
 
 	if (data->keys.w || data->keys.a || data->keys.s || data->keys.d)
 		ResumeMusicStream(data->music[M_PLAYER_STEP]);
 	else
 		PauseMusicStream(data->music[M_PLAYER_STEP]);
 
-    if (data->keys.left)
-        rotate_player_right(&data->player);
-    if (data->keys.right)
-        rotate_player_left(&data->player);
+	if (data->keys.left)
+		rotate_player_right(&data->player);
+	if (data->keys.right)
+		rotate_player_left(&data->player);
 	//handle_mouse_rotation(data);
 
 	//jump_baby(&data->player);
@@ -210,30 +210,31 @@ void	render(void *data_arg)
 	}
 }
 
-void	parse_map(t_data *data, int argc, char **argv)
+int	parsing_file(t_data *data, char **argv, int argc)
 {
-	if(argc != 2)
+	if (argc != 2)
 	{
 		printf("Usage: ./cub3D 'file'\n");
-		exit (1);
+		return (0);
 	}
 	init_null(data);
 	data->map_data = read_file(argv[1], data);
 	if (!data->map_data)
-		exit (1);
+		return (0);
 	if (!is_valid_data(data->map_data, data, data->line_count))
 	{
 		free_colours_textures_strings(data);
 		free_map(data->map_data, -1);
-		exit (1);
+		return (0);
 	}
 	free_map(data->map_data, -1);
 	if (!valid_map(data))
 	{
 		free_colours_textures_strings(data);
 		free_map(data->work_map, -1);
-		exit (1);
+		return (0);
 	}
+	return (1);
 }
 
 int	main(int argc, char *argv[])
@@ -241,13 +242,12 @@ int	main(int argc, char *argv[])
 	t_data	data;
 
 	ft_memset(&data, 0, sizeof(t_data));
-	parse_map(&data, argc, argv);
+	if (!parsing_file(&data, argv, argc))
+		return (1);
 	init_data(&data);
 	adjust_image_alpha(data.mlx_data.textrs_img[STATUE_FACE], 0);
-
-	ft_bzero(&data.keys, sizeof(t_keys));
 	show_char_pos(&data, &data.player);
-	mlx_key_hook(data.mlx_data.mlx_ptr, &key_event_handler, &data);  //Eventhook for movement
+	mlx_key_hook(data.mlx_data.mlx_ptr, &key_event_handler, &data);
 	mlx_loop_hook(data.mlx_data.mlx_ptr, render, &data);
 	mlx_loop(data.mlx_data.mlx_ptr);
 	clean_all(&data);

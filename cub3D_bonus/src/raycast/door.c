@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:41:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/20 17:47:41 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/20 23:16:50 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,11 @@ void open_door(t_data *data)
 		door = find_door(data->door_list, door_x *BLOCK_SIZE, door_y *BLOCK_SIZE);
 		if (door && data->player.door_facing != 0 && data->player.door_facing < BLOCK_SIZE * 3)
 		{
-			if (door->state == CLOSED);
+			if (door->state == CLOSED)
+			{
 				if (IsSoundPlaying(data->sound[S_DOOR]) == false)
 					PlaySound(data->sound[S_DOOR]);
+			}
 			door->state = OPENING;
 			door->time_opened = get_current_time();
 		}

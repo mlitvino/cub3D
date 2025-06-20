@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:43:06 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/18 20:17:57 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/20 23:15:57 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,10 @@ void	chck_facing_enemy(t_raycast *raycast, t_sprite **sprite_array, t_char *play
 	{
 		if (!player->facing_enemy && (sprite_array[i]->type == WOLF || sprite_array[i]->type == STATUE)
 			&& raycast->data->rays_dist[raycast->scr_img->width / 2] > sprite_array[i]->dist
-			&& sprite_array[i]->left < raycast->scr_img->width / 2
-			&& raycast->scr_img->width / 2 < sprite_array[i]->left + sprite_array[i]->width
-			&& sprite_array[i]->top < raycast->scr_img->height / 2
-			&& raycast->scr_img->height / 2 < sprite_array[i]->top + sprite_array[i]->height)
+			&& sprite_array[i]->left < (int)raycast->scr_img->width / 2
+			&& (int)raycast->scr_img->width / 2 < sprite_array[i]->left + sprite_array[i]->width
+			&& sprite_array[i]->top < (int)raycast->scr_img->height / 2
+			&& (int)raycast->scr_img->height / 2 < sprite_array[i]->top + sprite_array[i]->height)
 		{
 			player->facing_enemy = sprite_array[i];
 		}
@@ -88,9 +88,9 @@ void	chck_facing_enemy(t_raycast *raycast, t_sprite **sprite_array, t_char *play
 			if (sprite_array[i]->dist < STATUE_MAX_VIS * BLOCK_SIZE)
 			{
 				if	(!(sprite_array[i]->size.x + sprite_array[i]->width / WID < 0
-					|| sprite_array[i]->size.x - sprite_array[i]->width / WID >= raycast->scr_img->width)
+					|| sprite_array[i]->size.x - sprite_array[i]->width / WID >= (int)raycast->scr_img->width)
 					&& !(sprite_array[i]->size.y + sprite_array[i]->height / 3 < 0
-					|| sprite_array[i]->size.y - sprite_array[i]->height / 3 >= raycast->scr_img->height)
+					|| sprite_array[i]->size.y - sprite_array[i]->height / 3 >= (int)raycast->scr_img->height)
 				)
 					player->facing_statue = sprite_array[i];
 			}
