@@ -1,6 +1,6 @@
 #include "cub3D.h"
 
-char **perror_return(void)
+char	**perror_return(void)
 {
 	perror("cub3D1");
 	return (NULL);
@@ -13,7 +13,7 @@ int	perror_return_int(int *data)
 	return (0);
 }
 
-char **perror_free(char **map_data, int fd)
+char	**perror_free(char **map_data, int fd)
 {
 	perror("cub3D2");
 	return (free_map(map_data, fd));

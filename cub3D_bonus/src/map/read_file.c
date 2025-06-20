@@ -45,12 +45,11 @@ static int	count_lines(const char *filename)
 	return (count + 1);
 }
 
-
 static void	remove_newlines_empty_lines(char **lines, int line_count)
 {
-	int		i;
-	int		len;
-	int		count;
+	int	i;
+	int	len;
+	int	count;
 
 	if (!lines)
 		return ;
@@ -75,7 +74,7 @@ static void	remove_newlines_empty_lines(char **lines, int line_count)
 
 int	last_line_no_newline(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (line[i])
@@ -87,8 +86,7 @@ int	last_line_no_newline(char *line)
 	return (0);
 }
 
-
-char **read_file(char *filename, t_data *data)
+char	**read_file(char *filename, t_data *data)
 {
 	char	**map_data;
 	int		fd;

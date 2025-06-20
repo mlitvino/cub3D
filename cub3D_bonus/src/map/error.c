@@ -6,7 +6,7 @@ int	return_invalid_element(void)
 	return (0);
 }
 
-int error_exit(char * message)
+int	error_exit(char *message)
 {
 	ft_putstr_fd(message, 2);
 	return (0);
@@ -18,13 +18,12 @@ char	**error_return(char *message)
 	return (NULL);
 }
 
-int free_return(int *data)
+int	free_return(int *data)
 {
 	if (data)
 		free(data);
 	return (0);
 }
-
 
 int	perror_free_map(char **map)
 {

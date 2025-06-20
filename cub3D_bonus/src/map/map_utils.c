@@ -1,6 +1,6 @@
 #include "cub3D.h"
 
-int is_empty_line(char *line)
+int	is_empty_line(char *line)
 {
 	while (*line)
 	{
@@ -23,8 +23,8 @@ void	init_null(t_data *data)
 
 int	fill_map(t_data *data, char **map_data, int fd)
 {
-	int	i;
-	char * line;
+	int		i;
+	char	*line;
 
 	i = 0;
 	line = get_next_line(fd);
@@ -34,7 +34,8 @@ int	fill_map(t_data *data, char **map_data, int fd)
 	{
 		map_data[i++] = line;
 		line = get_next_line(fd);
-		if (!line && i < data->line_count && !last_line_no_newline(map_data[i - 1]))
+		if (!line && i < data->line_count && !last_line_no_newline(map_data[i
+				- 1]))
 			return (0);
 	}
 	map_data[i] = NULL;
@@ -55,13 +56,13 @@ int	valid_extension(const char *filename)
 	return (1);
 }
 
-char **pad_map(char **map, int height, t_data *data)
+char	**pad_map(char **map, int height, t_data *data)
 {
 	char	**padded_map;
 
 	padded_map = malloc(sizeof(char *) * (height + 1));
 	if (!padded_map)
-    	return (NULL);
+		return (NULL);
 	data->map_w = longest_line(map, height);
 	if (data->map_w > 1000)
 	{
@@ -71,7 +72,7 @@ char **pad_map(char **map, int height, t_data *data)
 	}
 	if (!fill_padded_map(height, data, padded_map, map))
 		return (NULL);
-    return (padded_map);
+	return (padded_map);
 }
 
 void	set_angle(char angle, t_data *data)
