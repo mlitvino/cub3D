@@ -6,7 +6,7 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/19 01:25:30 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/06/20 15:00:51 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,14 +91,10 @@ $(RAYLIB):
 $(MLX):
 	cmake -S $(MLX_DIR) -B $(MLX_DIR)/build
 	cmake --build $(MLX_DIR)/build -j6
-	@echo "Weakening MLX42 static library..."
-	@mkdir -p $(MLX_DIR)/weakened
-	@cd $(MLX_DIR)/weakened && \
-	ar x ../build/libmlx42.a && \
-	rm -rf ../build/libmlx42.a && \
+	@cd $(MLX_DIR)/build && \
+	ar x libmlx42.a glad.c.o && \
 	objcopy --weaken glad.c.o && \
-	ar rcs ../build/libmlx42.a *.o && \
-	cd ..
+	ar rcs libmlx42.a *.o
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INCLD)
 	@[ -d $(OBJ_DIR) ] || mkdir -p $(OBJ_DIR)
