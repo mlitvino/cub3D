@@ -15,15 +15,12 @@ void	move_player(t_char *player, double angle_offset)
 	new_x = player->pos.x + dx;
 	new_y = player->pos.y + dy;
 	res = 0;
-	if (!(res |= check_for_wall_collision(player, new_x, player->pos.y)))
+	if (!check_for_wall_collision(player, new_x, player->pos.y))
 		player->pos.x += dx;
-	if (!(res |= check_for_wall_collision(player, player->pos.x, new_y)))
+	if (!check_for_wall_collision(player, player->pos.x, new_y))
 		player->pos.y += dy;
-	if (res == 0)
-	{
-		if (IsMusicStreamPlaying(player->data->music[M_PLAYER_STEP]) == false)
-			PlayMusicStream(player->data->music[M_PLAYER_STEP]);
-	}
+	if (IsMusicStreamPlaying(player->data->music[M_PLAYER_STEP]) == false)
+		PlayMusicStream(player->data->music[M_PLAYER_STEP]);
 }
 
 int	can_move_wall(t_char *player, double new_x, double new_y)

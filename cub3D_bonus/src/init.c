@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/20 23:07:36 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/21 18:18:48 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,6 @@ void	init_unit_map(t_data *data)
 		}
 		y++;
 	}
-}
-
-void	init_maps(t_data *data)
-{
-	init_unit_map(data);
 }
 
 void	init_player(t_data *data)
@@ -90,17 +85,6 @@ void	init_mlx(t_data *data)
 
 	mlx_set_setting(MLX_STRETCH_IMAGE, true); // resize scr_img with resizing win
 	//mlx_set_setting(MLX_FULLSCREEN, true); // disable_win
-
-	// if (!glfwInit())
-	// {
-	// 	const char *description;
-	// 	int errorCode = glfwGetError(&description);
-	// 	if (errorCode != GLFW_NO_ERROR)
-	// 		fprintf(stderr, "GLFW Error %d: %s\n", errorCode, description);
-	// 	clean_all(data);
-	// }
-
-
 	mlx_data.mlx_ptr = mlx_init(WIN_W, WIN_H, "cub3D", true);
 	if (!mlx_data.mlx_ptr)
 	{
@@ -122,9 +106,6 @@ void	init_mlx(t_data *data)
 
 	int res2 = mlx_image_to_window(mlx_data.mlx_ptr, mlx_data.minimap, 0, 0);
 
-	// for (int x = 0; x < mlx_data.minimap->width; x++)
-	// 	for(int y = 0; y < mlx_data.minimap->height; y++)
-	// 		mlx_put_pixel(mlx_data.minimap, x, y, 0xFF / 2); // BLACK
 
 	mlx_set_instance_depth(&mlx_data.scr_img->instances[res1], 1);
 	mlx_set_instance_depth(&mlx_data.minimap->instances[res2], 2);
@@ -191,8 +172,6 @@ void	init_mlx(t_data *data)
 	mlx_data.textrs_img[WOLF_DEAD] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[WOLF_DEAD]);
 	mlx_resize_image(mlx_data.textrs_img[WOLF_DEAD], BLOCK_SIZE, BLOCK_SIZE);
 
-
-
 	mlx_data.textrs[STATUE_GREY] = mlx_load_png("./textures/statue/statue_grey.png");
 	mlx_data.textrs_img[STATUE_GREY] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[STATUE_GREY]);
 	mlx_resize_image(mlx_data.textrs_img[STATUE_GREY], BLOCK_SIZE, BLOCK_SIZE);
@@ -204,7 +183,6 @@ void	init_mlx(t_data *data)
 	mlx_data.textrs[STATUE_FACE] = mlx_load_png("./textures/statue/statue_face.png");
 	mlx_data.textrs_img[STATUE_FACE] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[STATUE_FACE]);
 	mlx_resize_image(mlx_data.textrs_img[STATUE_FACE], mlx_data.scr_img->width, mlx_data.scr_img->height);
-
 
 
 	mlx_data.textrs[CROSSBOW1] = mlx_load_png("./textures/crossbow1.png");
@@ -230,17 +208,36 @@ void	init_mlx(t_data *data)
 	data->mlx_data = mlx_data;
 }
 
+void init_angle_table(t_table *angle_table)
+{
+	int		total;
+	double	deg;
+	double	rad;
+	int		i;
+
+	i = 0;
+	total = ANGLE_PRES * 360;
+	while (i < total)
+	{
+		deg = (double)i / ANGLE_PRES;
+		rad = DEG_TO_RAD(deg);
+		angle_table[i].sin = sin(rad);
+		angle_table[i].cos = cos(rad);
+		angle_table[i].tan = tan(rad);
+		i++;
+	}
+}
+
 void	init_data(t_data *data)
 {
 	init_audio(data);
 	init_mlx(data);
-	init_maps(data);
+	init_unit_map(data);
 	init_player(data);
-
+	init_angle_table(data->angle_table);
 	data->plane.center.x = WIN_W / 2;
 	data->plane.center.y = WIN_H / 2;
 	data->plane.dist = (WIN_W / 2) / tan(deg_rad(FOV / 2));
-
 	data->rays_count = WIN_W;
 	data->rays_angle = FOV / (double)data->rays_count;
 	data->flor_rgb.rgbt = 0x545454fc;

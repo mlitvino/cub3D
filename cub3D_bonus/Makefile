@@ -6,7 +6,7 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/21 12:34:28 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/06/21 14:26:34 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,6 +71,7 @@ RAY_SRC		= $(addprefix $(RAY_DIR)/, \
 				helper.c \
 				raycast_utils.c \
 				draw.c \
+				draw_utils.c \
 				door.c \
 				face_enemy.c \
 				sprite.c \

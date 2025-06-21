@@ -1,13 +1,12 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/11 13:48:31 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/21 20:11:50 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +14,7 @@
 # define CUB3D_H
 
 # include "raylib.h"
-
 # include "MLX42/MLX42_Int.h"
-
 # include "libft.h"
 # include <errno.h>
 # include <math.h>
@@ -26,8 +23,6 @@
 # include <sys/time.h>
 # include <pthread.h>
 
-# define BPP sizeof(int32_t)
-
 # define WIN_W 1280
 # define WIN_H 720
 
@@ -35,27 +30,26 @@
 
 # define FOV 60
 # define BLOCK_SIZE 512
-# define TEST_MAPX 50
-# define TEST_MAPY 14
+# define ANGLE_PRES 100
 
 # define SCALE 40
 # define ICON_SIZE 16
 # define ICON_BASE 6
+
 # define MODIF_BRIGHT 2
 
 # define STATUE_MAX_VIS 4
 # define W_STATUE_VIS_DEC 25
 # define H_STATUE_VIS_DEC 3
 
+# define CEIL_PLANE 0
+# define FLOOR_PLANE 1
+
 # define EMPTY '0'
 # define WALL '1'
-
 # define STATUE 'C'
 # define FLOOR 'F'
-
-
 # define WOLF 'B'
-
 # define DOOR 'D'
 # define CLOSED 1
 # define CLOSING 2
@@ -70,7 +64,6 @@
 # define ISWEST(a) (90 < a && a < 270)
 # define ISEAST(a) (270 < a || a < 90)
 
-// Movement
 # define DEG_TO_RAD(a) ((a)*M_PI / 180.0)
 
 typedef enum e_texture
@@ -96,7 +89,6 @@ typedef enum e_texture
 	CROSSBOW2,
 	MAX_TEX
 }	t_texture;
-
 
 # define S_DOOR_PATH "audio/gate_open.mp3"
 # define S_SHOT_PATH "audio/shot_reloading.mp3"
@@ -161,9 +153,6 @@ typedef struct s_rgbt
 
 typedef struct s_project
 {
-	/*
-		change in resize win case
-	*/
 	int			width;
 	int			height;
 	int			dist;
@@ -180,9 +169,8 @@ typedef struct s_wall
 
 	int			h;
 	int			top;
+	t_point		tex_pos;
 
-	int			img_x;
-	int			img_y;
 	int			img_i;
 	mlx_image_t	*img;
 
@@ -274,6 +262,14 @@ typedef struct s_char
 
 }				t_char;
 
+typedef struct s_table
+{
+	float	sin;
+	float	cos;
+	float	tan;
+	float	beta;
+}			t_table;
+
 typedef struct s_raycast
 {
 	t_data		*data;
@@ -281,8 +277,6 @@ typedef struct s_raycast
 	mlx_image_t	*scr_img;
 	char		**unit_map;
 	t_door		*door_list;
-
-	t_char		*player;
 
 	int			thread_chunk;
 	t_sprite	*thread_sprite;
@@ -292,11 +286,10 @@ typedef struct s_raycast
 	int			flor_rgbt;
 	int			ceil_rgbt;
 
+	t_char		*player;
+
 	double		view_angle;
 	t_point		char_pos;
-
-	mlx_image_t	*wall_img;
-	int			tex_x;
 
 	double		dx;
 	double		dy;
@@ -304,16 +297,13 @@ typedef struct s_raycast
 
 	t_wall		hor_wall;
 	t_wall		ver_wall;
-	t_wall		wall;
 
-	int			img_indx;
 	double		ray_angle;
 	int			cur_ray;
 	double		beta;
 
-	int			tex_indx;
-
 	int			sprite_count;
+	t_table		*angl_table;
 
 }				t_raycast;
 
@@ -367,6 +357,7 @@ typedef struct s_data
 	Sound				sound[MAX_SOUND];
 	char				*sound_path[MAX_SOUND];
 
+	t_table				angle_table[ANGLE_PRES * 360];
 }						t_data;
 
 //-------------------------------RAYCASTING------------------------------------
@@ -405,11 +396,15 @@ void		fill_sprite_info(t_sprite *new_sprite, t_data *data, int type);
 t_sprite	*create_sprite(t_data *data, int type, int grid_x, int grid_y);
 t_sprite	**init_spite_array(t_raycast *raycast);
 
-// draw.c
+// draw_utils.c
 void		add_shadow(uint32_t *color, int dist);
-void		map_wall(t_raycast *raycast, int y, int wall_h, int wall_top);
-void		render_col(t_raycast *raycast, t_wall *wall,
-				int wall_dist, int tex_indx);
+void		fill_wall_info(t_raycast *raycast, t_wall *wall);
+void	fill_floor_info(t_raycast *raycast, t_point *ceil_pos, int *dist, int y);
+void	fill_ceil_info(t_raycast *raycast, t_point *ceil_pos, int *dist, int y);
+
+// draw.c
+void		draw_wall(t_raycast *raycast, int *y, t_wall *wall);
+void		render_col(t_raycast *raycast, t_wall *wall);
 
 // raycast.c
 void		compre_dist(t_raycast *raycast, t_wall *hor_wall,
@@ -442,8 +437,8 @@ bool		extend_door(t_raycast *raycast, t_wall *wall, int axis);
 bool		check_hit(t_raycast *raycast, t_wall *wall, int axis_flag);
 
 // find_wall.c
-void		init_wall(t_point char_pos, t_dpoint *temp,
-				double ray_angl, int axis_flag);
+void		init_wall(t_raycast *raycast, t_dpoint *temp,
+				t_point *char_pos, int axis_flag);
 void		adjust_wall(t_raycast *raycast, t_dpoint *temp);
 void		init_delta(t_raycast *raycast, int axis_flag);
 void		norm_fract(t_dpoint *temp, t_wall *wall, int axis_flag,

@@ -6,79 +6,37 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/20 23:33:48 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/21 18:08:31 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-
 #include <stdio.h>
 #include <sys/time.h>
 
-void show_fps(void)
+void	show_fps(void)
 {
-    static struct timeval last = {0, 0};
-    static int frames = 0;
-    struct timeval now;
-    double elapsed;
+	static struct timeval	last = {0, 0};
+	static int				frames = 0;
+	struct timeval			now;
+	double					elapsed;
 
-    gettimeofday(&now, NULL);
-
-    // Initialize last on first call
-    if (last.tv_sec == 0 && last.tv_usec == 0)
-    {
-        last = now;
-        return;
-    }
-
-    frames++;
-    elapsed = (now.tv_sec - last.tv_sec) + (now.tv_usec - last.tv_usec) / 1000000.0;
-
-    if (elapsed >= 1.0)
-    {
-        printf("FPS: %d\n", frames);
-        frames = 0;
-        last = now;
-    }
-}
-
-void	jump_baby(t_char *player)
-{
-	static int shake_sum = 0;
-	static int shake_right = 0;
-	int	shake_step = player->hitbox_radius / 8;
-	static int jump_up = 0;
-	double	jump_step = 0.05;
-
-	if (jump_up == true)
+	gettimeofday(&now, NULL);
+	// Initialize last on first call
+	if (last.tv_sec == 0 && last.tv_usec == 0)
 	{
-		player->height += jump_step;
-		if (player->height > 2)
-			jump_up = 0;
+		last = now;
+		return ;
 	}
-	else
+	frames++;
+	elapsed = (now.tv_sec - last.tv_sec) + (now.tv_usec - last.tv_usec)
+		/ 1000000.0;
+	if (elapsed >= 1.0)
 	{
-		player->height -= jump_step;
-		if (player->height < 1.5)
-			jump_up = 1;
+		printf("FPS: %d\n", frames);
+		frames = 0;
+		last = now;
 	}
-
-	if (shake_right == 1)
-	{
-		player->pos.x += shake_step;
-		shake_sum += shake_step;
-		if (shake_sum > player->hitbox_radius / 2)
-			shake_right = 0;
-	}
-	else
-	{
-		player->pos.x -= shake_step;
-		shake_sum -= shake_step;
-		if (shake_sum < player->hitbox_radius / 8)
-			shake_right = 1;
-	}
-
 }
 
 void	open_close(t_door *doors)
@@ -134,7 +92,6 @@ void	update_statues(t_data *data, t_char *player, t_sprite *sprites)
 		}
 		sprites = sprites->next;
 	}
-
 	if (player->facing_statue)
 	{
 		if (alpha >= 255)
@@ -159,51 +116,36 @@ void	update_statues(t_data *data, t_char *player, t_sprite *sprites)
 
 void	render(void *data_arg)
 {
-	t_data *data;
+	t_data	*data;
+	t_door	*door;
 
 	data = (t_data *)data_arg;
-	// //show_unit_map(data);
 	if (data->keys.w)
 		move_player(&data->player, 0);
-
 	if (data->keys.a)
 		move_player(&data->player, 90);
-
 	if (data->keys.s)
 		move_player(&data->player, 180);
-
 	if (data->keys.d)
 		move_player(&data->player, -90);
-
 	if (data->keys.w || data->keys.a || data->keys.s || data->keys.d)
 		ResumeMusicStream(data->music[M_PLAYER_STEP]);
 	else
 		PauseMusicStream(data->music[M_PLAYER_STEP]);
-
 	if (data->keys.left)
 		rotate_player_right(&data->player);
 	if (data->keys.right)
 		rotate_player_left(&data->player);
-	//handle_mouse_rotation(data);
-
-	//jump_baby(&data->player);
-
-	t_door *door = data->door_list;
-	//open_close(door);
+	// handle_mouse_rotation(data);
+	door = data->door_list;
+	// open_close(door);
 	update_doors(door);
 	update_statues(data, &data->player, data->sprite_list);
-
-
-
-
 	raycast(data);
 	show_fps();
 	draw_minimap(data, data->mlx_data.minimap);
 	draw_aim_cross(data->mlx_data.scr_img);
-
-	//show_char_pos(data, &data->player);
-
-	// UpdateMusicStream(data->music[M_STORM]);
+	// show_char_pos(data, &data->player);
 	for (int i = 0; i < MAX_MUSIC; i++)
 	{
 		UpdateMusicStream(data->music[i]);

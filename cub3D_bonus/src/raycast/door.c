@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:41:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/20 23:16:50 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/21 18:42:49 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ void	open_door(t_data *data)
 		{
 			if (door->state == CLOSED)
 			{
-				if (IsSoundPlaying(data->sound[S_DOOR]) == false)
-					PlaySound(data->sound[S_DOOR]);
+				// if (IsSoundPlaying(data->sound[S_DOOR]) == false)
+				// 	PlaySound(data->sound[S_DOOR]);
 			}
 			door->state = OPENING;
 			door->time_opened = get_current_time();
@@ -133,9 +133,11 @@ t_door	*find_door(t_door *doors, int unit_x, int unit_y)
 {
 	while (doors)
 	{
-		if (doors->grid_x == unit_x / BLOCK_SIZE)
-			if (doors->grid_y == unit_y / BLOCK_SIZE)
-				return (doors);
+		if (doors->grid_x == unit_x / BLOCK_SIZE
+			&& doors->grid_y == unit_y / BLOCK_SIZE)
+		{
+			return (doors);
+		}
 		doors = doors->next;
 	}
 	return (NULL);

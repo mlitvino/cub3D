@@ -6,35 +6,36 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:57:05 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/21 12:33:37 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/21 18:41:43 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	init_wall(t_point char_pos, t_dpoint *temp, double ray_angl, int axis)
+void	init_wall(t_raycast *raycast, t_dpoint *temp,
+			t_point *char_pos, int axis)
 {
 	if ((int)temp->h != -1)
 		return ;
 	if (axis == VERTICAL)
 	{
-		temp->x = floor((double)char_pos.x / BLOCK_SIZE) * BLOCK_SIZE;
-		if (ISEAST(ray_angl))
+		temp->x = floor((double)char_pos->x / BLOCK_SIZE) * BLOCK_SIZE;
+		if (ISEAST(raycast->ray_angle))
 			temp->x += BLOCK_SIZE;
 		else
 			temp->x -= 1;
-		temp->y = (char_pos.x - temp->x) * tan(deg_rad(ray_angl));
-		temp->y += char_pos.y;
+		temp->y = (char_pos->x - temp->x) * raycast->angl_table->tan;
+		temp->y += char_pos->y;
 	}
 	else
 	{
-		temp->y = floor((double)char_pos.y / BLOCK_SIZE) * BLOCK_SIZE;
-		if (ray_angl < 180)
+		temp->y = floor((double)char_pos->y / BLOCK_SIZE) * BLOCK_SIZE;
+		if (raycast->ray_angle < 180)
 			temp->y -= 1;
 		else
 			temp->y += BLOCK_SIZE;
-		temp->x = (char_pos.y - temp->y) / tan(deg_rad(ray_angl));
-		temp->x += char_pos.x;
+		temp->x = (char_pos->y - temp->y) / raycast->angl_table->tan;
+		temp->x += char_pos->x;
 	}
 	temp->h = 1;
 }
@@ -55,7 +56,7 @@ void	init_delta(t_raycast *raycast, int axis)
 	if (axis == VERTICAL)
 	{
 		raycast->dx = BLOCK_SIZE;
-		raycast->dy = BLOCK_SIZE * tan(deg_rad(ray_angl));
+		raycast->dy = BLOCK_SIZE * raycast->angl_table->tan;
 		if (ISEAST(ray_angl))
 			raycast->dy = -raycast->dy;
 		else
@@ -63,7 +64,7 @@ void	init_delta(t_raycast *raycast, int axis)
 	}
 	else
 	{
-		raycast->dx = BLOCK_SIZE / tan(deg_rad(ray_angl));
+		raycast->dx = BLOCK_SIZE / raycast->angl_table->tan;
 		raycast->dy = BLOCK_SIZE;
 		if (ISNORTH(ray_angl))
 			raycast->dy = -raycast->dy;
@@ -74,8 +75,8 @@ void	init_delta(t_raycast *raycast, int axis)
 
 void	norm_fract(t_dpoint *temp, t_wall *wall, int axis, double ray_angl)
 {
-	if ((axis == VERTICAL && ray_angl > 180) || (axis == HORIZONT
-			&& ISEAST(ray_angl)))
+	if ((axis == VERTICAL && ray_angl > 180)
+	|| (axis == HORIZONT && ISEAST(ray_angl)))
 	{
 		wall->pos.x = temp->x;
 		wall->pos.y = temp->y;
@@ -90,9 +91,7 @@ void	norm_fract(t_dpoint *temp, t_wall *wall, int axis, double ray_angl)
 bool	find_wall(t_raycast *raycast, t_wall *wall, int axis)
 {
 	t_dpoint	temp;
-	t_point		char_pos;
 
-	char_pos = raycast->char_pos;
 	temp.h = -1;
 	temp.x = -1;
 	temp.y = -1;
@@ -100,7 +99,7 @@ bool	find_wall(t_raycast *raycast, t_wall *wall, int axis)
 	while (1)
 	{
 		adjust_wall(raycast, &temp);
-		init_wall(char_pos, &temp, raycast->ray_angle, axis);
+		init_wall(raycast, &temp, &raycast->char_pos, axis);
 		norm_fract(&temp, wall, axis, raycast->ray_angle);
 		if (is_on_map(raycast->data, &wall->pos) == false)
 		{

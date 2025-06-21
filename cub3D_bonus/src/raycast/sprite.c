@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 13:20:49 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/20 23:58:27 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/21 17:39:53 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,15 +89,13 @@ void	calc_sprite(t_raycast *raycast, t_sprite **sprites)
 void	draw_sprite_pix(t_raycast *raycast, t_sprite *sprite, int x, int y)
 {
 	uint32_t	color;
-	uint8_t		*raw_pixel;
 	int			pixel_i;
 	t_point		tex_p;
 
 	tex_p.x = (x - sprite->left) * BLOCK_SIZE / sprite->height;
 	tex_p.y = (y - sprite->top) * BLOCK_SIZE / sprite->height;
 	pixel_i = (tex_p.y * sprite->cur_img->width + tex_p.x) * BPP;
-	raw_pixel = &sprite->cur_img->pixels[pixel_i];
-	color = extract_rgba(raw_pixel);
+	color = extract_rgba(&sprite->cur_img->pixels[pixel_i]);
 	add_shadow(&color, sprite->dist);
 	if ((color & 0xFF) > 150)
 		mlx_put_pixel(raycast->scr_img, x, y, color);

@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:43:06 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/21 13:23:57 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/21 19:05:52 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,24 @@ void	compre_dist(t_raycast *raycast, t_wall *hor_wall, t_wall *ver_wall)
 	if (hor_wall->dist < ver_wall->dist)
 	{
 		select_tex(raycast, hor_wall, HORIZONT);
-		render_col(raycast, hor_wall, hor_wall->dist, raycast->tex_indx);
+		render_col(raycast, hor_wall);
 	}
 	else if (ver_wall->dist < hor_wall->dist)
 	{
 		select_tex(raycast, ver_wall, VERTICAL);
-		render_col(raycast, ver_wall, ver_wall->dist, raycast->tex_indx);
+		render_col(raycast, ver_wall);
 	}
 	else if (hor_wall->dist != INT_MAX
 		&& raycast->unit_map[hor_wall->pos.y][hor_wall->pos.x - 1] == WALL
 		&& raycast->unit_map[hor_wall->pos.y][hor_wall->pos.x + 1] == WALL)
 	{
 		select_tex(raycast, hor_wall, HORIZONT);
-		render_col(raycast, hor_wall, hor_wall->dist, raycast->tex_indx);
+		render_col(raycast, hor_wall);
 	}
 	else
 	{
 		select_tex(raycast, ver_wall, VERTICAL);
-		render_col(raycast, ver_wall, ver_wall->dist, raycast->tex_indx);
+		render_col(raycast, ver_wall);
 	}
 }
 
