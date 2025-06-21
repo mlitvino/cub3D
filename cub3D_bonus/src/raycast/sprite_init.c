@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:23:13 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/20 23:58:48 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/21 23:53:10 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_sprite	**init_spite_array(t_raycast *raycast)
 	}
 	sprite_array = ft_calloc(sprite_count + 1, sizeof(t_sprite *));
 	if (!sprite_array)
-		clean_all(raycast->data);
+		clean_all(raycast->data, "malloc");
 	raycast->sprite_count = sprite_count;
 	sprite_count = 0;
 	temp = raycast->data->sprite_list;

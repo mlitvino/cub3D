@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:16:05 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/21 13:24:07 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/21 23:53:33 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,5 @@ void	init_threads(t_raycast *raycast, void *(routine)(void *arg))
 		i++;
 	}
 	if (err)
-	{
-		perror("pthread_create");
-		clean_all(raycast->data);
-	}
+		clean_all(raycast->data, "pthread_create");
 }

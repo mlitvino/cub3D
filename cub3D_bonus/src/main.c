@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/21 18:08:31 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/22 00:53:14 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,14 @@ void	update_statues(t_data *data, t_char *player, t_sprite *sprites)
 		}
 		sprites = sprites->next;
 	}
+
 	if (player->facing_statue)
 	{
 		if (alpha >= 255)
 		{
 			printf("YOU DIED\n");
 			sleep(4);
-			clean_all(data);
+			clean_all(data, NULL);
 		}
 		alpha += step;
 		if (alpha > 255)
@@ -108,9 +109,15 @@ void	update_statues(t_data *data, t_char *player, t_sprite *sprites)
 	{
 		alpha -= step;
 	}
+
 	if (alpha > 0)
 	{
+		data->mlx_data.textrs_img[STATUE_FACE]->enabled = 1;
 		adjust_image_alpha(data->mlx_data.textrs_img[STATUE_FACE], alpha);
+	}
+	else
+	{
+		data->mlx_data.textrs_img[STATUE_FACE]->enabled = 0;
 	}
 }
 
@@ -192,6 +199,6 @@ int	main(int argc, char *argv[])
 	mlx_key_hook(data.mlx_data.mlx_ptr, &key_event_handler, &data);
 	mlx_loop_hook(data.mlx_data.mlx_ptr, render, &data);
 	mlx_loop(data.mlx_data.mlx_ptr);
-	clean_all(&data);
+	clean_all(&data, NULL);
 	return (0);
 }

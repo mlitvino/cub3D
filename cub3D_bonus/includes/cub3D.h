@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/21 20:24:25 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/22 01:22:41 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@
 
 # define WIN_W 1280
 # define WIN_H 720
+
+# define MINIMAP_W (WIN_W / 5)
+# define MINIMAP_H (WIN_W / 5)
+
+# define SKY_W 1440
+# define SKY_H 5000
 
 # define MAX_THRD 6
 
@@ -350,9 +356,6 @@ typedef struct s_data
 	t_rgbt				flor_rgb;
 	t_rgbt				ceil_rgb;
 
-	int					test1;
-	int					test2;
-
 	Music				music[MAX_MUSIC];
 	char				*music_path[MAX_MUSIC];
 	Sound				sound[MAX_SOUND];
@@ -468,12 +471,18 @@ void		init_audio(t_data *data);
 // clean.c
 void		clean_map(t_data *data);
 void		clean_mlx(t_data *data);
-void		clean_all(t_data *data);
+void		clean_all(t_data *data, char *perr_mess);
+
+// init_mlx.c
+bool		resize_image(mlx_image_t *img, int img_i);
+void		*init_tex(t_mlx *mlx_data, mlx_texture_t **tex);
+bool		put_images_to_window(t_data *data, t_mlx *mlx_data);
+void		init_mlx(t_data *data);
 
 // init.c
 void		init_unit_map(t_data *data);
-void		init_maps(t_data *data);
-void		init_mlx(t_data *data);
+void		init_player(t_data *data);
+void		init_angle_table(t_table *angle_table);
 void		init_data(t_data *data);
 
 // debug.c

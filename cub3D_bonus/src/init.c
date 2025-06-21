@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/21 18:18:48 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/22 00:34:29 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,14 @@ void	init_unit_map(t_data *data)
 	int	x;
 
 	data->unit_map = ft_calloc(data->map_h * BLOCK_SIZE, sizeof(char *));
-	// null check
+	if (!data->unit_map)
+		clean_all(data, "malloc");
 	y = 0;
 	while (y < data->map_h * BLOCK_SIZE)
 	{
 		data->unit_map[y] = ft_calloc(data->map_w * BLOCK_SIZE, sizeof(char));
+		if (!data->unit_map[y])
+			clean_all(data, "malloc");
 		x = 0;
 		while (x < data->map_w)
 		{
@@ -56,156 +59,25 @@ void	init_player(t_data *data)
 			if (data->grid_map[y][x] == DOOR)
 			{
 				if (create_door(&data->door_list, x, y) == NULL)
-					clean_all(data); // IMRPOVE
+					clean_all(data, "malloc"); // IMRPOVE
 			}
 			if (data->grid_map[y][x] == WOLF)
 			{
 				if (create_sprite(data, WOLF, x, y) == NULL)
-					clean_all(data); // IMRPOVE
+					clean_all(data, "malloc"); // IMRPOVE
 			}
 			if (data->grid_map[y][x] == STATUE)
 			{
 				if (create_sprite(data, STATUE, x, y) == NULL)
-					clean_all(data); // IMRPOVE
+					clean_all(data, "malloc"); // IMRPOVE
 			}
 			// if (data->grid_map[y][x] == LAMP)
 			// {
 			// 	if (create_sprite(&data->door_list, LAMP, x, y) == NULL)
-			// 		clean_all(data); // IMRPOVE
+			// 		clean_all(data, "malloc"); // IMRPOVE
 			// }
 		}
 	}
-}
-
-void	init_mlx(t_data *data)
-{
-	t_mlx	mlx_data;
-
-	ft_memset(&mlx_data, 0, sizeof(t_mlx));
-
-	mlx_set_setting(MLX_STRETCH_IMAGE, true); // resize scr_img with resizing win
-	//mlx_set_setting(MLX_FULLSCREEN, true); // disable_win
-	mlx_data.mlx_ptr = mlx_init(WIN_W, WIN_H, "cub3D", true);
-	if (!mlx_data.mlx_ptr)
-	{
-		printf("%s\n", mlx_strerror(mlx_errno));
-		clean_all(data);
-	}
-
-	mlx_data.scr_img = mlx_new_image(mlx_data.mlx_ptr, WIN_W, WIN_H);
-
-	printf("HERE\n");
-	int res1 = mlx_image_to_window(mlx_data.mlx_ptr, mlx_data.scr_img, 0, 0);
-
-	for (int x = 0; x < WIN_W; x++)
-		for(int y = 0; y < WIN_H; y++)
-			mlx_put_pixel(mlx_data.scr_img, x, y, 0x000000FF); // BLACK
-
-
-	mlx_data.minimap = mlx_new_image(mlx_data.mlx_ptr, WIN_W / 4, WIN_W / 4);
-
-	int res2 = mlx_image_to_window(mlx_data.mlx_ptr, mlx_data.minimap, 0, 0);
-
-
-	mlx_set_instance_depth(&mlx_data.scr_img->instances[res1], 1);
-	mlx_set_instance_depth(&mlx_data.minimap->instances[res2], 2);
-
-
-	mlx_data.textrs[NORTH] = mlx_load_png("./textures/forest.png"); // change to path to file
-	mlx_data.textrs_img[NORTH] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[NORTH]);
-	mlx_resize_image(mlx_data.textrs_img[NORTH], BLOCK_SIZE, BLOCK_SIZE);
-
-	mlx_data.textrs[EAST] = mlx_load_png("./textures/forest.png");
-	mlx_data.textrs_img[EAST] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[EAST]);
-	mlx_resize_image(mlx_data.textrs_img[EAST], BLOCK_SIZE, BLOCK_SIZE);
-
-	mlx_data.textrs[WEST] = mlx_load_png("./textures/forest.png");
-	mlx_data.textrs_img[WEST] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[WEST]);
-	mlx_resize_image(mlx_data.textrs_img[WEST], BLOCK_SIZE, BLOCK_SIZE);
-
-	mlx_data.textrs[SOUTH] = mlx_load_png("./textures/forest.png");
-	mlx_data.textrs_img[SOUTH] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[SOUTH]);
-	mlx_resize_image(mlx_data.textrs_img[SOUTH], BLOCK_SIZE, BLOCK_SIZE);
-
-	mlx_data.textrs[DOOR_TEX] = mlx_load_png("./textures/door.png");
-	mlx_data.textrs_img[DOOR_TEX] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[DOOR_TEX]);
-	mlx_resize_image(mlx_data.textrs_img[DOOR_TEX], BLOCK_SIZE, BLOCK_SIZE);
-
-
-	mlx_data.textrs[SKY_TEX] = mlx_load_png("./textures/sky.png");
-	mlx_data.textrs_img[SKY_TEX] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[SKY_TEX]);
-	mlx_resize_image(mlx_data.textrs_img[SKY_TEX], 1440, 5000);
-
-	mlx_data.textrs[CEIL_TEX] = mlx_load_png("./textures/wood_ceil.png");
-	mlx_data.textrs_img[CEIL_TEX] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[CEIL_TEX]);
-	mlx_resize_image(mlx_data.textrs_img[CEIL_TEX], 1440, 3000);
-
-	mlx_data.textrs[FLOOR_TEX] = mlx_load_png("./textures/wood_floor.png");
-	mlx_data.textrs_img[FLOOR_TEX] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[FLOOR_TEX]);
-	mlx_resize_image(mlx_data.textrs_img[FLOOR_TEX], BLOCK_SIZE, BLOCK_SIZE);
-
-
-	mlx_data.textrs[GROUND_TEX] = mlx_load_png("./textures/grass.png");
-	mlx_data.textrs_img[GROUND_TEX] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[GROUND_TEX]);
-	mlx_resize_image(mlx_data.textrs_img[GROUND_TEX], BLOCK_SIZE, BLOCK_SIZE);
-
-
-
-
-	mlx_data.textrs[WOLF_STAY] = mlx_load_png("./textures/wolf/wolf_stay.png");
-	mlx_data.textrs_img[WOLF_STAY] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[WOLF_STAY]);
-	mlx_resize_image(mlx_data.textrs_img[WOLF_STAY], BLOCK_SIZE, BLOCK_SIZE);
-
-	mlx_data.textrs[WOLF_WALK1] = mlx_load_png("./textures/wolf/wolf_walk1.png");
-	mlx_data.textrs_img[WOLF_WALK1] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[WOLF_WALK1]);
-	mlx_resize_image(mlx_data.textrs_img[WOLF_WALK1], BLOCK_SIZE, BLOCK_SIZE);
-
-	mlx_data.textrs[WOLF_WALK2] = mlx_load_png("./textures/wolf/wolf_walk2.png");
-	mlx_data.textrs_img[WOLF_WALK2] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[WOLF_WALK2]);
-	mlx_resize_image(mlx_data.textrs_img[WOLF_WALK2], BLOCK_SIZE, BLOCK_SIZE);
-
-	mlx_data.textrs[WOLF_ATTCK] = mlx_load_png("./textures/wolf/wolf_attck.png");
-	mlx_data.textrs_img[WOLF_ATTCK] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[WOLF_ATTCK]);
-	mlx_resize_image(mlx_data.textrs_img[WOLF_ATTCK], BLOCK_SIZE, BLOCK_SIZE);
-
-	mlx_data.textrs[WOLF_DEAD] = mlx_load_png("./textures/wolf/wolf_dead.png");
-	mlx_data.textrs_img[WOLF_DEAD] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[WOLF_DEAD]);
-	mlx_resize_image(mlx_data.textrs_img[WOLF_DEAD], BLOCK_SIZE, BLOCK_SIZE);
-
-	mlx_data.textrs[STATUE_GREY] = mlx_load_png("./textures/statue/statue_grey.png");
-	mlx_data.textrs_img[STATUE_GREY] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[STATUE_GREY]);
-	mlx_resize_image(mlx_data.textrs_img[STATUE_GREY], BLOCK_SIZE, BLOCK_SIZE);
-
-	mlx_data.textrs[STATUE_RED] = mlx_load_png("./textures/statue/statue_red.png");
-	mlx_data.textrs_img[STATUE_RED] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[STATUE_RED]);
-	mlx_resize_image(mlx_data.textrs_img[STATUE_RED], BLOCK_SIZE, BLOCK_SIZE);
-
-	mlx_data.textrs[STATUE_FACE] = mlx_load_png("./textures/statue/statue_face.png");
-	mlx_data.textrs_img[STATUE_FACE] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[STATUE_FACE]);
-	mlx_resize_image(mlx_data.textrs_img[STATUE_FACE], mlx_data.scr_img->width, mlx_data.scr_img->height);
-
-
-	mlx_data.textrs[CROSSBOW1] = mlx_load_png("./textures/crossbow1.png");
-	mlx_data.textrs_img[CROSSBOW1] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[CROSSBOW1]);
-	mlx_resize_image(mlx_data.textrs_img[CROSSBOW1], mlx_data.scr_img->width, mlx_data.scr_img->height);
-
-	mlx_data.textrs[CROSSBOW2] = mlx_load_png("./textures/crossbow2.png");
-	mlx_data.textrs_img[CROSSBOW2] = mlx_texture_to_image(mlx_data.mlx_ptr, mlx_data.textrs[CROSSBOW2]);
-	mlx_resize_image(mlx_data.textrs_img[CROSSBOW2], mlx_data.scr_img->width, mlx_data.scr_img->height);
-
-	// data->test1 = mlx_image_to_window(mlx_data.mlx_ptr, mlx_data.textrs_img[CROSSBOW1], 0, 0);
-	data->test1 = mlx_image_to_window(mlx_data.mlx_ptr, mlx_data.textrs_img[STATUE_FACE], 0, 0);
-	mlx_set_instance_depth(&mlx_data.textrs_img[STATUE_FACE]->instances[data->test1], 4);
-
-	data->test1 = mlx_image_to_window(mlx_data.mlx_ptr, mlx_data.textrs_img[CROSSBOW1], 0, 0);
-	mlx_set_instance_depth(&mlx_data.textrs_img[CROSSBOW1]->instances[data->test1], 0);
-
-	data->test2 = mlx_image_to_window(mlx_data.mlx_ptr, mlx_data.textrs_img[CROSSBOW2], 0, 0);
-	mlx_set_instance_depth(&mlx_data.textrs_img[CROSSBOW2]->instances[data->test2], 3);
-
-
-	mlx_set_icon(mlx_data.mlx_ptr, mlx_data.textrs[WOLF_STAY]);
-	data->mlx_data = mlx_data;
 }
 
 void init_angle_table(t_table *angle_table)
@@ -240,8 +112,4 @@ void	init_data(t_data *data)
 	data->plane.dist = (WIN_W / 2) / tan(deg_rad(FOV / 2));
 	data->rays_count = WIN_W;
 	data->rays_angle = FOV / (double)data->rays_count;
-	data->flor_rgb.rgbt = 0x545454fc;
-	data->ceil_rgb.rgbt = 0xFF;
-	// data->flor_rgb.rgbt = 0xFF;
-	// data->ceil_rgb.rgbt = 0xFF;
 }

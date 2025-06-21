@@ -7,14 +7,12 @@ void	move_player(t_char *player, double angle_offset)
 	double	dy;
 	int		new_x;
 	int		new_y;
-	int		res;
 
 	angle_rad = DEG_TO_RAD(player->pov.view_angl + angle_offset);
 	dx = cos(angle_rad) * player->move_spd;
 	dy = -sin(angle_rad) * player->move_spd;
 	new_x = player->pos.x + dx;
 	new_y = player->pos.y + dy;
-	res = 0;
 	if (!check_for_wall_collision(player, new_x, player->pos.y))
 		player->pos.x += dx;
 	if (!check_for_wall_collision(player, player->pos.x, new_y))

@@ -6,7 +6,7 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/21 14:26:34 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/06/21 23:58:49 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ MAP_DIR		= map
 SRC			= $(addprefix $(SRC_DIR)/, \
 				main.c \
 				init.c \
+				init_mlx.c \
 				clean.c \
 				minimap.c \
 				minimap_player.c \

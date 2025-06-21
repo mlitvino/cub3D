@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 20:21:27 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/21 20:21:28 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/22 00:25:24 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,17 @@ void	init_audio(t_data *data)
 
 	ft_bzero(&data->sound[0], sizeof(Sound) * MAX_SOUND);
 	ft_bzero(&data->music[0], sizeof(Music) * MAX_MUSIC);
-	SetTraceLogLevel(LOG_INFO);
+	SetTraceLogLevel(LOG_ERROR);
 	InitAudioDevice();
 	if (IsAudioDeviceReady() == false)
-		clean_all(data);
+		clean_all(data, NULL);
 	i = 0;
 	init_audio_path(data);
 	while (i < MAX_SOUND)
 	{
 		data->sound[i] = LoadSound(data->sound_path[i]);
 		if (IsSoundValid(data->sound[i]) == false)
-			clean_all(data);
+			clean_all(data, NULL);
 		i++;
 	}
 	i = 0;
@@ -60,7 +60,7 @@ void	init_audio(t_data *data)
 	{
 		data->music[i] = LoadMusicStream(data->music_path[i]);
 		if (IsMusicValid(data->music[i]) == false)
-			clean_all(data);
+			clean_all(data, NULL);
 		i++;
 	}
 }

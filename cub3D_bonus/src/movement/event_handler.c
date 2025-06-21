@@ -68,20 +68,24 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 	{
 		// data->mlx_data.textrs_img[CROSSBOW1]->instances[0].x -= 100;
 		// data->mlx_data.textrs_img[CROSSBOW1]->instances[0].y -= 100;
-		mlx_set_instance_depth(&data->mlx_data.textrs_img[CROSSBOW1]->instances[data->test1],
-			3);
-		mlx_set_instance_depth(&data->mlx_data.textrs_img[CROSSBOW2]->instances[data->test2],
-			0);
+		// mlx_set_instance_depth(&data->mlx_data.textrs_img[CROSSBOW1]->instances[data->test1],
+		// 	3);
+		// mlx_set_instance_depth(&data->mlx_data.textrs_img[CROSSBOW2]->instances[data->test2],
+		// 	0);
+		data->mlx_data.textrs_img[CROSSBOW2]->enabled = 0;
+		data->mlx_data.textrs_img[CROSSBOW1]->enabled = 1;
 		// data->player.facing_statue = data->sprite_list;
 	}
 	else if (keydata.key == '8')
 	{
 		// data->mlx_data.textrs_img[CROSSBOW1]->instances[0].x += 100;
 		// data->mlx_data.textrs_img[CROSSBOW1]->instances[0].y += 100;
-		mlx_set_instance_depth(&data->mlx_data.textrs_img[CROSSBOW1]->instances[data->test1],
-			0);
-		mlx_set_instance_depth(&data->mlx_data.textrs_img[CROSSBOW2]->instances[data->test2],
-			3);
+		data->mlx_data.textrs_img[CROSSBOW2]->enabled = 1;
+		data->mlx_data.textrs_img[CROSSBOW1]->enabled = 0;
+		// mlx_set_instance_depth(&data->mlx_data.textrs_img[CROSSBOW1]->instances[data->test1],
+		// 	0);
+		// mlx_set_instance_depth(&data->mlx_data.textrs_img[CROSSBOW2]->instances[data->test2],
+		// 	3);
 		// data->player.facing_statue = NULL;
 	}
 	if (keydata.key == 'Q')
@@ -106,7 +110,7 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 	}
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 	{
-		clean_all(data);
+		clean_all(data, NULL);
 		return ;
 	}
 	if (keydata.action == MLX_PRESS /*|| keydata.action == MLX_REPEAT*/)
