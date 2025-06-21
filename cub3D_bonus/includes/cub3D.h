@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/22 01:22:41 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/22 02:28:59 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ typedef enum e_texture
 	MAX_TEX
 }	t_texture;
 
-# define S_DOOR_PATH "audio/gate_open.mp3"
+# define S_DOOR_PATH "audio/wood_door.mp3"
 # define S_SHOT_PATH "audio/shot_reloading.mp3"
 # define S_RELOADING_PATH "audio/reloading.mp3"
 

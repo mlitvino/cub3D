@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:55:28 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/22 01:23:59 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/22 02:21:12 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,10 @@ void	*init_tex(t_mlx *mlx_data, mlx_texture_t **tex)
 	mlx_data->textrs_img[SOUTH] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[SOUTH]);
 	mlx_resize_image(mlx_data->textrs_img[SOUTH], BLOCK_SIZE, BLOCK_SIZE);
 
-	mlx_data->textrs[DOOR_TEX] = mlx_load_png("./textures/door.png");
+	mlx_data->textrs[DOOR_TEX] = mlx_load_png("./textures/wood_door.png");
 	mlx_data->textrs_img[DOOR_TEX] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[DOOR_TEX]);
 	mlx_resize_image(mlx_data->textrs_img[DOOR_TEX], BLOCK_SIZE, BLOCK_SIZE);
+
 
 	mlx_data->textrs[FLOOR_TEX] = mlx_load_png("./textures/wood_floor.png");
 	mlx_data->textrs_img[FLOOR_TEX] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[FLOOR_TEX]);

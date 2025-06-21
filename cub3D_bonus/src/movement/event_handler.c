@@ -61,7 +61,7 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 	else if (keydata.key == '4')
 		change_sprite_state(data, WOLF, WOLF_ATTCK);
 	if (keydata.key == '5')
-		change_sprite_state(data, STATUE, STATUE_GREY);
+		change_sprite_state(data, WOLF, WOLF_DEAD);
 	else if (keydata.key == '6')
 		change_sprite_state(data, STATUE, STATUE_RED);
 	else if (keydata.key == '7')
