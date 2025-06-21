@@ -6,7 +6,7 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/20 23:06:23 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/06/21 12:34:28 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ RAYLIB_DIR	= $(LIBS_DIR)/raylib/src
 SRC_DIR		= src
 RAY_DIR		= raycast
 MOV_DIR		= movement
+MAP_DIR		= map
 
 SRC			= $(addprefix $(SRC_DIR)/, \
 				main.c \
@@ -40,33 +41,38 @@ SRC			= $(addprefix $(SRC_DIR)/, \
 				minimap_player.c \
 				minimap_utils.c \
 				audio.c \
+				$(MAP_SRC) \
 				$(RAY_SRC) \
 				$(MOV_SRC) \
 				debug.c \
-				./map/perror.c \
-				./map/error.c \
-				./map/free.c \
-				./map/colour_utils.c \
-				./map/file_utils.c \
-				./map/read_file.c \
-				./map/colour.c \
-				./map/map_borders.c \
-				./map/map_utils.c \
-				./map/map.c \
-				./map/surrounding.c \
-				./map/valid_file.c \
-				./map/valid_texture_path.c \
-				./map/doors.c \
+				)
+
+MAP_SRC		= $(addprefix $(MAP_DIR)/, \
+				perror.c \
+				error.c \
+				free.c \
+				colour_utils.c \
+				file_utils.c \
+				read_file.c \
+				colour.c \
+				map_borders.c \
+				map_utils.c \
+				map.c \
+				surrounding.c \
+				valid_file.c \
+				valid_texture_path.c \
+				doors.c \
 				)
 
 RAY_SRC		= $(addprefix $(RAY_DIR)/, \
 				raycast.c \
 				find_wall.c \
-				find_wall_utils.c \
+				check_hit.c \
 				helper.c \
 				raycast_utils.c \
 				draw.c \
 				door.c \
+				face_enemy.c \
 				sprite.c \
 				sprite_init.c \
 				thread.c \
