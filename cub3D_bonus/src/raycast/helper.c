@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:59:38 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/20 14:42:22 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/21 13:23:33 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	calc_norm_dist(t_raycast *raycast)
 
 void	select_tex(t_raycast *raycast, t_wall *wall, int axis)
 {
+	raycast->axis = axis;
+	raycast->data->rays_dist[raycast->cur_ray] = wall->dist;
 	if (axis == VERTICAL)
 	{
 		if (ISEAST(raycast->ray_angle))
@@ -44,45 +46,40 @@ void	select_tex(t_raycast *raycast, t_wall *wall, int axis)
 		else
 			raycast->tex_indx = NORTH;
 	}
-
 	if (wall->type == DOOR)
 	{
 		raycast->tex_indx = DOOR_TEX;
-
 		if (raycast->cur_ray == WIN_W / 2)
-		{
 			raycast->player->door_facing = wall->dist;
-		}
 	}
+}
+
+void	init_common_info(t_data *data, t_char *player, t_raycast *raycast)
+{
+	raycast->data = data;
+	raycast->player = player;
+	raycast->player->door_facing = 0;
+	raycast->door_list = data->door_list;
+	raycast->plane = &data->plane;
+	raycast->scr_img = data->mlx_data.scr_img;
+	raycast->unit_map = data->unit_map;
+	raycast->flor_rgbt = data->flor_rgb.rgbt;
+	raycast->ceil_rgbt = data->ceil_rgb.rgbt;
 }
 
 t_raycast	*init_raycast(t_data *data, t_char *player, t_raycast *raycast)
 {
-	int			i;
+	int	i;
 
 	i = 0;
 	while (i < MAX_THRD)
 	{
-		raycast[i].data = data;
-		raycast[i].player = player;
-
-		raycast[i].player->door_facing = 0;
-
-		raycast[i].door_list = data->door_list;
-		raycast[i].plane = &data->plane;
-		raycast[i].scr_img = data->mlx_data.scr_img;
-		raycast[i].unit_map = data->unit_map;
-		raycast[i].flor_rgbt = data->flor_rgb.rgbt;
-		raycast[i].ceil_rgbt = data->ceil_rgb.rgbt;
-
+		init_common_info(data, player, &raycast[i]);
 		raycast[i].thread_chunk = data->rays_count / MAX_THRD;
-
 		raycast[i].ray_angle = fmod((player->pov.view_angl + (FOV / 2)), 360);
-
-		raycast[i].ray_angle -= (data->rays_angle * i * raycast[i].thread_chunk);
+		raycast[i].ray_angle -= data->rays_angle * i * raycast[i].thread_chunk;
 		if (raycast[i].ray_angle < 0)
 			raycast[i].ray_angle = 360 + raycast[i].ray_angle;
-
 		raycast[i].cur_ray = 0;
 		raycast[i].view_angle = player->pov.view_angl;
 		raycast[i].char_pos.x = player->pos.x;

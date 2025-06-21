@@ -6,14 +6,13 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:57:05 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/20 23:12:07 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/21 12:33:37 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	init_wall(t_point char_pos, t_dpoint *temp, double ray_angl,
-		int axis)
+void	init_wall(t_point char_pos, t_dpoint *temp, double ray_angl, int axis)
 {
 	if ((int)temp->h != -1)
 		return ;
@@ -73,11 +72,10 @@ void	init_delta(t_raycast *raycast, int axis)
 	}
 }
 
-void	norm_fract(t_dpoint *temp, t_wall *wall, int axis,
-		double ray_angl)
+void	norm_fract(t_dpoint *temp, t_wall *wall, int axis, double ray_angl)
 {
-	if ((axis == VERTICAL && ray_angl > 180)
-		|| (axis == HORIZONT && ISEAST(ray_angl)))
+	if ((axis == VERTICAL && ray_angl > 180) || (axis == HORIZONT
+			&& ISEAST(ray_angl)))
 	{
 		wall->pos.x = temp->x;
 		wall->pos.y = temp->y;
@@ -87,77 +85,6 @@ void	norm_fract(t_dpoint *temp, t_wall *wall, int axis,
 		wall->pos.x = ceil(temp->x);
 		wall->pos.y = ceil(temp->y);
 	}
-}
-
-void	set_direct(t_door *door, int axis, double ray_angle)
-{
-	if (axis == VERTICAL)
-	{
-		if (ISEAST(ray_angle))
-			door->direct = EAST;
-		else
-			door->direct = WEST;
-	}
-	else
-	{
-		if (ISNORTH(ray_angle))
-			door->direct = NORTH;
-		else
-			door->direct = SOUTH;
-	}
-}
-
-bool	extend_door(t_raycast *raycast, t_wall *wall, int axis)
-{
-	t_door		*door;
-	t_dpoint	temp;
-	int			offset;
-
-	door = find_door(raycast->door_list , wall->pos.x, wall->pos.y);
-	//set_direct(door, axis, raycast->ray_angle); // is needed?
-	wall->door_len = door->len;
-
-
-	temp.x = wall->pos.x;
-	temp.y = wall->pos.y;
-
-	temp.x += raycast->dx / 2;
-	temp.y += raycast->dy / 2;
-
-	if (is_on_map(raycast->data, &(t_point){(int)temp.x, (int)temp.y, 0}) == false)
-		return (false);
-
-	if (axis == VERTICAL)
-		offset = (int)temp.y % BLOCK_SIZE;
-	else
-		offset = (int)temp.x % BLOCK_SIZE;
-
-	if (raycast->unit_map[(int)temp.y][(int)temp.x] == DOOR
-		&& door->len > offset)
-	{
-		wall->pos.x = temp.x;
-		wall->pos.y = temp.y;
-		return (true);
-	}
-	return (false);
-}
-
-bool	check_hit(t_raycast *raycast, t_wall *wall, int axis)
-{
-	if (raycast->unit_map[wall->pos.y][wall->pos.x] == WALL)
-	{
-		wall->type = WALL;
-		return (true);
-	}
-	else if (raycast->unit_map[wall->pos.y][wall->pos.x] == DOOR)
-	{
-		if (extend_door(raycast, wall, axis) == true)
-		{
-			wall->type = DOOR;
-			return (true);
-		}
-	}
-	return (false);
 }
 
 bool	find_wall(t_raycast *raycast, t_wall *wall, int axis)

@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:16:05 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/12 18:19:51 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/21 13:24:07 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	*thread_raycast(void *arg)
 	while (cur_ray < end_ray)
 	{
 		fill_ray_info(raycast);
-		cast_ray(raycast, raycast->ray_angle);
+		cast_ray(raycast);
 		cur_ray++;
 		raycast->ray_angle -= raycast->data->rays_angle;
 		if (raycast->ray_angle < 0)
@@ -49,16 +49,16 @@ void	*thread_raycast(void *arg)
 
 void	init_threads(t_raycast *raycast, void *(routine)(void *arg))
 {
-	int			i;
-	int			err;
+	int	i;
+	int	err;
 
 	i = 0;
 	err = 0;
 	while (i < MAX_THRD)
 	{
 		raycast[i].thrd_i = i;
-		err |= pthread_create(&raycast[i].threads[i], NULL,
-						routine, (void *)&raycast[i]);
+		err |= pthread_create(&raycast[i].threads[i], NULL, routine,
+				(void *)&raycast[i]);
 		i++;
 	}
 	i = 0;
@@ -73,4 +73,3 @@ void	init_threads(t_raycast *raycast, void *(routine)(void *arg))
 		clean_all(raycast->data);
 	}
 }
-
