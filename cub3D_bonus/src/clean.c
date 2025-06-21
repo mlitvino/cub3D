@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 23:12:04 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/20 19:24:31 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/21 20:22:38 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,15 @@ void	clean_map(t_data *data)
 void	clean_mlx(t_data *data)
 {
 	t_mlx	mlx_data;
+	int		i;
 
+	i = 0;
 	mlx_data = data->mlx_data;
-	for (int i = 0; i < MAX_TEX; i++)
+	while (i < MAX_TEX)
 	{
 		mlx_delete_texture(mlx_data.textrs[i]);
 		mlx_delete_image(mlx_data.mlx_ptr, mlx_data.textrs_img[i]);
+		i++;
 	}
 	mlx_terminate(mlx_data.mlx_ptr);
 }

@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/21 20:11:50 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/21 20:24:25 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef enum e_texture
 
 
 # define GREEN_COL 0x00d118ff
+# define ORANGE_COL 0xeb6437ff
 
 typedef enum e_music
 {

@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:39:09 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/20 23:09:24 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/21 20:24:04 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ void	put_minimap_pix(t_data *data, t_point map_pos, int x, int y)
 	{
 		if (data->unit_map[map_pos.y][map_pos.x] == WALL)
 			mlx_put_pixel(data->mlx_data.minimap, x, y, GREEN_COL);
-		// else if (data->unit_map[map_pos.y][map_pos.x] == DOOR)
-		// 	mlx_put_pixel(data->mlx_data.minimap, x, y, 0xFF0000FF);
+		else if (data->unit_map[map_pos.y][map_pos.x] == DOOR)
+			mlx_put_pixel(data->mlx_data.minimap, x, y, ORANGE_COL);
 	}
 }
 
 void	draw_background(mlx_image_t *minimap)
 {
-	uint32_t 	x;
-	uint32_t 	y;
+	uint32_t	x;
+	uint32_t	y;
 
 	x = 0;
 	while (x < minimap->width)
@@ -43,10 +43,10 @@ void	draw_background(mlx_image_t *minimap)
 
 void	draw_obj(t_data *data, t_point *mid_img, mlx_image_t *minimap)
 {
-	uint32_t		x;
-	uint32_t		y;
-	t_point	map_pos;
-	int		step;
+	uint32_t	x;
+	uint32_t	y;
+	t_point		map_pos;
+	int			step;
 
 	step = BLOCK_SIZE / SCALE;
 	map_pos.x = data->player.pos.x - (mid_img->x * step);

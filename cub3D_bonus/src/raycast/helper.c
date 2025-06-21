@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:59:38 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/21 19:07:12 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/21 20:18:36 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	init_common_info(t_data *data, t_char *player, t_raycast *raycast)
 	raycast->unit_map = data->unit_map;
 	raycast->flor_rgbt = data->flor_rgb.rgbt;
 	raycast->ceil_rgbt = data->ceil_rgb.rgbt;
-
 }
 
 t_raycast	*init_raycast(t_data *data, t_char *player, t_raycast *raycast)
