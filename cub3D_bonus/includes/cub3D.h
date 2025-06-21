@@ -41,9 +41,11 @@
 # define SCALE 40
 # define ICON_SIZE 16
 # define ICON_BASE 6
-# define MODIF_BRIGHT 1
+# define MODIF_BRIGHT 2
 
-# define STATUE_MAX_VIS 2
+# define STATUE_MAX_VIS 4
+# define W_STATUE_VIS_DEC 25
+# define H_STATUE_VIS_DEC 3
 
 # define EMPTY '0'
 # define WALL '1'
@@ -376,6 +378,7 @@ void	init_threads(t_raycast *raycast, void *(routine)(void *arg));
 // helper.c
 void		calc_norm_dist(t_raycast *raycast);
 void		select_tex(t_raycast *raycast, t_wall *wall, int axis_flag);
+void		init_common_info(t_data *data, t_char *player, t_raycast *raycast);
 t_raycast	*init_raycast(t_data *data, t_char *player, t_raycast *raycast);
 void		fill_ray_info(t_raycast *raycast);
 
@@ -383,6 +386,12 @@ void		fill_ray_info(t_raycast *raycast);
 void		update_doors(t_door *doors);
 t_door		*find_door(t_door *doors, int unit_x, int unit_y);
 t_door		*create_door(t_door **doors_list, int grid_x, int grid_y);
+
+// face_enemy.c
+void	check_screen_center(t_raycast *raycast, t_sprite *sprite, t_point center);
+void	check_statue_look(t_raycast *raycast, t_sprite *sprite);
+void	chck_facing_enemy(t_raycast *raycast, t_sprite **sprite_array,
+		t_char *player);
 
 // sprite.c
 void		sort_sprite_dist(t_raycast *raycast, t_sprite **sprite_array);
@@ -392,11 +401,12 @@ void		draw_sprite_pix(t_raycast *raycast, t_sprite *sprite, int x, int y);
 void		draw_sprite(t_raycast *raycast, t_sprite *sprite);
 
 // sprite_init.c
+void		fill_sprite_info(t_sprite *new_sprite, t_data *data, int type);
 t_sprite	*create_sprite(t_data *data, int type, int grid_x, int grid_y);
 t_sprite	**init_spite_array(t_raycast *raycast);
 
 // draw.c
-void		add_shadow(uint32_t *color, int *dist);
+void		add_shadow(uint32_t *color, int dist);
 void		map_wall(t_raycast *raycast, int y, int wall_h, int wall_top);
 void		render_col(t_raycast *raycast, t_wall *wall,
 				int wall_dist, int tex_indx);
@@ -404,7 +414,7 @@ void		render_col(t_raycast *raycast, t_wall *wall,
 // raycast.c
 void		compre_dist(t_raycast *raycast, t_wall *hor_wall,
 				t_wall *ver_wall);
-void		cast_ray(t_raycast *raycast, double ray_angl);
+void		cast_ray(t_raycast *raycast);
 void		handle_sprites(t_raycast *raycast);
 void		raycast(t_data *data);
 
@@ -427,8 +437,9 @@ void	draw_minimap(t_data *data, mlx_image_t *minimap);
 
 
 // find_wall_utils.c
-bool		check_hit(t_raycast *raycast, t_wall *wall, int axis_flag);
 bool		is_on_map(t_data *data, t_point *p);
+bool		extend_door(t_raycast *raycast, t_wall *wall, int axis);
+bool		check_hit(t_raycast *raycast, t_wall *wall, int axis_flag);
 
 // find_wall.c
 void		init_wall(t_point char_pos, t_dpoint *temp,
@@ -464,7 +475,6 @@ void		clean_mlx(t_data *data);
 void		clean_all(t_data *data);
 
 // init.c
-void		init_grid_map(t_data *data);
 void		init_unit_map(t_data *data);
 void		init_maps(t_data *data);
 void		init_mlx(t_data *data);
