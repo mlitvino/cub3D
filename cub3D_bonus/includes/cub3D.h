@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/22 18:10:12 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/22 20:00:57 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -446,7 +446,7 @@ bool		point_in_triangle(t_point p, t_point a, t_point b, t_point c);
 void		norm_base(t_point *base_left, t_point *base_right, t_point *max, t_point *min);
 void	fill_icon_with_color(mlx_image_t *minimap,
 							t_point *tip, t_point *base_left, t_point *base_right);
-void	draw_player(double view_angle, mlx_image_t *minimap, int mid_x, int mid_y);
+void	draw_player(t_data *data, int view_angle_i, mlx_image_t *minimap, t_point *mid);
 
 // minimap_utils.c
 void	init_d_step(t_point *p1, t_point *p2, t_point *d, t_point *step);

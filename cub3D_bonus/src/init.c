@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/22 17:58:43 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/22 18:49:44 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,12 @@ void	init_angle_table(t_table *angle_table)
 
 void	init_data(t_data *data)
 {
+	data->game_state = START;
 	init_audio(data);
 	init_mlx(data);
 	init_unit_map(data);
 	init_player(data);
 	init_angle_table(data->angle_table);
-	data->game_state = START;
 	data->main_button = MAIN_BUTTON;
 	data->pause_button = PAUSE_BUTTON;
 	data->plane.center.x = WIN_W / 2;

@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:39:09 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/21 20:24:04 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/22 20:01:23 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,12 @@ void	draw_obj(t_data *data, t_point *mid_img, mlx_image_t *minimap)
 void	draw_minimap(t_data *data, mlx_image_t *minimap)
 {
 	t_point	mid_img;
+	int		view_angle_i;
 
 	mid_img.x = minimap->width / 2;
 	mid_img.y = minimap->height / 2;
 	draw_background(minimap);
-	draw_player(data->player.pov.view_angl, minimap, mid_img.x, mid_img.y);
+	view_angle_i = data->player.pov.view_angl * ANGLE_PRES;
+	draw_player(data, view_angle_i, minimap, &mid_img);
 	draw_obj(data, &mid_img, minimap);
 }

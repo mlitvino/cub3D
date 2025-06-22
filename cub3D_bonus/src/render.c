@@ -94,6 +94,21 @@ void	manage_menu(t_data *data, mlx_image_t **tex_img)
 	}
 }
 
+void	update_audio(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < MAX_MUSIC)
+		UpdateMusicStream(data->music[i++]);
+	if (data->game_state == MAIN_MENU)
+		if (IsMusicStreamPlaying(data->music[M_STORM]) == false)
+			PlayMusicStream(data->music[M_STORM]);
+	if (data->game_state == START)
+		if (IsMusicStreamPlaying(data->music[M_FOREST]) == false)
+			PlayMusicStream(data->music[M_FOREST]);
+}
+
 void	render(void *data_arg)
 {
 	t_data	*data;
@@ -137,9 +152,5 @@ void	render(void *data_arg)
 	{
 		manage_menu(data, data->mlx_data.textrs_img);
 	}
-
-	for (int i = 0; i < MAX_MUSIC; i++)
-	{
-		UpdateMusicStream(data->music[i]);
-	}
+	update_audio(data);
 }
