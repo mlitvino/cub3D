@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/22 02:28:59 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/22 18:10:12 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@
 # define SKY_W 1440
 # define SKY_H 5000
 
+# define MAIN_BUTTON (t_point){1475,535,0}
+# define PAUSE_BUTTON (t_point){745,385,0}
+# define BUTTON_DX 390
+# define BUTTON_DY 120
+# define BUTTON_DY2 165
+
 # define MAX_THRD 6
 
 # define FOV 60
@@ -48,8 +54,8 @@
 # define W_STATUE_VIS_DEC 25
 # define H_STATUE_VIS_DEC 3
 
-# define CEIL_PLANE 0
-# define FLOOR_PLANE 1
+# define START 100
+# define EXIT 101
 
 # define EMPTY '0'
 # define WALL '1'
@@ -81,7 +87,7 @@ typedef enum e_texture
 	DOOR_TEX,
 	FLOOR_TEX,
 	GROUND_TEX,
-	CEIL_TEX,
+	CEILING_TEX,
 	SKY_TEX,
 	WOLF_STAY,
 	WOLF_WALK1,
@@ -90,6 +96,10 @@ typedef enum e_texture
 	WOLF_DEAD,
 	STATUE_GREY,
 	STATUE_RED,
+	MAIN_MENU,
+	PAUSE,
+	DEATH,
+	CONTROLS,
 	STATUE_FACE,
 	CROSSBOW1,
 	CROSSBOW2,
@@ -240,6 +250,7 @@ typedef struct s_keys
 	int			left;
 	int			right;
 	int			esc;
+	int			tab;
 
 }				t_keys;
 
@@ -335,6 +346,11 @@ typedef struct s_data
 {
 	t_mlx				mlx_data;
 
+	int					game_state;
+	t_point				mouse_click;
+	t_point				main_button;
+	t_point				pause_button;
+
 	char				**grid_map;
 	char				**unit_map;
 	char				**map_data;
@@ -401,6 +417,7 @@ t_sprite	*create_sprite(t_data *data, int type, int grid_x, int grid_y);
 t_sprite	**init_spite_array(t_raycast *raycast);
 
 // draw_utils.c
+void	adjust_image_alpha(mlx_image_t *img, int new_alpha);
 void		add_shadow(uint32_t *color, int dist);
 void		fill_wall_info(t_raycast *raycast, t_wall *wall);
 void	fill_floor_info(t_raycast *raycast, t_point *ceil_pos, int *dist, int y);
@@ -409,6 +426,12 @@ void	fill_ceil_info(t_raycast *raycast, t_point *ceil_pos, int *dist, int y);
 // draw.c
 void		draw_wall(t_raycast *raycast, int *y, t_wall *wall);
 void		render_col(t_raycast *raycast, t_wall *wall);
+
+// render.c
+void	update_statue(t_data *data, t_char *player, t_sprite *sprites);
+void	render(void *data_arg);
+void	manage_menu(t_data *data, mlx_image_t **tex_img);
+int		check_mouse_click(t_data *data, t_point *but);
 
 // raycast.c
 void		compre_dist(t_raycast *raycast, t_wall *hor_wall,
@@ -486,6 +509,7 @@ void		init_angle_table(t_table *angle_table);
 void		init_data(t_data *data);
 
 // debug.c
+void		show_fps(void);
 void		show_sprites(t_sprite **sprite_array, t_sprite *sprite_list);
 void		show_doors(t_door *list);
 void		show_char_pos(t_data *data, t_char *chr);

@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:55:28 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/22 02:21:12 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/22 18:11:30 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,31 @@ bool	resize_image(mlx_image_t *img, int img_i)
 	else
 		return (mlx_resize_image(img, BLOCK_SIZE, BLOCK_SIZE));
 }
+
+// void	*init_tex(t_mlx *mlx_data, mlx_texture_t **tex)
+// {
+// 	mlx_image_t	**tex_img;
+// 	int			i;
+
+// 	tex_img = mlx_data->textrs_img;
+// 	i = 0;
+// 	while (i < MAX_TEX)
+// 	{
+// 		tex[i] = mlx_load_png(mlx_data->tex_path[i]);
+// 		if (!tex[i])
+// 			return (NULL);
+// 		tex_img[i] = mlx_texture_to_image(mlx_data->mlx_ptr, tex[i]);
+// 		if (!tex_img[i])
+// 			return (NULL);
+// 		if (i == SKY_TEX)
+// 			return (mlx_resize_image(tex_img[i], SKY_W, SKY_H));
+// 		else if (i >= MAIN_MENU)
+// 			return (mlx_resize_image(tex_img[i], WIN_W, WIN_H));
+// 		else
+// 			return (mlx_resize_image(tex_img[i], BLOCK_SIZE, BLOCK_SIZE));
+// 		i++;
+// 	}
+// }
 
 void	*init_tex(t_mlx *mlx_data, mlx_texture_t **tex)
 {
@@ -42,19 +67,19 @@ void	*init_tex(t_mlx *mlx_data, mlx_texture_t **tex)
 	// 	i++;
 	// }
 
-	mlx_data->textrs[NORTH] = mlx_load_png("./textures/forest.png");
+	mlx_data->textrs[NORTH] = mlx_load_png("./textures/wall/forest.png");
 	mlx_data->textrs_img[NORTH] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[NORTH]);
 	mlx_resize_image(mlx_data->textrs_img[NORTH], BLOCK_SIZE, BLOCK_SIZE);
 
-	mlx_data->textrs[EAST] = mlx_load_png("./textures/forest.png");
+	mlx_data->textrs[EAST] = mlx_load_png("./textures/wall/forest.png");
 	mlx_data->textrs_img[EAST] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[EAST]);
 	mlx_resize_image(mlx_data->textrs_img[EAST], BLOCK_SIZE, BLOCK_SIZE);
 
-	mlx_data->textrs[WEST] = mlx_load_png("./textures/forest.png");
+	mlx_data->textrs[WEST] = mlx_load_png("./textures/wall/forest.png");
 	mlx_data->textrs_img[WEST] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[WEST]);
 	mlx_resize_image(mlx_data->textrs_img[WEST], BLOCK_SIZE, BLOCK_SIZE);
 
-	mlx_data->textrs[SOUTH] = mlx_load_png("./textures/forest.png");
+	mlx_data->textrs[SOUTH] = mlx_load_png("./textures/wall/forest.png");
 	mlx_data->textrs_img[SOUTH] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[SOUTH]);
 	mlx_resize_image(mlx_data->textrs_img[SOUTH], BLOCK_SIZE, BLOCK_SIZE);
 
@@ -63,12 +88,12 @@ void	*init_tex(t_mlx *mlx_data, mlx_texture_t **tex)
 	mlx_resize_image(mlx_data->textrs_img[DOOR_TEX], BLOCK_SIZE, BLOCK_SIZE);
 
 
-	mlx_data->textrs[FLOOR_TEX] = mlx_load_png("./textures/wood_floor.png");
+	mlx_data->textrs[FLOOR_TEX] = mlx_load_png("./textures/floor/wood_floor.png");
 	mlx_data->textrs_img[FLOOR_TEX] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[FLOOR_TEX]);
 	mlx_resize_image(mlx_data->textrs_img[FLOOR_TEX], BLOCK_SIZE, BLOCK_SIZE);
 
 
-	mlx_data->textrs[GROUND_TEX] = mlx_load_png("./textures/grass.png");
+	mlx_data->textrs[GROUND_TEX] = mlx_load_png("./textures/floor/grass.png");
 	mlx_data->textrs_img[GROUND_TEX] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[GROUND_TEX]);
 	mlx_resize_image(mlx_data->textrs_img[GROUND_TEX], BLOCK_SIZE, BLOCK_SIZE);
 
@@ -92,6 +117,8 @@ void	*init_tex(t_mlx *mlx_data, mlx_texture_t **tex)
 	mlx_data->textrs_img[WOLF_DEAD] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[WOLF_DEAD]);
 	mlx_resize_image(mlx_data->textrs_img[WOLF_DEAD], BLOCK_SIZE, BLOCK_SIZE);
 
+
+
 	mlx_data->textrs[STATUE_GREY] = mlx_load_png("./textures/statue/statue_grey.png");
 	mlx_data->textrs_img[STATUE_GREY] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[STATUE_GREY]);
 	mlx_resize_image(mlx_data->textrs_img[STATUE_GREY], BLOCK_SIZE, BLOCK_SIZE);
@@ -100,9 +127,27 @@ void	*init_tex(t_mlx *mlx_data, mlx_texture_t **tex)
 	mlx_data->textrs_img[STATUE_RED] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[STATUE_RED]);
 	mlx_resize_image(mlx_data->textrs_img[STATUE_RED], BLOCK_SIZE, BLOCK_SIZE);
 
-	mlx_data->textrs[CEIL_TEX] = mlx_load_png("./textures/wood_ceil.png");
-	mlx_data->textrs_img[CEIL_TEX] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[CEIL_TEX]);
-	mlx_resize_image(mlx_data->textrs_img[CEIL_TEX], BLOCK_SIZE, BLOCK_SIZE);
+	mlx_data->textrs[CEILING_TEX] = mlx_load_png("./textures/ceiling/wood_ceiling.png");
+	mlx_data->textrs_img[CEILING_TEX] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[CEILING_TEX]);
+	mlx_resize_image(mlx_data->textrs_img[CEILING_TEX], BLOCK_SIZE, BLOCK_SIZE);
+
+
+	mlx_data->textrs[MAIN_MENU] = mlx_load_png("./textures/menu/main_menu.png");
+	mlx_data->textrs_img[MAIN_MENU] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[MAIN_MENU]);
+	mlx_resize_image(mlx_data->textrs_img[MAIN_MENU], mlx_data->scr_img->width, mlx_data->scr_img->height);
+
+	mlx_data->textrs[PAUSE] = mlx_load_png("./textures/menu/pause.png");
+	mlx_data->textrs_img[PAUSE] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[PAUSE]);
+	mlx_resize_image(mlx_data->textrs_img[PAUSE], mlx_data->scr_img->width, mlx_data->scr_img->height);
+
+	mlx_data->textrs[DEATH] = mlx_load_png("./textures/menu/death.png");
+	mlx_data->textrs_img[DEATH] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[DEATH]);
+	mlx_resize_image(mlx_data->textrs_img[DEATH], mlx_data->scr_img->width, mlx_data->scr_img->height);
+
+	mlx_data->textrs[CONTROLS] = mlx_load_png("./textures/menu/controls.png");
+	mlx_data->textrs_img[CONTROLS] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[CONTROLS]);
+	mlx_resize_image(mlx_data->textrs_img[CONTROLS], mlx_data->scr_img->width, mlx_data->scr_img->height);
+
 
 	mlx_data->textrs[STATUE_FACE] = mlx_load_png("./textures/statue/statue_face.png");
 	mlx_data->textrs_img[STATUE_FACE] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[STATUE_FACE]);
@@ -116,7 +161,7 @@ void	*init_tex(t_mlx *mlx_data, mlx_texture_t **tex)
 	mlx_data->textrs_img[CROSSBOW2] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[CROSSBOW2]);
 	mlx_resize_image(mlx_data->textrs_img[CROSSBOW2], mlx_data->scr_img->width, mlx_data->scr_img->height);
 
-	mlx_data->textrs[SKY_TEX] = mlx_load_png("./textures/sky.png");
+	mlx_data->textrs[SKY_TEX] = mlx_load_png("./textures/ceiling/sky.png");
 	mlx_data->textrs_img[SKY_TEX] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[SKY_TEX]);
 	mlx_resize_image(mlx_data->textrs_img[SKY_TEX], 1440, 5000);
 
@@ -154,6 +199,10 @@ bool	put_images_to_window(t_data *data, t_mlx *mlx_data)
 	put_img_to_win(data, mlx_data->textrs_img[CROSSBOW1]);
 	put_img_to_win(data, mlx_data->textrs_img[CROSSBOW2]);
 	put_img_to_win(data, mlx_data->textrs_img[STATUE_FACE]);
+	put_img_to_win(data, mlx_data->textrs_img[MAIN_MENU]);
+	put_img_to_win(data, mlx_data->textrs_img[PAUSE]);
+	put_img_to_win(data, mlx_data->textrs_img[DEATH]);
+	put_img_to_win(data, mlx_data->textrs_img[CONTROLS]);
 	return (true);
 }
 

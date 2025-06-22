@@ -6,11 +6,36 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 22:53:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/20 23:59:23 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/22 17:56:38 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+void	show_fps(void)
+{
+	static struct timeval	last = {0, 0};
+	static int				frames = 0;
+	struct timeval			now;
+	double					elapsed;
+
+	gettimeofday(&now, NULL);
+	// Initialize last on first call
+	if (last.tv_sec == 0 && last.tv_usec == 0)
+	{
+		last = now;
+		return ;
+	}
+	frames++;
+	elapsed = (now.tv_sec - last.tv_sec) + (now.tv_usec - last.tv_usec)
+		/ 1000000.0;
+	if (elapsed >= 1.0)
+	{
+		printf("FPS: %d\n", frames);
+		frames = 0;
+		last = now;
+	}
+}
 
 // // void	show_sprites(t_sprite **sprite_array, t_sprite *sprite_list)
 // // {

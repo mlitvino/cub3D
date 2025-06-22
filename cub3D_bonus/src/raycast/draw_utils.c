@@ -6,11 +6,29 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 20:19:19 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/21 20:19:21 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/22 16:12:42 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+void	adjust_image_alpha(mlx_image_t *img, int new_alpha)
+{
+	uint32_t	*pixels;
+	size_t		total_pixels;
+	uint32_t	alpha_mask;
+	size_t		i;
+
+	alpha_mask = ((uint32_t)new_alpha) << 24;
+	total_pixels = img->width * img->height;
+	pixels = (uint32_t *)img->pixels;
+	i = 0;
+	while (i < total_pixels)
+	{
+		pixels[i] = (pixels[i] & 0x00FFFFFF) | alpha_mask;
+		i++;
+	}
+}
 
 void	add_shadow(uint32_t *color, int dist)
 {

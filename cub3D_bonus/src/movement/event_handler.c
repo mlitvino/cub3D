@@ -16,6 +16,8 @@ static void	set_key_flag(t_keys *k, mlx_key_data_t keydata, int value)
 		k->right = value;
 	else if (keydata.key == MLX_KEY_ESCAPE)
 		k->esc = value;
+	else if (keydata.key == MLX_KEY_TAB)
+		k->tab = value;
 }
 
 void	change_sprite_state(t_data *data, int type, int new_state)
