@@ -1,19 +1,19 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/11 13:48:31 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/22 20:00:57 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# include "raylib.h"
 # include "MLX42/MLX42_Int.h"
 # include "libft.h"
 # include <errno.h>
@@ -23,33 +23,45 @@
 # include <sys/time.h>
 # include <pthread.h>
 
-# define BPP sizeof(int32_t)
-
 # define WIN_W 1280
 # define WIN_H 720
+
+# define MINIMAP_W (WIN_W / 5)
+# define MINIMAP_H (WIN_W / 5)
+
+# define SKY_W 1440
+# define SKY_H 5000
+
+# define MAIN_BUTTON (t_point){1475,535,0}
+# define PAUSE_BUTTON (t_point){745,385,0}
+# define BUTTON_DX 390
+# define BUTTON_DY 120
+# define BUTTON_DY2 165
 
 # define MAX_THRD 6
 
 # define FOV 60
 # define BLOCK_SIZE 512
-# define TEST_MAPX 50
-# define TEST_MAPY 14
+# define ANGLE_PRES 100
 
-# define SCALE 20
-# define ICON_SIZE 8
-# define ICON_BASE 3
-# define MODIF_BRIGHT 20
+# define SCALE 40
+# define ICON_SIZE 16
+# define ICON_BASE 6
+
+# define MODIF_BRIGHT 2
 
 # define STATUE_MAX_VIS 4
+# define W_STATUE_VIS_DEC 25
+# define H_STATUE_VIS_DEC 3
+
+# define START 100
+# define EXIT 101
 
 # define EMPTY '0'
 # define WALL '1'
-# define PLAYER 'N'
-
 # define STATUE 'C'
-
-# define WOLF 'B' // BEAST, W - taken by player's char in subject
-
+# define FLOOR 'F'
+# define WOLF 'B'
 # define DOOR 'D'
 # define CLOSED 1
 # define CLOSING 2
@@ -64,7 +76,6 @@
 # define ISWEST(a) (90 < a && a < 270)
 # define ISEAST(a) (270 < a || a < 90)
 
-// Movement
 # define DEG_TO_RAD(a) ((a)*M_PI / 180.0)
 
 typedef enum e_texture
@@ -75,32 +86,59 @@ typedef enum e_texture
 	SOUTH,
 	DOOR_TEX,
 	FLOOR_TEX,
+	GROUND_TEX,
+	CEILING_TEX,
+	SKY_TEX,
 	WOLF_STAY,
 	WOLF_WALK1,
 	WOLF_WALK2,
 	WOLF_ATTCK,
+	WOLF_DEAD,
 	STATUE_GREY,
 	STATUE_RED,
+	MAIN_MENU,
+	PAUSE,
+	DEATH,
+	CONTROLS,
 	STATUE_FACE,
 	CROSSBOW1,
 	CROSSBOW2,
 	MAX_TEX
 }	t_texture;
 
+# define S_DOOR_PATH "audio/wood_door.mp3"
+# define S_SHOT_PATH "audio/shot_reloading.mp3"
+# define S_RELOADING_PATH "audio/reloading.mp3"
+
+# define M_STORM_PATH "audio/storm.mp3"
+# define M_FOREST_PATH "audio/forest.mp3"
+# define M_PLAYER_STEP_PATH "audio/player_step.mp3"
+# define M_WOLF_STEP_PATH "audio/wolf_step.mp3"
+
+
+# define GREEN_COL 0x00d118ff
+# define ORANGE_COL 0xeb6437ff
+
+typedef enum e_music
+{
+	M_PLAYER_STEP,
+	M_WOLF_STEP,
+	M_FOREST,
+	M_STORM,
+	MAX_MUSIC
+}	e_music;
+
+typedef enum e_sound
+{
+	S_SHOT,
+	S_RELOADING,
+	S_DOOR,
+	MAX_SOUND
+}	e_sound;
+
 typedef struct s_data		t_data;
 typedef struct s_raycast	t_raycast;
 typedef struct s_char		t_char;
-
-//------------------------------TEST----------------------------------
-# define RESET "\033[0m"
-# define BLACK "\033[30m"
-# define RED "\033[31m"
-# define GREEN "\033[32m"
-# define YELLOW "\033[33m"
-# define BLUE "\033[34m"
-# define MAGENTA "\033[35m"
-# define CYAN "\033[36m"
-# define WHITE "\033[37m"
 
 //------------------------------Graphic----------------------------------
 
@@ -132,9 +170,6 @@ typedef struct s_rgbt
 
 typedef struct s_project
 {
-	/*
-		change in resize win case
-	*/
 	int			width;
 	int			height;
 	int			dist;
@@ -151,9 +186,8 @@ typedef struct s_wall
 
 	int			h;
 	int			top;
+	t_point		tex_pos;
 
-	int			img_x;
-	int			img_y;
 	int			img_i;
 	mlx_image_t	*img;
 
@@ -188,6 +222,10 @@ typedef struct s_sprite
 	int				move_spd;
 	int				turn_spd;
 
+	int				walkable;
+	int				type;
+	int				dist;
+
 	t_point			size;
 	t_point			tex_p;
 
@@ -196,10 +234,6 @@ typedef struct s_sprite
 	int				top;
 	int				left;
 	double			angle;
-
-	int				walkable;
-	int				type;// ENEMY, OBJECT, is needed?
-	int				dist;
 
 	struct s_sprite	*next;
 
@@ -223,13 +257,14 @@ typedef struct s_keys
 	int			left;
 	int			right;
 	int			esc;
+	int			tab;
 
 }				t_keys;
 
 typedef struct s_pov
 {
 	t_point		view_pos;
-	int			view_angl;
+	double		view_angl;
 	int			fov;
 
 }				t_pov;
@@ -245,7 +280,7 @@ typedef struct s_char
 	int			hitbox_radius;
 	t_sprite	*facing_enemy;
 	t_sprite	*facing_statue;
-	t_point		pos;
+	t_dpoint		pos;
 
 	int			move_spd;
 	int			turn_spd;
@@ -256,6 +291,14 @@ typedef struct s_char
 
 }				t_char;
 
+typedef struct s_table
+{
+	float	sin;
+	float	cos;
+	float	tan;
+	float	beta;
+}			t_table;
+
 typedef struct s_raycast
 {
 	t_data		*data;
@@ -263,8 +306,6 @@ typedef struct s_raycast
 	mlx_image_t	*scr_img;
 	char		**unit_map;
 	t_door		*door_list;
-
-	t_char		*player;
 
 	int			thread_chunk;
 	t_sprite	*thread_sprite;
@@ -274,11 +315,10 @@ typedef struct s_raycast
 	int			flor_rgbt;
 	int			ceil_rgbt;
 
-	int			view_angle;
-	t_point		char_pos;
+	t_char		*player;
 
-	mlx_image_t	*wall_img;
-	int			tex_x;
+	double		view_angle;
+	t_point		char_pos;
 
 	double		dx;
 	double		dy;
@@ -286,16 +326,13 @@ typedef struct s_raycast
 
 	t_wall		hor_wall;
 	t_wall		ver_wall;
-	t_wall		wall;
 
-	int			img_indx;
 	double		ray_angle;
 	int			cur_ray;
 	double		beta;
 
-	int			tex_indx;
-
 	int			sprite_count;
+	t_table		*angl_table;
 
 }				t_raycast;
 
@@ -320,6 +357,11 @@ typedef struct s_data
 {
 	t_mlx				mlx_data;
 
+	int					game_state;
+	t_point				mouse_click;
+	t_point				main_button;
+	t_point				pause_button;
+
 	char				**grid_map;
 	char				**unit_map;
 	char				**map_data;
@@ -341,9 +383,12 @@ typedef struct s_data
 	t_rgbt				flor_rgb;
 	t_rgbt				ceil_rgb;
 
-	int					test1;
-	int					test2;
+	Music				music[MAX_MUSIC];
+	char				*music_path[MAX_MUSIC];
+	Sound				sound[MAX_SOUND];
+	char				*sound_path[MAX_SOUND];
 
+	t_table				angle_table[ANGLE_PRES * 360];
 }						t_data;
 
 //-------------------------------RAYCASTING------------------------------------
@@ -355,6 +400,7 @@ void	init_threads(t_raycast *raycast, void *(routine)(void *arg));
 // helper.c
 void		calc_norm_dist(t_raycast *raycast);
 void		select_tex(t_raycast *raycast, t_wall *wall, int axis_flag);
+void		init_common_info(t_data *data, t_char *player, t_raycast *raycast);
 t_raycast	*init_raycast(t_data *data, t_char *player, t_raycast *raycast);
 void		fill_ray_info(t_raycast *raycast);
 
@@ -362,6 +408,12 @@ void		fill_ray_info(t_raycast *raycast);
 void		update_doors(t_door *doors, t_data *data);
 t_door		*find_door(t_door *doors, int unit_x, int unit_y);
 t_door		*create_door(t_door **doors_list, int grid_x, int grid_y);
+
+// face_enemy.c
+void	check_screen_center(t_raycast *raycast, t_sprite *sprite, t_point center);
+void	check_statue_look(t_raycast *raycast, t_sprite *sprite);
+void	chck_facing_enemy(t_raycast *raycast, t_sprite **sprite_array,
+		t_char *player);
 
 // sprite.c
 void		sort_sprite_dist(t_raycast *raycast, t_sprite **sprite_array);
@@ -371,19 +423,31 @@ void		draw_sprite_pix(t_raycast *raycast, t_sprite *sprite, int x, int y);
 void		draw_sprite(t_raycast *raycast, t_sprite *sprite);
 
 // sprite_init.c
+void		fill_sprite_info(t_sprite *new_sprite, t_data *data, int type);
 t_sprite	*create_sprite(t_data *data, int type, int grid_x, int grid_y);
 t_sprite	**init_spite_array(t_raycast *raycast);
 
+// draw_utils.c
+void	adjust_image_alpha(mlx_image_t *img, int new_alpha);
+void		add_shadow(uint32_t *color, int dist);
+void		fill_wall_info(t_raycast *raycast, t_wall *wall);
+void	fill_floor_info(t_raycast *raycast, t_point *ceil_pos, int *dist, int y);
+void	fill_ceil_info(t_raycast *raycast, t_point *ceil_pos, int *dist, int y);
+
 // draw.c
-void		add_shadow(uint32_t *color, int *dist);
-void		map_wall(t_raycast *raycast, int y, int wall_h, int wall_top);
-void		render_col(t_raycast *raycast, t_wall *wall,
-				int wall_dist, int tex_indx);
+void		draw_wall(t_raycast *raycast, int *y, t_wall *wall);
+void		render_col(t_raycast *raycast, t_wall *wall);
+
+// render.c
+void	update_statue(t_data *data, t_char *player, t_sprite *sprites);
+void	render(void *data_arg);
+void	manage_menu(t_data *data, mlx_image_t **tex_img);
+int		check_mouse_click(t_data *data, t_point *but);
 
 // raycast.c
 void		compre_dist(t_raycast *raycast, t_wall *hor_wall,
 				t_wall *ver_wall);
-void		cast_ray(t_raycast *raycast, double ray_angl);
+void		cast_ray(t_raycast *raycast);
 void		handle_sprites(t_raycast *raycast);
 void		raycast(t_data *data);
 
@@ -393,7 +457,7 @@ bool		point_in_triangle(t_point p, t_point a, t_point b, t_point c);
 void		norm_base(t_point *base_left, t_point *base_right, t_point *max, t_point *min);
 void	fill_icon_with_color(mlx_image_t *minimap,
 							t_point *tip, t_point *base_left, t_point *base_right);
-void	draw_player(double view_angle, mlx_image_t *minimap, int mid_x, int mid_y);
+void	draw_player(t_data *data, int view_angle_i, mlx_image_t *minimap, t_point *mid);
 
 // minimap_utils.c
 void	init_d_step(t_point *p1, t_point *p2, t_point *d, t_point *step);
@@ -406,12 +470,13 @@ void	draw_minimap(t_data *data, mlx_image_t *minimap);
 
 
 // find_wall_utils.c
-bool		check_hit(t_raycast *raycast, t_wall *wall, int axis_flag);
 bool		is_on_map(t_data *data, t_point *p);
+bool		extend_door(t_raycast *raycast, t_wall *wall, int axis);
+bool		check_hit(t_raycast *raycast, t_wall *wall, int axis_flag);
 
 // find_wall.c
-void		init_wall(t_point char_pos, t_dpoint *temp,
-				double ray_angl, int axis_flag);
+void		init_wall(t_raycast *raycast, t_dpoint *temp,
+				t_point *char_pos, int axis_flag);
 void		adjust_wall(t_raycast *raycast, t_dpoint *temp);
 void		init_delta(t_raycast *raycast, int axis_flag);
 void		norm_fract(t_dpoint *temp, t_wall *wall, int axis_flag,
@@ -433,19 +498,29 @@ void		rotate_player_left(t_char *player);
 
 //-------------------------------GENERAL------------------------------------
 
+// audio.c
+void		clean_audio(t_data *data);
+void		init_audio(t_data *data);
+
 // clean.c
 void		clean_map(t_data *data);
 void		clean_mlx(t_data *data);
-void		clean_all(t_data *data);
+void		clean_all(t_data *data, char *perr_mess);
+
+// init_mlx.c
+bool		resize_image(mlx_image_t *img, int img_i);
+void		*init_tex(t_mlx *mlx_data, mlx_texture_t **tex);
+bool		put_images_to_window(t_data *data, t_mlx *mlx_data);
+void		init_mlx(t_data *data);
 
 // init.c
-void		init_grid_map(t_data *data);
 void		init_unit_map(t_data *data);
-void		init_maps(t_data *data);
-void		init_mlx(t_data *data);
+void		init_player(t_data *data);
+void		init_angle_table(t_table *angle_table);
 void		init_data(t_data *data);
 
 // debug.c
+void		show_fps(void);
 void		show_sprites(t_sprite **sprite_array, t_sprite *sprite_list);
 void		show_doors(t_door *list);
 void		show_char_pos(t_data *data, t_char *chr);

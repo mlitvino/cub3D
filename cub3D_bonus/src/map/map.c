@@ -14,12 +14,13 @@ static int	valid_player_count(char **map, t_data *data)
 		j = 0;
 		while (map[i][j])
 		{
-			if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'W' || map[i][j] == 'E')
+			if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'W'
+				|| map[i][j] == 'E')
 			{
 				player_count++;
 				set_angle(map[i][j], data);
-				data->player.pos.y = i;
-				data->player.pos.x = j;
+				data->player.pos.y = i * BLOCK_SIZE + (BLOCK_SIZE / 2);
+				data->player.pos.x = j * BLOCK_SIZE + (BLOCK_SIZE / 2);
 			}
 			j++;
 		}
@@ -42,7 +43,8 @@ static int	valid_characters(char **map)
 		j = 0;
 		while (map[i][j])
 		{
-			if (!ft_strchr("01NSWED ", map[i][j])) //can add extra characters for bonus
+			if (!ft_strchr("01NSWEDBCF ", map[i][j]))
+				// can add extra characters for bonus
 				return (0);
 			j++;
 		}
@@ -55,17 +57,17 @@ static int	valid_characters(char **map)
 
 int	longest_line(char **map, int height)
 {
-	int i;
-	int max_len;
+	int	i;
+	int	max_len;
 	int	len;
 
 	max_len = 0;
 	i = 0;
-	while(i < height)
+	while (i < height)
 	{
 		len = ft_strlen(map[i]);
 		if (len > max_len)
-            max_len = len;
+			max_len = len;
 		i++;
 	}
 	return (max_len);
@@ -73,9 +75,9 @@ int	longest_line(char **map, int height)
 
 int	fill_padded_map(int height, t_data *data, char **padded_map, char **map)
 {
-	int		i;
-	int		j;
-	int		line_len;
+	int	i;
+	int	j;
+	int	line_len;
 
 	i = 0;
 	while (i < height)
@@ -90,7 +92,7 @@ int	fill_padded_map(int height, t_data *data, char **padded_map, char **map)
 			padded_map[i][j] = map[i][j];
 			j++;
 		}
-		//j = line_len;
+		// j = line_len;
 		while (j < data->map_w)
 			padded_map[i][j++] = 'P';
 		padded_map[i][data->map_w] = '\0';
@@ -102,7 +104,7 @@ int	fill_padded_map(int height, t_data *data, char **padded_map, char **map)
 
 // map borders
 
-int valid_map(t_data *data)
+int	valid_map(t_data *data)
 {
 	data->grid_map = pad_map(data->work_map, data->map_h, data);
 	if (!data->grid_map)
@@ -110,11 +112,14 @@ int valid_map(t_data *data)
 	if (!valid_player_count(data->work_map, data))
 		return (error_free_return("Error\nInvalid player count\n", data));
 	if (!valid_characters(data->work_map))
-		return (error_free_return("Error\nInvalid character found inside the map\n", data));
+		return (error_free_return("Error\nInvalid character found inside the map\n",
+				data));
 	if (!check_map_borders(data->work_map, data->map_h))
-		return (error_free_return("Error\nMap not surrounded by walls and/or invalid space inside the map\n", data));
+		return (error_free_return("Error\nMap not surrounded by walls and/or invalid space inside the map\n",
+				data));
 	if (!is_valid_surrounding(data->grid_map, data->map_h, data->map_w))
-		return (error_free_return("Error\nMap not surrounded by walls and/or invalid space inside the map\n", data));
+		return (error_free_return("Error\nMap not surrounded by walls and/or invalid space inside the map\n",
+				data));
 	if (!check_doors(data->work_map))
 		return (error_free_return("Error\nInvalid door detected\n", data));
 	free_map(data->work_map, -1);

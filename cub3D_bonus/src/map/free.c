@@ -16,7 +16,6 @@ char	**free_map(char **map, int fd)
 	return (NULL);
 }
 
-
 void	free_colours_textures_strings(t_data *data)
 {
 	free(data->mlx_data.tex_path[WEST]);
@@ -36,12 +35,12 @@ int	error_free_return(char *message, t_data *data)
 
 int	free_map_return(t_data *data)
 {
-	free_map(data->work_map , -1);
+	free_map(data->work_map, -1);
 	ft_putstr_fd("Error\nInvalid map data\n", 2);
 	return (0);
 }
 
-int 	free_error_exit(char *line, char *colour)
+int	free_error_exit(char *line, char *colour)
 {
 	free(line);
 	free(colour);

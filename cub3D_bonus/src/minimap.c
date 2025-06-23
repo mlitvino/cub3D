@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:39:09 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/09 16:47:07 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/22 20:01:23 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@ void	put_minimap_pix(t_data *data, t_point map_pos, int x, int y)
 	if (is_on_map(data, &map_pos) == true)
 	{
 		if (data->unit_map[map_pos.y][map_pos.x] == WALL)
-			mlx_put_pixel(data->mlx_data.minimap, x, y, 0xFF0000FF);
-		// else if (data->unit_map[map_pos.y][map_pos.x] == DOOR)
-		// 	mlx_put_pixel(data->mlx_data.minimap, x, y, 0xFF0000FF);
+			mlx_put_pixel(data->mlx_data.minimap, x, y, GREEN_COL);
+		else if (data->unit_map[map_pos.y][map_pos.x] == DOOR)
+			mlx_put_pixel(data->mlx_data.minimap, x, y, ORANGE_COL);
 	}
 }
 
 void	draw_background(mlx_image_t *minimap)
 {
-	int	x;
-	int	y;
+	uint32_t	x;
+	uint32_t	y;
 
 	x = 0;
 	while (x < minimap->width)
@@ -43,10 +43,10 @@ void	draw_background(mlx_image_t *minimap)
 
 void	draw_obj(t_data *data, t_point *mid_img, mlx_image_t *minimap)
 {
-	int		x;
-	int		y;
-	t_point	map_pos;
-	int		step;
+	uint32_t	x;
+	uint32_t	y;
+	t_point		map_pos;
+	int			step;
 
 	step = BLOCK_SIZE / SCALE;
 	map_pos.x = data->player.pos.x - (mid_img->x * step);
@@ -69,10 +69,12 @@ void	draw_obj(t_data *data, t_point *mid_img, mlx_image_t *minimap)
 void	draw_minimap(t_data *data, mlx_image_t *minimap)
 {
 	t_point	mid_img;
+	int		view_angle_i;
 
 	mid_img.x = minimap->width / 2;
 	mid_img.y = minimap->height / 2;
 	draw_background(minimap);
-	draw_player(data->player.pov.view_angl, minimap, mid_img.x, mid_img.y);
+	view_angle_i = data->player.pov.view_angl * ANGLE_PRES;
+	draw_player(data, view_angle_i, minimap, &mid_img);
 	draw_obj(data, &mid_img, minimap);
 }

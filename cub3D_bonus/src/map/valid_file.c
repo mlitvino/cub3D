@@ -1,6 +1,6 @@
 #include "cub3D.h"
 
-static int set_wall_image(t_data *data, char *element, char *line)
+static int	set_wall_image(t_data *data, char *element, char *line)
 {
 	if (!ft_strcmp(element, "NO "))
 	{
@@ -16,7 +16,7 @@ static int set_wall_image(t_data *data, char *element, char *line)
 	}
 	else if (!ft_strcmp(element, "WE "))
 	{
-		data->mlx_data.tex_path[WEST]  = ft_strtrim(line + 2, " 	");
+		data->mlx_data.tex_path[WEST] = ft_strtrim(line + 2, " 	");
 		if (!data->mlx_data.tex_path[WEST])
 			return (perror_exit(NULL));
 	}
@@ -29,7 +29,8 @@ static int set_wall_image(t_data *data, char *element, char *line)
 	return (1);
 }
 
-int check_double_element_wall(int *map_element, char *element, char *line, t_data *data)
+int	check_double_element_wall(int *map_element, char *element, char *line,
+		t_data *data)
 {
 	int	length;
 
@@ -55,7 +56,7 @@ int check_double_element_wall(int *map_element, char *element, char *line, t_dat
 
 static int	found_all_elements(int *map_elements)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < 6)
@@ -67,11 +68,12 @@ static int	found_all_elements(int *map_elements)
 	return (1);
 }
 
-static int	find_map_elements(char **map, int *map_element, t_data *data, int *i)
+static int	find_map_elements(char **map, int *map_element, t_data *data,
+		int *i)
 {
-	int j;
+	int	j;
 
-	while(map[*i] != NULL)
+	while (map[*i] != NULL)
 	{
 		j = 0;
 		if (is_empty_line(map[*i]))
@@ -81,7 +83,7 @@ static int	find_map_elements(char **map, int *map_element, t_data *data, int *i)
 		}
 		if (*i > 5 && found_all_elements(map_element))
 			break ;
-		while(map[*i][j] && map[*i][j] == ' ')
+		while (map[*i][j] && map[*i][j] == ' ')
 			j++;
 		if (!is_map_element(map[*i] + j, map_element, data))
 			return (0);
@@ -93,12 +95,12 @@ static int	find_map_elements(char **map, int *map_element, t_data *data, int *i)
 int	is_valid_data(char **map, t_data *data, int line_count)
 {
 	int	i;
-	int *map_element;
-	
+	int	*map_element;
+
 	i = 0;
 	map_element = malloc(sizeof(int) * 6);
 	if (!map_element)
-		return(perror_return_int(map_element));
+		return (perror_return_int(map_element));
 	ft_bzero(map_element, sizeof(int) * 6);
 	if (!find_map_elements(map, map_element, data, &i))
 		return (free_return(map_element));

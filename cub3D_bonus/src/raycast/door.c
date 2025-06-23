@@ -3,30 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   door.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:41:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/13 13:38:45 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/23 12:54:49 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static struct timeval get_current_time(void) 
+static struct timeval	get_current_time(void)
 {
-    struct timeval now;
+	struct timeval	now;
 
-    gettimeofday(&now, NULL);
-    return (now);
+	gettimeofday(&now, NULL);
+	return (now);
 }
 
 /*static int *check_for_door(char **map, int row, int col)
 {
-    int delta_row;
-    int delta_col;
-    int n_row;
-    int n_col;
-    int *coordinates;
+	int	delta_row;
+	int	delta_col;
+	int	n_row;
+	int	n_col;
+	int	*coordinates;
 
 	row = row / BLOCK_SIZE;
 	col = col / BLOCK_SIZE;
@@ -95,10 +95,10 @@ static int *check_for_door(char **map, int player_x, int player_y, t_data *data)
 
 void open_close_door(t_data *data)
 {
-	int *coordinates;
-	int	door_x;
-	int	door_y;
-	t_door *door;
+	int		*coordinates;
+	int		door_x;
+	int		door_y;
+	t_door	*door;
 
 	coordinates = check_for_door(data->grid_map, data->player.pos.x, data->player.pos.y, data);
 	if (coordinates)
@@ -120,14 +120,16 @@ void open_close_door(t_data *data)
 	}
 }
 
-static int has_10_seconds_passed(struct timeval start) 
+static int	has_10_seconds_passed(struct timeval start)
 {
-    struct timeval now;
+	struct timeval	now;
+	long			seconds;
+	long			microseconds;
 
 	now = get_current_time();
-    long seconds = now.tv_sec - start.tv_sec;
-    long microseconds = now.tv_usec - start.tv_usec;
-    if (microseconds < 0) 
+	seconds = now.tv_sec - start.tv_sec;
+	microseconds = now.tv_usec - start.tv_usec;
+	if (microseconds < 0)
 	{
         seconds -= 1;
         microseconds += 100000;
@@ -147,7 +149,7 @@ int player_inside_door(t_data *data, t_door *door)
 		return (1);
 	else
 		return (0);
-}	
+}
 
 void	update_doors(t_door *doors, t_data *data)
 {
@@ -184,9 +186,11 @@ t_door	*find_door(t_door *doors, int unit_x, int unit_y)
 {
 	while (doors)
 	{
-		if (doors->grid_x == unit_x / BLOCK_SIZE)
-			if (doors->grid_y == unit_y / BLOCK_SIZE)
-				return (doors);
+		if (doors->grid_x == unit_x / BLOCK_SIZE
+			&& doors->grid_y == unit_y / BLOCK_SIZE)
+		{
+			return (doors);
+		}
 		doors = doors->next;
 	}
 	return (NULL);

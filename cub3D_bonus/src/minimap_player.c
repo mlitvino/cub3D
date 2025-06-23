@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 23:08:27 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/09 16:07:15 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/22 20:09:22 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,22 +75,23 @@ void	fill_icon_with_color(mlx_image_t *minimap,
 	}
 }
 
-void	draw_player(double view_angle, mlx_image_t *minimap,
-					int mid_x, int mid_y)
+void	draw_player(t_data *data, int view_angle_i, mlx_image_t *minimap, t_point *mid)
 {
 	t_point		tip;
 	t_point		base_left;
 	t_point		base_right;
-	t_dpoint	perp_angle;
+	int			perp_angle_i;
 
-	perp_angle.x = deg_rad(view_angle) + M_PI / 2;
-	perp_angle.y = deg_rad(view_angle) - M_PI / 2;
-	tip.x = mid_x + ICON_SIZE * cos(deg_rad(view_angle));
-	tip.y = mid_y - ICON_SIZE * sin(deg_rad(view_angle));
-	base_left.x = mid_x + ICON_BASE * cos(perp_angle.x);
-	base_left.y = mid_y - ICON_BASE * sin(perp_angle.x);
-	base_right.x = mid_x + ICON_BASE * cos(perp_angle.y);
-	base_right.y = mid_y - ICON_BASE * sin(perp_angle.y);
+	tip.x = mid->x + ICON_SIZE * data->angle_table[view_angle_i].cos;
+	tip.y = mid->y - ICON_SIZE * data->angle_table[view_angle_i].sin;
+	perp_angle_i = (view_angle_i + 90 * ANGLE_PRES) % (360 * ANGLE_PRES);
+	base_left.x = mid->x + ICON_BASE * data->angle_table[perp_angle_i].cos;
+	base_left.y = mid->y - ICON_BASE * data->angle_table[perp_angle_i].sin;
+	perp_angle_i = view_angle_i - 90 * ANGLE_PRES;
+	if (perp_angle_i < 0)
+		perp_angle_i = 360 * ANGLE_PRES + perp_angle_i;
+	base_right.x = mid->x + ICON_BASE * data->angle_table[perp_angle_i].cos;
+	base_right.y = mid->y - ICON_BASE * data->angle_table[perp_angle_i].sin;
 	fill_icon_with_color(minimap, &tip, &base_left, &base_right);
 	draw_line(minimap, &tip, &base_left, 0xFFFFFFFF);
 	draw_line(minimap, &tip, &base_right, 0xFFFFFFFF);

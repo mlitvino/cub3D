@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 16:46:53 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/09 16:48:15 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/21 20:21:00 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	init_d_step(t_point *p1, t_point *p2, t_point *d, t_point *step)
 {
 	d->x = abs(p2->x - p1->x);
-	d->y = - abs(p2->y - p1->y);
+	d->y = -abs(p2->y - p1->y);
 	if (p1->x < p2->x)
 		step->x = 1;
 	else

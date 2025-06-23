@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 13:20:49 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/12 18:16:19 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/21 17:39:53 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ void	calc_sprite(t_raycast *raycast, t_sprite **sprites)
 {
 	int		i;
 	double	angl_dif;
-	double	tempH;
+	double	temp_h;
+	double	h_ratio;
+
 	i = 0;
 	while (sprites[i])
 	{
@@ -73,11 +75,12 @@ void	calc_sprite(t_raycast *raycast, t_sprite **sprites)
 		sprites[i]->size.y = raycast->plane->center.y;
 		if (sprites[i]->dist < BLOCK_SIZE / 5)
 			sprites[i]->dist = BLOCK_SIZE / 5;
-		tempH = BLOCK_SIZE * raycast->plane->dist / (double)sprites[i]->dist;
-		sprites[i]->height = ceil(tempH);
+		temp_h = BLOCK_SIZE * raycast->plane->dist / (double)sprites[i]->dist;
+		sprites[i]->height = ceil(temp_h);
 		sprites[i]->width = sprites[i]->height;
 		sprites[i]->top = raycast->plane->center.y;
-		sprites[i]->top -= (sprites[i]->height / 2);
+		h_ratio = 1 + (raycast->data->player.height / (BLOCK_SIZE / 2));
+		sprites[i]->top -= (sprites[i]->height / h_ratio);
 		sprites[i]->left = sprites[i]->size.x - (sprites[i]->width / 2);
 		i++;
 	}
@@ -86,16 +89,14 @@ void	calc_sprite(t_raycast *raycast, t_sprite **sprites)
 void	draw_sprite_pix(t_raycast *raycast, t_sprite *sprite, int x, int y)
 {
 	uint32_t	color;
-	uint8_t		*raw_pixel;
 	int			pixel_i;
 	t_point		tex_p;
 
 	tex_p.x = (x - sprite->left) * BLOCK_SIZE / sprite->height;
 	tex_p.y = (y - sprite->top) * BLOCK_SIZE / sprite->height;
 	pixel_i = (tex_p.y * sprite->cur_img->width + tex_p.x) * BPP;
-	raw_pixel = &sprite->cur_img->pixels[pixel_i];
-	color = extract_rgba(raw_pixel);
-	add_shadow(&color, &sprite->dist);
+	color = extract_rgba(&sprite->cur_img->pixels[pixel_i]);
+	add_shadow(&color, sprite->dist);
 	if ((color & 0xFF) > 150)
 		mlx_put_pixel(raycast->scr_img, x, y, color);
 }
@@ -110,9 +111,10 @@ void	draw_sprite(t_raycast *raycast, t_sprite *sprite)
 	end_x = cur_x + raycast->thread_chunk + 1;
 	if (cur_x < 0)
 		cur_x = 0;
-	while (cur_x < end_x && cur_x < sprite->left + sprite->width && cur_x < WIN_W)
+	while (cur_x < end_x && cur_x < sprite->left + sprite->width
+		&& cur_x < WIN_W)
 	{
-		if(sprite->dist < raycast->data->rays_dist[cur_x])
+		if (sprite->dist < raycast->data->rays_dist[cur_x])
 		{
 			y = sprite->top;
 			if (y < 0)
