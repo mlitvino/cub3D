@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/23 14:00:12 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/24 01:01:15 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ void	init_data(t_data *data)
 	init_unit_map(data);
 	init_player(data);
 	init_angle_table(data->angle_table);
+	PlaySound(data->sound[S_STATUE_HUM]);
+	SetSoundVolume(data->sound[S_STATUE_HUM], 0);
 	SetMusicVolume(data->music[M_FOREST], 0.5);
 	SetSoundVolume(data->sound[S_SHOT], 2);
 

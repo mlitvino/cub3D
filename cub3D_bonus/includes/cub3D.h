@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/23 18:28:11 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/24 00:52:26 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@
 # define SKY_W 1440
 # define SKY_H 5000
 
-# define MAIN_BUTTON (t_point){1475,535,0}
-# define PAUSE_BUTTON (t_point){745,385,0}
-# define BUTTON_DX 390
-# define BUTTON_DY 120
-# define BUTTON_DY2 165
+# define MAIN_BUTTON (t_point){79,603,0}
+# define PAUSE_BUTTON (t_point){764,583,0}
+# define BUTTON_DX 369
+# define BUTTON_DY 117
+# define BUTTON_DY2 52
 
 # define MAX_THRD 6
 
@@ -107,15 +107,42 @@ typedef enum e_texture
 	MAX_TEX
 }	t_texture;
 
+# define NORTH_PATH "textures/wall/north.png"
+# define EAST_PATH "textures/wall/east.png"
+# define WEST_PATH "textures/wall/west.png"
+# define SOUTH_PATH "textures/wall/south.png"
+# define DOOR_TEX_PATH "textures/metal_door.png"
+# define FLOOR_TEX_PATH "textures/floor/wood_floor.png"
+# define GROUND_TEX_PATH "textures/floor/grass.png"
+# define CEILING_TEX_PATH "textures/ceiling/wood_ceiling.png"
+# define SKY_TEX_PATH "textures/ceiling/sky.png"
+# define WOLF_STAY_PATH "textures/wolf/wolf_stay.png"
+# define WOLF_WALK1_PATH "textures/wolf/wolf_walk1.png"
+# define WOLF_WALK2_PATH "textures/wolf/wolf_walk2.png"
+# define WOLF_ATTCK_PATH "textures/wolf/wolf_attck.png"
+# define WOLF_DEAD_PATH "textures/wolf/wolf_dead.png"
+# define STATUE_GREY_PATH "textures/statue/statue_grey.png"
+# define STATUE_RED_PATH "textures/statue/statue_red.png"
+# define EVIL_TREE_PATH "textures/evil_tree.png"
+# define MAIN_MENU_PATH "textures/menu/main_menu.png"
+# define PAUSE_PATH "textures/menu/pause.png"
+# define DEATH_PATH "textures/menu/death.png"
+# define CONTROLS_PATH "textures/menu/controls.png"
+# define STATUE_FACE_PATH "textures/statue/statue_face.png"
+# define CROSSBOW1_PATH "textures/crossbow1.png"
+# define CROSSBOW2_PATH "textures/crossbow2.png"
+
 # define S_DOOR_PATH "audio/wood_door.mp3"
 # define S_SHOT_PATH "audio/shot_reloading.mp3"
 # define S_RELOADING_PATH "audio/reloading.mp3"
 # define S_WOLF_GROWL_PATH "audio/wolf_growl.mp3"
+# define S_STATUE_HUM_PATH "audio/hum.mp3"
 
 # define M_STORM_PATH "audio/storm.mp3"
 # define M_FOREST_PATH "audio/forest.mp3"
 # define M_PLAYER_STEP_PATH "audio/player_step.mp3"
 # define M_WOLF_STEP_PATH "audio/wolf_step.mp3"
+
 
 
 # define GREEN_COL 0x00d118ff
@@ -136,6 +163,7 @@ typedef enum e_sound
 	S_RELOADING,
 	S_DOOR,
 	S_WOLF_GROWL,
+	S_STATUE_HUM,
 	MAX_SOUND
 }	e_sound;
 

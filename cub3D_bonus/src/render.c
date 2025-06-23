@@ -65,6 +65,7 @@ void	update_statue(t_data *data, t_char *player, t_sprite *sprites)
 	{
 		data->mlx_data.textrs_img[STATUE_FACE]->enabled = 1;
 		adjust_image_alpha(data->mlx_data.textrs_img[STATUE_FACE], alpha);
+		//SetSoundVolume(data->sound[S_STATUE_HUM], (double)alpha / 155);
 	}
 	else
 		data->mlx_data.textrs_img[STATUE_FACE]->enabled = 0;
@@ -130,9 +131,13 @@ void	update_audio(t_data *data)
 	if (data->game_state == MAIN_MENU)
 		if (IsMusicStreamPlaying(data->music[M_STORM]) == false)
 			PlayMusicStream(data->music[M_STORM]);
-	// if (data->game_state == START)
-	// 	if (IsMusicStreamPlaying(data->music[M_FOREST]) == false)
-	// 		PlayMusicStream(data->music[M_FOREST]);
+	if (data->game_state == START)
+	{
+		// if (IsMusicStreamPlaying(data->music[M_FOREST]) == false)
+		// 	PlayMusicStream(data->music[M_FOREST]);
+		if (IsSoundPlaying(data->sound[S_STATUE_HUM]) == false)
+			PlaySound(data->sound[S_STATUE_HUM]);
+	}
 }
 
 void	render(void *data_arg)

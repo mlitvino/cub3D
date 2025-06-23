@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 20:21:27 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/23 18:36:08 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/24 00:57:31 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ static const char	*g_sound_path[MAX_SOUND] = {
 [S_DOOR] = S_DOOR_PATH,
 [S_SHOT] = S_SHOT_PATH,
 [S_RELOADING] = S_RELOADING_PATH,
-[S_WOLF_GROWL] = S_WOLF_GROWL_PATH
+[S_WOLF_GROWL] = S_WOLF_GROWL_PATH,
+[S_STATUE_HUM] = S_STATUE_HUM_PATH
 };
 
 static const char	*g_music_path[MAX_MUSIC] = {
