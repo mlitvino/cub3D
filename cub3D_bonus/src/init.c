@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/22 18:49:44 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/23 12:46:18 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ void	init_unit_map(t_data *data)
 		x = 0;
 		while (x < data->map_w)
 		{
-			ft_memset(&data->unit_map[y][x * BLOCK_SIZE], data->grid_map[y
-				/ BLOCK_SIZE][x], BLOCK_SIZE);
+			if (data->grid_map[y / BLOCK_SIZE][x] != PLAYER)
+				ft_memset(&data->unit_map[y][x * BLOCK_SIZE], data->grid_map[y
+					/ BLOCK_SIZE][x], BLOCK_SIZE);
 			x++;
 		}
 		y++;

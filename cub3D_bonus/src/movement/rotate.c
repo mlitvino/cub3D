@@ -14,31 +14,33 @@ void	rotate_player_left(t_char *player)
 		player->pov.view_angl += 360;
 }
 
-void	handle_mouse_rotation(t_data *game)
+void handle_mouse_rotation(t_data *game)
 {
-	int	x;
-	int	y;
-	int	center_x;
-	int	delta_x;
+	int x;
+	int y;
+	int center_x = WIN_W / 2;
+	int center_y = WIN_H / 2;
+	int delta_x;
+	int delta_y;
+	float sensitivity = 0.06f;
+	int vertical_speed = 1;
 
-	float sensitivity = 0.09f; // Tune this for speed
-	center_x = WIN_W / 2;
-	// Get current mouse position
 	mlx_get_mouse_pos(game->mlx_data.mlx_ptr, &x, &y);
-	// Calculate how far mouse moved from center
 	delta_x = x - center_x;
-	if (delta_x > 0)
-	{
-		game->player.pov.view_angl -= delta_x * sensitivity;
-		if (game->player.pov.view_angl >= 360)
-			game->player.pov.view_angl -= 360;
-	}
-	else if (delta_x < 0)
-	{
-		game->player.pov.view_angl -= delta_x * sensitivity;
-		if (game->player.pov.view_angl < 0)
-			game->player.pov.view_angl += 360;
-	}
-	// Re-center the mouse after processing
-	mlx_set_mouse_pos(game->mlx_data.mlx_ptr, center_x, WIN_H / 2);
+	delta_y = y - center_y;
+	game->player.pov.view_angl -= delta_x * sensitivity;
+
+	if (game->player.pov.view_angl >= 360)
+		game->player.pov.view_angl -= 360;
+	else if (game->player.pov.view_angl < 0)
+		game->player.pov.view_angl += 360;
+
+	game->plane.center.y -= (delta_y * vertical_speed) / 2;
+
+	if (game->plane.center.y > WIN_H)
+		game->plane.center.y = WIN_H;
+	else if (game->plane.center.y < 0)
+		game->plane.center.y = 0;
+
+	mlx_set_mouse_pos(game->mlx_data.mlx_ptr, center_x, center_y);
 }

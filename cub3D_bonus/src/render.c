@@ -1,5 +1,31 @@
 #include "cub3D.h"
 
+static void update_bobbing(t_char *player, double delta_time)
+{
+	if (player->is_moving)
+	{
+		player->bobbing_time += delta_time * 10.0; // Tune the speed of bobbing
+		player->height = 2 + (-sin(player->bobbing_time)) * 0.2;
+	}
+	else
+	{
+		if (fabs(player->height - player->height) > 0.1)
+			player->height = player->height * 0.9 + player->height * 0.1;
+		else
+		{
+			player->height = 2;
+			player->bobbing_time = 0;
+		}
+	}
+}
+
+long get_time_in_ms(void)
+{
+	struct timeval tv;
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+}
+
 void	update_statue(t_data *data, t_char *player, t_sprite *sprites)
 {
 	static int	alpha;
@@ -112,10 +138,16 @@ void	update_audio(t_data *data)
 void	render(void *data_arg)
 {
 	t_data	*data;
+	static long previous_time = 0;
+	long current_time;
+	double delta_time;
 
 	data = (t_data *)data_arg;
 
 	// handle mouse_click
+	current_time = get_time_in_ms();
+	delta_time = (current_time - previous_time) / 1000.0;
+	previous_time = current_time;
 	if (data->game_state == START)
 	{
 		if (data->keys.w)
@@ -140,6 +172,7 @@ void	render(void *data_arg)
 		if (data->keys.tab)
 			data->game_state = PAUSE;
 
+		// update_bobbing(&data->player, delta_time);
 		// handle_mouse_rotation(data);
 		update_doors(data->door_list);
 		update_statue(data, &data->player, data->sprite_list);
