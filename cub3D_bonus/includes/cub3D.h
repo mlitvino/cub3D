@@ -581,4 +581,12 @@ int	check_doors(char **map);
 void handle_mouse_rotation(t_data *game);
 void open_close_door(t_data *data);
 
+void	update_wolf(t_data *data);
+t_path	*bfs_find_path(char **map, t_data *data, t_point start, t_point goal);
+int	init_visited(int ***visited, t_data *data);
+void	init_delta_path(int dx[4], int dy[4]);
+t_path	*create_node(int x, int y, t_path *parent);
+void free_queue_except_path(t_path **queue, int front, int rear, t_path *path_end);
+int	has_line_of_sight(t_sprite *enemy, t_char *player, char **map);
+
 #endif

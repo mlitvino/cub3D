@@ -30,7 +30,7 @@ int	init_visited(int ***visited, t_data *data)
 	return (1);
 }
 
-void	init_delta(int dx[4], int dy[4])
+void	init_delta_path(int dx[4], int dy[4])
 {
 	dx[0] = 1;
 	dx[1] = -1;
@@ -85,7 +85,7 @@ void free_queue_except_path(t_path **queue, int front, int rear, t_path *path_en
     }
 }
 
-int	has_line_of_sight(t_sprite *enemy, t_player *player, char **map)
+int	has_line_of_sight(t_sprite *enemy, t_char *player, char **map)
 {
 	double	dx;
 	double	dy;

@@ -44,6 +44,7 @@ t_sprite	*create_sprite(t_data *data, int type, int grid_x, int grid_y)
 	new_sprite->pos.y = (grid_y * BLOCK_SIZE) + BLOCK_SIZE / 2;
 	new_sprite->pos.x = (grid_x * BLOCK_SIZE) + BLOCK_SIZE / 2;
 	new_sprite->dist = 0;
+	new_sprite->path = NULL;
 	new_sprite->next = NULL;
 	temp = data->sprite_list;
 	while (temp && temp->next)

@@ -1,6 +1,6 @@
 #include "cub3D.h"
 
-void update_enemy_path(t_data *data, t_sprite *sprite, t_point player_pos, float time_elapsed)
+/*void update_enemies(t_data *data, t_sprite *sprite, t_point player_pos, float time_elapsed)
 {
     static float path_timer;
     const float path_update_interval;
@@ -16,10 +16,9 @@ void update_enemy_path(t_data *data, t_sprite *sprite, t_point player_pos, float
         sprite->last_player_pos = player_pos;
         path_timer = 0.0f;
     }
-}
+}*/
 
-
-void	move_to_player(t_data *data)
+void	update_wolf(t_data *data)
 {
 	t_sprite *sprite;
 
@@ -29,15 +28,16 @@ void	move_to_player(t_data *data)
 	{
 		if (sprite->type == WOLF)
 		{
-			if (has_line_of_sight(sprites, data->player, data->unit_map) && sprite->dist_player < 100) //check what distance makes sense
+			if (has_line_of_sight(sprite, &data->player, data->unit_map) && sprite->dist_player < 100) //check what distance makes sense
 			{
 				if (sprite->path)
 				{
 					free_path(sprite->path);
-					sprite->path = NULL;
+					sprite->path = NULL; //needs to be set to NULL in init sprite !!!
 				}
 				sprite->path = bfs_find_path(data->grid_map, data, sprite->pos, data->player.pos);
 				if (sprite->path)
+                    //printf("got path\n");
 					move_to_goal(data);
 			}
 		}
