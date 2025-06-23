@@ -174,7 +174,7 @@ void	render(void *data_arg)
 
 		// update_bobbing(&data->player, delta_time);
 		// handle_mouse_rotation(data);
-		update_doors(data->door_list);
+		update_doors(data->door_list, data);
 		update_statue(data, &data->player, data->sprite_list);
 		raycast(data);
 		show_fps();
