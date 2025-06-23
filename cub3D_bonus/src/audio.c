@@ -6,11 +6,25 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 20:21:27 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/23 14:06:24 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/23 18:36:08 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+static const char	*g_sound_path[MAX_SOUND] = {
+[S_DOOR] = S_DOOR_PATH,
+[S_SHOT] = S_SHOT_PATH,
+[S_RELOADING] = S_RELOADING_PATH,
+[S_WOLF_GROWL] = S_WOLF_GROWL_PATH
+};
+
+static const char	*g_music_path[MAX_MUSIC] = {
+[M_STORM] = M_STORM_PATH,
+[M_FOREST] = M_FOREST_PATH,
+[M_WOLF_STEP] = M_WOLF_STEP_PATH,
+[M_PLAYER_STEP] = M_PLAYER_STEP_PATH
+};
 
 void	clean_audio(t_data *data)
 {
@@ -25,18 +39,6 @@ void	clean_audio(t_data *data)
 	CloseAudioDevice();
 }
 
-void	init_audio_path(t_data *data)
-{
-	data->sound_path[S_DOOR] = S_DOOR_PATH;
-	data->sound_path[S_SHOT] = S_SHOT_PATH;
-	data->sound_path[S_RELOADING] = S_RELOADING_PATH;
-	data->sound_path[S_WOLF_GROWL] = S_WOLF_GROWL_PATH;
-	data->music_path[M_STORM] = M_STORM_PATH;
-	data->music_path[M_FOREST] = M_FOREST_PATH;
-	data->music_path[M_WOLF_STEP] = M_WOLF_STEP_PATH;
-	data->music_path[M_PLAYER_STEP] = M_PLAYER_STEP_PATH;
-}
-
 void	init_audio(t_data *data)
 {
 	int	i;
@@ -48,10 +50,9 @@ void	init_audio(t_data *data)
 	if (IsAudioDeviceReady() == false)
 		clean_all(data, NULL);
 	i = 0;
-	init_audio_path(data);
 	while (i < MAX_SOUND)
 	{
-		data->sound[i] = LoadSound(data->sound_path[i]);
+		data->sound[i] = LoadSound(g_sound_path[i]);
 		if (IsSoundValid(data->sound[i]) == false)
 			clean_all(data, NULL);
 		i++;
@@ -59,7 +60,7 @@ void	init_audio(t_data *data)
 	i = 0;
 	while (i < MAX_MUSIC)
 	{
-		data->music[i] = LoadMusicStream(data->music_path[i]);
+		data->music[i] = LoadMusicStream(g_music_path[i]);
 		if (IsMusicValid(data->music[i]) == false)
 			clean_all(data, NULL);
 		i++;

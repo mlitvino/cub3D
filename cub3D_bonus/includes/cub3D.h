@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/23 17:21:07 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/23 18:28:11 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -387,9 +387,7 @@ typedef struct s_data
 	t_rgbt				ceil_rgb;
 
 	Music				music[MAX_MUSIC];
-	char				*music_path[MAX_MUSIC];
 	Sound				sound[MAX_SOUND];
-	char				*sound_path[MAX_SOUND];
 
 	t_table				angle_table[ANGLE_PRES * 360];
 }						t_data;
