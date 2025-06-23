@@ -5,7 +5,8 @@ static void update_bobbing(t_char *player, double delta_time)
 	if (player->is_moving)
 	{
 		player->bobbing_time += delta_time * 10.0; // Tune the speed of bobbing
-		player->height = 2 + (-sin(player->bobbing_time)) * 0.2;
+		player->height = (BLOCK_SIZE / 2) + sin(player->bobbing_time) * 30;
+		//printf("%f\n", player->height);
 	}
 	else
 	{
@@ -13,7 +14,7 @@ static void update_bobbing(t_char *player, double delta_time)
 			player->height = player->height * 0.9 + player->height * 0.1;
 		else
 		{
-			player->height = 2;
+			player->height = BLOCK_SIZE / 2;
 			player->bobbing_time = 0;
 		}
 	}
@@ -172,8 +173,8 @@ void	render(void *data_arg)
 		if (data->keys.tab)
 			data->game_state = PAUSE;
 
-		// update_bobbing(&data->player, delta_time);
-		// handle_mouse_rotation(data);
+		update_bobbing(&data->player, delta_time);
+		//handle_mouse_rotation(data);
 		update_doors(data->door_list, data);
 		update_statue(data, &data->player, data->sprite_list);
 		raycast(data);
