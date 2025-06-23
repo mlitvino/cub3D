@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:24:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/21 13:30:37 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/23 17:07:01 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,16 @@ bool	extend_door(t_raycast *raycast, t_wall *wall, int axis)
 
 bool	check_hit(t_raycast *raycast, t_wall *wall, int axis)
 {
-	if (raycast->unit_map[wall->pos.y][wall->pos.x] == WALL)
+	int	unit_point;
+
+	unit_point = raycast->unit_map[wall->pos.y][wall->pos.x];
+	if (unit_point == WALL) // ft_strchr(WALLS, raycast->unit_map[wall->pos.y][wall->pos.x])
 	{
 		wall->type = WALL;
+		// wall->type = unit_point;
 		return (true);
 	}
-	else if (raycast->unit_map[wall->pos.y][wall->pos.x] == DOOR)
+	else if (unit_point == DOOR)
 	{
 		if (extend_door(raycast, wall, axis) == true)
 		{

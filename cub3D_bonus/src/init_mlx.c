@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:55:28 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/22 18:11:30 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/23 17:22:07 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,10 @@ void	*init_tex(t_mlx *mlx_data, mlx_texture_t **tex)
 	mlx_data->textrs[CONTROLS] = mlx_load_png("./textures/menu/controls.png");
 	mlx_data->textrs_img[CONTROLS] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[CONTROLS]);
 	mlx_resize_image(mlx_data->textrs_img[CONTROLS], mlx_data->scr_img->width, mlx_data->scr_img->height);
+
+	mlx_data->textrs[EVIL_TREE] = mlx_load_png("./textures/evil_tree.png");
+	mlx_data->textrs_img[EVIL_TREE] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[EVIL_TREE]);
+	mlx_resize_image(mlx_data->textrs_img[EVIL_TREE], mlx_data->scr_img->width, mlx_data->scr_img->height);
 
 
 	mlx_data->textrs[STATUE_FACE] = mlx_load_png("./textures/statue/statue_face.png");

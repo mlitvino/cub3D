@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:39:09 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/22 20:01:23 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:56:31 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	draw_obj(t_data *data, t_point *mid_img, mlx_image_t *minimap)
 	t_point		map_pos;
 	int			step;
 
-	step = BLOCK_SIZE / SCALE;
+	step = BLOCK_SIZE / MINIMAP_ZOOM;
 	map_pos.x = data->player.pos.x - (mid_img->x * step);
 	x = 0;
 	while (x < minimap->width)

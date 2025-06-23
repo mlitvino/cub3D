@@ -103,7 +103,7 @@ void	manage_menu(t_data *data, mlx_image_t **tex_img)
 	cur_menu->enabled = 1;
 	res = -1;
 	// if (!mouse_click)
-	// 	{ }
+	// 	return ;
 	if (data->game_state == MAIN_MENU /* || data->game_state == DEATH || data->game_state == CONTROLS*/)
 		res = check_mouse_click(data, &data->main_button);
 	else if (data->game_state == PAUSE /* || data->game_state == WIN*/)
@@ -130,9 +130,9 @@ void	update_audio(t_data *data)
 	if (data->game_state == MAIN_MENU)
 		if (IsMusicStreamPlaying(data->music[M_STORM]) == false)
 			PlayMusicStream(data->music[M_STORM]);
-	if (data->game_state == START)
-		if (IsMusicStreamPlaying(data->music[M_FOREST]) == false)
-			PlayMusicStream(data->music[M_FOREST]);
+	// if (data->game_state == START)
+	// 	if (IsMusicStreamPlaying(data->music[M_FOREST]) == false)
+	// 		PlayMusicStream(data->music[M_FOREST]);
 }
 
 void	render(void *data_arg)

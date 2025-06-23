@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/22 20:00:57 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/23 17:21:07 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@
 # define BLOCK_SIZE 512
 # define ANGLE_PRES 100
 
-# define SCALE 40
+# define MINIMAP_ZOOM 30
 # define ICON_SIZE 16
 # define ICON_BASE 6
 
@@ -96,6 +96,7 @@ typedef enum e_texture
 	WOLF_DEAD,
 	STATUE_GREY,
 	STATUE_RED,
+	EVIL_TREE,
 	MAIN_MENU,
 	PAUSE,
 	DEATH,
@@ -109,6 +110,7 @@ typedef enum e_texture
 # define S_DOOR_PATH "audio/wood_door.mp3"
 # define S_SHOT_PATH "audio/shot_reloading.mp3"
 # define S_RELOADING_PATH "audio/reloading.mp3"
+# define S_WOLF_GROWL_PATH "audio/wolf_growl.mp3"
 
 # define M_STORM_PATH "audio/storm.mp3"
 # define M_FOREST_PATH "audio/forest.mp3"
@@ -133,6 +135,7 @@ typedef enum e_sound
 	S_SHOT,
 	S_RELOADING,
 	S_DOOR,
+	S_WOLF_GROWL,
 	MAX_SOUND
 }	e_sound;
 

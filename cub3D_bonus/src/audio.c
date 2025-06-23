@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 20:21:27 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/22 00:25:24 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:06:24 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	init_audio_path(t_data *data)
 	data->sound_path[S_DOOR] = S_DOOR_PATH;
 	data->sound_path[S_SHOT] = S_SHOT_PATH;
 	data->sound_path[S_RELOADING] = S_RELOADING_PATH;
+	data->sound_path[S_WOLF_GROWL] = S_WOLF_GROWL_PATH;
 	data->music_path[M_STORM] = M_STORM_PATH;
 	data->music_path[M_FOREST] = M_FOREST_PATH;
 	data->music_path[M_WOLF_STEP] = M_WOLF_STEP_PATH;
