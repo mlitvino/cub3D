@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:41:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/23 12:54:49 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:22:55 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,15 +131,14 @@ static int	has_10_seconds_passed(struct timeval start)
 	microseconds = now.tv_usec - start.tv_usec;
 	if (microseconds < 0)
 	{
-        seconds -= 1;
-        microseconds += 100000;
-    }
-    return (seconds >= 5);
+		seconds -= 1;
+		microseconds += 100000;
+	}
+	return (seconds >= 5);
 }
 
 int player_inside_door(t_data *data, t_door *door)
 {
-	int i;
 	int player_grid_x;
 	int player_grid_y;
 

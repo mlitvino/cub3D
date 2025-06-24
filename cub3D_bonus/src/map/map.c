@@ -43,8 +43,7 @@ static int	valid_characters(char **map)
 		j = 0;
 		while (map[i][j])
 		{
-			if (!ft_strchr("01NSWEDBCF ", map[i][j]))
-				// can add extra characters for bonus
+			if (!ft_strchr(VALID_CHARS, map[i][j]))
 				return (0);
 			j++;
 		}

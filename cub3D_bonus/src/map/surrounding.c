@@ -1,17 +1,5 @@
 #include "cub3D.h"
 
-static int	is_walkable(char c)
-{
-	return (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W' || c == 'D'
-		|| c == 'B' || c == 'C' || c == 'F');
-}
-
-static int	is_allowed_adjacent(char c)
-{
-	return (c == '0' || c == '1' || c == 'N' || c == 'S' || c == 'E' || c == 'W'
-		|| c == 'D' || c == 'B' || c == 'C' || c == 'F');
-}
-
 static int	check_single_neighbor(char **map, int n_row, int n_col, int height,
 		int width)
 {
@@ -20,7 +8,7 @@ static int	check_single_neighbor(char **map, int n_row, int n_col, int height,
 	if (n_row >= 0 && n_row < height && n_col >= 0 && n_col < width)
 	{
 		neighbor = map[n_row][n_col];
-		if (!is_allowed_adjacent(neighbor))
+		if (neighbor == ' ')
 			return (0);
 	}
 	else
@@ -68,7 +56,7 @@ int	is_valid_surrounding(char **map, int height, int width)
 		while (col < width)
 		{
 			current = map[row][col];
-			if (is_walkable(current))
+			if (ft_strchr(WALLS, current) == false)
 			{
 				if (!check_neighbors(map, row, col, height, width))
 					return (0);

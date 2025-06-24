@@ -3,7 +3,6 @@
 
 static void	set_key_flag(t_keys *k, mlx_key_data_t keydata, int value, t_data *data)
 {
-
 	if (keydata.key == 'W')
 		k->w = value;
 	else if (keydata.key == MLX_KEY_A)
