@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/24 01:01:15 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/24 16:21:11 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,11 @@ void	init_player(t_data *data)
 			if (data->grid_map[y][x] == STATUE)
 			{
 				if (create_sprite(data, STATUE, x, y) == NULL)
+					clean_all(data, "malloc"); // IMRPOVE
+			}
+			if (data->grid_map[y][x] == EXIT)
+			{
+				if (create_sprite(data, EXIT, x, y) == NULL)
 					clean_all(data, "malloc"); // IMRPOVE
 			}
 			// if (data->grid_map[y][x] == LAMP)

@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:55:28 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/24 00:57:18 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:33:36 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,21 @@ static const char	*g_tex_path[MAX_TEX] = {
 	[PAUSE] = PAUSE_PATH,
 	[DEATH] = DEATH_PATH,
 	[CONTROLS] = CONTROLS_PATH,
+	[WIN] = WIN_PATH,
 	[STATUE_FACE] = STATUE_FACE_PATH,
 	[CROSSBOW1] = CROSSBOW1_PATH,
 	[CROSSBOW2] = CROSSBOW2_PATH,
+	[EXIT_TEX] = EXIT_TEX_PATH
 };
 
 bool	resize_image(mlx_image_t *img, int img_i)
 {
 	if (img_i == SKY_TEX)
 		return (mlx_resize_image(img, SKY_W, SKY_H));
-	else if (img_i == CROSSBOW1 || img_i == CROSSBOW2 || img_i == STATUE_FACE)
+	else if (img_i >= MAIN_MENU)
+	{
 		return (mlx_resize_image(img, WIN_W, WIN_H));
+	}
 	else
 		return (mlx_resize_image(img, BLOCK_SIZE, BLOCK_SIZE));
 }
@@ -106,6 +110,7 @@ bool	put_images_to_window(t_data *data, t_mlx *mlx_data)
 	put_img_to_win(data, mlx_data->textrs_img[PAUSE]);
 	put_img_to_win(data, mlx_data->textrs_img[DEATH]);
 	put_img_to_win(data, mlx_data->textrs_img[CONTROLS]);
+	put_img_to_win(data, mlx_data->textrs_img[WIN]);
 	return (true);
 }
 

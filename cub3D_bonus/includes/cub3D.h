@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/24 00:52:26 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/24 18:00:21 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include <sys/time.h>
 # include <pthread.h>
 
-# define WIN_W 1280
-# define WIN_H 720
+# define WIN_W 1920
+# define WIN_H 1080
 
 # define MINIMAP_W (WIN_W / 5)
 # define MINIMAP_H (WIN_W / 5)
@@ -54,8 +54,44 @@
 # define W_STATUE_VIS_DEC 25
 # define H_STATUE_VIS_DEC 3
 
+# define PLAYER_HP 4
+# define WOLF_HP 3
+
 # define START 100
-# define EXIT 101
+# define EXIT_STATE 101
+
+/*
+	0 - grass
+	X - blood_grass
+
+	F - wood_floor
+	Z - blood_wood_floor
+	f - stone_floor?
+
+	1 - forest
+	2 - rock(wall)
+	3 - wagon
+
+	4 - wood wall
+	x - blood_wood_wall
+	5 - stone wall
+
+	R - stone_road
+	P - forest_path
+
+	D - wood_door
+	M - metal_door
+
+	NSWE - player
+	C - statue
+	B - wolf
+	T - tree
+
+	E - exit
+*/
+
+# define VALID_CHARS "0XFZf1234x5RPDMNSWECBGT "
+# define WALLS "1234x5"
 
 # define EMPTY '0'
 # define WALL '1'
@@ -63,6 +99,8 @@
 # define FLOOR 'F'
 # define WOLF 'B'
 # define DOOR 'D'
+# define EXIT 'G'
+
 # define CLOSED 1
 # define CLOSING 2
 # define OPEN 3
@@ -97,20 +135,22 @@ typedef enum e_texture
 	STATUE_GREY,
 	STATUE_RED,
 	EVIL_TREE,
+	EXIT_TEX,
 	MAIN_MENU,
 	PAUSE,
 	DEATH,
 	CONTROLS,
+	WIN,
 	STATUE_FACE,
 	CROSSBOW1,
 	CROSSBOW2,
 	MAX_TEX
 }	t_texture;
 
-# define NORTH_PATH "textures/wall/north.png"
-# define EAST_PATH "textures/wall/east.png"
-# define WEST_PATH "textures/wall/west.png"
-# define SOUTH_PATH "textures/wall/south.png"
+# define NORTH_PATH "textures/wall/wagon.png"
+# define EAST_PATH "textures/wall/forest.png"
+# define WEST_PATH "textures/wall/forest.png"
+# define SOUTH_PATH "textures/wall/forest.png"
 # define DOOR_TEX_PATH "textures/metal_door.png"
 # define FLOOR_TEX_PATH "textures/floor/wood_floor.png"
 # define GROUND_TEX_PATH "textures/floor/grass.png"
@@ -124,10 +164,14 @@ typedef enum e_texture
 # define STATUE_GREY_PATH "textures/statue/statue_grey.png"
 # define STATUE_RED_PATH "textures/statue/statue_red.png"
 # define EVIL_TREE_PATH "textures/evil_tree.png"
+# define EXIT_TEX_PATH "textures/exit.png"
+
 # define MAIN_MENU_PATH "textures/menu/main_menu.png"
 # define PAUSE_PATH "textures/menu/pause.png"
 # define DEATH_PATH "textures/menu/death.png"
 # define CONTROLS_PATH "textures/menu/controls.png"
+# define WIN_PATH "textures/menu/win.png"
+
 # define STATUE_FACE_PATH "textures/statue/statue_face.png"
 # define CROSSBOW1_PATH "textures/crossbow1.png"
 # define CROSSBOW2_PATH "textures/crossbow2.png"
@@ -137,6 +181,7 @@ typedef enum e_texture
 # define S_RELOADING_PATH "audio/reloading.mp3"
 # define S_WOLF_GROWL_PATH "audio/wolf_growl.mp3"
 # define S_STATUE_HUM_PATH "audio/hum.mp3"
+# define S_PLAYER_DYING_PATH "audio/player_dying.mp3"
 
 # define M_STORM_PATH "audio/storm.mp3"
 # define M_FOREST_PATH "audio/forest.mp3"
@@ -159,6 +204,7 @@ typedef enum e_music
 
 typedef enum e_sound
 {
+	S_PLAYER_DYING,
 	S_SHOT,
 	S_RELOADING,
 	S_DOOR,
@@ -247,8 +293,7 @@ typedef struct s_sprite
 
 	int				hitbox_radius;
 	t_point			pos;
-
-	double			dist_player;
+	bool			animation;
 
 	int				move_spd;
 	int				turn_spd;
@@ -289,6 +334,7 @@ typedef struct s_keys
 	int			right;
 	int			esc;
 	int			tab;
+	int			click;
 
 }				t_keys;
 
@@ -390,6 +436,7 @@ typedef struct s_data
 
 	int					game_state;
 	t_point				mouse_click;
+
 	t_point				main_button;
 	t_point				pause_button;
 
@@ -526,6 +573,9 @@ void		rotate_player_right(t_char *player);
 void		rotate_player_left(t_char *player);
 
 //-------------------------------GENERAL------------------------------------
+
+// action.c
+void	die(t_data *data, t_sprite *spr);
 
 // audio.c
 void		clean_audio(t_data *data);

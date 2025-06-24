@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:23:13 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/21 23:53:10 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:34:45 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@ void	fill_sprite_info(t_sprite *new_sprite, t_data *data, int type)
 		new_sprite->cur_img = new_sprite->tex_imgs[STATUE_GREY];
 		new_sprite->state = STATUE_GREY;
 	}
+	else if (type == EXIT)
+	{
+		new_sprite->cur_img = new_sprite->tex_imgs[EXIT_TEX];
+	}
 }
 
 t_sprite	*create_sprite(t_data *data, int type, int grid_x, int grid_y)
@@ -36,13 +40,13 @@ t_sprite	*create_sprite(t_data *data, int type, int grid_x, int grid_y)
 	new_sprite = malloc(sizeof(t_sprite));
 	if (!new_sprite)
 		return (NULL);
+	new_sprite->pos.y = (grid_y * BLOCK_SIZE) + BLOCK_SIZE / 2;
+	new_sprite->pos.x = (grid_x * BLOCK_SIZE) + BLOCK_SIZE / 2;
 	fill_sprite_info(new_sprite, data, type);
 	new_sprite->type = type;
 	new_sprite->hitbox_radius = BLOCK_SIZE / 2;
 	new_sprite->move_spd = BLOCK_SIZE / 16;
 	new_sprite->turn_spd = 2;
-	new_sprite->pos.y = (grid_y * BLOCK_SIZE) + BLOCK_SIZE / 2;
-	new_sprite->pos.x = (grid_x * BLOCK_SIZE) + BLOCK_SIZE / 2;
 	new_sprite->dist = 0;
 	new_sprite->next = NULL;
 	temp = data->sprite_list;

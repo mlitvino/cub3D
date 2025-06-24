@@ -6,12 +6,12 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/22 17:55:13 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/06/24 17:52:05 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC			= cc -ggdb -Ofast -Wall -Wextra
-# -Wall -Wextra -Werror
+CC			= cc  -Wall -Wextra -Ofast -march=native -flto
+# -Wall -Wextra -Werror -Ofast -march=native -flto
 HEADERS		= -I$(LIBFT_DIR)/$(INCLD_DIR) -I$(INCLD_DIR) -I$(MLX_DIR)/include -I$(RAYLIB_DIR)
 LIBS		= -L$(MLX_DIR)/build $(MLX) $(RAYLIB) -lz -ldl -lglfw -pthread -lm -o
 
@@ -40,6 +40,7 @@ SRC			= $(addprefix $(SRC_DIR)/, \
 				clean.c \
 				audio.c \
 				render.c \
+				action.c \
 				minimap.c \
 				minimap_player.c \
 				minimap_utils.c \
@@ -130,7 +131,7 @@ fclean: clean
 	rm -f $(NAME)
 
 start: all
-	./$(NAME) test.cub
+	./$(NAME) forest.cub
 
 re: fclean all
 
