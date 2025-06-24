@@ -26,20 +26,21 @@ int	init_visited(int ***visited, t_data *data)
 		j = 0;
 		while (j < data->map_w)
 			 (*visited)[i][j++] = 0;
+		i++;
     }
 	return (1);
 }
 
-void	init_delta_path(int dx[4], int dy[4])
+void	init_delta_path(t_delta *d)
 {
-	dx[0] = 1;
-	dx[1] = -1;
-	dx[2] = 0;
-	dx[3] = 0;
-	dy[0] = 0;
-	dy[1] = 0;
-	dy[2] = 1;
-	dy[3] = -1;
+	d->dx[0] = 1;
+	d->dx[1] = -1;
+	d->dx[2] = 0;
+	d->dx[3] = 0;
+	d->dy[0] = 0;
+	d->dy[1] = 0;
+	d->dy[2] = 1;
+	d->dy[3] = -1;
 }
 
 t_path	*create_node(int x, int y, t_path *parent)
@@ -101,12 +102,41 @@ int	has_line_of_sight(t_sprite *enemy, t_char *player, char **map)
 	enemy->dist_player = dist;
 	while (dist > 0)
 	{
-		x += (dx / enemy->dist_player) * 0.05;
-		y += (dy / enemy->dist_player) * 0.05;
-		dist -= 0.05;
+		x += (dx / enemy->dist_player) * 0.5;
+		y += (dy / enemy->dist_player) * 0.5;
+		dist -= 0.5;
 		if (map[(int)y][(int)x] == '1') // Wall hit
 			return (0);
-		i++;
 	}
 	return (1);
+}
+
+t_path *reverse_path(t_path *end)
+{
+	t_path *prev;
+	t_path *current;
+	t_path *next;
+
+	prev = NULL;
+	current = end;
+	while (current)
+	{
+		next = current->parent;
+		current->parent = prev;
+		prev = current;
+		current = next;
+	}
+	return (prev);
+}
+
+void free_path(t_path *path)
+{
+	t_path *next;
+
+	while (path)
+	{
+		next = path->parent;
+		free(path);
+		path = next;
+	}
 }

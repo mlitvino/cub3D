@@ -8,10 +8,12 @@ static int	is_valid_tile(char **map, t_data *data, int x, int y)
     	return (0);
 	if (map[y][x] == '1')
     	return (0);
-	if (map[y][x] != 'D')
+	if (map[y][x] == 'D')
+	{
 		door = find_door(data->door_list, x * BLOCK_SIZE, y * BLOCK_SIZE);
-	if (!door || door->state != OPEN)
-		return (0);
+		if (!door || door->state != OPEN)
+			return (0);
+	}
 	return (1);
 }
 
@@ -66,7 +68,7 @@ static int	is_valid_tile(char **map, t_data *data, int x, int y)
 	return (NULL); // No path found
 }*/
 
-staitc int	bfs_explore_neighbors(t_data *data, t_bfs *bfs, t_delta *d, t_path *current)
+static int	bfs_explore_neighbors(t_data *data, t_bfs *bfs, t_delta *d, t_path *current)
 {
 	int	i;
 	int nx;
@@ -108,17 +110,20 @@ static t_path	*bfs_loop(t_data *data, t_bfs *bfs, t_delta *d, t_point goal)
 	{
 		current = bfs->queue[bfs->front++];
 		if (bfs_check_goal(current, bfs, goal))
+		{
+			current = reverse_path(current);
 			return (current);
+		}
 		if (!bfs_explore_neighbors(data, bfs, d, current))
 			break ;
 	}
-	i = bfs->front;
+	i = 0;
 	while (i < bfs->rear)
 		free(bfs->queue[i++]);
 	return (NULL);
 }
 
-t_path	*bfs_find_path(char **map, t_data *data, t_point start, t_point goal)
+t_path	*bfs_find_path(t_data *data, t_point start, t_dpoint goal)
 {
 	t_bfs		bfs;
 	t_delta		d;
@@ -132,9 +137,11 @@ t_path	*bfs_find_path(char **map, t_data *data, t_point start, t_point goal)
 	bfs.front = 0;
 	bfs.rear = 0;
 
+	//printf("BFS: start=(%d,%d), goal=(%d,%d)\n", s.x, s.y, g.x, g.y);
+
 	if (!init_visited(&bfs.visited, data))
 		return (NULL);
-	init_delta(&d);
+	init_delta_path(&d);
 
 	bfs.queue[bfs.rear++] = create_node(s.x, s.y, NULL);
 	bfs.visited[s.y][s.x] = 1;

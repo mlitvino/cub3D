@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/22 20:00:57 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:01:33 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,12 @@ typedef struct s_point
 
 }				t_point;
 
+typedef struct s_path 
+{
+    t_point pos;
+    struct s_path *parent;
+} t_path;
+
 typedef struct s_rgbt
 {
 	int			r;
@@ -222,6 +228,7 @@ typedef struct s_sprite
 	int				move_spd;
 	int				turn_spd;
 
+	t_path			*path;
 	int				walkable;
 	int				type;
 	int				dist;
@@ -242,11 +249,19 @@ typedef struct s_sprite
 
 
 //-------------------------------GAME------------------------------------
+typedef struct s_delta
+{
+	int	dx[4];
+	int	dy[4];
+}				t_delta;
 
-typedef struct s_path {
-    t_point pos;                // The current position on the grid (x, y)
-    struct s_bfs_node *parent;  // Pointer to the node we came from
-} t_path;
+typedef struct s_bfs
+{
+	t_path	*queue[150];
+	int		**visited;
+	int		front;
+	int		rear;
+}	t_bfs;
 
 typedef struct s_keys
 {
@@ -582,11 +597,14 @@ void handle_mouse_rotation(t_data *game);
 void open_close_door(t_data *data);
 
 void	update_wolf(t_data *data);
-t_path	*bfs_find_path(char **map, t_data *data, t_point start, t_point goal);
+t_path	*bfs_find_path(t_data *data, t_point start, t_dpoint goal);
 int	init_visited(int ***visited, t_data *data);
-void	init_delta_path(int dx[4], int dy[4]);
+void	init_delta_path(t_delta *d);
 t_path	*create_node(int x, int y, t_path *parent);
 void free_queue_except_path(t_path **queue, int front, int rear, t_path *path_end);
 int	has_line_of_sight(t_sprite *enemy, t_char *player, char **map);
+t_path *reverse_path(t_path *end);
+void free_path(t_path *path);
+void move_to_goal(t_data *data, t_sprite *sprite, float speed);
 
 #endif

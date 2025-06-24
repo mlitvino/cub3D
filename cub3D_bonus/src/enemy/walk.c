@@ -28,17 +28,18 @@ void	update_wolf(t_data *data)
 	{
 		if (sprite->type == WOLF)
 		{
-			if (has_line_of_sight(sprite, &data->player, data->unit_map) && sprite->dist_player < 100) //check what distance makes sense
+			if (has_line_of_sight(sprite, &data->player, data->unit_map)  && sprite->dist < 5 * BLOCK_SIZE) //check what distance makes sense
 			{
 				if (sprite->path)
 				{
 					free_path(sprite->path);
-					sprite->path = NULL; //needs to be set to NULL in init sprite !!!
+					sprite->path = NULL;
 				}
-				sprite->path = bfs_find_path(data->grid_map, data, sprite->pos, data->player.pos);
+                //printf("sprite posx : %d sprite posy: %d", sprite->pos.x, sprite->pos.y);
+				sprite->path = bfs_find_path(data, sprite->pos, data->player.pos);
 				if (sprite->path)
                     //printf("got path\n");
-					move_to_goal(data);
+					move_to_goal(data, sprite, sprite->move_spd);
 			}
 		}
 		sprite = sprite->next;
@@ -73,18 +74,18 @@ void move_to_goal(t_data *data, t_sprite *sprite, float speed)
 
     float dx = target_x - sprite->pos.x;
     float dy = target_y - sprite->pos.y;
-	float attack_range = 2.0f * player->radius; // Define attack range
+	float attack_range = 2.0f * data->player.hitbox_radius;
 
 	// Calculate distance between enemy and player
-	float dx_player = player->pos.x - sprite->pos.x;
+	/*float dx_player = player->pos.x - sprite->pos.x;
 	float dy_player = player->pos.y - sprite->pos.y;
-	float dist_to_player = sqrtf(dx_player * dx_player + dy_player * dy_player);
+	float dist_to_player = sqrtf(dx_player * dx_player + dy_player * dy_player);*/
 
     float dist = sqrtf(dx * dx + dy * dy);
 
-	if (dist_to_player <= attack_range)
+	if (sprite->dist <= attack_range)
 	{
-    	enemy_attack_player(sprite, data->player); //need to implement
+    	//enemy_attack_player(sprite, data->player); //need to implement
     	sprite->path = NULL;
     	return ;
 	}
