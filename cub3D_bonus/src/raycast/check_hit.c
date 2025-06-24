@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:24:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/23 17:07:01 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/24 23:54:37 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 bool	is_on_map(t_data *data, t_point *p)
 {
-	return ((0 <= p->x && p->x < data->map_w * BLOCK_SIZE) && (0 <= p->y
-			&& p->y < data->map_h * BLOCK_SIZE));
+	return ((0 <= p->x && p->x < data->map_w * BLOCK_SIZE)
+			&& (0 <= p->y && p->y < data->map_h * BLOCK_SIZE));
 }
 
 bool	extend_door(t_raycast *raycast, t_wall *wall, int axis)
@@ -34,7 +34,8 @@ bool	extend_door(t_raycast *raycast, t_wall *wall, int axis)
 		offset = temp.y % BLOCK_SIZE;
 	else
 		offset = temp.x % BLOCK_SIZE;
-	if (raycast->unit_map[temp.y][temp.x] == DOOR && door->len > offset)
+	if (ft_strchr(DOORS, raycast->unit_map[temp.y][temp.x])
+		&& door->len > offset)
 	{
 		wall->pos.x = temp.x;
 		wall->pos.y = temp.y;
@@ -48,17 +49,16 @@ bool	check_hit(t_raycast *raycast, t_wall *wall, int axis)
 	int	unit_point;
 
 	unit_point = raycast->unit_map[wall->pos.y][wall->pos.x];
-	if (unit_point == WALL) // ft_strchr(WALLS, raycast->unit_map[wall->pos.y][wall->pos.x])
+	if (ft_strchr(WALLS, unit_point))
 	{
-		wall->type = WALL;
-		// wall->type = unit_point;
+		wall->type = unit_point;
 		return (true);
 	}
-	else if (unit_point == DOOR)
+	else if (ft_strchr(DOORS, unit_point))
 	{
 		if (extend_door(raycast, wall, axis) == true)
 		{
-			wall->type = DOOR;
+			wall->type = unit_point;
 			return (true);
 		}
 	}
