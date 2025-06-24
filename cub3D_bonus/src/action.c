@@ -17,7 +17,7 @@ void	die(t_data *data, t_sprite *spr)
 
 void	get_damage(t_data *data, t_sprite *spr, t_char *player)
 {
-	if (spr)
+	if (spr && spr->type == WOLF)
 	{
 		if (--spr->hp <= 0)
 		{

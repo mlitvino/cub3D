@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:23:13 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/24 19:50:38 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/25 01:39:01 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,15 @@ void	fill_sprite_info(t_sprite *new_sprite, t_data *data, int type)
 	{
 		new_sprite->cur_img = new_sprite->tex_imgs[EXIT_TEX];
 	}
+	else if (type == DEAD_MAN)
+	{
+		new_sprite->cur_img = new_sprite->tex_imgs[DEAD_MAN_TEX];
+	}
 	else if (type == AMMO)
 	{
 		new_sprite->cur_img = new_sprite->tex_imgs[AMMO_TEX];
 	}
+
 }
 
 t_sprite	*create_sprite(t_data *data, int type, int grid_x, int grid_y)
@@ -48,6 +53,7 @@ t_sprite	*create_sprite(t_data *data, int type, int grid_x, int grid_y)
 	new_sprite->pos.x = (grid_x * BLOCK_SIZE) + BLOCK_SIZE / 2;
 	fill_sprite_info(new_sprite, data, type);
 	new_sprite->hp = ENEMY_HP;
+	new_sprite->visible = true;
 	new_sprite->type = type;
 	new_sprite->hitbox_radius = BLOCK_SIZE / 2;
 	new_sprite->move_spd = BLOCK_SIZE / 16;
@@ -80,13 +86,14 @@ t_sprite	**init_spite_array(t_raycast *raycast)
 	sprite_array = ft_calloc(sprite_count + 1, sizeof(t_sprite *));
 	if (!sprite_array)
 		clean_all(raycast->data, "malloc");
-	raycast->sprite_count = sprite_count;
 	sprite_count = 0;
 	temp = raycast->data->sprite_list;
 	while (temp)
 	{
-		sprite_array[sprite_count++] = temp;
+		if (temp->visible == true)
+			sprite_array[sprite_count++] = temp;
 		temp = temp->next;
 	}
+	raycast->sprite_count = sprite_count;
 	return (sprite_array);
 }

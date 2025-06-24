@@ -152,12 +152,20 @@ void	update_sprites(t_data *data, t_sprite *sprites)
 		}
 		else if (sprites->type == STATUE)
 		{
-			update_statue(data, &data->player, data->sprite_list);
+			update_statue(data, &data->player, sprites);
 		}
 		else if (sprites->type == EXIT)
 		{
 			if (sprites->dist < BLOCK_SIZE / 2)
 				data->game_state = WIN;
+		}
+		else if (sprites->type == AMMO)
+		{
+			if (sprites->dist < BLOCK_SIZE / 2 && sprites->visible == true)
+			{
+				data->player.ammo++;
+				sprites->visible = false;
+			}
 		}
 		else
 		{

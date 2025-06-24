@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/24 19:48:18 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/25 01:23:52 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,22 +86,32 @@
 	A - ammo
 
 	NSWE - player
+	d - dead_man
 	C - statue
 	B - wolf
 	T - tree
 
-	E - exit
+	G - exit
 */
 
-# define VALID_CHARS "0XFZf1234x5RPDMNSWECBGTA "
+# define VALID_CHARS "0XFZf1234x5RPDMNSWECBGTAd "
 # define WALLS "1234x5"
+# define DOORS "DM"
+# define SPRITES "BCGdA"
 
 # define EMPTY '0'
 # define WALL '1'
-# define STATUE 'C'
+# define ROCK_WALL '2'
+# define WAGON '3'
 # define FLOOR 'F'
+
+# define DEAD_MAN 'd'
+# define STATUE 'C'
 # define WOLF 'B'
+
 # define DOOR 'D'
+# define MET_DOOR 'M'
+
 # define EXIT 'G'
 # define AMMO 'A'
 
@@ -126,11 +136,19 @@ typedef enum e_texture
 	EAST,
 	WEST,
 	SOUTH,
+	ROCK_TEX,
+	WAGON_TEX,
+
+	WALL_TEX,
+
 	DOOR_TEX,
+	MET_DOOR_TEX,
+
 	FLOOR_TEX,
 	GROUND_TEX,
 	CEILING_TEX,
 	SKY_TEX,
+	DEAD_MAN_TEX,
 	WOLF_STAY,
 	WOLF_WALK1,
 	WOLF_WALK2,
@@ -152,15 +170,23 @@ typedef enum e_texture
 	MAX_TEX
 }	t_texture;
 
-# define NORTH_PATH "textures/wall/wagon.png"
+# define NORTH_PATH "textures/wall/forest.png"
 # define EAST_PATH "textures/wall/forest.png"
 # define WEST_PATH "textures/wall/forest.png"
 # define SOUTH_PATH "textures/wall/forest.png"
-# define DOOR_TEX_PATH "textures/metal_door.png"
+# define ROCK_TEX_PATH "textures/wall/rock_wall.png"
+# define WAGON_TEX_PATH "textures/wall/wagon.png"
+# define WALL_TEX_PATH "textures/wall/forest.png"
+
+# define MET_DOOR_TEX_PATH "textures/metal_door.png"
+# define DOOR_TEX_PATH "textures/wood_door.png"
+
 # define FLOOR_TEX_PATH "textures/floor/wood_floor.png"
 # define GROUND_TEX_PATH "textures/floor/grass.png"
 # define CEILING_TEX_PATH "textures/ceiling/wood_ceiling.png"
 # define SKY_TEX_PATH "textures/ceiling/sky.png"
+
+# define DEAD_MAN_PATH "textures/dead_man.png"
 # define WOLF_STAY_PATH "textures/wolf/wolf_stay.png"
 # define WOLF_WALK1_PATH "textures/wolf/wolf_walk1.png"
 # define WOLF_WALK2_PATH "textures/wolf/wolf_walk2.png"
@@ -305,6 +331,7 @@ typedef struct s_sprite
 	int				move_spd;
 	int				turn_spd;
 
+	bool			visible;
 	int				walkable;
 	int				type;
 	int				dist;
