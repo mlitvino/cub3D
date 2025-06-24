@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/24 16:21:11 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/24 19:45:40 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	init_player(t_data *data)
 	player->height = BLOCK_SIZE / 2;
 	player->move_spd = BLOCK_SIZE / 16;
 	player->turn_spd = 2;
+	player->ammo = PLAYER_AMMO;
+	player->hp = PLAYER_HP;
 	printf("x %d y %d\n", data->map_h, data->map_w);
 	for (int y = 0; y < data->map_h; y++)
 	{
@@ -71,6 +73,11 @@ void	init_player(t_data *data)
 			if (data->grid_map[y][x] == EXIT)
 			{
 				if (create_sprite(data, EXIT, x, y) == NULL)
+					clean_all(data, "malloc"); // IMRPOVE
+			}
+			if (data->grid_map[y][x] == AMMO)
+			{
+				if (create_sprite(data, AMMO, x, y) == NULL)
 					clean_all(data, "malloc"); // IMRPOVE
 			}
 			// if (data->grid_map[y][x] == LAMP)

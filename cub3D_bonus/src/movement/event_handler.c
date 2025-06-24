@@ -41,7 +41,6 @@ void	change_sprite_state(t_data *data, int type, int new_state)
 void	key_event_handler(mlx_key_data_t keydata, void *param)
 {
 	t_data		*data;
-	t_sprite	*enemy;
 
 	data = (t_data *)param;
 	if (keydata.key == 'R')
@@ -94,19 +93,7 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 	}
 	if (keydata.key == 'Q')
 	{
-		enemy = data->player.facing_enemy;
-		if (enemy)
-		{
-			printf("type_name: %s\n",
-				enemy->type == WOLF ? "WOLF" : enemy->type == STATUE ? "STATUE" : "UNKNOWN");
-			printf("x %d, y %d\n", enemy->pos.x, enemy->pos.y);
-		}
-		else
-		{
-			printf("Enemy is not in center of screen\n");
-		}
-		if (IsSoundPlaying(data->sound[S_SHOT]) == false)
-			PlaySound(data->sound[S_SHOT]);
+		shoot(data, &data->player);
 	}
 	if (keydata.key == MLX_KEY_SPACE /*&& is_center_door */)
 	{

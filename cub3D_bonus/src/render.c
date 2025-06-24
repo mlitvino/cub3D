@@ -167,16 +167,18 @@ void	update_sprites(t_data *data, t_sprite *sprites)
 	}
 }
 
-void	update_player(t_data *data, t_keys *keys)
+void	update_player(t_data *data, t_keys *keys, t_char *player)
 {
+	if (player->hp == 0)
+		die(data, NULL);
 	if (keys->w)
-		move_player(&data->player, 0);
+		move_player(player, 0);
 	if (keys->a)
-		move_player(&data->player, 90);
+		move_player(player, 90);
 	if (keys->s)
-		move_player(&data->player, 180);
+		move_player(player, 180);
 	if (keys->d)
-		move_player(&data->player, -90);
+		move_player(player, -90);
 
 	if (keys->w || keys->a || keys->s || keys->d)
 		ResumeMusicStream(data->music[M_PLAYER_STEP]);
@@ -184,15 +186,15 @@ void	update_player(t_data *data, t_keys *keys)
 		PauseMusicStream(data->music[M_PLAYER_STEP]);
 
 	if (keys->left)
-		rotate_player_right(&data->player);
+		rotate_player_right(player);
 	if (keys->right)
-		rotate_player_left(&data->player);
+		rotate_player_left(player);
 
 	if (keys->tab)
 		data->game_state = PAUSE;
 
 	//handle_mouse_rotation(data);
-	update_bobbing(&data->player);
+	update_bobbing(player);
 }
 
 void	render(void *data_arg)
@@ -206,7 +208,7 @@ void	render(void *data_arg)
 		raycast(data);
 		draw_minimap(data, data->mlx_data.minimap);
 		draw_aim_cross(data->mlx_data.scr_img);
-		update_player(data, &data->keys);
+		update_player(data, &data->keys, &data->player);
 		update_doors(data->door_list, data);
 		update_sprites(data, data->sprite_list);
 	}

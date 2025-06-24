@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/24 18:00:21 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/24 19:48:18 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include <sys/time.h>
 # include <pthread.h>
 
-# define WIN_W 1920
-# define WIN_H 1080
+# define WIN_W 1280
+# define WIN_H 720
 
 # define MINIMAP_W (WIN_W / 5)
 # define MINIMAP_H (WIN_W / 5)
@@ -55,7 +55,8 @@
 # define H_STATUE_VIS_DEC 3
 
 # define PLAYER_HP 4
-# define WOLF_HP 3
+# define PLAYER_AMMO 4
+# define ENEMY_HP 3
 
 # define START 100
 # define EXIT_STATE 101
@@ -82,6 +83,8 @@
 	D - wood_door
 	M - metal_door
 
+	A - ammo
+
 	NSWE - player
 	C - statue
 	B - wolf
@@ -90,7 +93,7 @@
 	E - exit
 */
 
-# define VALID_CHARS "0XFZf1234x5RPDMNSWECBGT "
+# define VALID_CHARS "0XFZf1234x5RPDMNSWECBGTA "
 # define WALLS "1234x5"
 
 # define EMPTY '0'
@@ -100,6 +103,7 @@
 # define WOLF 'B'
 # define DOOR 'D'
 # define EXIT 'G'
+# define AMMO 'A'
 
 # define CLOSED 1
 # define CLOSING 2
@@ -135,6 +139,7 @@ typedef enum e_texture
 	STATUE_GREY,
 	STATUE_RED,
 	EVIL_TREE,
+	AMMO_TEX,
 	EXIT_TEX,
 	MAIN_MENU,
 	PAUSE,
@@ -165,6 +170,7 @@ typedef enum e_texture
 # define STATUE_RED_PATH "textures/statue/statue_red.png"
 # define EVIL_TREE_PATH "textures/evil_tree.png"
 # define EXIT_TEX_PATH "textures/exit.png"
+# define AMMO_TEX_PATH "textures/item/ammo.png"
 
 # define MAIN_MENU_PATH "textures/menu/main_menu.png"
 # define PAUSE_PATH "textures/menu/pause.png"
@@ -291,6 +297,7 @@ typedef struct s_sprite
 	int				state;
 	mlx_image_t		**tex_imgs;
 
+	int				hp;
 	int				hitbox_radius;
 	t_point			pos;
 	bool			animation;
@@ -350,6 +357,8 @@ typedef struct s_char
 {
 	t_data		*data;
 
+	int			hp;
+	int			ammo;
 	int			door_facing;
 	t_pov		pov;
 	double		height;
@@ -575,6 +584,7 @@ void		rotate_player_left(t_char *player);
 //-------------------------------GENERAL------------------------------------
 
 // action.c
+void	shoot(t_data *data, t_char *player);
 void	die(t_data *data, t_sprite *spr);
 
 // audio.c

@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:55:28 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/24 17:33:36 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/24 19:48:50 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ static const char	*g_tex_path[MAX_TEX] = {
 	[STATUE_FACE] = STATUE_FACE_PATH,
 	[CROSSBOW1] = CROSSBOW1_PATH,
 	[CROSSBOW2] = CROSSBOW2_PATH,
-	[EXIT_TEX] = EXIT_TEX_PATH
+	[EXIT_TEX] = EXIT_TEX_PATH,
+	[AMMO_TEX] = AMMO_TEX_PATH
 };
 
 bool	resize_image(mlx_image_t *img, int img_i)
