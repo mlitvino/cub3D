@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/25 19:32:35 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/26 01:00:14 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define WIN_H 720
 
 # define MINIMAP_W (WIN_W / 5)
-# define MINIMAP_H (WIN_W / 5)
+# define MINIMAP_H (WIN_W / 6)
 
 # define SKY_W 1440
 # define SKY_H 5000
@@ -45,10 +45,10 @@
 # define ANGLE_PRES 100
 
 # define MINIMAP_ZOOM 30
-# define ICON_SIZE 16
-# define ICON_BASE 6
+# define ICON_SIZE 14
+# define ICON_BASE 5
 
-# define MODIF_BRIGHT 2
+# define MODIF_BRIGHT 1
 
 # define STATUE_MAX_VIS 4
 # define W_STATUE_VIS_DEC 25
@@ -64,23 +64,19 @@
 /*
 	0 - grass
 	X - blood_grass
-
 	F - wood_floor
-	Z - blood_wood_floor
 	f - stone_floor?
+	R - stone_road
 
 	1 - forest
 	2 - rock(wall)
 	3 - wagon
 
 	4 - wood wall
-	x - blood_wood_wall
 	5 - stone wall
 
-	R - stone_road
-	P - forest_path
-
 	D - wood_door
+	s - stone_door
 	M - metal_door
 
 	A - ammo
@@ -94,24 +90,30 @@
 	G - exit
 */
 
-# define VALID_CHARS "0XFZf1234x5RPDMNSWECBGTAd "
-# define WALLS "1234x5"
-# define DOORS "DM"
-# define SPRITES "BCGdAT"
+# define VALID_CHARS "0XFf12345RDMNSWECBGTAdsw "
+# define WALLS "12345"
+# define DOORS "DMs"
+# define SPRITES "BCGdAw"
 
 # define EMPTY '0'
+# define BLOOD_GRASS 'X'
+# define ROAD 'R'
+
 # define WALL '1'
 # define ROCK_WALL '2'
 # define WAGON '3'
+# define WOOD_WALL '4'
 # define FLOOR 'F'
 
 # define TREE 'T'
 # define DEAD_MAN 'd'
 # define STATUE 'C'
 # define WOLF 'B'
+# define WOODPILE 'w'
 
 # define DOOR 'D'
 # define MET_DOOR 'M'
+# define STONE_DOOR 's'
 
 # define EXIT 'G'
 # define AMMO 'A'
@@ -140,16 +142,21 @@ typedef enum e_texture
 	ROCK_TEX,
 	WAGON_TEX,
 
+	WOOD_WALL_TEX,
 	WALL_TEX,
 
 	DOOR_TEX,
 	MET_DOOR_TEX,
+	STONE_DOOR_TEX,
 
 	FLOOR_TEX,
 	GROUND_TEX,
+	BLD_GRASS_TEX,
+	ROAD_TEX,
 	CEILING_TEX,
 	SKY_TEX,
 
+	WOODPILE_TEX,
 	WOLF_STAY,
 	WOLF_WALK1,
 	WOLF_WALK2,
@@ -180,15 +187,20 @@ typedef enum e_texture
 # define ROCK_TEX_PATH "textures/wall/rock_wall.png"
 # define WAGON_TEX_PATH "textures/wall/wagon.png"
 # define WALL_TEX_PATH "textures/wall/forest.png"
+# define WOOD_WALL_PATH "textures/wall/wood_wall.png"
 
 # define MET_DOOR_TEX_PATH "textures/metal_door.png"
 # define DOOR_TEX_PATH "textures/wood_door.png"
+# define STONE_DOOR_PATH "textures/stone_door.png"
 
 # define FLOOR_TEX_PATH "textures/floor/wood_floor.png"
+# define BLD_GRASS_PATH "textures/floor/blood_grass.png"
+# define ROAD_PATH "textures/floor/stone_road.png"
 # define GROUND_TEX_PATH "textures/floor/grass.png"
 # define CEILING_TEX_PATH "textures/ceiling/wood_ceiling.png"
 # define SKY_TEX_PATH "textures/ceiling/sky.png"
 
+# define WOODPILE_PATH "textures/woodpile.png"
 # define DEAD_MAN_PATH "textures/dead_man.png"
 # define WOLF_STAY_PATH "textures/wolf/wolf_stay.png"
 # define WOLF_WALK1_PATH "textures/wolf/wolf_walk1.png"
@@ -211,6 +223,7 @@ typedef enum e_texture
 # define CROSSBOW1_PATH "textures/crossbow1.png"
 # define CROSSBOW2_PATH "textures/crossbow2.png"
 
+# define S_STONE_DOOR_PATH "audio/stone_door.mp3"
 # define S_DOOR_PATH "audio/wood_door.mp3"
 # define S_MET_DOOR_PATH "audio/metal_door.mp3"
 # define S_SHOT_PATH "audio/shot.mp3"
@@ -242,6 +255,7 @@ typedef enum e_sound
 	S_PLAYER_DYING,
 	S_SHOT,
 	S_MET_DOOR,
+	S_STONE_DOOR,
 	S_DOOR,
 	S_WOLF_GROWL,
 	S_STATUE_HUM,
@@ -553,7 +567,7 @@ t_sprite	**init_spite_array(t_raycast *raycast);
 void	adjust_image_alpha(mlx_image_t *img, int new_alpha);
 void		add_shadow(uint32_t *color, int dist);
 void		fill_wall_info(t_raycast *raycast, t_wall *wall);
-void	fill_floor_info(t_raycast *raycast, t_point *ceil_pos, int *dist, int y);
+mlx_image_t	*fill_floor_info(t_raycast *raycast, t_point *ceil_pos, int *dist, int y);
 void	fill_ceil_info(t_raycast *raycast, t_point *ceil_pos, int *dist, int y);
 
 // draw.c

@@ -19,7 +19,7 @@ static void update_bobbing(t_char *player)
 	if (player->is_moving)
 	{
 		player->bobbing_time += delta_time * 10.0; // Tune the speed of bobbing
-		player->height = BLOCK_SIZE /2 + sin(player->bobbing_time) * 60;
+		player->height = BLOCK_SIZE /2 + sin(player->bobbing_time) * 50;
 	}
 	else
 	{
@@ -106,9 +106,7 @@ void	update_sprites(t_data *data, t_sprite *sprites)
 			//update_wolf();
 		}
 		else if (sprites->type == STATUE)
-		{
 			update_statue(data, &data->player, sprites);
-		}
 		else if (sprites->type == EXIT)
 		{
 			if (sprites->dist < BLOCK_SIZE / 2)

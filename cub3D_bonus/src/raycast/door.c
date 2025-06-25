@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:41:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/25 18:46:21 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/25 23:11:17 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,7 @@ static int *check_for_door(char **map, int player_x, int player_y, t_data *data)
 		player_x += dir_x * 80;
 		player_y += dir_y * 80;
 
-		if (map[(player_y /BLOCK_SIZE)][(player_x / BLOCK_SIZE)] == 'D'
-			|| map[(player_y /BLOCK_SIZE)][(player_x / BLOCK_SIZE)] == 'M')
+		if (ft_strchr(DOORS, map[(player_y /BLOCK_SIZE)][(player_x / BLOCK_SIZE)]))
 		{
 			coordinates = malloc(2 * sizeof(int));
 			if (!coordinates)
@@ -114,6 +113,8 @@ void open_close_door(t_data *data)
 				PlaySound(data->sound[S_DOOR]);
 			else if (door->type == MET_DOOR)
 				PlaySound(data->sound[S_MET_DOOR]);
+			else if (door->type == STONE_DOOR)
+				PlaySound(data->sound[S_STONE_DOOR]);
 			if (door->state == CLOSED)
 			{
 				door->state = OPENING;

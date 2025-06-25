@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:55:28 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/25 17:24:55 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/26 01:00:35 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,17 @@ static const char	*g_tex_path[MAX_TEX] = {
 	[WAGON_TEX] = WAGON_TEX_PATH,
 	[ROCK_TEX] = ROCK_TEX_PATH,
 	[WALL_TEX] = WALL_TEX_PATH,
+	[WOOD_WALL_TEX] = WOOD_WALL_PATH,
 	[DOOR_TEX] = DOOR_TEX_PATH,
+	[STONE_DOOR_TEX] = STONE_DOOR_PATH,
 	[MET_DOOR_TEX] = MET_DOOR_TEX_PATH,
 	[FLOOR_TEX] = FLOOR_TEX_PATH,
+	[BLD_GRASS_TEX] = BLD_GRASS_PATH,
+	[ROAD_TEX] = ROAD_PATH,
 	[GROUND_TEX] = GROUND_TEX_PATH,
 	[CEILING_TEX] = CEILING_TEX_PATH,
 	[SKY_TEX] = SKY_TEX_PATH,
+	[WOODPILE_TEX] = WOODPILE_PATH,
 	[DEAD_MAN_TEX] = DEAD_MAN_PATH,
 	[WOLF_STAY] = WOLF_STAY_PATH,
 	[WOLF_WALK1] = WOLF_WALK1_PATH,
