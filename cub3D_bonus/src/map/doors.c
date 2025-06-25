@@ -30,7 +30,7 @@ int	check_doors(char **map)
 		j = 0;
 		while (map[i][j])
 		{
-			if (map[i][j] == 'D')
+			if (ft_strchr(DOORS, (map[i][j])))
 			{
 				if (!valid_door(map, i, j))
 					return (0);

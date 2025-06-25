@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/25 17:33:29 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/25 19:32:35 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@
 # define VALID_CHARS "0XFZf1234x5RPDMNSWECBGTAd "
 # define WALLS "1234x5"
 # define DOORS "DM"
-# define SPRITES "BCGdA"
+# define SPRITES "BCGdAT"
 
 # define EMPTY '0'
 # define WALL '1'
@@ -105,6 +105,7 @@
 # define WAGON '3'
 # define FLOOR 'F'
 
+# define TREE 'T'
 # define DEAD_MAN 'd'
 # define STATUE 'C'
 # define WOLF 'B'
@@ -148,7 +149,7 @@ typedef enum e_texture
 	GROUND_TEX,
 	CEILING_TEX,
 	SKY_TEX,
-	DEAD_MAN_TEX,
+
 	WOLF_STAY,
 	WOLF_WALK1,
 	WOLF_WALK2,
@@ -157,6 +158,7 @@ typedef enum e_texture
 	STATUE_GREY,
 	STATUE_RED,
 	EVIL_TREE,
+	DEAD_MAN_TEX,
 	AMMO_TEX,
 	EXIT_TEX,
 
@@ -171,7 +173,7 @@ typedef enum e_texture
 	MAX_TEX
 }	t_texture;
 
-# define NORTH_PATH "textures/wall/foreswt.png"
+# define NORTH_PATH "textures/wall/forest.png"
 # define EAST_PATH "textures/wall/forest.png"
 # define WEST_PATH "textures/wall/forest.png"
 # define SOUTH_PATH "textures/wall/forest.png"
@@ -210,6 +212,7 @@ typedef enum e_texture
 # define CROSSBOW2_PATH "textures/crossbow2.png"
 
 # define S_DOOR_PATH "audio/wood_door.mp3"
+# define S_MET_DOOR_PATH "audio/metal_door.mp3"
 # define S_SHOT_PATH "audio/shot.mp3"
 # define S_WOLF_GROWL_PATH "audio/wolf_growl.mp3"
 # define S_STATUE_HUM_PATH "audio/hum.mp3"
@@ -238,6 +241,7 @@ typedef enum e_sound
 	S_VICTORY,
 	S_PLAYER_DYING,
 	S_SHOT,
+	S_MET_DOOR,
 	S_DOOR,
 	S_WOLF_GROWL,
 	S_STATUE_HUM,
@@ -308,7 +312,7 @@ typedef struct s_door
 	int				grid_x;
 	int				grid_y;
 	int				move_spd;
-	int				direct;
+	int				type;
 
 	struct timeval	time_opened;
 
@@ -399,7 +403,7 @@ typedef struct s_char
 	int			hitbox_radius;
 	t_sprite	*facing_enemy;
 	t_sprite	*facing_statue;
-	t_dpoint		pos;
+	t_dpoint	pos;
 
 	int			move_spd;
 	int			turn_spd;
@@ -409,6 +413,9 @@ typedef struct s_char
 	int			mov_height;
 	double		bobbing_time;
 
+	double		wall_rt;
+	double		ceiling_rt;
+	double		floor_rt;
 }				t_char;
 
 typedef struct s_table
@@ -522,7 +529,7 @@ void		fill_ray_info(t_raycast *raycast);
 // door.c
 void		update_doors(t_door *doors, t_data *data);
 t_door		*find_door(t_door *doors, int unit_x, int unit_y);
-t_door		*create_door(t_door **doors_list, int grid_x, int grid_y);
+t_door		*create_door(t_data *data, t_door **doors_list, int grid_x, int grid_y);
 
 // face_enemy.c
 void	check_screen_center(t_raycast *raycast, t_sprite *sprite, t_point center);

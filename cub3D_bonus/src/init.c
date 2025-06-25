@@ -6,11 +6,38 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/25 01:46:08 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/25 19:38:52 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+void	init_obj(t_data *data)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	while (y < data->map_h)
+	{
+		x = 0;
+		while (x < data->map_w)
+		{
+			if (ft_strchr(DOORS, data->grid_map[y][x]))
+			{
+				if (create_door(data, &data->door_list, x, y) == NULL)
+					clean_all(data, "malloc");
+			}
+			if (ft_strchr(SPRITES, data->grid_map[y][x]))
+			{
+				if (create_sprite(data, data->grid_map[y][x], x, y) == NULL)
+					clean_all(data, "malloc");
+			}
+			x++;
+		}
+		y++;
+	}
+}
 
 void	init_unit_map(t_data *data)
 {
@@ -80,22 +107,18 @@ void	init_angle_table(t_table *angle_table)
 void	init_data(t_data *data)
 {
 	data->game_state = START;
-	init_audio(data);
 	init_mlx(data);
+	init_audio(data);
 	init_unit_map(data);
 	init_player(data);
+	init_obj(data);
 	init_angle_table(data->angle_table);
 	PlaySound(data->sound[S_STATUE_HUM]);
 	SetSoundVolume(data->sound[S_STATUE_HUM], 0);
 	SetMusicVolume(data->music[M_FOREST], 0.5);
 	SetSoundVolume(data->sound[S_SHOT], 2);
-
-	//SetSoundPan(data->sound[S_SHOT], 0.5);
-	//SetMusicVolume(data->music[M_FOREST], 0.5);
-
-
-	data->main_button = MAIN_BUTTON;
-	data->pause_button = PAUSE_BUTTON;
+	data->keys.main_button = MAIN_BUTTON;
+	data->keys.pause_button = PAUSE_BUTTON;
 	data->plane.center.x = WIN_W / 2;
 	data->plane.center.y = WIN_H / 2;
 	data->plane.dist = (WIN_W / 2) / tan(deg_rad(FOV / 2));

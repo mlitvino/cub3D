@@ -19,7 +19,7 @@ static void update_bobbing(t_char *player)
 	if (player->is_moving)
 	{
 		player->bobbing_time += delta_time * 10.0; // Tune the speed of bobbing
-		player->height = BLOCK_SIZE /2 + sin(player->bobbing_time) * 40;
+		player->height = BLOCK_SIZE /2 + sin(player->bobbing_time) * 60;
 	}
 	else
 	{
@@ -31,6 +31,11 @@ static void update_bobbing(t_char *player)
 			player->bobbing_time = 0;
 		}
 	}
+	player->wall_rt = 1 + (player->height / (BLOCK_SIZE / 2));
+	player->ceiling_rt = BLOCK_SIZE / (1 + ((BLOCK_SIZE / 2)
+				/ (BLOCK_SIZE - player->height)));
+	player->floor_rt = BLOCK_SIZE / (1 + ((BLOCK_SIZE / 2)
+				/ player->height));
 }
 
 void	update_statue(t_data *data, t_char *player, t_sprite *statue)
