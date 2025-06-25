@@ -73,56 +73,6 @@ void	update_statue(t_data *data, t_char *player, t_sprite *statue)
 		data->mlx_data.textrs_img[STATUE_FACE]->enabled = 0;
 }
 
-int	check_mouse_click(t_data *data, t_point *but)
-{
-	t_point	*m_clck;
-
-	m_clck = &data->mouse_click;
-	if (!(but->x < m_clck->x && m_clck->x < but->x + BUTTON_DX))
-		return (-1);
-	if (but->y < m_clck->y && m_clck->y < but->y + BUTTON_DY)
-	{
-		return (START);
-	}
-	else if (but->y + BUTTON_DY + BUTTON_DY2 < m_clck->y
-		&& m_clck->y < but->y + (BUTTON_DY * 2) + BUTTON_DY2)
-	{
-		return (CONTROLS);
-	}
-	else if (but->y + (BUTTON_DY + BUTTON_DY2) * 2 < m_clck->y
-		&& m_clck->y < but->y + (BUTTON_DY + BUTTON_DY2) * 2 + BUTTON_DY)
-	{
-		return (EXIT);
-	}
-	return (-1);
-}
-
-void	manage_menu(t_data *data, mlx_image_t **tex_img)
-{
-	mlx_image_t	*cur_menu;
-	int			res;
-
-	cur_menu = tex_img[data->game_state];
-	cur_menu->enabled = 1;
-	res = -1;
-	if (!data->keys.click)
-		return ;
-	if (data->game_state == MAIN_MENU /* || data->game_state == DEATH || data->game_state == CONTROLS*/)
-		res = check_mouse_click(data, &data->main_button);
-	else if (data->game_state == PAUSE /* || data->game_state == WIN*/)
-		res = check_mouse_click(data, &data->pause_button);
-	if (res != -1)
-	{
-		cur_menu->enabled = 0;
-		if (res == EXIT)
-			clean_all(data, NULL);
-		else if (res == START)
-			data->game_state = START;
-		else if (res == CONTROLS)
-			tex_img[CONTROLS]->enabled = 1;
-	}
-}
-
 void	update_audio(t_data *data)
 {
 	int	i;
@@ -135,8 +85,8 @@ void	update_audio(t_data *data)
 			PlayMusicStream(data->music[M_STORM]);
 	if (data->game_state == START)
 	{
-		// if (IsMusicStreamPlaying(data->music[M_FOREST]) == false)
-		// 	PlayMusicStream(data->music[M_FOREST]);
+		if (IsMusicStreamPlaying(data->music[M_FOREST]) == false)
+			PlayMusicStream(data->music[M_FOREST]);
 		if (IsSoundPlaying(data->sound[S_STATUE_HUM]) == false)
 			PlaySound(data->sound[S_STATUE_HUM]);
 	}
@@ -157,7 +107,7 @@ void	update_sprites(t_data *data, t_sprite *sprites)
 		else if (sprites->type == EXIT)
 		{
 			if (sprites->dist < BLOCK_SIZE / 2)
-				data->game_state = WIN;
+				change_game_state(data, WIN);
 		}
 		else if (sprites->type == AMMO)
 		{
@@ -197,11 +147,25 @@ void	update_player(t_data *data, t_keys *keys, t_char *player)
 		rotate_player_right(player);
 	if (keys->right)
 		rotate_player_left(player);
+	if (keys->up)
+		data->plane.center.y += 33;
+	if (keys->down)
+		data->plane.center.y -= 34;
 
 	if (keys->tab)
-		data->game_state = PAUSE;
+		change_game_state(data, PAUSE);
 
-	//handle_mouse_rotation(data);
+	if (keys->click || keys->e)
+		shoot(data, player);
+
+	if (player->is_shooting == true && player->ammo > 0
+		&& IsSoundPlaying(data->sound[S_SHOT]) == false)
+	{
+		player->is_shooting = false;
+		data->mlx_data.textrs_img[CROSSBOW1]->enabled = true;
+		data->mlx_data.textrs_img[CROSSBOW2]->enabled = false;
+	}
+	handle_mouse_rotation(data);
 	update_bobbing(player);
 }
 
@@ -221,6 +185,8 @@ void	render(void *data_arg)
 		update_sprites(data, data->sprite_list);
 	}
 	else
+	{
 		manage_menu(data, data->mlx_data.textrs_img);
+	}
 	update_audio(data);
 }

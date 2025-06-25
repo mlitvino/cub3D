@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/25 01:23:52 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/25 17:33:29 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@
 # define SKY_W 1440
 # define SKY_H 5000
 
-# define MAIN_BUTTON (t_point){79,603,0}
-# define PAUSE_BUTTON (t_point){764,583,0}
-# define BUTTON_DX 369
-# define BUTTON_DY 117
-# define BUTTON_DY2 52
+# define MAIN_BUTTON (t_point){WIN_W/(1920.0/79),WIN_H/(1080.0/603),0}
+# define PAUSE_BUTTON (t_point){WIN_W/(1920.0/764),WIN_H/(1080.0/583),0}
+# define BUTTON_DX (WIN_W/(1920.0/369))
+# define BUTTON_DY (WIN_H/(1080.0/108))
+# define BUTTON_DY2 (WIN_H/(1080.0/52))
 
 # define MAX_THRD 6
 
@@ -159,6 +159,7 @@ typedef enum e_texture
 	EVIL_TREE,
 	AMMO_TEX,
 	EXIT_TEX,
+
 	MAIN_MENU,
 	PAUSE,
 	DEATH,
@@ -170,7 +171,7 @@ typedef enum e_texture
 	MAX_TEX
 }	t_texture;
 
-# define NORTH_PATH "textures/wall/forest.png"
+# define NORTH_PATH "textures/wall/foreswt.png"
 # define EAST_PATH "textures/wall/forest.png"
 # define WEST_PATH "textures/wall/forest.png"
 # define SOUTH_PATH "textures/wall/forest.png"
@@ -209,18 +210,16 @@ typedef enum e_texture
 # define CROSSBOW2_PATH "textures/crossbow2.png"
 
 # define S_DOOR_PATH "audio/wood_door.mp3"
-# define S_SHOT_PATH "audio/shot_reloading.mp3"
-# define S_RELOADING_PATH "audio/reloading.mp3"
+# define S_SHOT_PATH "audio/shot.mp3"
 # define S_WOLF_GROWL_PATH "audio/wolf_growl.mp3"
 # define S_STATUE_HUM_PATH "audio/hum.mp3"
+# define S_VICTORY_PATH "audio/victory.mp3"
 # define S_PLAYER_DYING_PATH "audio/player_dying.mp3"
 
 # define M_STORM_PATH "audio/storm.mp3"
 # define M_FOREST_PATH "audio/forest.mp3"
 # define M_PLAYER_STEP_PATH "audio/player_step.mp3"
 # define M_WOLF_STEP_PATH "audio/wolf_step.mp3"
-
-
 
 # define GREEN_COL 0x00d118ff
 # define ORANGE_COL 0xeb6437ff
@@ -236,9 +235,9 @@ typedef enum e_music
 
 typedef enum e_sound
 {
+	S_VICTORY,
 	S_PLAYER_DYING,
 	S_SHOT,
-	S_RELOADING,
 	S_DOOR,
 	S_WOLF_GROWL,
 	S_STATUE_HUM,
@@ -366,9 +365,16 @@ typedef struct s_keys
 	int			d;
 	int			left;
 	int			right;
+	int			up;
+	int			down;
+	int			e;
 	int			esc;
 	int			tab;
+
 	int			click;
+	t_point		click_pos;
+	t_point		main_button;
+	t_point		pause_button;
 
 }				t_keys;
 
@@ -398,9 +404,10 @@ typedef struct s_char
 	int			move_spd;
 	int			turn_spd;
 
-	int is_moving;
-	int mov_height;
-	double bobbing_time;
+	bool		is_shooting;
+	int			is_moving;
+	int			mov_height;
+	double		bobbing_time;
 
 }				t_char;
 
@@ -471,10 +478,6 @@ typedef struct s_data
 	t_mlx				mlx_data;
 
 	int					game_state;
-	t_point				mouse_click;
-
-	t_point				main_button;
-	t_point				pause_button;
 
 	char				**grid_map;
 	char				**unit_map;
@@ -553,7 +556,6 @@ void		render_col(t_raycast *raycast, t_wall *wall);
 // render.c
 void	update_statue(t_data *data, t_char *player, t_sprite *sprites);
 void	render(void *data_arg);
-void	manage_menu(t_data *data, mlx_image_t **tex_img);
 int		check_mouse_click(t_data *data, t_point *but);
 
 // raycast.c
@@ -601,6 +603,8 @@ double		calc_dist(t_point p1, t_point p2);
 uint32_t	extract_rgba(uint8_t *raw);
 
 //-------------------------------MOVEMENT------------------------------------
+void	mouse_hook(mouse_key_t button, action_t action,
+		modifier_key_t mods, void* param);
 void		key_event_handler(mlx_key_data_t keydata, void *param);
 void		move_player(t_char *player, double angle_offset);
 int			check_for_wall_collision(t_char *player, double new_x,
@@ -609,6 +613,10 @@ void		rotate_player_right(t_char *player);
 void		rotate_player_left(t_char *player);
 
 //-------------------------------GENERAL------------------------------------
+
+// menu.c
+void	manage_menu(t_data *data, mlx_image_t **tex_img);
+void	change_game_state(t_data *data, int	new_state);
 
 // action.c
 void	shoot(t_data *data, t_char *player);
@@ -636,6 +644,7 @@ void		init_angle_table(t_table *angle_table);
 void		init_data(t_data *data);
 
 // debug.c
+void		draw_menu_but_grid(t_data *data, int main);
 void		show_fps(void);
 void		show_sprites(t_sprite **sprite_array, t_sprite *sprite_list);
 void		show_doors(t_door *list);

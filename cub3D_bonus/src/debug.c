@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 22:53:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/22 17:56:38 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/25 14:39:47 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,4 +159,72 @@ void	draw_aim_cross(mlx_image_t *scr_img)
 	for (int y = scr_img->height / 2 - 10; y < (int)scr_img->height / 2
 		+ 10; y++)
 		mlx_put_pixel(scr_img, scr_img->width / 2, y, 0xFF0000FF);
+}
+
+void	draw_menu_but_grid(t_data *data, int state)
+{
+	t_point	main_but = data->keys.main_button;
+	t_point	pause_but = data->keys.pause_button;
+	mlx_image_t	*menu = data->mlx_data.textrs_img[MAIN_MENU];
+	// main
+	if (state == MAIN_MENU)
+	{
+		// left_ver line
+		for (uint32_t y = 0; y < menu->height; y++)
+			mlx_put_pixel(menu, main_but.x, y, 0xFF0000FF);
+		// right_ver line
+		for (uint32_t y = 0; y < menu->height; y++)
+			mlx_put_pixel(menu, main_but.x + BUTTON_DX, y, 0xFF0000FF);
+		// 1_but_hor_1 line
+		for (uint32_t x = 0; x < menu->width; x++)
+			mlx_put_pixel(menu, x, main_but.y , 0xFF0000FF);
+		// 1_but_hor_2 line
+		for (uint32_t x = 0; x < menu->width; x++)
+			mlx_put_pixel(menu, x, main_but.y + BUTTON_DY, 0xFF0000FF);
+
+		// 2_but_hor_1 line
+		for (uint32_t x = 0; x < menu->width; x++)
+			mlx_put_pixel(menu, x, main_but.y + BUTTON_DY + BUTTON_DY2, 0xFF0000FF);
+		// 2_but_hor_2 line
+		for (uint32_t x = 0; x < menu->width; x++)
+			mlx_put_pixel(menu, x, main_but.y + BUTTON_DY * 2 + BUTTON_DY2, 0xFF0000FF);
+
+		// 3_but_hor_1 line
+		for (uint32_t x = 0; x < menu->width; x++)
+			mlx_put_pixel(menu, x, main_but.y + (BUTTON_DY + BUTTON_DY2) * 2, 0xFF0000FF);
+		// 3_but_hor_2 line
+		for (uint32_t x = 0; x < menu->width; x++)
+			mlx_put_pixel(menu, x, main_but.y + (BUTTON_DY + BUTTON_DY2) * 2 + BUTTON_DY, 0xFF0000FF);
+	}
+	// pause
+	else if (state == PAUSE || state == WIN || state == DEATH)
+	{
+		mlx_image_t	*pause = data->mlx_data.textrs_img[state];
+		// left_ver line
+		for (uint32_t y = 0; y < pause->height; y++)
+			mlx_put_pixel(pause, pause_but.x, y, 0xFF0000FF);
+		// right_ver line
+		for (uint32_t y = 0; y < pause->height; y++)
+			mlx_put_pixel(pause, pause_but.x + BUTTON_DX, y, 0xFF0000FF);
+		// 1_but_hor_1 line
+		for (uint32_t x = 0; x < pause->width; x++)
+			mlx_put_pixel(pause, x, pause_but.y , 0xFF0000FF);
+		// 1_but_hor_2 line
+		for (uint32_t x = 0; x < pause->width; x++)
+			mlx_put_pixel(pause, x, pause_but.y + BUTTON_DY, 0xFF0000FF);
+
+		// 2_but_hor_1 line
+		for (uint32_t x = 0; x < pause->width; x++)
+			mlx_put_pixel(pause, x, pause_but.y + BUTTON_DY + BUTTON_DY2, 0xFF0000FF);
+		// 2_but_hor_2 line
+		for (uint32_t x = 0; x < pause->width; x++)
+			mlx_put_pixel(pause, x, pause_but.y + BUTTON_DY * 2 + BUTTON_DY2, 0xFF0000FF);
+
+		// 3_but_hor_1 line
+		for (uint32_t x = 0; x < pause->width; x++)
+			mlx_put_pixel(pause, x, pause_but.y + (BUTTON_DY + BUTTON_DY2) * 2, 0xFF0000FF);
+		// 3_but_hor_2 line
+		for (uint32_t x = 0; x < pause->width; x++)
+			mlx_put_pixel(pause, x, pause_but.y + (BUTTON_DY + BUTTON_DY2) * 2 + BUTTON_DY, 0xFF0000FF);
+	}
 }

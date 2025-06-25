@@ -1,9 +1,30 @@
 #include "cub3D.h"
 
+void	mouse_hook(mouse_key_t button, action_t action,
+		modifier_key_t mods, void* param)
+{
+	t_data	*data;
+	t_keys	*keys;
+
+	(void)mods;
+	data = (t_data *)param;
+	keys = &data->keys;
+	if (button == MLX_MOUSE_BUTTON_LEFT)
+	{
+		if (action == MLX_PRESS)
+		{
+			keys->click = true;
+			mlx_get_mouse_pos(data->mlx_data.mlx_ptr,
+				&keys->click_pos.x, &keys->click_pos.y);
+		}
+		else if (action == MLX_RELEASE)
+			keys->click = false;
+	}
+}
 
 static void	set_key_flag(t_keys *k, mlx_key_data_t keydata, int value, t_data *data)
 {
-	if (keydata.key == 'W')
+	if (keydata.key == MLX_KEY_W)
 		k->w = value;
 	else if (keydata.key == MLX_KEY_A)
 		k->a = value;
@@ -15,10 +36,16 @@ static void	set_key_flag(t_keys *k, mlx_key_data_t keydata, int value, t_data *d
 		k->left = value;
 	else if (keydata.key == MLX_KEY_RIGHT)
 		k->right = value;
+	else if (keydata.key == MLX_KEY_UP)
+		k->up = value;
+	else if (keydata.key == MLX_KEY_DOWN)
+		k->down = value;
 	else if (keydata.key == MLX_KEY_ESCAPE)
 		k->esc = value;
 	else if (keydata.key == MLX_KEY_TAB)
 		k->tab = value;
+	else if (keydata.key == MLX_KEY_E)
+		k->e = value;
 	data->player.is_moving = (k->w || k->a || k->s || k->d);
 }
 
@@ -43,18 +70,6 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 	t_data		*data;
 
 	data = (t_data *)param;
-	if (keydata.key == 'R')
-	{
-		data->plane.center.y += 111;
-		printf("new plane y %d\n", data->plane.center.y);
-		// if (IsMusicStreamPlaying(data->music[M_FOREST]) == false)
-		// 	PlayMusicStream(data->music[M_FOREST]);
-	}
-	else if (keydata.key == 'T')
-	{
-		data->plane.center.y -= 114;
-		printf("new plane y %d\n", data->plane.center.y);
-	}
 	if (keydata.key == '1')
 		change_sprite_state(data, WOLF, WOLF_STAY);
 	else if (keydata.key == '2')
@@ -67,34 +82,7 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 		change_sprite_state(data, WOLF, WOLF_DEAD);
 	else if (keydata.key == '6')
 		change_sprite_state(data, STATUE, STATUE_RED);
-	else if (keydata.key == '7')
-	{
-		// data->mlx_data.textrs_img[CROSSBOW1]->instances[0].x -= 100;
-		// data->mlx_data.textrs_img[CROSSBOW1]->instances[0].y -= 100;
-		// mlx_set_instance_depth(&data->mlx_data.textrs_img[CROSSBOW1]->instances[data->test1],
-		// 	3);
-		// mlx_set_instance_depth(&data->mlx_data.textrs_img[CROSSBOW2]->instances[data->test2],
-		// 	0);
-		data->mlx_data.textrs_img[CROSSBOW2]->enabled = 0;
-		data->mlx_data.textrs_img[CROSSBOW1]->enabled = 1;
-		// data->player.facing_statue = data->sprite_list;
-	}
-	else if (keydata.key == '8')
-	{
-		// data->mlx_data.textrs_img[CROSSBOW1]->instances[0].x += 100;
-		// data->mlx_data.textrs_img[CROSSBOW1]->instances[0].y += 100;
-		data->mlx_data.textrs_img[CROSSBOW2]->enabled = 1;
-		data->mlx_data.textrs_img[CROSSBOW1]->enabled = 0;
-		// mlx_set_instance_depth(&data->mlx_data.textrs_img[CROSSBOW1]->instances[data->test1],
-		// 	0);
-		// mlx_set_instance_depth(&data->mlx_data.textrs_img[CROSSBOW2]->instances[data->test2],
-		// 	3);
-		// data->player.facing_statue = NULL;
-	}
-	if (keydata.key == 'Q')
-	{
-		shoot(data, &data->player);
-	}
+
 	if (keydata.key == MLX_KEY_SPACE /*&& is_center_door */)
 	{
 		open_close_door(data);

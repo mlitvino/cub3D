@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/23 12:50:59 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:57:47 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ int	main(int argc, char *argv[])
 	if (!parsing_file(&data, argv, argc))
 		return (1);
 	init_data(&data);
+
 	mlx_key_hook(data.mlx_data.mlx_ptr, &key_event_handler, &data);
+	mlx_mouse_hook(data.mlx_data.mlx_ptr, &mouse_hook, &data);
 	mlx_loop_hook(data.mlx_data.mlx_ptr, render, &data);
 	mlx_loop(data.mlx_data.mlx_ptr);
 	clean_all(&data, NULL);

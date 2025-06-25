@@ -10,8 +10,7 @@ void	die(t_data *data, t_sprite *spr)
 	}
 	else
 	{
-		data->game_state = DEATH;
-		PlaySound(data->sound[S_PLAYER_DYING]);
+		change_game_state(data, DEATH);
 	}
 }
 
@@ -37,10 +36,12 @@ void	shoot(t_data *data, t_char *player)
 {
 	t_sprite	*enemy;
 
-	if (player->ammo > 0)
+	if (player->ammo > 0 && player->is_shooting == 0
+		&& IsSoundPlaying(data->sound[S_SHOT]) == false)
 	{
 		enemy = player->facing_enemy;
 		player->ammo--;
+		player->is_shooting = true;
 		if (enemy)
 		{
 			get_damage(data, enemy, player);
@@ -52,12 +53,8 @@ void	shoot(t_data *data, t_char *player)
 		{
 			printf("Enemy is not in center of screen\n");
 		}
-		if (IsSoundPlaying(data->sound[S_SHOT]) == false)
-			PlaySound(data->sound[S_SHOT]);
+		PlaySound(data->sound[S_SHOT]);
+		data->mlx_data.textrs_img[CROSSBOW1]->enabled = false;
+		data->mlx_data.textrs_img[CROSSBOW2]->enabled = true;
 	}
-}
-
-void	finish_level(t_data *data)
-{
-	data->game_state = WIN;
 }

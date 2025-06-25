@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:55:28 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/25 01:07:47 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/25 17:24:55 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,11 @@ void	put_img_to_win(t_data *data, mlx_image_t *img)
 		mlx_set_instance_depth(&img->instances[0], 1);
 	else if (img == mlx_data->textrs_img[CROSSBOW1]
 		|| img == mlx_data->textrs_img[CROSSBOW2])
-		mlx_set_instance_depth(&img->instances[0], 2);
+		{
+			if (img == mlx_data->textrs_img[CROSSBOW2])
+				img->enabled = false;
+			mlx_set_instance_depth(&img->instances[0], 2);
+		}
 	else if (img == mlx_data->textrs_img[STATUE_FACE])
 		mlx_set_instance_depth(&img->instances[0], 3);
 	else if (img != mlx_data->scr_img)
