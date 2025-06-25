@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:39:09 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/23 13:56:31 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/25 20:34:26 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	draw_background(mlx_image_t *minimap)
 		y = 0;
 		while (y < minimap->height)
 		{
-			mlx_put_pixel(minimap, x, y, 0xAA);
+			mlx_put_pixel(minimap, x, y, 0x29292980);
 			y++;
 		}
 		x++;

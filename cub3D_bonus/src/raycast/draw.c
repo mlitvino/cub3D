@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 14:20:00 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/24 18:00:28 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/26 00:22:29 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,16 @@ void	draw_floor(t_raycast *raycast, int y)
 	dist = 0;
 	while (y < (int)raycast->scr_img->height)
 	{
-		fill_floor_info(raycast, &floor_pos, &dist, y);
-		if (raycast->unit_map[floor_pos.y][floor_pos.x] == FLOOR
-			|| raycast->unit_map[floor_pos.y][floor_pos.x] == DOOR)
-			img = raycast->data->mlx_data.textrs_img[FLOOR_TEX];
-		else
-			img = raycast->data->mlx_data.textrs_img[GROUND_TEX];
-		floor_pos.x = floor_pos.x % BLOCK_SIZE;
-		floor_pos.y = abs(floor_pos.y % BLOCK_SIZE);
-		pixel_i = (floor_pos.y * img->width + floor_pos.x) * BPP;
-		color = extract_rgba(&img->pixels[pixel_i]);
-		add_shadow(&color, dist);
-		mlx_put_pixel(raycast->scr_img, raycast->cur_ray, y, color);
+		img = fill_floor_info(raycast, &floor_pos, &dist, y);
+		if (img)
+		{
+			floor_pos.x = floor_pos.x % BLOCK_SIZE;
+			floor_pos.y = abs(floor_pos.y % BLOCK_SIZE);
+			pixel_i = (floor_pos.y * img->width + floor_pos.x) * BPP;
+			color = extract_rgba(&img->pixels[pixel_i]);
+			add_shadow(&color, dist);
+			mlx_put_pixel(raycast->scr_img, raycast->cur_ray, y, color);
+		}
 		y++;
 	}
 }
