@@ -50,23 +50,11 @@ void	init_player(t_data *data)
 	player->turn_spd = 2;
 	player->ammo = PLAYER_AMMO;
 	player->hp = PLAYER_HP;
-	printf("x %d y %d\n", data->map_h, data->map_w);
-	for (int y = 0; y < data->map_h; y++)
-	{
-		for (int x = 0; x < data->map_w; x++)
-		{
-			if (ft_strchr(DOORS, data->grid_map[y][x]))
-			{
-				if (create_door(&data->door_list, x, y) == NULL)
-					clean_all(data, "malloc"); // IMRPOVE
-			}
-			if (ft_strchr(SPRITES, data->grid_map[y][x]))
-			{
-				if (create_sprite(data, data->grid_map[y][x], x, y) == NULL)
-					clean_all(data, "malloc"); // IMRPOVE
-			}
-		}
-	}
+	player->wall_rt = 1 + (player->height / (BLOCK_SIZE / 2));
+	player->ceiling_rt = BLOCK_SIZE / (1 + ((BLOCK_SIZE / 2)
+				/ (BLOCK_SIZE - player->height)));
+	player->floor_rt = BLOCK_SIZE / (1 + ((BLOCK_SIZE / 2)
+				/ player->height));
 }
 
 void	init_angle_table(t_table *angle_table)
