@@ -37,10 +37,10 @@ void handle_mouse_rotation(t_data *game)
 
 	game->plane.center.y -= (delta_y * vertical_speed) / 2;
 
-	if (game->plane.center.y > WIN_H)
-		game->plane.center.y = WIN_H;
-	else if (game->plane.center.y < 0)
-		game->plane.center.y = 0;
+	if (game->plane.center.y > WIN_H+200)
+		game->plane.center.y = WIN_H+200;
+	else if (game->plane.center.y < -200)
+		game->plane.center.y = -200;
 
 	mlx_set_mouse_pos(game->mlx_data.mlx_ptr, center_x, center_y);
 }
