@@ -32,11 +32,11 @@
 # define SKY_W 1440
 # define SKY_H 5000
 
-# define MAIN_BUTTON (t_point){WIN_W/(1920.0/79),WIN_H/(1080.0/603),0}
-# define PAUSE_BUTTON (t_point){WIN_W/(1920.0/764),WIN_H/(1080.0/583),0}
-# define BUTTON_DX (WIN_W/(1920.0/369))
-# define BUTTON_DY (WIN_H/(1080.0/108))
-# define BUTTON_DY2 (WIN_H/(1080.0/52))
+# define MAIN_BUTTON (t_dpoint){1920.0/79,1080.0/603,0}
+# define PAUSE_BUTTON (t_dpoint){1920.0/764,1080.0/583,0}
+# define BUTTON_DX (1920.0/369)
+# define BUTTON_DY (1080.0/108)
+# define BUTTON_DY2 (1080.0/52)
 
 # define MAX_THRD 6
 
@@ -484,6 +484,7 @@ typedef struct s_mlx
 	mlx_t				*mlx_ptr;
 
 	mlx_image_t			*scr_img;
+	t_point				scr_size;
 	mlx_image_t			*minimap;
 
 	char			**ceiling_colour;
@@ -577,7 +578,7 @@ void		render_col(t_raycast *raycast, t_wall *wall);
 // render.c
 void	update_statue(t_data *data, t_char *player, t_sprite *sprites);
 void	render(void *data_arg);
-int		check_mouse_click(t_data *data, t_point *but);
+int		check_mouse_click(t_data *data, t_dpoint but_r, t_point scr_size);
 
 // raycast.c
 void		compre_dist(t_raycast *raycast, t_wall *hor_wall,
@@ -624,6 +625,7 @@ double		calc_dist(t_point p1, t_point p2);
 uint32_t	extract_rgba(uint8_t *raw);
 
 //-------------------------------MOVEMENT------------------------------------
+void	resize_handler(int32_t width, int32_t height, void* data_arg);
 void	mouse_hook(mouse_key_t button, action_t action,
 		modifier_key_t mods, void* param);
 void		key_event_handler(mlx_key_data_t keydata, void *param);

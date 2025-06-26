@@ -17,24 +17,36 @@ void	change_game_state(t_data *data, int	new_state)
 	data->game_state = new_state;
 }
 
-int	check_mouse_click(t_data *data, t_point *but)
+void	init_buttons(t_dpoint *but_r, t_point *d, int *dy2, t_point scr_size)
+{
+	but_r->x = scr_size.x / but_r->x;
+	but_r->y = scr_size.y / but_r->y;
+	d->x = scr_size.x / BUTTON_DX;
+	d->y = scr_size.y / BUTTON_DY;
+	*dy2 = scr_size.y / BUTTON_DY2;
+}
+
+int	check_mouse_click(t_data *data, t_dpoint but_r, t_point scr_size)
 {
 	t_point	*m_clck;
+	t_point	d;
+	int		dy2;
 
 	m_clck = &data->keys.click_pos;
-	if (!(but->x < m_clck->x && m_clck->x < but->x + BUTTON_DX))
+	init_buttons(&but_r, &d, &dy2, scr_size);
+	if (!(but_r.x < m_clck->x && m_clck->x < but_r.x + d.x))
 		return (-1);
-	if (but->y < m_clck->y && m_clck->y < but->y + BUTTON_DY)
+	if (but_r.y < m_clck->y && m_clck->y < but_r.y + d.y)
 	{
 		return (START);
 	}
-	else if (but->y + BUTTON_DY + BUTTON_DY2 < m_clck->y
-		&& m_clck->y < but->y + (BUTTON_DY * 2) + BUTTON_DY2)
+	else if (but_r.y + d.y + dy2 < m_clck->y
+		&& m_clck->y < but_r.y + (d.y * 2) + dy2)
 	{
 		return (CONTROLS);
 	}
-	else if (but->y + (BUTTON_DY + BUTTON_DY2) * 2 < m_clck->y
-		&& m_clck->y < but->y + (BUTTON_DY + BUTTON_DY2) * 2 + BUTTON_DY)
+	else if (but_r.y + (d.y + dy2) * 2 < m_clck->y
+		&& m_clck->y < but_r.y + (d.y + dy2) * 2 + d.y)
 	{
 		return (EXIT);
 	}
@@ -52,9 +64,9 @@ void	manage_menu(t_data *data, mlx_image_t **tex_img)
 	if (!data->keys.click)
 		return ;
 	if (data->game_state == MAIN_MENU)
-		res = check_mouse_click(data, &data->keys.main_button);
+		res = check_mouse_click(data, MAIN_BUTTON, data->mlx_data.scr_size);
 	else
-		res = check_mouse_click(data, &data->keys.pause_button);
+		res = check_mouse_click(data, PAUSE_BUTTON, data->mlx_data.scr_size);
 	if (res != -1)
 	{
 		data->keys.click = false;

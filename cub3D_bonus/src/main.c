@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/25 20:29:53 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:05:45 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	main(int argc, char *argv[])
 		return (1);
 	init_data(&data);
 	mlx_key_hook(data.mlx_data.mlx_ptr, &key_event_handler, &data);
+	mlx_resize_hook(data.mlx_data.mlx_ptr, &resize_handler, &data);
 	mlx_mouse_hook(data.mlx_data.mlx_ptr, &mouse_hook, &data);
 	mlx_loop_hook(data.mlx_data.mlx_ptr, render, &data);
 	mlx_loop(data.mlx_data.mlx_ptr);

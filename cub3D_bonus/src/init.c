@@ -117,8 +117,8 @@ void	init_data(t_data *data)
 	SetSoundVolume(data->sound[S_STATUE_HUM], 0);
 	SetMusicVolume(data->music[M_FOREST], 0.5);
 	SetSoundVolume(data->sound[S_SHOT], 2);
-	data->keys.main_button = MAIN_BUTTON;
-	data->keys.pause_button = PAUSE_BUTTON;
+	data->mlx_data.scr_size.x = WIN_W;
+	data->mlx_data.scr_size.y = WIN_H;
 	data->plane.center.x = WIN_W / 2;
 	data->plane.center.y = WIN_H / 2;
 	data->plane.dist = (WIN_W / 2) / tan(deg_rad(FOV / 2));

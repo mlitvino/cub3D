@@ -1,5 +1,14 @@
 #include "cub3D.h"
 
+void	resize_handler(int32_t width, int32_t height, void* data_arg)
+{
+	t_data	*data;
+
+	data = (t_data *)data_arg;
+	data->mlx_data.scr_size.x = width;
+	data->mlx_data.scr_size.y = height;
+}
+
 void	mouse_hook(mouse_key_t button, action_t action,
 		modifier_key_t mods, void* param)
 {

@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 22:53:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/25 14:39:47 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/26 17:39:58 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,8 +163,14 @@ void	draw_aim_cross(mlx_image_t *scr_img)
 
 void	draw_menu_but_grid(t_data *data, int state)
 {
-	t_point	main_but = data->keys.main_button;
-	t_point	pause_but = data->keys.pause_button;
+	t_dpoint	main_but = MAIN_BUTTON;
+	main_but.x = data->mlx_data.scr_img->width / main_but.x;
+	main_but.y = data->mlx_data.scr_img->height / main_but.y;
+
+	t_dpoint	pause_but = PAUSE_BUTTON;
+	pause_but.x = data->mlx_data.scr_img->width / pause_but.x;
+	pause_but.y = data->mlx_data.scr_img->height / pause_but.y;
+
 	mlx_image_t	*menu = data->mlx_data.textrs_img[MAIN_MENU];
 	// main
 	if (state == MAIN_MENU)
