@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 20:21:27 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/25 23:07:38 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/27 01:13:41 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,32 @@ static const char	*g_sound_path[MAX_SOUND] = {
 [S_STONE_DOOR] = S_STONE_DOOR_PATH,
 [S_DOOR] = S_DOOR_PATH,
 [S_SHOT] = S_SHOT_PATH,
+[S_WOLF_CHASE] = S_WOLF_CHASE_PATH,
 [S_WOLF_GROWL] = S_WOLF_GROWL_PATH,
 [S_STATUE_HUM] = S_STATUE_HUM_PATH,
 [S_PLAYER_DYING] = S_PLAYER_DYING_PATH
 };
 
 static const char	*g_music_path[MAX_MUSIC] = {
+[M_CASTLE] = M_CASTLE_PATH,
 [M_STORM] = M_STORM_PATH,
 [M_FOREST] = M_FOREST_PATH,
 [M_WOLF_STEP] = M_WOLF_STEP_PATH,
 [M_PLAYER_STEP] = M_PLAYER_STEP_PATH
 };
+
+void	tune_audio(t_data *data, char *map_name)
+{
+	PlaySound(data->sound[S_STATUE_HUM]);
+	SetSoundVolume(data->sound[S_STATUE_HUM], 0);
+	SetMusicVolume(data->music[M_FOREST], 0.5);
+	SetSoundVolume(data->sound[S_SHOT], 2);
+	PlayMusicStream(data->music[M_STORM]);
+	if (ft_strncmp(map_name, "forest", 6) == 0)
+		data->main_music = &data->music[M_FOREST];
+	else
+		data->main_music = &data->music[M_CASTLE];
+}
 
 void	clean_audio(t_data *data)
 {

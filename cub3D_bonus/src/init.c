@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/26 18:02:09 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/27 01:14:52 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,19 +105,16 @@ void	init_angle_table(t_table *angle_table)
 	}
 }
 
-void	init_data(t_data *data)
+void	init_data(t_data *data, char *map_name)
 {
 	data->game_state = MAIN_MENU;
 	init_mlx(data);
 	init_audio(data);
+	tune_audio(data, map_name);
 	init_unit_map(data);
 	init_player(data);
 	init_obj(data);
 	init_angle_table(data->angle_table);
-	PlaySound(data->sound[S_STATUE_HUM]);
-	SetSoundVolume(data->sound[S_STATUE_HUM], 0);
-	SetMusicVolume(data->music[M_FOREST], 0.5);
-	SetSoundVolume(data->sound[S_SHOT], 2);
 	data->mlx_data.scr_size.x = WIN_W;
 	data->mlx_data.scr_size.y = WIN_H;
 	data->plane.center.x = WIN_W / 2;

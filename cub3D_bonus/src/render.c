@@ -85,13 +85,15 @@ void	update_audio(t_data *data)
 	i = 0;
 	while (i < MAX_MUSIC)
 		UpdateMusicStream(data->music[i++]);
-	if (data->game_state == MAIN_MENU)
-		if (IsMusicStreamPlaying(data->music[M_STORM]) == false)
-			PlayMusicStream(data->music[M_STORM]);
 	if (data->game_state == START)
 	{
-		if (IsMusicStreamPlaying(data->music[M_FOREST]) == false)
-			PlayMusicStream(data->music[M_FOREST]);
+		if (IsMusicStreamPlaying(*data->main_music) == false)
+		{
+			if (GetMusicTimePlayed(*data->main_music) > 0)
+				ResumeMusicStream(*data->main_music);
+			else
+				PlayMusicStream(*data->main_music);
+		}
 		if (IsSoundPlaying(data->sound[S_STATUE_HUM]) == false)
 			PlaySound(data->sound[S_STATUE_HUM]);
 	}

@@ -6,10 +6,10 @@ void	change_game_state(t_data *data, int	new_state)
 
 	i = 0;
 	while (i < MAX_SOUND)
-		StopSound(data->sound[i++]);
+		PauseSound(data->sound[i++]);
 	i = 0;
 	while (i < MAX_MUSIC)
-		StopMusicStream(data->music[i++]);
+		PauseMusicStream(data->music[i++]);
 	if (new_state == DEATH)
 		PlaySound(data->sound[S_PLAYER_DYING]);
 	else if (new_state == WIN)

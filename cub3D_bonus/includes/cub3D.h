@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/27 00:48:10 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/27 01:14:05 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,11 +239,13 @@ typedef enum e_texture
 # define S_DOOR_PATH "audio/wood_door.mp3"
 # define S_MET_DOOR_PATH "audio/metal_door.mp3"
 # define S_SHOT_PATH "audio/shot.mp3"
+# define S_WOLF_CHASE_PATH "audio/wolf_chase.mp3"
 # define S_WOLF_GROWL_PATH "audio/wolf_growl.mp3"
 # define S_STATUE_HUM_PATH "audio/hum.mp3"
 # define S_VICTORY_PATH "audio/victory.mp3"
 # define S_PLAYER_DYING_PATH "audio/player_dying.mp3"
 
+# define M_CASTLE_PATH "audio/castle.mp3"
 # define M_STORM_PATH "audio/storm.mp3"
 # define M_FOREST_PATH "audio/forest.mp3"
 # define M_PLAYER_STEP_PATH "audio/player_step.mp3"
@@ -260,6 +262,7 @@ typedef enum e_music
 	M_WOLF_STEP,
 	M_FOREST,
 	M_STORM,
+	M_CASTLE,
 	MAX_MUSIC
 }	e_music;
 
@@ -271,6 +274,7 @@ typedef enum e_sound
 	S_MET_DOOR,
 	S_STONE_DOOR,
 	S_DOOR,
+	S_WOLF_CHASE,
 	S_WOLF_GROWL,
 	S_STATUE_HUM,
 	MAX_SOUND
@@ -532,6 +536,7 @@ typedef struct s_data
 	t_rgbt				flor_rgb;
 	t_rgbt				ceil_rgb;
 
+	Music				*main_music;
 	Music				music[MAX_MUSIC];
 	Sound				sound[MAX_SOUND];
 
@@ -656,6 +661,7 @@ void	shoot(t_data *data, t_char *player);
 void	die(t_data *data, t_sprite *spr);
 
 // audio.c
+void		tune_audio(t_data *data, char *map_name);
 void		clean_audio(t_data *data);
 void		init_audio(t_data *data);
 
@@ -677,7 +683,7 @@ void		init_mlx(t_data *data);
 void		init_unit_map(t_data *data);
 void		init_player(t_data *data);
 void		init_angle_table(t_table *angle_table);
-void		init_data(t_data *data);
+void		init_data(t_data *data, char *map_name);
 
 // debug.c
 void		draw_menu_but_grid(t_data *data, int main);
