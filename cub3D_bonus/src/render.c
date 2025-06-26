@@ -59,7 +59,7 @@ void	update_statue(t_data *data, t_char *player, t_sprite *statue)
 		if (alpha >= 255)
 		{
 			StopSound(data->sound[S_STATUE_HUM]);
-			die(data, NULL);
+			change_game_state(data, DEATH);
 		}
 		alpha += step;
 		if (alpha > 255)
@@ -116,15 +116,12 @@ void	update_sprites(t_data *data, t_sprite *sprites)
 		}
 		else if (sprites->type == AMMO)
 		{
-			if (sprites->dist < BLOCK_SIZE / 2 && sprites->visible == true)
+			if (sprites->dist < BLOCK_SIZE / 2 && sprites->visible == true
+				&& data->player.ammo < 9)
 			{
 				data->player.ammo++;
 				sprites->visible = false;
 			}
-		}
-		else
-		{
-			//update_other();
 		}
 		sprites = sprites->next;
 	}
@@ -132,8 +129,6 @@ void	update_sprites(t_data *data, t_sprite *sprites)
 
 void	update_player(t_data *data, t_keys *keys, t_char *player)
 {
-	if (player->hp == 0)
-		die(data, NULL);
 	if (keys->w)
 		move_player(player, 0);
 	if (keys->a)

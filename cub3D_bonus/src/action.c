@@ -1,33 +1,21 @@
 #include "cub3D.h"
 
-void	die(t_data *data, t_sprite *spr)
-{
-	if (spr)
-	{
-		spr->cur_img = spr->tex_imgs[WOLF_DEAD];
-		spr->walkable = true;
-		// PlaySound(data->sound[S_WOLF_DYING]);
-	}
-	else
-	{
-		change_game_state(data, DEATH);
-	}
-}
-
 void	get_damage(t_data *data, t_sprite *spr, t_char *player)
 {
 	if (spr && spr->type == WOLF)
 	{
 		if (--spr->hp <= 0)
 		{
-			die(data, spr);
+			spr->cur_img = spr->tex_imgs[WOLF_DEAD];
+			spr->state = WOLF_DEAD;
+			spr->walkable = true;
 		}
 	}
 	else
 	{
 		if (--player->hp <= 0)
 		{
-			die(data, NULL);
+			change_game_state(data, DEATH);
 		}
 	}
 }

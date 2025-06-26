@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/27 01:14:05 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/27 01:28:35 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -657,8 +657,8 @@ void	manage_menu(t_data *data, mlx_image_t **tex_img);
 void	change_game_state(t_data *data, int	new_state);
 
 // action.c
+void	get_damage(t_data *data, t_sprite *spr, t_char *player);
 void	shoot(t_data *data, t_char *player);
-void	die(t_data *data, t_sprite *spr);
 
 // audio.c
 void		tune_audio(t_data *data, char *map_name);
