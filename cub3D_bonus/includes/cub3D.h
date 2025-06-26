@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/26 19:16:25 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/27 00:48:10 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,8 +249,10 @@ typedef enum e_texture
 # define M_PLAYER_STEP_PATH "audio/player_step.mp3"
 # define M_WOLF_STEP_PATH "audio/wolf_step.mp3"
 
-# define GREEN_COL 0x00d118ff
-# define ORANGE_COL 0xeb6437ff
+# define GREEN_COL 0x124200ff
+# define ORANGE_COL 0xcc8b00ff
+# define GRAY_COL 0x545454ff
+# define BROWN_COL 0x6b3e00ff
 
 typedef enum e_music
 {

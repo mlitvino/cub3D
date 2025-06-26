@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:39:09 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/25 20:34:26 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/27 00:46:38 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,18 @@
 
 void	put_minimap_pix(t_data *data, t_point map_pos, int x, int y)
 {
+	char	point;
+
 	if (is_on_map(data, &map_pos) == true)
 	{
-		if (data->unit_map[map_pos.y][map_pos.x] == WALL)
+		point = data->unit_map[map_pos.y][map_pos.x];
+		if (point == WALL)
 			mlx_put_pixel(data->mlx_data.minimap, x, y, GREEN_COL);
-		else if (data->unit_map[map_pos.y][map_pos.x] == DOOR)
+		else if (point == STONE_WALL || point == WAGON || point == ROCK_WALL)
+			mlx_put_pixel(data->mlx_data.minimap, x, y, GRAY_COL);
+		else if (point == WOOD_WALL)
+			mlx_put_pixel(data->mlx_data.minimap, x, y, BROWN_COL);
+		else if (ft_strchr(DOORS, point))
 			mlx_put_pixel(data->mlx_data.minimap, x, y, ORANGE_COL);
 	}
 }
