@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/26 19:11:25 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/26 19:16:25 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <fcntl.h>
 # include <sys/time.h>
 # include <pthread.h>
+# include <float.h>
 
 # define WIN_W 1280
 # define WIN_H 720
@@ -48,7 +49,7 @@
 # define ICON_SIZE 14
 # define ICON_BASE 5
 
-# define MODIF_BRIGHT 2
+# define MODIF_BRIGHT 2000
 
 # define STATUE_MAX_VIS 4
 # define W_STATUE_VIS_DEC 25
@@ -628,7 +629,7 @@ bool		find_wall(t_raycast *raycast, t_wall *wall, int axis_flag);
 
 // utils.c
 double		deg_rad(double deg);
-double		calc_dist(t_point p1, t_point p2);
+long double	calc_dist(t_point p1, t_point p2);
 uint32_t	extract_rgba(uint8_t *raw);
 
 //-------------------------------MOVEMENT------------------------------------
