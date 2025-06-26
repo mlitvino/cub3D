@@ -39,6 +39,25 @@
     printf("---- PATH END ----\n");
 }*/
 
+void    attack_player(t_sprite *sprite)
+{
+    if (sprite->dist <= sprite->attack_range)
+	{
+    	//enemy_attack_player(sprite, data->player); //need to implement
+        if (++sprite->move_rate >= 50)
+        {
+            sprite->move_rate = 0;
+            if (sprite->cur_img == sprite->tex_imgs[WOLF_WALK1] || sprite->cur_img == sprite->tex_imgs[WOLF_WALK2])
+                sprite->cur_img = sprite->tex_imgs[WOLF_ATTCK];
+            else if (sprite->cur_img == sprite->tex_imgs[WOLF_ATTCK])
+                sprite->cur_img = sprite->tex_imgs[WOLF_WALK2];
+            else if (sprite->cur_img == sprite->tex_imgs[WOLF_WALK2])
+                sprite->cur_img = sprite->tex_imgs[WOLF_ATTCK];
+        }
+    	sprite->path = NULL;
+    	return ;
+	}
+}
 void	update_wolf(t_data *data)
 {
 	t_sprite *sprite;
@@ -50,13 +69,14 @@ void	update_wolf(t_data *data)
 		if (sprite->type == WOLF)
 		{
             //printf("distance: %d\n", sprite->dist);
+            attack_player(sprite);
+            if (sprite->path)
+			{
+				free_path(sprite->path);
+				sprite->path = NULL;
+			}
 			if (has_line_of_sight(sprite, &data->player, data->unit_map)  && sprite->dist < 7 * BLOCK_SIZE) //check what distance makes sense
 			{
-				if (sprite->path)
-				{
-					free_path(sprite->path);
-					sprite->path = NULL;
-				}
                 //printf("sprite posx : %d sprite posy: %d", sprite->pos.x, sprite->pos.y);
 				sprite->path = bfs_find_path(data, sprite->pos, data->player.pos);
 				if (sprite->path)
@@ -73,7 +93,6 @@ void	update_wolf(t_data *data)
 		sprite = sprite->next;
 	}
 }
-
 
 void move_to_goal(t_sprite *sprite, float speed)
 {
@@ -108,8 +127,6 @@ void move_to_goal(t_sprite *sprite, float speed)
     //printf("dist: %d range: %f\n", sprite->dist, attack_range);
 	if (sprite->dist <= sprite->attack_range)
 	{
-    	//enemy_attack_player(sprite, data->player); //need to implement
-        sprite->cur_img = sprite->tex_imgs[WOLF_ATTCK];
     	sprite->path = NULL;
     	return ;
 	}
@@ -129,6 +146,7 @@ void move_to_goal(t_sprite *sprite, float speed)
     }
     else
     {
+       
         if (sprite->cur_img == sprite->tex_imgs[WOLF_STAY])
             sprite->cur_img = sprite->tex_imgs[WOLF_WALK1];
         if (++sprite->move_rate >= 12)

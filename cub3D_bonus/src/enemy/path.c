@@ -172,12 +172,21 @@ static t_path	*bfs_loop(t_data *data, t_bfs *bfs, t_delta *d, t_point goal)
 	return (NULL);
 }
 
+void free_visited(int **visited, int height)
+{
+	int i = 0;
+	while (i < height)
+		free(visited[i++]);
+	free(visited);
+}
+
 t_path	*bfs_find_path(t_data *data, t_point start, t_dpoint goal)
 {
 	t_bfs		bfs;
 	t_delta		d;
 	t_point		s;
 	t_point		g;
+	t_path		*result;
 
 	s.x = start.x / BLOCK_SIZE;
 	s.y = start.y / BLOCK_SIZE;
@@ -195,5 +204,7 @@ t_path	*bfs_find_path(t_data *data, t_point start, t_dpoint goal)
 	bfs.queue[bfs.rear++] = create_node(s.x, s.y, NULL);
 	bfs.visited[s.y][s.x] = 1;
 
-	return (bfs_loop(data, &bfs, &d, g));
+	result = bfs_loop(data, &bfs, &d, g);
+	free_visited(bfs.visited, data->map_h);
+	return (result);
 }
