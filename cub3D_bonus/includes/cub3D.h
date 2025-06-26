@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/26 01:00:14 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:03:36 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@
 # define ICON_SIZE 14
 # define ICON_BASE 5
 
-# define MODIF_BRIGHT 1
+# define MODIF_BRIGHT 300
 
 # define STATUE_MAX_VIS 4
 # define W_STATUE_VIS_DEC 25
@@ -94,16 +94,17 @@
 # define WALLS "12345"
 # define DOORS "DMs"
 # define SPRITES "BCGdAw"
+# define FLOORS "0XRF"
 
 # define EMPTY '0'
 # define BLOOD_GRASS 'X'
 # define ROAD 'R'
+# define FLOOR 'F'
 
 # define WALL '1'
 # define ROCK_WALL '2'
 # define WAGON '3'
 # define WOOD_WALL '4'
-# define FLOOR 'F'
 
 # define TREE 'T'
 # define DEAD_MAN 'd'
@@ -391,9 +392,6 @@ typedef struct s_keys
 
 	int			click;
 	t_point		click_pos;
-	t_point		main_button;
-	t_point		pause_button;
-
 }				t_keys;
 
 typedef struct s_pov
@@ -498,7 +496,6 @@ typedef struct s_mlx
 typedef struct s_data
 {
 	t_mlx				mlx_data;
-
 	int					game_state;
 
 	char				**grid_map;
@@ -653,6 +650,9 @@ void		init_audio(t_data *data);
 void		clean_map(t_data *data);
 void		clean_mlx(t_data *data);
 void		clean_all(t_data *data, char *perr_mess);
+
+// init_utils.c
+void	replace_unit_points(t_data *data, int grid_x, int grid_y);
 
 // init_mlx.c
 bool		resize_image(mlx_image_t *img, int img_i);

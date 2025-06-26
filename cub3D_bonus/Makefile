@@ -6,7 +6,7 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/25 15:55:14 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/06/26 16:13:07 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRC			= $(addprefix $(SRC_DIR)/, \
 				main.c \
 				init.c \
 				init_mlx.c \
+				init_utils.c \
 				clean.c \
 				audio.c \
 				render.c \

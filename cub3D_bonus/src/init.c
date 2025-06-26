@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/25 19:38:52 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:02:09 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	init_obj(t_data *data)
 			{
 				if (create_sprite(data, data->grid_map[y][x], x, y) == NULL)
 					clean_all(data, "malloc");
+				replace_unit_points(data, x, y);
 			}
 			x++;
 		}
@@ -106,7 +107,7 @@ void	init_angle_table(t_table *angle_table)
 
 void	init_data(t_data *data)
 {
-	data->game_state = START;
+	data->game_state = MAIN_MENU;
 	init_mlx(data);
 	init_audio(data);
 	init_unit_map(data);
