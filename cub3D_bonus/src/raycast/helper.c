@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:59:38 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/25 23:15:01 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:57:27 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,18 @@ void	select_tex(t_raycast *raycast, t_wall *wall, int axis)
 			wall->img_i = STONE_DOOR_TEX;
 		if (raycast->cur_ray == WIN_W / 2)
 			raycast->player->door_facing = wall->dist;
+		return ;
 	}
-	else
-	{
-		if (wall->type == WALL)
-			wall->img_i = WALL_TEX;
-		else if (wall->type == WOOD_WALL)
-			wall->img_i = WOOD_WALL_TEX;
-		else if (wall->type == ROCK_WALL)
-			wall->img_i = ROCK_TEX;
-		else if (wall->type == WAGON)
-			wall->img_i = WAGON_TEX;
-	}
+	if (wall->type == WALL)
+		wall->img_i = WALL_TEX;
+	else if (wall->type == STONE_WALL)
+		wall->img_i = STONE_WALL_TEX;
+	else if (wall->type == WOOD_WALL)
+		wall->img_i = WOOD_WALL_TEX;
+	else if (wall->type == ROCK_WALL)
+		wall->img_i = ROCK_TEX;
+	else if (wall->type == WAGON)
+		wall->img_i = WAGON_TEX;
 }
 
 void	init_common_info(t_data *data, t_char *player, t_raycast *raycast)

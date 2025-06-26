@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 14:20:00 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/26 00:22:29 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/26 19:05:26 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,11 @@ void	draw_ceiling(t_raycast *raycast, int wall_top, int y, int *p_y)
 	uint32_t	color;
 	int			dist;
 
-	img = raycast->data->mlx_data.textrs_img[CEILING_TEX];
 	dist = 0;
 	while (y < (int)raycast->scr_img->height && y < wall_top)
 	{
-		fill_ceil_info(raycast, &ceil_pos, &dist, y);
-		if (is_on_map(raycast->data, &ceil_pos) == true
-			&& (raycast->unit_map[ceil_pos.y][ceil_pos.x] == FLOOR
-			|| raycast->unit_map[ceil_pos.y][ceil_pos.x] == DOOR))
+		img = fill_ceil_info(raycast, &ceil_pos, &dist, y);
+		if (img)
 		{
 			ceil_pos.x = ceil_pos.x % BLOCK_SIZE;
 			ceil_pos.y = abs(ceil_pos.y % BLOCK_SIZE);

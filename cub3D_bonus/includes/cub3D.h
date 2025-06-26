@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/26 18:03:36 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/26 19:11:25 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@
 # define ICON_SIZE 14
 # define ICON_BASE 5
 
-# define MODIF_BRIGHT 300
+# define MODIF_BRIGHT 2
 
 # define STATUE_MAX_VIS 4
 # define W_STATUE_VIS_DEC 25
@@ -85,31 +85,35 @@
 	d - dead_man
 	C - statue
 	B - wolf
+	b - bones;
 	T - tree
 
 	G - exit
 */
 
-# define VALID_CHARS "0XFf12345RDMNSWECBGTAdsw "
+# define VALID_CHARS "0XFf12345RDMNSWECBGTAdswb "
 # define WALLS "12345"
 # define DOORS "DMs"
-# define SPRITES "BCGdAw"
-# define FLOORS "0XRF"
+# define SPRITES "BCGdAwTb"
+# define FLOORS "0XRFf"
 
 # define EMPTY '0'
 # define BLOOD_GRASS 'X'
 # define ROAD 'R'
 # define FLOOR 'F'
+# define STONE_FLOOR 'f'
 
 # define WALL '1'
 # define ROCK_WALL '2'
 # define WAGON '3'
 # define WOOD_WALL '4'
+# define STONE_WALL '5'
 
 # define TREE 'T'
 # define DEAD_MAN 'd'
 # define STATUE 'C'
 # define WOLF 'B'
+# define BONES 'b'
 # define WOODPILE 'w'
 
 # define DOOR 'D'
@@ -145,18 +149,21 @@ typedef enum e_texture
 
 	WOOD_WALL_TEX,
 	WALL_TEX,
+	STONE_WALL_TEX,
 
 	DOOR_TEX,
 	MET_DOOR_TEX,
 	STONE_DOOR_TEX,
 
 	FLOOR_TEX,
+	STONE_FLOOR_TEX,
 	GROUND_TEX,
 	BLD_GRASS_TEX,
 	ROAD_TEX,
 	CEILING_TEX,
 	SKY_TEX,
 
+	BONES_TEX,
 	WOODPILE_TEX,
 	WOLF_STAY,
 	WOLF_WALK1,
@@ -189,11 +196,13 @@ typedef enum e_texture
 # define WAGON_TEX_PATH "textures/wall/wagon.png"
 # define WALL_TEX_PATH "textures/wall/forest.png"
 # define WOOD_WALL_PATH "textures/wall/wood_wall.png"
+# define STONE_WALL_PATH "textures/wall/stone_wall.png"
 
 # define MET_DOOR_TEX_PATH "textures/metal_door.png"
 # define DOOR_TEX_PATH "textures/wood_door.png"
 # define STONE_DOOR_PATH "textures/stone_door.png"
 
+# define STONE_FLOOR_PATH "textures/floor/stone_floor.png"
 # define FLOOR_TEX_PATH "textures/floor/wood_floor.png"
 # define BLD_GRASS_PATH "textures/floor/blood_grass.png"
 # define ROAD_PATH "textures/floor/stone_road.png"
@@ -201,6 +210,7 @@ typedef enum e_texture
 # define CEILING_TEX_PATH "textures/ceiling/wood_ceiling.png"
 # define SKY_TEX_PATH "textures/ceiling/sky.png"
 
+# define BONES_PATH "textures/bones.png"
 # define WOODPILE_PATH "textures/woodpile.png"
 # define DEAD_MAN_PATH "textures/dead_man.png"
 # define WOLF_STAY_PATH "textures/wolf/wolf_stay.png"
@@ -566,7 +576,7 @@ void	adjust_image_alpha(mlx_image_t *img, int new_alpha);
 void		add_shadow(uint32_t *color, int dist);
 void		fill_wall_info(t_raycast *raycast, t_wall *wall);
 mlx_image_t	*fill_floor_info(t_raycast *raycast, t_point *ceil_pos, int *dist, int y);
-void	fill_ceil_info(t_raycast *raycast, t_point *ceil_pos, int *dist, int y);
+mlx_image_t	*fill_ceil_info(t_raycast *raycast, t_point *ceil_pos, int *dist, int y);
 
 // draw.c
 void		draw_wall(t_raycast *raycast, int *y, t_wall *wall);
