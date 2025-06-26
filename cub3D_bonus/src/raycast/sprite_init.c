@@ -39,13 +39,15 @@ t_sprite	*create_sprite(t_data *data, int type, int grid_x, int grid_y)
 	fill_sprite_info(new_sprite, data, type);
 	new_sprite->type = type;
 	new_sprite->hitbox_radius = BLOCK_SIZE / 2;
-	new_sprite->move_spd = BLOCK_SIZE / 16;
+	new_sprite->move_spd = BLOCK_SIZE / 24;
 	new_sprite->turn_spd = 2;
 	new_sprite->pos.y = (grid_y * BLOCK_SIZE) + BLOCK_SIZE / 2;
 	new_sprite->pos.x = (grid_x * BLOCK_SIZE) + BLOCK_SIZE / 2;
 	new_sprite->dist = 0;
 	new_sprite->path = NULL;
 	new_sprite->next = NULL;
+	new_sprite->move_rate = 0;
+	new_sprite->attack_range = 4.0f * data->player.hitbox_radius;
 	temp = data->sprite_list;
 	while (temp && temp->next)
 		temp = temp->next;

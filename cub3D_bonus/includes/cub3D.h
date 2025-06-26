@@ -224,9 +224,10 @@ typedef struct s_sprite
 	t_point			pos;
 
 	double			dist_player;
-
+	int				move_rate;
 	int				move_spd;
 	int				turn_spd;
+	float			attack_range;
 
 	t_path			*path;
 	int				walkable;
@@ -605,6 +606,6 @@ void free_queue_except_path(t_path **queue, int front, int rear, t_path *path_en
 int	has_line_of_sight(t_sprite *enemy, t_char *player, char **map);
 t_path *reverse_path(t_path *end);
 void free_path(t_path *path);
-void move_to_goal(t_data *data, t_sprite *sprite, float speed);
+void move_to_goal(t_sprite *sprite, float speed);
 
 #endif

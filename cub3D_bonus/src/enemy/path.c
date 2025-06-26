@@ -91,6 +91,55 @@ static int	bfs_explore_neighbors(t_data *data, t_bfs *bfs, t_delta *d, t_path *c
 	return (1);
 }
 
+/*static int	bfs_explore_neighbors(t_data *data, t_bfs *bfs, t_delta *d, t_path *current)
+{
+	int	i;
+	int	nx;
+	int	ny;
+
+	i = 0;
+	while (i < 4)
+	{
+		nx = current->pos.x + d->dx[i];
+		ny = current->pos.y + d->dy[i];
+
+		// Check map bounds, walls, and visited status
+		if (is_valid_tile(data->grid_map, data, nx, ny) && !bfs->visited[ny][nx])
+		{
+			// Check if another enemy already occupies this tile
+			t_sprite *enemy = data->sprite_list;
+			int	occupied = 0;
+			while (enemy)
+			{
+				if (enemy->type == WOLF) // or your enemy type
+				{
+					int ex = (int)(enemy->pos.x / BLOCK_SIZE);
+					int ey = (int)(enemy->pos.y / BLOCK_SIZE);
+					if (ex == nx && ey == ny)
+					{
+						occupied = 1;
+						break;
+					}
+				}
+				enemy = enemy->next;
+			}
+			if (occupied)
+			{
+				i++;
+				continue;
+			}
+
+			// Mark as visited and enqueue the node
+			bfs->visited[ny][nx] = 1;
+			bfs->queue[bfs->rear++] = create_node(nx, ny, current);
+			if (bfs->rear >= 150)
+				return (0);
+		}
+		i++;
+	}
+	return (1);
+}*/
+
 static int	bfs_check_goal(t_path *current, t_bfs *bfs, t_point goal)
 {
 	if (current->pos.x == goal.x && current->pos.y == goal.y)

@@ -18,6 +18,27 @@
     }
 }*/
 
+/*static void print_path(t_path *path)
+{
+    int step = 0;
+
+    if (!path)
+    {
+        printf("Path is NULL\n");
+        return;
+    }
+
+    printf("---- PATH START ----\n");
+
+    while (path)
+    {
+        printf("Step %d: Tile (%d, %d)\n", step++, path->pos.x, path->pos.y);
+        path = path->parent;
+    }
+
+    printf("---- PATH END ----\n");
+}*/
+
 void	update_wolf(t_data *data)
 {
 	t_sprite *sprite;
@@ -28,7 +49,8 @@ void	update_wolf(t_data *data)
 	{
 		if (sprite->type == WOLF)
 		{
-			if (has_line_of_sight(sprite, &data->player, data->unit_map)  && sprite->dist < 5 * BLOCK_SIZE) //check what distance makes sense
+            //printf("distance: %d\n", sprite->dist);
+			if (has_line_of_sight(sprite, &data->player, data->unit_map)  && sprite->dist < 7 * BLOCK_SIZE) //check what distance makes sense
 			{
 				if (sprite->path)
 				{
@@ -38,16 +60,22 @@ void	update_wolf(t_data *data)
                 //printf("sprite posx : %d sprite posy: %d", sprite->pos.x, sprite->pos.y);
 				sprite->path = bfs_find_path(data, sprite->pos, data->player.pos);
 				if (sprite->path)
+                {
                     //printf("got path\n");
-					move_to_goal(data, sprite, sprite->move_spd);
+                    //print_path(sprite->path);
+					move_to_goal(sprite, sprite->move_spd);
+                }
 			}
+            else
+                sprite->cur_img = sprite->tex_imgs[WOLF_STAY];
+
 		}
 		sprite = sprite->next;
 	}
 }
 
 
-void move_to_goal(t_data *data, t_sprite *sprite, float speed)
+void move_to_goal(t_sprite *sprite, float speed)
 {
     if (!sprite->path || !sprite->path->parent)
     {
@@ -69,23 +97,19 @@ void move_to_goal(t_data *data, t_sprite *sprite, float speed)
     }
 
     // Calculate direction vector from current position to next path node
-    float target_x = next_step->pos.x;
-    float target_y = next_step->pos.y;
+    float target_x = next_step->pos.x * BLOCK_SIZE + BLOCK_SIZE / 2;
+    float target_y = next_step->pos.y * BLOCK_SIZE + BLOCK_SIZE / 2;
 
     float dx = target_x - sprite->pos.x;
     float dy = target_y - sprite->pos.y;
-	float attack_range = 2.0f * data->player.hitbox_radius;
-
-	// Calculate distance between enemy and player
-	/*float dx_player = player->pos.x - sprite->pos.x;
-	float dy_player = player->pos.y - sprite->pos.y;
-	float dist_to_player = sqrtf(dx_player * dx_player + dy_player * dy_player);*/
-
+	//float attack_range = 4.0f * data->player.hitbox_radius;
     float dist = sqrtf(dx * dx + dy * dy);
 
-	if (sprite->dist <= attack_range)
+    //printf("dist: %d range: %f\n", sprite->dist, attack_range);
+	if (sprite->dist <= sprite->attack_range)
 	{
     	//enemy_attack_player(sprite, data->player); //need to implement
+        sprite->cur_img = sprite->tex_imgs[WOLF_ATTCK];
     	sprite->path = NULL;
     	return ;
 	}
@@ -105,6 +129,18 @@ void move_to_goal(t_data *data, t_sprite *sprite, float speed)
     }
     else
     {
+        if (sprite->cur_img == sprite->tex_imgs[WOLF_STAY])
+            sprite->cur_img = sprite->tex_imgs[WOLF_WALK1];
+        if (++sprite->move_rate >= 12)
+        {
+            sprite->move_rate = 0;
+            if (sprite->cur_img == sprite->tex_imgs[WOLF_ATTCK])
+                sprite->cur_img = sprite->tex_imgs[WOLF_STAY];
+            if (sprite->cur_img == sprite->tex_imgs[WOLF_WALK1])
+                sprite->cur_img = sprite->tex_imgs[WOLF_WALK2];
+            else if (sprite->cur_img == sprite->tex_imgs[WOLF_WALK2])
+                sprite->cur_img = sprite->tex_imgs[WOLF_WALK1];
+        }
         // Move towards the next tile proportionally to speed
         sprite->pos.x += speed * (dx / dist);
         sprite->pos.y += speed * (dy / dist);
