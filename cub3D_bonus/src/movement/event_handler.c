@@ -80,29 +80,20 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 	t_data	*data;
 
 	data = (t_data *)param;
-	if (keydata.key == '1')
-		change_sprite_state(data, WOLF, WOLF_STAY);
-	else if (keydata.key == '2')
-		change_sprite_state(data, WOLF, WOLF_WALK1);
-	else if (keydata.key == '3')
-		change_sprite_state(data, WOLF, WOLF_WALK2);
-	else if (keydata.key == '4')
-		change_sprite_state(data, WOLF, WOLF_ATTCK);
-	if (keydata.key == '5')
-		change_sprite_state(data, WOLF, WOLF_DEAD);
-	else if (keydata.key == '6')
-		change_sprite_state(data, STATUE, STATUE_RED);
-	if (keydata.key == MLX_KEY_SPACE /*&& is_center_door */)
-	{
+	if (keydata.key == MLX_KEY_SPACE)
 		open_close_door(data);
-	}
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-	{
 		clean_all(data, NULL);
-		return ;
-	}
 	if (keydata.action == MLX_PRESS /*|| keydata.action == MLX_REPEAT*/)
 		set_key_flag(&data->keys, keydata, 1, data);
 	else if (keydata.action == MLX_RELEASE)
 		set_key_flag(&data->keys, keydata, 0, data);
+	if (keydata.action == MLX_RELEASE && keydata.key == MLX_KEY_T)
+	{
+		data->keys.cursor = !data->keys.cursor;
+		if (data->keys.cursor)
+			mlx_set_cursor_mode(data->mlx_data.mlx_ptr, MLX_MOUSE_NORMAL);
+		else
+			mlx_set_cursor_mode(data->mlx_data.mlx_ptr, MLX_MOUSE_HIDDEN);
+	}
 }

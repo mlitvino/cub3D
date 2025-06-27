@@ -67,23 +67,21 @@ void	check_keys(t_data *data, t_keys *keys, t_char *player)
 		data->plane.center.y -= 34;
 	if (keys->tab)
 		change_game_state(data, PAUSE);
-	if (keys->click || keys->e)
-	{
-		mlx_set_cursor_mode(data->mlx_data.mlx_ptr, MLX_MOUSE_HIDDEN);
+	if (data->keys.click ||data->keys.e)
 		shoot(data, player);
-	}
 }
 
 void	update_player(t_data *data, t_char *player)
 {
 	check_keys(data, &data->keys, &data->player);
+	if (!data->keys.cursor)
+		handle_mouse_rotation(data);
+	update_bobbing(player);
 	if (player->is_shooting == true && player->ammo > 0
-		&& IsSoundPlaying(data->sound[S_SHOT]) == false)
+	&& IsSoundPlaying(data->sound[S_SHOT]) == false)
 	{
 		player->is_shooting = false;
 		data->mlx_data.textrs_img[CROSSBOW1]->enabled = true;
 		data->mlx_data.textrs_img[CROSSBOW2]->enabled = false;
 	}
-	handle_mouse_rotation(data);
-	update_bobbing(player);
 }

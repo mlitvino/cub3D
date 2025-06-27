@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/27 19:23:16 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/27 23:24:54 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,9 +228,9 @@ typedef enum e_texture
 # define CEILING_TEX_PATH "textures/ceiling/wood_ceiling.png"
 # define SKY_TEX_PATH "textures/ceiling/sky.png"
 
-# define BONES_PATH "textures/bones.png"
-# define WOODPILE_PATH "textures/woodpile.png"
-# define DEAD_MAN_PATH "textures/dead_man.png"
+# define BONES_PATH "textures/decor/bones.png"
+# define WOODPILE_PATH "textures/decor/woodpile.png"
+# define DEAD_MAN_PATH "textures/decor/dead_man.png"
 # define WOLF_STAY_PATH "textures/wolf/wolf_stay.png"
 # define WOLF_WALK1_PATH "textures/wolf/wolf_walk1.png"
 # define WOLF_WALK2_PATH "textures/wolf/wolf_walk2.png"
@@ -238,9 +238,9 @@ typedef enum e_texture
 # define WOLF_DEAD_PATH "textures/wolf/wolf_dead.png"
 # define STATUE_GREY_PATH "textures/statue/statue_grey.png"
 # define STATUE_RED_PATH "textures/statue/statue_red.png"
-# define EVIL_TREE_PATH "textures/evil_tree.png"
+# define EVIL_TREE_PATH "textures/decor/evil_tree.png"
 # define EXIT_TEX_PATH "textures/exit.png"
-# define AMMO_TEX_PATH "textures/item/ammo.png"
+# define AMMO_TEX_PATH "textures/decor/ammo.png"
 
 # define HUD_PATH "textures/hud/hp_ammo.png"
 
@@ -457,6 +457,7 @@ typedef struct s_keys
 
 	int						click;
 	t_point					click_pos;
+	int						cursor;
 }							t_keys;
 
 typedef struct s_pov
