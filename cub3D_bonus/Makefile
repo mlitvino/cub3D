@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
+#    By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/27 16:44:15 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/06/27 17:41:47 by ablodorn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRC_DIR		= src
 RAY_DIR		= raycast
 MOV_DIR		= movement
 MAP_DIR		= map
+ENE_DIR		= enemy
 
 SRC			= $(addprefix $(SRC_DIR)/, \
 				main.c \
@@ -51,6 +52,7 @@ SRC			= $(addprefix $(SRC_DIR)/, \
 				$(MAP_SRC) \
 				$(RAY_SRC) \
 				$(MOV_SRC) \
+				$(ENE_SRC) \
 				debug.c \
 				)
 
@@ -90,6 +92,14 @@ MOV_SRC		= $(addprefix $(MOV_DIR)/, \
 				rotate.c \
 				movement.c \
 				event_handler.c \
+				)
+ENE_SRC		=$(addprefix $(ENE_DIR)/, \
+				path.c \
+				path_utils.c \
+				walk.c \
+				walk_utils.c \
+				line_of_sight.c \
+				free_enemy.c \
 				)
 
 OBJ			= $(addprefix $(OBJ_DIR)/,$(notdir $(SRC:.c=.o)))

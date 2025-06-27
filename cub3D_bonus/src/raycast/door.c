@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   door.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:41:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/25 23:11:17 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/27 17:43:38 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,37 @@ static int *check_for_door(char **map, int player_x, int player_y, t_data *data)
 	return (NULL);
 }
 
+static int enemy_inside_door(t_data *data, t_door *door)
+{
+	int enemy_grid_x;
+	int enemy_grid_y;
+	t_sprite *sprite;
+
+	sprite = data->sprite_list;
+	while(sprite)
+	{
+		enemy_grid_x = sprite->pos.x / BLOCK_SIZE;
+		enemy_grid_y = sprite->pos.y / BLOCK_SIZE;
+		if (door->grid_y == enemy_grid_y && door->grid_x == enemy_grid_x)
+			return (1);
+		sprite = sprite->next;
+	}
+	return (0);
+}
+
+static int player_inside_door(t_data *data, t_door *door)
+{
+	int player_grid_x;
+	int player_grid_y;
+
+	player_grid_x = data->player.pos.x / BLOCK_SIZE;
+	player_grid_y = data->player.pos.y / BLOCK_SIZE;
+	if (door->grid_y == player_grid_y && door->grid_x == player_grid_x)
+		return (1);
+	else
+		return (0);
+}
+
 void open_close_door(t_data *data)
 {
 	int		*coordinates;
@@ -120,7 +151,7 @@ void open_close_door(t_data *data)
 				door->state = OPENING;
 				door->time_opened = get_current_time();
 			}
-			else if (door->state == OPEN)
+			else if (door->state == OPEN && !player_inside_door(data, door) && !enemy_inside_door(data, door))
 				door->state = CLOSING;
 		}
 	}
@@ -179,7 +210,7 @@ void	update_doors(t_door *doors, t_data *data)
 		{
 			if (has_10_seconds_passed(doors->time_opened))
 			{
-				if (!player_inside_door(data, doors))
+				if (!player_inside_door(data, doors) && !enemy_inside_door(data, doors))
 					doors->state = CLOSING;
 			}
 		}

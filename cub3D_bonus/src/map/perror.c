@@ -2,14 +2,15 @@
 
 char	**perror_return(void)
 {
-	perror("cub3D1");
+	perror("cub3D");
 	return (NULL);
 }
 
 int	perror_return_int(int *data)
 {
 	perror("cub3D3");
-	free(data);
+	if (data)
+		free(data);
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:23:13 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/26 18:34:23 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/27 17:43:42 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,13 @@ t_sprite	*create_sprite(t_data *data, int type, int grid_x, int grid_y)
 	new_sprite->visible = true;
 	new_sprite->type = type;
 	new_sprite->hitbox_radius = BLOCK_SIZE / 2;
-	new_sprite->move_spd = BLOCK_SIZE / 16;
+	new_sprite->move_spd = BLOCK_SIZE / 24;
 	new_sprite->turn_spd = 2;
 	new_sprite->dist = 0;
+	new_sprite->path = NULL;
 	new_sprite->next = NULL;
+	new_sprite->move_rate = 0;
+	new_sprite->attack_range = 4.0f * data->player.hitbox_radius;
 	temp = data->sprite_list;
 	while (temp && temp->next)
 		temp = temp->next;
