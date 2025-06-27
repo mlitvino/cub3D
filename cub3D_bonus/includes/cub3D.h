@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/24 17:01:33 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/27 15:54:49 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,6 +228,9 @@ typedef struct s_sprite
 	int				move_spd;
 	int				turn_spd;
 	float			attack_range;
+
+	int				has_player_in_sight;
+	t_dpoint			last_seen;
 
 	t_path			*path;
 	int				walkable;
@@ -606,6 +609,8 @@ void free_queue_except_path(t_path **queue, int front, int rear, t_path *path_en
 int	has_line_of_sight(t_sprite *enemy, t_char *player, char **map);
 t_path *reverse_path(t_path *end);
 void free_path(t_path *path);
-void move_to_goal(t_sprite *sprite, float speed);
+void move_to_goal(t_sprite *sprite, t_data *data);
+int	can_move_wall_enemy(t_sprite *sprite, float new_x, float new_y, t_data *data);
+int	can_move_enemy_collision(t_sprite *sprite, float new_x, float new_y, t_data *data);
 
 #endif

@@ -69,8 +69,6 @@ void free_queue_except_path(t_path **queue, int front, int rear, t_path *path_en
         node = queue[i];
         p = path_end;
         on_path = 0;
-
-        // Walk backward from path_end to see if node is on the path
         while (p)
         {
             if (p == node)
@@ -84,6 +82,19 @@ void free_queue_except_path(t_path **queue, int front, int rear, t_path *path_en
             free(node);
         i++;
     }
+}
+
+static int	door_in_line_of_sight(double x, double y, t_data *data, char **map)
+{
+	t_door *door;
+
+	if (map[(int)y][(int)x] == 'D')
+	{
+		door = find_door(data->door_list, x, y);
+		if (door && door->state == CLOSED)
+			return (1);
+	}
+	return (0);
 }
 
 int	has_line_of_sight(t_sprite *enemy, t_char *player, char **map)
@@ -105,7 +116,9 @@ int	has_line_of_sight(t_sprite *enemy, t_char *player, char **map)
 		x += (dx / enemy->dist_player) * 0.5;
 		y += (dy / enemy->dist_player) * 0.5;
 		dist -= 0.5;
-		if (map[(int)y][(int)x] == '1') // Wall hit
+		if (map[(int)y][(int)x] == '1')
+			return (0);
+		if (door_in_line_of_sight(x, y, player->data, map))
 			return (0);
 	}
 	return (1);

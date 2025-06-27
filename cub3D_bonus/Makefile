@@ -6,7 +6,7 @@
 #    By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/24 15:27:04 by ablodorn         ###   ########.fr        #
+#    Updated: 2025/06/27 15:51:08 by ablodorn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,6 +92,7 @@ ENE_SRC		=$(addprefix $(ENE_DIR)/, \
 				path.c \
 				path_utils.c \
 				walk.c \
+				walk_utils.c \
 				)
 
 OBJ			= $(addprefix $(OBJ_DIR)/,$(notdir $(SRC:.c=.o)))
