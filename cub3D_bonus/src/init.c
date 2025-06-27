@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/27 14:39:12 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/27 17:15:07 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	init_obj(t_data *data)
 		}
 		y++;
 	}
+
 }
 
 void	init_unit_map(t_data *data)
