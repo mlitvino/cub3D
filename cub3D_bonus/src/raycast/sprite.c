@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 13:20:49 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/21 17:39:53 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/28 00:44:28 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ double	calc_angl_dif(t_raycast *raycast, t_sprite *srpite)
 		angl_dif += 360;
 	if (raycast->view_angle > 270 && sprite_angle < 90)
 		angl_dif -= 360;
-	if (angl_dif > -10 && angl_dif < FOV * 1.5)
+	if (angl_dif > -10 && angl_dif < FOV)
 		srpite->dist *= cos(deg_rad(sprite_angle - raycast->view_angle));
 	return (angl_dif);
 }

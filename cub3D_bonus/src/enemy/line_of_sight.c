@@ -4,7 +4,7 @@ static int	door_in_line_of_sight(double x, double y, t_data *data, char **map)
 {
 	t_door	*door;
 
-	if (map[(int)y][(int)x] == 'D')
+	if (ft_strchr(DOORS, map[(int)y][(int)x]))
 	{
 		door = find_door(data->door_list, x, y);
 		if (door && door->state == CLOSED)
@@ -32,7 +32,7 @@ int	has_line_of_sight(t_sprite *enemy, t_char *player, char **map)
 		x += (dx / enemy->dist_player) * 0.5;
 		y += (dy / enemy->dist_player) * 0.5;
 		dist -= 0.5;
-		if (map[(int)y][(int)x] == '1')
+		if (ft_strchr(WALLS, map[(int)y][(int)x]))
 			return (0);
 		if (door_in_line_of_sight(x, y, player->data, map))
 			return (0);

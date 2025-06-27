@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/27 17:15:07 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/28 01:05:10 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ void	init_obj(t_data *data)
 		x = 0;
 		while (x < data->map_w)
 		{
+			if (ft_strchr("NSWE", data->grid_map[y][x]))
+				replace_unit_points(data, x, y);
 			if (ft_strchr(DOORS, data->grid_map[y][x]))
-			{
 				if (create_door(data, &data->door_list, x, y) == NULL)
 					clean_all(data, "malloc");
-			}
 			if (ft_strchr(SPRITES, data->grid_map[y][x]))
 			{
 				if (create_sprite(data, data->grid_map[y][x], x, y) == NULL)
@@ -115,7 +115,7 @@ void	init_data(t_data *data, char *map_name)
 	init_player(data);
 	init_obj(data);
 	init_angle_table(data->angle_table);
-	SetMasterVolume(0);
+	//SetMasterVolume(0);
 	data->mlx_data.scr_size.x = WIN_W;
 	data->mlx_data.scr_size.y = WIN_H;
 	data->plane.center.x = WIN_W / 2;

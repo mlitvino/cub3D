@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 20:19:33 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/21 20:19:34 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/28 01:49:29 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	check_screen_center(t_raycast *raycast,
 
 	wall_dist = raycast->data->rays_dist[center.x];
 	if (!raycast->player->facing_enemy
-		&& (sprite->type == WOLF || sprite->type == STATUE)
+		&& (sprite->type == WOLF || sprite->type == STATUE
+			|| sprite->type == TREE)
 		&& sprite->dist < wall_dist
 		&& sprite->left < center.x && center.x < sprite->left + sprite->width
 		&& sprite->top < center.y && center.y < sprite->top + sprite->height)

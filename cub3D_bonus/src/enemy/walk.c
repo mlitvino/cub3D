@@ -1,5 +1,6 @@
 #include "cub3D.h"
 
+# define remove "del"
 /*static void print_path(t_path *path)
 {
 	int	step;
@@ -18,13 +19,15 @@
 	}
 	printf("---- PATH END ----\n");
 }*/
-static void	attack_player(t_sprite *sprite)
+static void	attack_player(t_data *data, t_sprite *sprite)
 {
 	if (sprite->dist <= sprite->attack_range)
 	{
 		if (++sprite->move_rate >= 50)
 		{
 			sprite->move_rate = 0;
+			if (IsSoundPlaying(data->sound[S_WOLF_GROWL]) == false)
+				PlaySound(data->sound[S_WOLF_GROWL]);
 			if (sprite->cur_img == sprite->tex_imgs[WOLF_WALK1]
 				|| sprite->cur_img == sprite->tex_imgs[WOLF_WALK2])
 				sprite->cur_img = sprite->tex_imgs[WOLF_ATTCK];
@@ -46,7 +49,7 @@ static void	attack_player(t_sprite *sprite)
 
 static void	wolf_action(t_sprite *sprite, t_data *data)
 {
-	attack_player(sprite);
+	attack_player(data, sprite);
 	if (has_line_of_sight(sprite, &data->player, data->unit_map)
 		&& sprite->dist < 7 * BLOCK_SIZE)
 	{

@@ -6,7 +6,7 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/27 18:21:21 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/06/28 01:18:10 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -147,7 +147,7 @@ fclean: clean
 	rm -f $(NAME)
 
 start: all
-	./$(NAME) map/t2.cub
+	./$(NAME) map/castle.cub
 
 re: fclean all
 

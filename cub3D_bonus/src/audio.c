@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 20:21:27 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/27 01:13:41 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/28 01:23:55 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,13 @@ static const char	*g_music_path[MAX_MUSIC] = {
 void	tune_audio(t_data *data, char *map_name)
 {
 	PlaySound(data->sound[S_STATUE_HUM]);
-	SetSoundVolume(data->sound[S_STATUE_HUM], 0);
 	SetMusicVolume(data->music[M_FOREST], 0.5);
+	SetMusicVolume(data->music[M_CASTLE], 0.3);
+	SetSoundVolume(data->sound[S_STATUE_HUM], 0);
+	SetSoundVolume(data->sound[S_MET_DOOR], 0.5);
 	SetSoundVolume(data->sound[S_SHOT], 2);
-	PlayMusicStream(data->music[M_STORM]);
-	if (ft_strncmp(map_name, "forest", 6) == 0)
+	//PlayMusicStream(data->music[M_STORM]);
+	if (ft_strncmp(map_name, "map/forest", 6) == 0)
 		data->main_music = &data->music[M_FOREST];
 	else
 		data->main_music = &data->music[M_CASTLE];

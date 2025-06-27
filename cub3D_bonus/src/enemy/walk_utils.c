@@ -48,6 +48,8 @@ static int	move_wolf(t_sprite *sprite, t_data *data, int x, int y)
 		return (no_path_return(sprite));
 	else
 	{
+		if (IsSoundPlaying(data->sound[S_WOLF_CHASE]) == false)
+			PlaySound(data->sound[S_WOLF_CHASE]);
 		new_x = sprite->pos.x + sprite->move_spd * (dx / dist);
 		new_y = sprite->pos.y + sprite->move_spd * (dy / dist);
 		switch_img(sprite);

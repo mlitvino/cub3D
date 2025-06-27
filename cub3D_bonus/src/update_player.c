@@ -5,7 +5,7 @@ long	get_time_in_ms(void)
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
 void	update_player_ratio(t_char *player)
@@ -67,7 +67,7 @@ void	check_keys(t_data *data, t_keys *keys, t_char *player)
 		data->plane.center.y -= 34;
 	if (keys->tab)
 		change_game_state(data, PAUSE);
-	if (data->keys.click ||data->keys.e)
+	if (data->keys.click || data->keys.e)
 		shoot(data, player);
 }
 
@@ -78,10 +78,15 @@ void	update_player(t_data *data, t_char *player)
 		handle_mouse_rotation(data);
 	update_bobbing(player);
 	if (player->is_shooting == true && player->ammo > 0
-	&& IsSoundPlaying(data->sound[S_SHOT]) == false)
+		&& IsSoundPlaying(data->sound[S_SHOT]) == false)
 	{
 		player->is_shooting = false;
 		data->mlx_data.textrs_img[CROSSBOW1]->enabled = true;
 		data->mlx_data.textrs_img[CROSSBOW2]->enabled = false;
+	}
+	if (data->unit_map[(int)player->pos.y][(int)player->pos.x] == STONE_FLOOR)
+	{
+		StopMusicStream(data->music[M_FOREST]);
+		data->main_music = &data->music[M_CASTLE];
 	}
 }

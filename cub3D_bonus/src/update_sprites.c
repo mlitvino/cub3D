@@ -2,13 +2,13 @@
 
 void	update_statue_alpha(t_data *data, t_char *player)
 {
-	static int	alpha;
-	int			step;
+	static double	alpha;
+	double			step;
 
-	step = 1;
+	step = 0.25;
 	if (player->facing_statue)
 	{
-		if (alpha >= 255)
+		if (alpha > 255)
 			change_game_state(data, DEATH);
 		alpha += step;
 		if (alpha > 255)

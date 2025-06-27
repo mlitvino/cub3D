@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/27 23:24:54 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/28 00:53:59 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@
 # define ICON_SIZE 14
 # define ICON_BASE 5
 
-# define MODIF_BRIGHT 2
+# define MODIF_BRIGHT 0.5
 
 # define STATUE_MAX_VIS 4
 # define W_STATUE_VIS_DEC 25
@@ -68,40 +68,10 @@
 
 # define PLAYER_HP 6
 # define PLAYER_AMMO 8
-# define ENEMY_HP 3
+# define ENEMY_HP 2
 
 # define START 100
 # define EXIT_STATE 101
-
-/*
-	0 - grass
-	X - blood_grass
-	F - wood_floor
-	f - stone_floor?
-	R - stone_road
-
-	1 - forest
-	2 - rock(wall)
-	3 - wagon
-
-	4 - wood wall
-	5 - stone wall
-
-	D - wood_door
-	s - stone_door
-	M - metal_door
-
-	A - ammo
-
-	NSWE - player
-	d - dead_man
-	C - statue
-	B - wolf
-	b - bones;
-	T - tree
-
-	G - exit
-*/
 
 # define VALID_CHARS "0XFf12345RDMNSWECBGTAdswb "
 # define WALLS "12345"
