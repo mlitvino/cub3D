@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/27 15:54:49 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:50:11 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -612,5 +612,8 @@ void free_path(t_path *path);
 void move_to_goal(t_sprite *sprite, t_data *data);
 int	can_move_wall_enemy(t_sprite *sprite, float new_x, float new_y, t_data *data);
 int	can_move_enemy_collision(t_sprite *sprite, float new_x, float new_y, t_data *data);
+void	free_visited(int **visited, int height);
+int	is_valid_tile(char **map, t_data *data, int x, int y);
+void	no_path(t_sprite *sprite);
 
 #endif
