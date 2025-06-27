@@ -6,7 +6,7 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/27 00:39:22 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/06/27 16:44:15 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,8 @@ SRC			= $(addprefix $(SRC_DIR)/, \
 				clean.c \
 				audio.c \
 				render.c \
+				update_sprites.c \
+				update_player.c \
 				action.c \
 				menu.c \
 				minimap.c \

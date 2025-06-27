@@ -20,7 +20,22 @@ void	replace_unit_points(t_data *data, int grid_x, int grid_y)
 	max_y = y + BLOCK_SIZE;
 	while (y < max_y)
 	{
-		ft_memset(&data->unit_map[y][grid_x * BLOCK_SIZE], new_char, BLOCK_SIZE);
+		ft_memset(&data->unit_map[y][grid_x * BLOCK_SIZE], new_char,
+			BLOCK_SIZE);
 		y++;
 	}
+}
+
+bool	resize_image(mlx_image_t *img, int img_i)
+{
+	if (img_i == SKY_TEX)
+		return (mlx_resize_image(img, SKY_W, SKY_H));
+	else if (img_i == HUD_TEX)
+		return (mlx_resize_image(img, HUD_W, HUD_H));
+	else if (img_i > HUD_TEX && img_i < MAIN_MENU)
+		return (mlx_resize_image(img, HUD_W / 4, HUD_H / 1));
+	else if (img_i >= MAIN_MENU)
+		return (mlx_resize_image(img, WIN_W, WIN_H));
+	else
+		return (mlx_resize_image(img, BLOCK_SIZE, BLOCK_SIZE));
 }

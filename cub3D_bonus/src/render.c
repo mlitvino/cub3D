@@ -1,81 +1,51 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/27 16:51:51 by mlitvino          #+#    #+#             */
+/*   Updated: 2025/06/27 16:54:57 by mlitvino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
-long get_time_in_ms(void)
+void draw_aim_cross(mlx_image_t *scr_img)
 {
-	struct timeval tv;
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+	for (int x = scr_img->width / 2
+		- 10; x < (int)scr_img->width / 2 + 10; x++)
+		mlx_put_pixel(scr_img, x, scr_img->height / 2,
+			0xFF0000FF);
+	for (int y = scr_img->height / 2
+		- 10; y < (int)scr_img->height / 2 + 10; y++)
+		mlx_put_pixel(scr_img, scr_img->width / 2, y,
+			0xFF0000FF);
 }
 
-static void update_bobbing(t_char *player)
+void	show_fps(void)
 {
-	static long	previous_time;
-	long		current_time;
-	double		delta_time;
+	static struct timeval	last = {0, 0};
+	static int				frames = 0;
+	struct timeval			now;
+	double					elapsed;
 
-	current_time = get_time_in_ms();
-	delta_time = (current_time - previous_time) / 1000.0;
-	previous_time = current_time;
-	if (player->is_moving)
+	gettimeofday(&now, NULL);
+	if (last.tv_sec == 0 && last.tv_usec == 0)
 	{
-		player->bobbing_time += delta_time * 10.0; // Tune the speed of bobbing
-		player->height = BLOCK_SIZE /2 + sin(player->bobbing_time) * 50;
+		last = now;
+		return ;
 	}
-	else
+	frames++;
+	elapsed = (now.tv_sec - last.tv_sec) + (now.tv_usec - last.tv_usec)
+		/ 1000000.0;
+	if (elapsed >= 1.0)
 	{
-		if (fabs(player->height - player->height) > 0.1)
-			player->height = player->height * 0.9 + player->height * 0.1;
-		else
-		{
-			player->height = BLOCK_SIZE / 2 ;
-			player->bobbing_time = 0;
-		}
+		printf("FPS: %d\n", frames);
+		frames = 0;
+		last = now;
 	}
-	player->wall_rt = 1 + (player->height / (BLOCK_SIZE / 2));
-	player->ceiling_rt = BLOCK_SIZE / (1 + ((BLOCK_SIZE / 2)
-				/ (BLOCK_SIZE - player->height)));
-	player->floor_rt = BLOCK_SIZE / (1 + ((BLOCK_SIZE / 2)
-				/ player->height));
-}
-
-void	update_statue(t_data *data, t_char *player, t_sprite *statue)
-{
-	static int	alpha;
-	int			step;
-
-	step = 1;
-	if (statue->dist < STATUE_MAX_VIS * BLOCK_SIZE)
-	{
-		statue->state = STATUE_RED;
-		statue->cur_img = data->mlx_data.textrs_img[STATUE_RED];
-	}
-	else
-	{
-		statue->state = STATUE_GREY;
-		statue->cur_img = data->mlx_data.textrs_img[STATUE_GREY];
-	}
-	if (player->facing_statue)
-	{
-		if (alpha >= 255)
-		{
-			StopSound(data->sound[S_STATUE_HUM]);
-			change_game_state(data, DEATH);
-		}
-		alpha += step;
-		if (alpha > 255)
-			alpha = 255;
-	}
-	else if (alpha > 0)
-		alpha -= step;
-
-	if (alpha > 0)
-	{
-		data->mlx_data.textrs_img[STATUE_FACE]->enabled = 1;
-		adjust_image_alpha(data->mlx_data.textrs_img[STATUE_FACE], alpha);
-		SetSoundVolume(data->sound[S_STATUE_HUM], (double)alpha / 155);
-	}
-	else
-		data->mlx_data.textrs_img[STATUE_FACE]->enabled = 0;
 }
 
 void	update_audio(t_data *data)
@@ -99,74 +69,23 @@ void	update_audio(t_data *data)
 	}
 }
 
-void	update_sprites(t_data *data, t_sprite *sprites)
+void	update_hud(t_char *player, mlx_image_t **tex_img)
 {
-	while (sprites)
+	static int	prev_hp;
+	static int	prev_ammo;
+
+	if (prev_hp != player->hp)
 	{
-		if (sprites->type == WOLF)
-		{
-			//update_wolf();
-		}
-		else if (sprites->type == STATUE)
-			update_statue(data, &data->player, sprites);
-		else if (sprites->type == EXIT)
-		{
-			if (sprites->dist < BLOCK_SIZE / 2)
-				change_game_state(data, WIN);
-		}
-		else if (sprites->type == AMMO)
-		{
-			if (sprites->dist < BLOCK_SIZE / 2 && sprites->visible == true
-				&& data->player.ammo < 9)
-			{
-				data->player.ammo++;
-				sprites->visible = false;
-			}
-		}
-		sprites = sprites->next;
+		tex_img[N0_TEX + prev_hp]->instances[0].enabled = false;
+		tex_img[N0_TEX + player->hp]->instances[0].enabled = true;
+		prev_hp = player->hp;
 	}
-}
-
-void	update_player(t_data *data, t_keys *keys, t_char *player)
-{
-	if (keys->w)
-		move_player(player, 0);
-	if (keys->a)
-		move_player(player, 90);
-	if (keys->s)
-		move_player(player, 180);
-	if (keys->d)
-		move_player(player, -90);
-
-	if (keys->w || keys->a || keys->s || keys->d)
-		ResumeMusicStream(data->music[M_PLAYER_STEP]);
-	else
-		PauseMusicStream(data->music[M_PLAYER_STEP]);
-
-	if (keys->left)
-		rotate_player_right(player);
-	if (keys->right)
-		rotate_player_left(player);
-	if (keys->up)
-		data->plane.center.y += 33;
-	if (keys->down)
-		data->plane.center.y -= 34;
-
-	if (keys->tab)
-		change_game_state(data, PAUSE);
-
-	if (keys->click || keys->e)
-		shoot(data, player);
-
-	if (player->is_shooting == true && player->ammo > 0
-		&& IsSoundPlaying(data->sound[S_SHOT]) == false)
+	if (prev_ammo != player->ammo)
 	{
-		player->is_shooting = false;
-		data->mlx_data.textrs_img[CROSSBOW1]->enabled = true;
-		data->mlx_data.textrs_img[CROSSBOW2]->enabled = false;
+		tex_img[N0_TEX + prev_ammo]->instances[1].enabled = false;
+		tex_img[N0_TEX + player->ammo]->instances[1].enabled = true;
+		prev_ammo = player->ammo;
 	}
-	handle_mouse_rotation(data);
-	update_bobbing(player);
 }
 
 void	render(void *data_arg)
@@ -180,9 +99,10 @@ void	render(void *data_arg)
 		raycast(data);
 		draw_minimap(data, data->mlx_data.minimap);
 		draw_aim_cross(data->mlx_data.scr_img);
-		update_player(data, &data->keys, &data->player);
+		update_player(data, &data->player);
 		update_doors(data->door_list, data);
 		update_sprites(data, data->sprite_list);
+		update_hud(&data->player, data->mlx_data.textrs_img);
 	}
 	else
 	{

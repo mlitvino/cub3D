@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 20:19:19 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/26 19:06:34 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:52:53 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,6 @@ void	add_shadow(uint32_t *color, int dist)
 
 void	fill_wall_info(t_raycast *raycast, t_wall *wall)
 {
-	//double	h_ratio;
-
-	//h_ratio = 1 + (raycast->data->player.height / (BLOCK_SIZE / 2));
 	wall->h = ceil(BLOCK_SIZE * raycast->plane->dist / (double)wall->dist);
 	wall->top = raycast->plane->center.y;
 	wall->top = wall->top - (wall->h / raycast->player->wall_rt);
@@ -68,13 +65,12 @@ void	fill_wall_info(t_raycast *raycast, t_wall *wall)
 	wall->img = raycast->data->mlx_data.textrs_img[wall->img_i];
 }
 
-mlx_image_t	*fill_floor_info(t_raycast *raycast, t_point *floor_pos, int *dist, int y)
+mlx_image_t	*fill_floor_info(t_raycast *raycast, t_point *floor_pos, int *dist,
+		int y)
 {
-	//double		st;
-	double		ratio;
-	char		point;
+	double	ratio;
+	char	point;
 
-	//st = BLOCK_SIZE / (1 + ((BLOCK_SIZE / 2) / raycast->data->player.height));
 	ratio = raycast->player->floor_rt / (y - raycast->plane->center.y);
 	*dist = (raycast->plane->dist * ratio) / raycast->angl_table->beta;
 	floor_pos->x = (*dist * raycast->angl_table->cos) + raycast->char_pos.x;
@@ -96,14 +92,12 @@ mlx_image_t	*fill_floor_info(t_raycast *raycast, t_point *floor_pos, int *dist, 
 	return (NULL);
 }
 
-mlx_image_t	*fill_ceil_info(t_raycast *raycast, t_point *ceil_pos, int *dist, int y)
+mlx_image_t	*fill_ceil_info(t_raycast *raycast, t_point *ceil_pos, int *dist,
+		int y)
 {
-	//double		st;
-	double		ratio;
-	char		point;
+	double	ratio;
+	char	point;
 
-	//st = BLOCK_SIZE / (1 + ((BLOCK_SIZE / 2) / raycast->data->player.height));
-	//st = BLOCK_SIZE / (1 + ((BLOCK_SIZE / 2) / (BLOCK_SIZE - raycast->data->player.height)));
 	ratio = raycast->player->ceiling_rt / (raycast->plane->center.y - y);
 	*dist = (raycast->plane->dist * ratio) / raycast->angl_table->beta;
 	ceil_pos->x = (*dist * raycast->angl_table->cos) + raycast->char_pos.x;

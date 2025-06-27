@@ -1,6 +1,6 @@
 #include "cub3D.h"
 
-void	resize_handler(int32_t width, int32_t height, void* data_arg)
+void	resize_handler(int32_t width, int32_t height, void *data_arg)
 {
 	t_data	*data;
 
@@ -9,8 +9,8 @@ void	resize_handler(int32_t width, int32_t height, void* data_arg)
 	data->mlx_data.scr_size.y = height;
 }
 
-void	mouse_hook(mouse_key_t button, action_t action,
-		modifier_key_t mods, void* param)
+void	mouse_hook(mouse_key_t button, action_t action, modifier_key_t mods,
+		void *param)
 {
 	t_data	*data;
 	t_keys	*keys;
@@ -23,15 +23,16 @@ void	mouse_hook(mouse_key_t button, action_t action,
 		if (action == MLX_PRESS)
 		{
 			keys->click = true;
-			mlx_get_mouse_pos(data->mlx_data.mlx_ptr,
-				&keys->click_pos.x, &keys->click_pos.y);
+			mlx_get_mouse_pos(data->mlx_data.mlx_ptr, &keys->click_pos.x,
+				&keys->click_pos.y);
 		}
 		else if (action == MLX_RELEASE)
 			keys->click = false;
 	}
 }
 
-static void	set_key_flag(t_keys *k, mlx_key_data_t keydata, int value, t_data *data)
+static void	set_key_flag(t_keys *k, mlx_key_data_t keydata, int value,
+		t_data *data)
 {
 	if (keydata.key == MLX_KEY_W)
 		k->w = value;
@@ -76,7 +77,7 @@ void	change_sprite_state(t_data *data, int type, int new_state)
 
 void	key_event_handler(mlx_key_data_t keydata, void *param)
 {
-	t_data		*data;
+	t_data	*data;
 
 	data = (t_data *)param;
 	if (keydata.key == '1')
@@ -91,7 +92,6 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 		change_sprite_state(data, WOLF, WOLF_DEAD);
 	else if (keydata.key == '6')
 		change_sprite_state(data, STATUE, STATUE_RED);
-
 	if (keydata.key == MLX_KEY_SPACE /*&& is_center_door */)
 	{
 		open_close_door(data);

@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/27 01:28:35 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:55:15 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@
 # define SKY_W 1440
 # define SKY_H 5000
 
+# define HUD_W (WIN_W/4)
+# define HUD_H (WIN_H/10)
+
 # define MAIN_BUTTON (t_dpoint){1920.0/79,1080.0/603,0}
 # define PAUSE_BUTTON (t_dpoint){1920.0/764,1080.0/583,0}
 # define BUTTON_DX (1920.0/369)
@@ -55,8 +58,8 @@
 # define W_STATUE_VIS_DEC 25
 # define H_STATUE_VIS_DEC 3
 
-# define PLAYER_HP 4
-# define PLAYER_AMMO 4
+# define PLAYER_HP 6
+# define PLAYER_AMMO 8
 # define ENEMY_HP 3
 
 # define START 100
@@ -177,7 +180,17 @@ typedef enum e_texture
 	DEAD_MAN_TEX,
 	AMMO_TEX,
 	EXIT_TEX,
-
+	HUD_TEX,
+	N0_TEX,
+	N1_TEX,
+	N2_TEX,
+	N3_TEX,
+	N4_TEX,
+	N5_TEX,
+	N6_TEX,
+	N7_TEX,
+	N8_TEX,
+	N9_TEX,
 	MAIN_MENU,
 	PAUSE,
 	DEATH,
@@ -224,6 +237,19 @@ typedef enum e_texture
 # define EVIL_TREE_PATH "textures/evil_tree.png"
 # define EXIT_TEX_PATH "textures/exit.png"
 # define AMMO_TEX_PATH "textures/item/ammo.png"
+
+# define HUD_PATH "textures/hud/hp_ammo.png"
+
+# define N0_PATH "textures/hud/n0.png"
+# define N1_PATH "textures/hud/n1.png"
+# define N2_PATH "textures/hud/n2.png"
+# define N3_PATH "textures/hud/n3.png"
+# define N4_PATH "textures/hud/n4.png"
+# define N5_PATH "textures/hud/n5.png"
+# define N6_PATH "textures/hud/n6.png"
+# define N7_PATH "textures/hud/n7.png"
+# define N8_PATH "textures/hud/n8.png"
+# define N9_PATH "textures/hud/n9.png"
 
 # define MAIN_MENU_PATH "textures/menu/main_menu.png"
 # define PAUSE_PATH "textures/menu/pause.png"
@@ -590,35 +616,12 @@ mlx_image_t	*fill_ceil_info(t_raycast *raycast, t_point *ceil_pos, int *dist, in
 void		draw_wall(t_raycast *raycast, int *y, t_wall *wall);
 void		render_col(t_raycast *raycast, t_wall *wall);
 
-// render.c
-void	update_statue(t_data *data, t_char *player, t_sprite *sprites);
-void	render(void *data_arg);
-int		check_mouse_click(t_data *data, t_dpoint but_r, t_point scr_size);
-
 // raycast.c
 void		compre_dist(t_raycast *raycast, t_wall *hor_wall,
 				t_wall *ver_wall);
 void		cast_ray(t_raycast *raycast);
 void		handle_sprites(t_raycast *raycast);
 void		raycast(t_data *data);
-
-// minimap_player.c
-int			edge_function(t_point a, t_point b, t_point c);
-bool		point_in_triangle(t_point p, t_point a, t_point b, t_point c);
-void		norm_base(t_point *base_left, t_point *base_right, t_point *max, t_point *min);
-void	fill_icon_with_color(mlx_image_t *minimap,
-							t_point *tip, t_point *base_left, t_point *base_right);
-void	draw_player(t_data *data, int view_angle_i, mlx_image_t *minimap, t_point *mid);
-
-// minimap_utils.c
-void	init_d_step(t_point *p1, t_point *p2, t_point *d, t_point *step);
-void	draw_line(mlx_image_t *img, t_point *p1, t_point *p2, int color);
-
-// minimap.c
-void	draw_background(mlx_image_t *minimap);
-void	draw_obj(t_data *data, t_point *mid_img, mlx_image_t *minimap);
-void	draw_minimap(t_data *data, mlx_image_t *minimap);
-
 
 // find_wall_utils.c
 bool		is_on_map(t_data *data, t_point *p);
@@ -634,7 +637,7 @@ void		norm_fract(t_dpoint *temp, t_wall *wall, int axis_flag,
 				double ray_angl);
 bool		find_wall(t_raycast *raycast, t_wall *wall, int axis_flag);
 
-// utils.c
+// raycast_utils.c
 double		deg_rad(double deg);
 long double	calc_dist(t_point p1, t_point p2);
 uint32_t	extract_rgba(uint8_t *raw);
@@ -652,9 +655,48 @@ void		rotate_player_left(t_char *player);
 
 //-------------------------------GENERAL------------------------------------
 
+// minimap_player.c
+int			edge_function(t_point a, t_point b, t_point c);
+bool		point_in_triangle(t_point p, t_point a, t_point b, t_point c);
+void		norm_base(t_point *base_left, t_point *base_right, t_point *max, t_point *min);
+void	fill_icon_with_color(mlx_image_t *minimap,
+							t_point *tip, t_point *base_left, t_point *base_right);
+void	draw_player(t_data *data, int view_angle_i, mlx_image_t *minimap, t_point *mid);
+
+// minimap_utils.c
+void	init_d_step(t_point *p1, t_point *p2, t_point *d, t_point *step);
+void	draw_line(mlx_image_t *img, t_point *p1, t_point *p2, int color);
+
+// minimap.c
+void	put_minimap_pix(t_data *data, t_point map_pos, int x, int y);
+void	draw_background(mlx_image_t *minimap);
+void	draw_obj(t_data *data, t_point *mid_img, mlx_image_t *minimap);
+void	draw_minimap(t_data *data, mlx_image_t *minimap);
+
+// update_player.c
+void	update_player_ratio(t_char *player);
+long	get_time_in_ms(void);
+void	update_bobbing(t_char *player);
+void	update_player(t_data *data, t_char *player);
+
+
+// updte_sprite.c
+void	update_statue_alpha(t_data *data, t_char *player);
+void	update_statue(t_data *data, t_char *player, t_sprite *statue);
+void	update_sprites(t_data *data, t_sprite *sprites);
+
+// render.c
+void	draw_aim_cross(mlx_image_t *scr_img);
+void	show_fps(void);
+void	update_audio(t_data *data);
+void	update_hud(t_char *player, mlx_image_t **tex_img);
+void	render(void *data_arg);
+
 // menu.c
-void	manage_menu(t_data *data, mlx_image_t **tex_img);
 void	change_game_state(t_data *data, int	new_state);
+void	init_buttons(t_dpoint *but_r, t_point *d, int *dy2, t_point scr_size);
+int		check_mouse_click(t_data *data, t_dpoint but_r, t_point scr_size);
+void	manage_menu(t_data *data, mlx_image_t **tex_img);
 
 // action.c
 void	get_damage(t_data *data, t_sprite *spr, t_char *player);
@@ -668,18 +710,22 @@ void		init_audio(t_data *data);
 // clean.c
 void		clean_map(t_data *data);
 void		clean_mlx(t_data *data);
+void		clean_obj(t_data *data);
 void		clean_all(t_data *data, char *perr_mess);
 
 // init_utils.c
+bool	resize_image(mlx_image_t *img, int img_i);
 void	replace_unit_points(t_data *data, int grid_x, int grid_y);
 
 // init_mlx.c
-bool		resize_image(mlx_image_t *img, int img_i);
 void		*init_tex(t_mlx *mlx_data, mlx_texture_t **tex);
+void		init_hud(t_data *data, t_mlx *mlx_data, mlx_t *mlx);
+void		put_img_to_win(t_data *data, mlx_image_t *img, int img_i);
 bool		put_images_to_window(t_data *data, t_mlx *mlx_data);
 void		init_mlx(t_data *data);
 
 // init.c
+void		init_obj(t_data *data);
 void		init_unit_map(t_data *data);
 void		init_player(t_data *data);
 void		init_angle_table(t_table *angle_table);
@@ -687,7 +733,6 @@ void		init_data(t_data *data, char *map_name);
 
 // debug.c
 void		draw_menu_but_grid(t_data *data, int main);
-void		show_fps(void);
 void		show_sprites(t_sprite **sprite_array, t_sprite *sprite_list);
 void		show_doors(t_door *list);
 void		show_char_pos(t_data *data, t_char *chr);

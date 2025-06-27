@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/27 01:14:52 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:39:12 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,9 @@ void	init_player(t_data *data)
 	player->ammo = PLAYER_AMMO;
 	player->hp = PLAYER_HP;
 	player->wall_rt = 1 + (player->height / (BLOCK_SIZE / 2));
-	player->ceiling_rt = BLOCK_SIZE / (1 + ((BLOCK_SIZE / 2)
-				/ (BLOCK_SIZE - player->height)));
-	player->floor_rt = BLOCK_SIZE / (1 + ((BLOCK_SIZE / 2)
-				/ player->height));
+	player->ceiling_rt = BLOCK_SIZE / (1 + ((BLOCK_SIZE / 2) / (BLOCK_SIZE
+					- player->height)));
+	player->floor_rt = BLOCK_SIZE / (1 + ((BLOCK_SIZE / 2) / player->height));
 }
 
 void	init_angle_table(t_table *angle_table)
@@ -107,7 +106,7 @@ void	init_angle_table(t_table *angle_table)
 
 void	init_data(t_data *data, char *map_name)
 {
-	data->game_state = MAIN_MENU;
+	data->game_state = START;
 	init_mlx(data);
 	init_audio(data);
 	tune_audio(data, map_name);
@@ -115,6 +114,7 @@ void	init_data(t_data *data, char *map_name)
 	init_player(data);
 	init_obj(data);
 	init_angle_table(data->angle_table);
+	SetMasterVolume(0);
 	data->mlx_data.scr_size.x = WIN_W;
 	data->mlx_data.scr_size.y = WIN_H;
 	data->plane.center.x = WIN_W / 2;

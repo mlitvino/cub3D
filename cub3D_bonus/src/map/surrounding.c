@@ -56,7 +56,8 @@ int	is_valid_surrounding(char **map, int height, int width)
 		while (col < width)
 		{
 			current = map[row][col];
-			if (ft_strchr(WALLS, current) == false)
+			if (!ft_strchr(WALLS, current) && ft_strchr(VALID_CHARS, current)
+				&& current != ' ')
 			{
 				if (!check_neighbors(map, row, col, height, width))
 					return (0);
