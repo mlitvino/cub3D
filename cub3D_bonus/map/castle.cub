@@ -1,0 +1,32 @@
+NO ./path_to_the_north_texture
+SO ./path_to_the_south_texture
+WE ./path_to_the_west_texture
+EA ./path_to_the_east_texture
+F 220,100,0
+C 225,30,0
+
+55555555555
+5fffffffff5
+5fffffffff555555555
+5fffffffffMfffffff5
+5fffffffff5555555f5
+5fffffffff5     5f5
+55555555555     5f5
+              555M555  5555555555
+              5fffff5  5fbffffff5
+              5fffff5  5fCfffCff5
+              5fffff5  5ffffffbf5
+              5fffff5  5fCbCffff5
+              5fffff5  5fffffCff5
+              5bfffb5  5fbfCffff5
+              5fffff5  5Cfffffff5
+              5ffCff5  5ffffbbbC5
+              5fffff5  5ffCfffff5
+              5bfffb5  5fffffCfb5
+              5fffff5  5bfffffff5
+              5fffff5  5ffffbfff5
+              555s555  55s5555555
+                5f5     5f5
+                5f5555555N5
+                5fffffffff5
+                55555555555
