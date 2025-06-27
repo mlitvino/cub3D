@@ -88,6 +88,28 @@ int	can_move_door(t_char *player, double new_x, double new_y)
 	return (1);
 }
 
+static int	check_for_enemy_collision(t_char *player, double new_x, double new_y)
+{
+	t_sprite	*sprite = player->data->sprite_list;
+	double		dx, dy, dist;
+	double		collision_distance;
+
+	while (sprite)
+	{
+		if (sprite->type == WOLF)
+		{
+			dx = sprite->pos.x - new_x;
+			dy = sprite->pos.y - new_y;
+			dist = sqrt(dx * dx + dy * dy);
+			collision_distance = sprite->hitbox_radius + player->hitbox_radius;
+			if (dist < collision_distance)
+				return (1);
+		}
+		sprite = sprite->next;
+	}
+	return (0);
+}
+
 int	check_for_wall_collision(t_char *player, double new_x, double new_y)
 {
 	if (!can_move_wall(player, new_x, new_y))
@@ -98,5 +120,7 @@ int	check_for_wall_collision(t_char *player, double new_x, double new_y)
 	{
 		return (1);
 	}
+	if (check_for_enemy_collision(player, new_x, new_y))
+		return (1);
 	return (0);
 }
