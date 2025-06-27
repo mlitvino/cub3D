@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   door.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:41:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/27 17:43:38 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/27 17:58:04 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,18 +174,7 @@ static int	has_10_seconds_passed(struct timeval start)
 	return (seconds >= 5);
 }
 
-int player_inside_door(t_data *data, t_door *door)
-{
-	int player_grid_x;
-	int player_grid_y;
 
-	player_grid_x = data->player.pos.x / BLOCK_SIZE;
-	player_grid_y = data->player.pos.y / BLOCK_SIZE;
-	if (door->grid_y == player_grid_y && door->grid_x == player_grid_x)
-		return (1);
-	else
-		return (0);
-}
 
 void	update_doors(t_door *doors, t_data *data)
 {

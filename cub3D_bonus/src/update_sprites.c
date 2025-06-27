@@ -47,7 +47,7 @@ void	update_sprites(t_data *data, t_sprite *sprites)
 	{
 		if (sprites->type == WOLF && sprites->state != WOLF_DEAD)
 		{
-			// update_wolf();
+			update_wolf(data);
 		}
 		else if (sprites->type == STATUE)
 			update_statue(data, &data->player, sprites);
