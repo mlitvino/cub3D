@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/26 14:50:11 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/27 18:30:33 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
-# include <float.h>
+# include "float.h"
 
 # define WIN_W 800
 # define WIN_H 600

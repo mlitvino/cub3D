@@ -96,7 +96,7 @@ static int	check_for_enemy_collision(t_char *player, double new_x, double new_y)
 
 	while (sprite)
 	{
-		if (sprite->type == WOLF)
+		if (sprite->walkable == false)
 		{
 			dx = sprite->pos.x - new_x;
 			dy = sprite->pos.y - new_y;

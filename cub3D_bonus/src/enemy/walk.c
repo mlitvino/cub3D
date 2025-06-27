@@ -80,7 +80,7 @@ int	can_move_enemy_collision(t_sprite *sprite, float new_x, float new_y,
 	other = data->sprite_list;
 	while (other)
 	{
-		if (other != sprite)
+		if (other != sprite && other->walkable == false)
 		{
 			dx = other->pos.x - new_x;
 			dy = other->pos.y - new_y;
@@ -113,10 +113,10 @@ int	can_move_wall_enemy(t_sprite *sprite, float new_x, float new_y,
 	{
 		return (0);
 	}
-	if (unit_map[cell_top][cell_left] == WALL
-		|| unit_map[cell_top][cell_right] == WALL
-		|| unit_map[cell_bottom][cell_left] == WALL
-		|| unit_map[cell_bottom][cell_right] == WALL)
+	if (ft_strchr(WALLS, unit_map[cell_top][cell_left])
+		|| ft_strchr(WALLS, unit_map[cell_top][cell_right])
+		|| ft_strchr(WALLS, unit_map[cell_bottom][cell_left])
+		|| ft_strchr(WALLS, unit_map[cell_bottom][cell_right]))
 	{
 		return (0);
 	}
@@ -130,7 +130,7 @@ void	update_wolf(t_data *data)
 	sprite = data->sprite_list;
 	while (sprite)
 	{
-		if (sprite->type == WOLF)
+		if (sprite->type == WOLF && sprite->state != WOLF_DEAD)
 		{
 			wolf_action(sprite, data);
 		}

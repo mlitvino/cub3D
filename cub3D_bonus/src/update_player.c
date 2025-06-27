@@ -68,7 +68,10 @@ void	check_keys(t_data *data, t_keys *keys, t_char *player)
 	if (keys->tab)
 		change_game_state(data, PAUSE);
 	if (keys->click || keys->e)
+	{
+		mlx_set_cursor_mode(data->mlx_data.mlx_ptr, MLX_MOUSE_HIDDEN);
 		shoot(data, player);
+	}
 }
 
 void	update_player(t_data *data, t_char *player)

@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/27 01:22:33 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/27 18:57:32 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,27 @@ void	print_usage(void)
 {
 	printf("Usage: ./cub3D <map_file.cub>\n\n");
 	printf("Map Legend:\n");
-	printf("  %-3s : %s\n", "0", "grass");
-	printf("  %-3s : %s\n", "X", "blood grass");
-	printf("  %-3s : %s\n", "F", "wood floor");
-	printf("  %-3s : %s\n", "Z", "blood wood floor");
-	printf("  %-3s : %s\n", "f", "stone floor");
-	printf("  %-3s : %s\n", "1", "forest");
-	printf("  %-3s : %s\n", "2", "rock wall");
-	printf("  %-3s : %s\n", "3", "wagon");
-	printf("  %-3s : %s\n", "4", "wood wall");
-	printf("  %-3s : %s\n", "x", "blood wood wall");
-	printf("  %-3s : %s\n", "5", "stone wall");
-	printf("  %-3s : %s\n", "R", "stone road");
-	printf("  %-3s : %s\n", "P", "forest path");
-	printf("  %-3s : %s\n", "D", "wood door");
-	printf("  %-3s : %s\n", "M", "metal door");
-	printf("  %-3s : %s\n", "A", "ammo pickup");
+	printf("  %-3s : %s\n", "0",   "grass");
+	printf("  %-3s : %s\n", "X",   "blood grass");
+	printf("  %-3s : %s\n", "F",   "wood floor");
+	printf("  %-3s : %s\n", "f",   "stone floor");
+	printf("  %-3s : %s\n", "1",   "forest");
+	printf("  %-3s : %s\n", "2",   "rock wall");
+	printf("  %-3s : %s\n", "3",   "wagon");
+	printf("  %-3s : %s\n", "4",   "wood wall");
+	printf("  %-3s : %s\n", "5",   "stone wall");
+	printf("  %-3s : %s\n", "R",   "stone road");
+	printf("  %-3s : %s\n", "D",   "wood door");
+	printf("  %-3s : %s\n", "s",   "stone door");
+	printf("  %-3s : %s\n", "M",   "metal door");
+	printf("  %-3s : %s\n", "A",   "ammo pickup");
 	printf("  %-3s : %s\n", "N/S/W/E", "player start");
-	printf("  %-3s : %s\n", "d", "dead man");
-	printf("  %-3s : %s\n", "C", "statue");
-	printf("  %-3s : %s\n", "B", "wolf enemy");
-	printf("  %-3s : %s\n", "T", "tree obstacle");
-	printf("  %-3s : %s\n", "G", "exit");
+	printf("  %-3s : %s\n", "d",   "dead man");
+	printf("  %-3s : %s\n", "C",   "statue");
+	printf("  %-3s : %s\n", "B",   "wolf enemy");
+	printf("  %-3s : %s\n", "b",   "bones");
+	printf("  %-3s : %s\n", "T",   "evil_tree");
+	printf("  %-3s : %s\n", "G",   "exit\n");
 	exit(EXIT_SUCCESS);
 }
 

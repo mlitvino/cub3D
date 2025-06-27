@@ -3,26 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/27 17:42:23 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/27 19:23:16 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "raylib.h"
 # include "MLX42/MLX42_Int.h"
+# include "float.h"
 # include "libft.h"
+# include "raylib.h"
 # include <errno.h>
-# include <math.h>
-# include <stdio.h>
 # include <fcntl.h>
-# include <sys/time.h>
+# include <math.h>
 # include <pthread.h>
-# include <float.h>
+# include <stdio.h>
+# include <sys/time.h>
 
 # define WIN_W 1280
 # define WIN_H 720
@@ -33,14 +33,22 @@
 # define SKY_W 1440
 # define SKY_H 5000
 
-# define HUD_W (WIN_W/4)
-# define HUD_H (WIN_H/10)
+# define HUD_W (WIN_W / 4)
+# define HUD_H (WIN_H / 10)
 
-# define MAIN_BUTTON (t_dpoint){1920.0/79,1080.0/603,0}
-# define PAUSE_BUTTON (t_dpoint){1920.0/764,1080.0/583,0}
-# define BUTTON_DX (1920.0/369)
-# define BUTTON_DY (1080.0/108)
-# define BUTTON_DY2 (1080.0/52)
+# define MAIN_BUTTON                  \
+	(t_dpoint)                       \
+	{                                \
+		1920.0 / 79, 1080.0 / 603, 0 \
+	}
+# define PAUSE_BUTTON                  \
+	(t_dpoint)                        \
+	{                                 \
+		1920.0 / 764, 1080.0 / 583, 0 \
+	}
+# define BUTTON_DX (1920.0 / 369)
+# define BUTTON_DY (1080.0 / 108)
+# define BUTTON_DY2 (1080.0 / 52)
 
 # define MAX_THRD 6
 
@@ -52,7 +60,7 @@
 # define ICON_SIZE 14
 # define ICON_BASE 5
 
-# define MODIF_BRIGHT 2000
+# define MODIF_BRIGHT 2
 
 # define STATUE_MAX_VIS 4
 # define W_STATUE_VIS_DEC 25
@@ -150,15 +158,12 @@ typedef enum e_texture
 	SOUTH,
 	ROCK_TEX,
 	WAGON_TEX,
-
 	WOOD_WALL_TEX,
 	WALL_TEX,
 	STONE_WALL_TEX,
-
 	DOOR_TEX,
 	MET_DOOR_TEX,
 	STONE_DOOR_TEX,
-
 	FLOOR_TEX,
 	STONE_FLOOR_TEX,
 	GROUND_TEX,
@@ -166,7 +171,6 @@ typedef enum e_texture
 	ROAD_TEX,
 	CEILING_TEX,
 	SKY_TEX,
-
 	BONES_TEX,
 	WOODPILE_TEX,
 	WOLF_STAY,
@@ -200,7 +204,7 @@ typedef enum e_texture
 	CROSSBOW1,
 	CROSSBOW2,
 	MAX_TEX
-}	t_texture;
+}							t_texture;
 
 # define NORTH_PATH "textures/wall/forest.png"
 # define EAST_PATH "textures/wall/forest.png"
@@ -290,7 +294,7 @@ typedef enum e_music
 	M_STORM,
 	M_CASTLE,
 	MAX_MUSIC
-}	e_music;
+}							t_music;
 
 typedef enum e_sound
 {
@@ -304,7 +308,7 @@ typedef enum e_sound
 	S_WOLF_GROWL,
 	S_STATUE_HUM,
 	MAX_SOUND
-}	e_sound;
+}							t_sound;
 
 typedef struct s_data		t_data;
 typedef struct s_raycast	t_raycast;
@@ -314,519 +318,568 @@ typedef struct s_char		t_char;
 
 typedef struct s_dpoint
 {
-	double		x;
-	double		y;
-	double		h;
+	double					x;
+	double					y;
+	double					h;
 
-}				t_dpoint;
+}							t_dpoint;
 
 typedef struct s_point
 {
-	int			x;
-	int			y;
-	int			h;
+	int						x;
+	int						y;
+	int						h;
 
-}				t_point;
+}							t_point;
 
-typedef struct s_path 
+typedef struct s_path
 {
-    t_point pos;
-    struct s_path *parent;
-} t_path;
+	t_point					pos;
+	struct s_path			*parent;
+}							t_path;
 
 typedef struct s_rgbt
 {
-	int			r;
-	int			g;
-	int			b;
-	int			t;
-	uint32_t 	rgbt;
+	int						r;
+	int						g;
+	int						b;
+	int						t;
+	uint32_t				rgbt;
 
-}				t_rgbt;
+}							t_rgbt;
 
 typedef struct s_project
 {
-	int			width;
-	int			height;
-	int			dist;
-	t_point		center;
+	int						width;
+	int						height;
+	int						dist;
+	t_point					center;
 
-}				t_project;
+}							t_project;
 
 typedef struct s_wall
 {
-	t_point		pos;
-	int			dist;
-	int			type;
-	int			door_len;
+	t_point					pos;
+	int						dist;
+	int						type;
+	int						door_len;
 
-	int			h;
-	int			top;
-	t_point		tex_pos;
+	int						h;
+	int						top;
+	t_point					tex_pos;
 
-	int			img_i;
-	mlx_image_t	*img;
+	int						img_i;
+	mlx_image_t				*img;
 
-}				t_wall;
+}							t_wall;
 
 typedef struct s_door
 {
-	int				state;
-	int				len;
-	int				grid_x;
-	int				grid_y;
-	int				move_spd;
-	int				type;
+	int						state;
+	int						len;
+	int						grid_x;
+	int						grid_y;
+	int						move_spd;
+	int						type;
 
-	struct timeval	time_opened;
+	struct timeval			time_opened;
 
-	struct s_door	*next;
+	struct s_door			*next;
 
-}					t_door;
+}							t_door;
 
 typedef struct s_sprite
 {
-	mlx_image_t		*cur_img;
-	int				state;
-	mlx_image_t		**tex_imgs;
+	mlx_image_t				*cur_img;
+	int						state;
+	mlx_image_t				**tex_imgs;
 
-	int				hp;
-	int				hitbox_radius;
-	t_point			pos;
+	int						hp;
+	int						hitbox_radius;
+	t_point					pos;
 
-	double			dist_player;
-	int				move_rate;
-	int				move_spd;
-	int				turn_spd;
-	float			attack_range;
+	double					dist_player;
+	int						move_rate;
+	int						move_spd;
+	int						turn_spd;
+	float					attack_range;
 
-	int				has_player_in_sight;
-	t_dpoint			last_seen;
+	int						has_player_in_sight;
+	t_dpoint				last_seen;
 
-	bool			visible;
-	t_path			*path;
-	int				walkable;
-	int				type;
-	int				dist;
+	bool					visible;
+	t_path					*path;
+	int						walkable;
+	int						type;
+	int						dist;
 
-	t_point			size;
-	t_point			tex_p;
+	t_point					size;
+	t_point					tex_p;
 
-	int				height;
-	int				width;
-	int				top;
-	int				left;
-	double			angle;
+	int						height;
+	int						width;
+	int						top;
+	int						left;
+	double					angle;
 
-	struct s_sprite	*next;
+	struct s_sprite			*next;
 
-}	t_sprite;
-
-
+}							t_sprite;
 
 //-------------------------------GAME------------------------------------
 typedef struct s_delta
 {
-	int	dx[4];
-	int	dy[4];
-}				t_delta;
+	int						dx[4];
+	int						dy[4];
+}							t_delta;
 
 typedef struct s_bfs
 {
-	t_path	*queue[150];
-	int		**visited;
-	int		front;
-	int		rear;
-}	t_bfs;
+	t_path					*queue[150];
+	int						**visited;
+	int						front;
+	int						rear;
+}							t_bfs;
 
 typedef struct s_keys
 {
-	int			w;
-	int			a;
-	int			s;
-	int			d;
-	int			left;
-	int			right;
-	int			up;
-	int			down;
-	int			e;
-	int			esc;
-	int			tab;
+	int						w;
+	int						a;
+	int						s;
+	int						d;
+	int						left;
+	int						right;
+	int						up;
+	int						down;
+	int						e;
+	int						esc;
+	int						tab;
 
-	int			click;
-	t_point		click_pos;
-}				t_keys;
+	int						click;
+	t_point					click_pos;
+}							t_keys;
 
 typedef struct s_pov
 {
-	t_point		view_pos;
-	double		view_angl;
-	int			fov;
+	t_point					view_pos;
+	double					view_angl;
+	int						fov;
 
-}				t_pov;
+}							t_pov;
 
 typedef struct s_char
 {
-	t_data		*data;
+	t_data					*data;
 
-	int			hp;
-	int			ammo;
-	int			door_facing;
-	t_pov		pov;
-	double		height;
+	int						hp;
+	int						ammo;
+	int						door_facing;
+	t_pov					pov;
+	double					height;
 
-	int			hitbox_radius;
-	t_sprite	*facing_enemy;
-	t_sprite	*facing_statue;
-	t_dpoint	pos;
+	int						hitbox_radius;
+	t_sprite				*facing_enemy;
+	t_sprite				*facing_statue;
+	t_dpoint				pos;
 
-	int			move_spd;
-	int			turn_spd;
+	int						move_spd;
+	int						turn_spd;
 
-	bool		is_shooting;
-	int			is_moving;
-	int			mov_height;
-	double		bobbing_time;
+	bool					is_shooting;
+	int						is_moving;
+	int						mov_height;
+	double					bobbing_time;
 
-	double		wall_rt;
-	double		ceiling_rt;
-	double		floor_rt;
-}				t_char;
+	double					wall_rt;
+	double					ceiling_rt;
+	double					floor_rt;
+}							t_char;
 
 typedef struct s_table
 {
-	float	sin;
-	float	cos;
-	float	tan;
-	float	beta;
-}			t_table;
+	float					sin;
+	float					cos;
+	float					tan;
+	float					beta;
+}							t_table;
 
 typedef struct s_raycast
 {
-	t_data		*data;
-	t_project	*plane;
-	mlx_image_t	*scr_img;
-	char		**unit_map;
-	t_door		*door_list;
+	t_data					*data;
+	t_project				*plane;
+	mlx_image_t				*scr_img;
+	char					**unit_map;
+	t_door					*door_list;
 
-	int			thread_chunk;
-	t_sprite	*thread_sprite;
-	pthread_t	threads[MAX_THRD];
-	int			thrd_i;
+	int						thread_chunk;
+	t_sprite				*thread_sprite;
+	pthread_t				threads[MAX_THRD];
+	int						thrd_i;
 
-	int			flor_rgbt;
-	int			ceil_rgbt;
+	int						flor_rgbt;
+	int						ceil_rgbt;
 
-	t_char		*player;
+	t_char					*player;
 
-	double		view_angle;
-	t_point		char_pos;
+	double					view_angle;
+	t_point					char_pos;
 
-	double		dx;
-	double		dy;
-	int			axis;
+	double					dx;
+	double					dy;
+	int						axis;
 
-	t_wall		hor_wall;
-	t_wall		ver_wall;
+	t_wall					hor_wall;
+	t_wall					ver_wall;
 
-	double		ray_angle;
-	int			cur_ray;
-	double		beta;
+	double					ray_angle;
+	int						cur_ray;
+	double					beta;
 
-	int			sprite_count;
-	t_table		*angl_table;
+	int						sprite_count;
+	t_table					*angl_table;
 
-}				t_raycast;
+}							t_raycast;
 
 //-------------------------------GENERAL------------------------------------
 
 typedef struct s_mlx
 {
-	mlx_t				*mlx_ptr;
+	mlx_t					*mlx_ptr;
 
-	mlx_image_t			*scr_img;
-	t_point				scr_size;
-	mlx_image_t			*minimap;
+	mlx_image_t				*scr_img;
+	t_point					scr_size;
+	mlx_image_t				*minimap;
 
-	char			**ceiling_colour;
-	char			**floor_colour;
-	char			*tex_path[MAX_TEX];
-	mlx_texture_t	*textrs[MAX_TEX];
-	mlx_image_t		*textrs_img[MAX_TEX];
+	char					**ceiling_colour;
+	char					**floor_colour;
+	char					*tex_path[MAX_TEX];
+	mlx_texture_t			*textrs[MAX_TEX];
+	mlx_image_t				*textrs_img[MAX_TEX];
 
-}						t_mlx;
+}							t_mlx;
 
 typedef struct s_data
 {
-	t_mlx				mlx_data;
-	int					game_state;
+	t_mlx					mlx_data;
+	int						game_state;
 
-	char				**grid_map;
-	char				**unit_map;
-	char				**map_data;
-	char				**work_map;
-	int					line_count;
-	int					map_h;
-	int					map_w;
+	char					**grid_map;
+	char					**unit_map;
+	char					**map_data;
+	char					**work_map;
+	int						line_count;
+	int						map_h;
+	int						map_w;
 
-	t_door				*door_list;
-	t_sprite			*sprite_list;
+	t_door					*door_list;
+	t_sprite				*sprite_list;
 
-	t_char				player;
-	t_keys				keys;
+	t_char					player;
+	t_keys					keys;
 
-	t_project			plane;
-	int					rays_count;
-	int					rays_dist[WIN_W];
-	double				rays_angle;
-	t_rgbt				flor_rgb;
-	t_rgbt				ceil_rgb;
+	t_project				plane;
+	int						rays_count;
+	int						rays_dist[WIN_W];
+	double					rays_angle;
+	t_rgbt					flor_rgb;
+	t_rgbt					ceil_rgb;
 
-	Music				*main_music;
-	Music				music[MAX_MUSIC];
-	Sound				sound[MAX_SOUND];
+	Music					*main_music;
+	Music					music[MAX_MUSIC];
+	Sound					sound[MAX_SOUND];
 
-	t_table				angle_table[ANGLE_PRES * 360];
-}						t_data;
+	t_table					angle_table[ANGLE_PRES * 360];
+}							t_data;
 
 //-------------------------------RAYCASTING------------------------------------
 // thread.c
-void	*thread_sprite(void *arg);
-void	*thread_raycast(void *arg);
-void	init_threads(t_raycast *raycast, void *(routine)(void *arg));
+void						*thread_sprite(void *arg);
+void						*thread_raycast(void *arg);
+void						init_threads(t_raycast *raycast,
+								void *(routine)(void *arg));
 
 // helper.c
-void		calc_norm_dist(t_raycast *raycast);
-void		select_tex(t_raycast *raycast, t_wall *wall, int axis_flag);
-void		init_common_info(t_data *data, t_char *player, t_raycast *raycast);
-t_raycast	*init_raycast(t_data *data, t_char *player, t_raycast *raycast);
-void		fill_ray_info(t_raycast *raycast);
+void						calc_norm_dist(t_raycast *raycast);
+void						select_tex(t_raycast *raycast, t_wall *wall,
+								int axis_flag);
+void						init_common_info(t_data *data, t_char *player,
+								t_raycast *raycast);
+t_raycast					*init_raycast(t_data *data, t_char *player,
+								t_raycast *raycast);
+void						fill_ray_info(t_raycast *raycast);
 
 // door.c
-void		update_doors(t_door *doors, t_data *data);
-t_door		*find_door(t_door *doors, int unit_x, int unit_y);
-t_door		*create_door(t_data *data, t_door **doors_list, int grid_x, int grid_y);
+void						update_doors(t_door *doors, t_data *data);
+t_door						*find_door(t_door *doors, int unit_x, int unit_y);
+t_door						*create_door(t_data *data, t_door **doors_list,
+								int grid_x, int grid_y);
 
 // face_enemy.c
-void	check_screen_center(t_raycast *raycast, t_sprite *sprite, t_point center);
-void	check_statue_look(t_raycast *raycast, t_sprite *sprite);
-void	chck_facing_enemy(t_raycast *raycast, t_sprite **sprite_array,
-		t_char *player);
+void						check_screen_center(t_raycast *raycast,
+								t_sprite *sprite, t_point center);
+void						check_statue_look(t_raycast *raycast,
+								t_sprite *sprite);
+void						chck_facing_enemy(t_raycast *raycast,
+								t_sprite **sprite_array, t_char *player);
 
 // sprite.c
-void		sort_sprite_dist(t_raycast *raycast, t_sprite **sprite_array);
-double		calc_angl_dif(t_raycast *raycast, t_sprite *srpite);
-void		calc_sprite(t_raycast *raycast, t_sprite **sprites);
-void		draw_sprite_pix(t_raycast *raycast, t_sprite *sprite, int x, int y);
-void		draw_sprite(t_raycast *raycast, t_sprite *sprite);
+void						sort_sprite_dist(t_raycast *raycast,
+								t_sprite **sprite_array);
+double						calc_angl_dif(t_raycast *raycast, t_sprite *srpite);
+void						calc_sprite(t_raycast *raycast, t_sprite **sprites);
+void						draw_sprite_pix(t_raycast *raycast,
+								t_sprite *sprite, int x, int y);
+void						draw_sprite(t_raycast *raycast, t_sprite *sprite);
 
 // sprite_init.c
-void		fill_sprite_info(t_sprite *new_sprite, t_data *data, int type);
-t_sprite	*create_sprite(t_data *data, int type, int grid_x, int grid_y);
-t_sprite	**init_spite_array(t_raycast *raycast);
+void						set_sprite_tex(t_sprite *new_sprite, t_data *data,
+								int type);
+void						fill_sprite_info(t_sprite *new_sprite, t_data *data,
+								int type);
+t_sprite					*create_sprite(t_data *data, int type, int grid_x,
+								int grid_y);
+t_sprite					**init_spite_array(t_raycast *raycast);
 
 // draw_utils.c
-void	adjust_image_alpha(mlx_image_t *img, int new_alpha);
-void		add_shadow(uint32_t *color, int dist);
-void		fill_wall_info(t_raycast *raycast, t_wall *wall);
-mlx_image_t	*fill_floor_info(t_raycast *raycast, t_point *ceil_pos, int *dist, int y);
-mlx_image_t	*fill_ceil_info(t_raycast *raycast, t_point *ceil_pos, int *dist, int y);
+void						adjust_image_alpha(mlx_image_t *img, int new_alpha);
+void						add_shadow(uint32_t *color, int dist);
+void						fill_wall_info(t_raycast *raycast, t_wall *wall);
+mlx_image_t					*fill_floor_info(t_raycast *raycast,
+								t_point *ceil_pos, int *dist, int y);
+mlx_image_t					*fill_ceil_info(t_raycast *raycast,
+								t_point *ceil_pos, int *dist, int y);
 
 // draw.c
-void		draw_wall(t_raycast *raycast, int *y, t_wall *wall);
-void		render_col(t_raycast *raycast, t_wall *wall);
+void						draw_wall(t_raycast *raycast, int *y, t_wall *wall);
+void						render_col(t_raycast *raycast, t_wall *wall);
 
 // raycast.c
-void		compre_dist(t_raycast *raycast, t_wall *hor_wall,
-				t_wall *ver_wall);
-void		cast_ray(t_raycast *raycast);
-void		handle_sprites(t_raycast *raycast);
-void		raycast(t_data *data);
+void						compre_dist(t_raycast *raycast, t_wall *hor_wall,
+								t_wall *ver_wall);
+void						cast_ray(t_raycast *raycast);
+void						handle_sprites(t_raycast *raycast);
+void						raycast(t_data *data);
 
 // find_wall_utils.c
-bool		is_on_map(t_data *data, t_point *p);
-bool		extend_door(t_raycast *raycast, t_wall *wall, int axis);
-bool		check_hit(t_raycast *raycast, t_wall *wall, int axis_flag);
+bool						is_on_map(t_data *data, t_point *p);
+bool						extend_door(t_raycast *raycast, t_wall *wall,
+								int axis);
+bool						check_hit(t_raycast *raycast, t_wall *wall,
+								int axis_flag);
 
 // find_wall.c
-void		init_wall(t_raycast *raycast, t_dpoint *temp,
-				t_point *char_pos, int axis_flag);
-void		adjust_wall(t_raycast *raycast, t_dpoint *temp);
-void		init_delta(t_raycast *raycast, int axis_flag);
-void		norm_fract(t_dpoint *temp, t_wall *wall, int axis_flag,
-				double ray_angl);
-bool		find_wall(t_raycast *raycast, t_wall *wall, int axis_flag);
+void						init_wall(t_raycast *raycast, t_dpoint *temp,
+								t_point *char_pos, int axis_flag);
+void						adjust_wall(t_raycast *raycast, t_dpoint *temp);
+void						init_delta(t_raycast *raycast, int axis_flag);
+void						norm_fract(t_dpoint *temp, t_wall *wall,
+								int axis_flag, double ray_angl);
+bool						find_wall(t_raycast *raycast, t_wall *wall,
+								int axis_flag);
 
 // raycast_utils.c
-double		deg_rad(double deg);
-long double	calc_dist(t_point p1, t_point p2);
-uint32_t	extract_rgba(uint8_t *raw);
+double						deg_rad(double deg);
+long double					calc_dist(t_point p1, t_point p2);
+uint32_t					extract_rgba(uint8_t *raw);
 
 //-------------------------------MOVEMENT------------------------------------
-void	resize_handler(int32_t width, int32_t height, void* data_arg);
-void	mouse_hook(mouse_key_t button, action_t action,
-		modifier_key_t mods, void* param);
-void		key_event_handler(mlx_key_data_t keydata, void *param);
-void		move_player(t_char *player, double angle_offset);
-int			check_for_wall_collision(t_char *player, double new_x,
-				double new_y);
-void		rotate_player_right(t_char *player);
-void		rotate_player_left(t_char *player);
+void						resize_handler(int32_t width, int32_t height,
+								void *data_arg);
+void						mouse_hook(mouse_key_t button, action_t action,
+								modifier_key_t mods, void *param);
+void						key_event_handler(mlx_key_data_t keydata,
+								void *param);
+void						move_player(t_char *player, double angle_offset);
+int							check_for_wall_collision(t_char *player,
+								double new_x, double new_y);
+void						rotate_player_right(t_char *player);
+void						rotate_player_left(t_char *player);
 
 //-------------------------------GENERAL------------------------------------
 
 // minimap_player.c
-int			edge_function(t_point a, t_point b, t_point c);
-bool		point_in_triangle(t_point p, t_point a, t_point b, t_point c);
-void		norm_base(t_point *base_left, t_point *base_right, t_point *max, t_point *min);
-void	fill_icon_with_color(mlx_image_t *minimap,
-							t_point *tip, t_point *base_left, t_point *base_right);
-void	draw_player(t_data *data, int view_angle_i, mlx_image_t *minimap, t_point *mid);
+int							edge_function(t_point a, t_point b, t_point c);
+bool						point_in_triangle(t_point p, t_point a, t_point b,
+								t_point c);
+void						norm_base(t_point *base_left, t_point *base_right,
+								t_point *max, t_point *min);
+void						fill_icon_with_color(mlx_image_t *minimap,
+								t_point *tip, t_point *base_left,
+								t_point *base_right);
+void						draw_player(t_data *data, int view_angle_i,
+								mlx_image_t *minimap, t_point *mid);
 
 // minimap_utils.c
-void	init_d_step(t_point *p1, t_point *p2, t_point *d, t_point *step);
-void	draw_line(mlx_image_t *img, t_point *p1, t_point *p2, int color);
+void						init_d_step(t_point *p1, t_point *p2, t_point *d,
+								t_point *step);
+void						draw_line(mlx_image_t *img, t_point *p1,
+								t_point *p2, int color);
 
 // minimap.c
-void	put_minimap_pix(t_data *data, t_point map_pos, int x, int y);
-void	draw_background(mlx_image_t *minimap);
-void	draw_obj(t_data *data, t_point *mid_img, mlx_image_t *minimap);
-void	draw_minimap(t_data *data, mlx_image_t *minimap);
+void						put_minimap_pix(t_data *data, t_point map_pos,
+								int x, int y);
+void						draw_background(mlx_image_t *minimap);
+void						draw_obj(t_data *data, t_point *mid_img,
+								mlx_image_t *minimap);
+void						draw_minimap(t_data *data, mlx_image_t *minimap);
 
 // update_player.c
-void	update_player_ratio(t_char *player);
-long	get_time_in_ms(void);
-void	update_bobbing(t_char *player);
-void	update_player(t_data *data, t_char *player);
-
+void						update_player_ratio(t_char *player);
+long						get_time_in_ms(void);
+void						update_bobbing(t_char *player);
+void						update_player(t_data *data, t_char *player);
 
 // updte_sprite.c
-void	update_statue_alpha(t_data *data, t_char *player);
-void	update_statue(t_data *data, t_char *player, t_sprite *statue);
-void	update_sprites(t_data *data, t_sprite *sprites);
+void						update_statue_alpha(t_data *data, t_char *player);
+void						update_statue(t_data *data, t_char *player,
+								t_sprite *statue);
+void						update_sprites(t_data *data, t_sprite *sprites);
 
 // render.c
-void	draw_aim_cross(mlx_image_t *scr_img);
-void	show_fps(void);
-void	update_audio(t_data *data);
-void	update_hud(t_char *player, mlx_image_t **tex_img);
-void	render(void *data_arg);
+void						draw_aim_cross(mlx_image_t *scr_img);
+void						show_fps(void);
+void						update_audio(t_data *data);
+void						update_hud(t_char *player, mlx_image_t **tex_img);
+void						render(void *data_arg);
 
 // menu.c
-void	change_game_state(t_data *data, int	new_state);
-void	init_buttons(t_dpoint *but_r, t_point *d, int *dy2, t_point scr_size);
-int		check_mouse_click(t_data *data, t_dpoint but_r, t_point scr_size);
-void	manage_menu(t_data *data, mlx_image_t **tex_img);
+void						change_game_state(t_data *data, int new_state);
+void						init_buttons(t_dpoint *but_r, t_point *d, int *dy2,
+								t_point scr_size);
+int							check_mouse_click(t_data *data, t_dpoint but_r,
+								t_point scr_size);
+void						manage_menu(t_data *data, mlx_image_t **tex_img);
 
 // action.c
-void	get_damage(t_data *data, t_sprite *spr, t_char *player);
-void	shoot(t_data *data, t_char *player);
+void						get_damage(t_data *data, t_sprite *spr,
+								t_char *player);
+void						shoot(t_data *data, t_char *player);
 
 // audio.c
-void		tune_audio(t_data *data, char *map_name);
-void		clean_audio(t_data *data);
-void		init_audio(t_data *data);
+void						tune_audio(t_data *data, char *map_name);
+void						clean_audio(t_data *data);
+void						init_audio(t_data *data);
 
 // clean.c
-void		clean_map(t_data *data);
-void		clean_mlx(t_data *data);
-void		clean_obj(t_data *data);
-void		clean_all(t_data *data, char *perr_mess);
+void						clean_map(t_data *data);
+void						clean_mlx(t_data *data);
+void						clean_obj(t_data *data);
+void						clean_all(t_data *data, char *perr_mess);
 
 // init_utils.c
-bool	resize_image(mlx_image_t *img, int img_i);
-void	replace_unit_points(t_data *data, int grid_x, int grid_y);
+bool						resize_image(mlx_image_t *img, int img_i);
+void						replace_unit_points(t_data *data, int grid_x,
+								int grid_y);
 
 // init_mlx.c
-void		*init_tex(t_mlx *mlx_data, mlx_texture_t **tex);
-void		init_hud(t_data *data, t_mlx *mlx_data, mlx_t *mlx);
-void		put_img_to_win(t_data *data, mlx_image_t *img, int img_i);
-bool		put_images_to_window(t_data *data, t_mlx *mlx_data);
-void		init_mlx(t_data *data);
+void						*init_tex(t_mlx *mlx_data, mlx_texture_t **tex);
+void						init_hud(t_data *data, t_mlx *mlx_data, mlx_t *mlx);
+void						put_img_to_win(t_data *data, mlx_image_t *img,
+								int img_i);
+bool						put_images_to_window(t_data *data, t_mlx *mlx_data);
+void						init_mlx(t_data *data);
 
 // init.c
-void		init_obj(t_data *data);
-void		init_unit_map(t_data *data);
-void		init_player(t_data *data);
-void		init_angle_table(t_table *angle_table);
-void		init_data(t_data *data, char *map_name);
+void						init_obj(t_data *data);
+void						init_unit_map(t_data *data);
+void						init_player(t_data *data);
+void						init_angle_table(t_table *angle_table);
+void						init_data(t_data *data, char *map_name);
 
 // debug.c
-void		draw_menu_but_grid(t_data *data, int main);
-void		show_sprites(t_sprite **sprite_array, t_sprite *sprite_list);
-void		show_doors(t_door *list);
-void		show_char_pos(t_data *data, t_char *chr);
-void		show_unit_map(t_data *data);
-void		show_redline(t_data *data);
-void		draw_aim_cross(mlx_image_t *scr_img);
+void						draw_menu_but_grid(t_data *data, int main);
+void						show_sprites(t_sprite **sprite_array,
+								t_sprite *sprite_list);
+void						show_doors(t_door *list);
+void						show_char_pos(t_data *data, t_char *chr);
+void						show_unit_map(t_data *data);
+void						show_redline(t_data *data);
+void						draw_aim_cross(mlx_image_t *scr_img);
 
-//----------------------------------PARSING-----------------------------------------
+//----------------------------------PARSING------------------------------------
 
-//free error functions
-int	return_invalid_element(void);
-int error_exit(char * message);
-char	**error_return(char *message);
-int free_return(int *data);
-int	perror_free_map(char **map);
-char	**free_map(char **map, int fd);
-void	free_colours_textures_strings(t_data *data);
-int	error_free_return(char *message, t_data *data);
-int	free_map_return(t_data *data);
-int 	free_error_exit(char *line, char *colour);
-char **perror_return(void);
-int	perror_return_int(int *data);
-char **perror_free(char **map_data, int fd);
-int	perror_exit(char *line);
-char	*perror_exit_null(void);
+// free error functions
+int							return_invalid_element(void);
+int							error_exit(char *message);
+char						**error_return(char *message);
+int							free_return(int *data);
+int							perror_free_map(char **map);
+char						**free_map(char **map, int fd);
+void						free_colours_textures_strings(t_data *data);
+int							error_free_return(char *message, t_data *data);
+int							free_map_return(t_data *data);
+int							free_error_exit(char *line, char *colour);
+char						**perror_return(void);
+int							perror_return_int(int *data);
+char						**perror_free(char **map_data, int fd);
+int							perror_exit(char *line);
+char						*perror_exit_null(void);
 
-//utils
-int	valid_end_of_string(int *i, int done, char *line, char *colour);
-int	valid_colour_number(char *colour, int floor_ceiling, int rgb, t_data *data);
-int valid_colours(t_data *data);
-char *set_colour(char *line, int *i, int done);
-int	set_rgb(int	floor_or_ceiling, char *line_trim, int *i, t_data *data);
-int free_element_map(int *element, t_data *data);
-int	create_temp_map(char **map, int *i, t_data *data);
-int	is_identifier(char *line);
-int	is_map_element(char *line, int *map_element, t_data *data);
-int is_empty_line(char *line);
-void	init_null(t_data *data);
-int	fill_map(t_data *data, char **map_data, int fd);
-int	valid_extension(const char *filename);
-char **pad_map(char **map, int height, t_data *data);
-void	set_angle(char angle, t_data *data);
+// utils
+int							valid_end_of_string(int *i, int done, char *line,
+								char *colour);
+int							valid_colour_number(char *colour, int floor_ceiling,
+								int rgb, t_data *data);
+int							valid_colours(t_data *data);
+char						*set_colour(char *line, int *i, int done);
+int							set_rgb(int floor_or_ceiling, char *line_trim,
+								int *i, t_data *data);
+int							free_element_map(int *element, t_data *data);
+int							create_temp_map(char **map, int *i, t_data *data);
+int							is_identifier(char *line);
+int							is_map_element(char *line, int *map_element,
+								t_data *data);
+int							is_empty_line(char *line);
+void						init_null(t_data *data);
+int							fill_map(t_data *data, char **map_data, int fd);
+int							valid_extension(const char *filename);
+char						**pad_map(char **map, int height, t_data *data);
+void						set_angle(char angle, t_data *data);
 
-int set_floor_colour(t_data * data, char *line_trim, int *i);
-int set_ceiling_colour(t_data * data, char *line_trim, int *i);
-int set_floor_ceiling(t_data *data, char *element, char *line);
-char **read_file(char *filename, t_data *data);
-int valid_map(t_data *data);
-int is_valid_surrounding(char **map, int height, int width);
-int	is_valid_data(char **map, t_data *data, int line_count);
-int check_map_borders(char **map, int height);
-int	longest_line(char **map, int height);
-int	fill_padded_map(int height, t_data *data, char **padded_map, char **map);
-int	last_line_no_newline(char *line);
-int check_double_element_wall(int *map_element, char *element, char *line, t_data *data);
-int	check_doors(char **map);
+int							set_floor_colour(t_data *data, char *line_trim,
+								int *i);
+int							set_ceiling_colour(t_data *data, char *line_trim,
+								int *i);
+int							set_floor_ceiling(t_data *data, char *element,
+								char *line);
+char						**read_file(char *filename, t_data *data);
+int							valid_map(t_data *data);
+int							is_valid_surrounding(char **map, int height,
+								int width);
+int							is_valid_data(char **map, t_data *data,
+								int line_count);
+int							check_map_borders(char **map, int height);
+int							longest_line(char **map, int height);
+int							fill_padded_map(int height, t_data *data,
+								char **padded_map, char **map);
+int							last_line_no_newline(char *line);
+int							check_double_element_wall(int *map_element,
+								char *element, char *line, t_data *data);
+int							check_doors(char **map);
 
-void handle_mouse_rotation(t_data *game);
-void open_close_door(t_data *data);
+void						handle_mouse_rotation(t_data *game);
+void						open_close_door(t_data *data);
 
-void	update_wolf(t_data *data);
-t_path	*bfs_find_path(t_data *data, t_point start, t_dpoint goal);
-int	init_visited(int ***visited, t_data *data);
-void	init_delta_path(t_delta *d);
-t_path	*create_node(int x, int y, t_path *parent);
-void free_queue_except_path(t_path **queue, int front, int rear, t_path *path_end);
-int	has_line_of_sight(t_sprite *enemy, t_char *player, char **map);
-t_path *reverse_path(t_path *end);
-void free_path(t_path *path);
-void move_to_goal(t_sprite *sprite, t_data *data);
-int	can_move_wall_enemy(t_sprite *sprite, float new_x, float new_y, t_data *data);
-int	can_move_enemy_collision(t_sprite *sprite, float new_x, float new_y, t_data *data);
-void	free_visited(int **visited, int height);
-int	is_valid_tile(char **map, t_data *data, int x, int y);
-void	no_path(t_sprite *sprite);
+void						update_wolf(t_data *data);
+t_path						*bfs_find_path(t_data *data, t_point start,
+								t_dpoint goal);
+int							init_visited(int ***visited, t_data *data);
+void						init_delta_path(t_delta *d);
+t_path						*create_node(int x, int y, t_path *parent);
+void						free_queue_except_path(t_path **queue, int front,
+								int rear, t_path *path_end);
+int							has_line_of_sight(t_sprite *enemy, t_char *player,
+								char **map);
+t_path						*reverse_path(t_path *end);
+void						free_path(t_path *path);
+void						move_to_goal(t_sprite *sprite, t_data *data);
+int							can_move_wall_enemy(t_sprite *sprite, float new_x,
+								float new_y, t_data *data);
+int							can_move_enemy_collision(t_sprite *sprite,
+								float new_x, float new_y, t_data *data);
+void						free_visited(int **visited, int height);
+int							is_valid_tile(char **map, t_data *data, int x,
+								int y);
+void						no_path(t_sprite *sprite);
 
 #endif
