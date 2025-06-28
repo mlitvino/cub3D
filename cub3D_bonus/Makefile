@@ -6,7 +6,7 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/28 14:42:19 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/06/28 22:38:30 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -136,6 +136,7 @@ $(LIBFT):
 
 clean:
 	rm -rf $(OBJ_DIR)
+	make -C $(RAYLIB_DIR) clean
 	make -C $(LIBFT_DIR) clean
 
 fclean: clean
