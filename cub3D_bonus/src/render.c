@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:51:51 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/27 17:42:54 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/28 12:33:23 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void draw_aim_cross(mlx_image_t *scr_img)
 			0xFF0000FF);
 }
 
-void	show_fps(void)
+void	show_fps(t_data *data)
 {
 	static struct timeval	last = {0, 0};
 	static int				frames = 0;
@@ -43,6 +43,7 @@ void	show_fps(void)
 	if (elapsed >= 1.0)
 	{
 		printf("FPS: %d\n", frames);
+		data->fps = frames;
 		frames = 0;
 		last = now;
 	}
@@ -95,7 +96,7 @@ void	render(void *data_arg)
 	data = (t_data *)data_arg;
 	if (data->game_state == START)
 	{
-		show_fps();
+		show_fps(data);
 		raycast(data);
 		draw_minimap(data, data->mlx_data.minimap);
 		draw_aim_cross(data->mlx_data.scr_img);

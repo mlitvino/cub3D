@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/28 00:53:59 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/28 12:33:12 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -533,6 +533,7 @@ typedef struct s_data
 {
 	t_mlx					mlx_data;
 	int						game_state;
+	int						fps;
 
 	char					**grid_map;
 	char					**unit_map;
@@ -708,7 +709,7 @@ void						update_sprites(t_data *data, t_sprite *sprites);
 
 // render.c
 void						draw_aim_cross(mlx_image_t *scr_img);
-void						show_fps(void);
+void						show_fps(t_data *data);
 void						update_audio(t_data *data);
 void						update_hud(t_char *player, mlx_image_t **tex_img);
 void						render(void *data_arg);
