@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 20:19:19 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/27 16:52:53 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/28 12:44:42 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ mlx_image_t	*fill_floor_info(t_raycast *raycast, t_point *floor_pos, int *dist,
 	*dist = (raycast->plane->dist * ratio) / raycast->angl_table->beta;
 	floor_pos->x = (*dist * raycast->angl_table->cos) + raycast->char_pos.x;
 	floor_pos->y = (*dist * -raycast->angl_table->sin) + raycast->char_pos.y;
-	point = raycast->unit_map[floor_pos->y][floor_pos->x];
 	if (is_on_map(raycast->data, floor_pos) == true)
 	{
+		point = raycast->unit_map[floor_pos->y][floor_pos->x];
 		if (point == FLOOR || point == DOOR)
 			return (raycast->data->mlx_data.textrs_img[FLOOR_TEX]);
 		if (point == STONE_FLOOR || point == STONE_DOOR || point == MET_DOOR)
@@ -102,9 +102,9 @@ mlx_image_t	*fill_ceil_info(t_raycast *raycast, t_point *ceil_pos, int *dist,
 	*dist = (raycast->plane->dist * ratio) / raycast->angl_table->beta;
 	ceil_pos->x = (*dist * raycast->angl_table->cos) + raycast->char_pos.x;
 	ceil_pos->y = (*dist * -raycast->angl_table->sin) + raycast->char_pos.y;
-	point = raycast->unit_map[ceil_pos->y][ceil_pos->x];
 	if (is_on_map(raycast->data, ceil_pos) == true)
 	{
+		point = raycast->unit_map[ceil_pos->y][ceil_pos->x];
 		if (point == FLOOR || point == DOOR)
 		{
 			return (raycast->data->mlx_data.textrs_img[CEILING_TEX]);

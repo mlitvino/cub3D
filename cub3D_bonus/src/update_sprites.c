@@ -5,14 +5,12 @@ void	update_statue_alpha(t_data *data, t_char *player)
 	static double	alpha;
 	double			step;
 
-	step = 0.25;
+	step = data->fps / 80.0;
 	if (player->facing_statue)
 	{
-		if (alpha > 255)
+		if (alpha + step > 255)
 			change_game_state(data, DEATH);
 		alpha += step;
-		if (alpha > 255)
-			alpha = 255;
 	}
 	else if (alpha > 0)
 		alpha -= step;

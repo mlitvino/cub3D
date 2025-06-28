@@ -8,7 +8,7 @@ static int	check_single_neighbor(char **map, int n_row, int n_col, int height,
 	if (n_row >= 0 && n_row < height && n_col >= 0 && n_col < width)
 	{
 		neighbor = map[n_row][n_col];
-		if (neighbor == ' ')
+		if (neighbor == ' ' || neighbor == 'P')
 			return (0);
 	}
 	else
