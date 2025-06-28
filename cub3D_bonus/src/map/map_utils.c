@@ -11,16 +11,6 @@ int	is_empty_line(char *line)
 	return (1);
 }
 
-void	init_null(t_data *data)
-{
-	data->mlx_data.tex_path[WEST] = NULL;
-	data->mlx_data.tex_path[NORTH] = NULL;
-	data->mlx_data.tex_path[EAST] = NULL;
-	data->mlx_data.tex_path[SOUTH] = NULL;
-	data->mlx_data.ceiling_colour = NULL;
-	data->mlx_data.floor_colour = NULL;
-}
-
 int	fill_map(t_data *data, char **map_data, int fd)
 {
 	int		i;

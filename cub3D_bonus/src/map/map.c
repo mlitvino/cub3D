@@ -92,7 +92,6 @@ int	fill_padded_map(int height, t_data *data, char **padded_map, char **map)
 			padded_map[i][j] = map[i][j];
 			j++;
 		}
-		// j = line_len;
 		while (j < data->map_w)
 			padded_map[i][j++] = 'P';
 		padded_map[i][data->map_w] = '\0';
