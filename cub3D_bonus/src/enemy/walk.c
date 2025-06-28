@@ -30,7 +30,10 @@ static void	attack_player(t_data *data, t_sprite *sprite)
 				PlaySound(data->sound[S_WOLF_GROWL]);
 			if (sprite->cur_img == sprite->tex_imgs[WOLF_WALK1]
 				|| sprite->cur_img == sprite->tex_imgs[WOLF_WALK2])
+			{
+				get_damage(data, NULL, &data->player);
 				sprite->cur_img = sprite->tex_imgs[WOLF_ATTCK];
+			}
 			else if (sprite->cur_img == sprite->tex_imgs[WOLF_ATTCK])
 				sprite->cur_img = sprite->tex_imgs[WOLF_WALK2];
 			else if (sprite->cur_img == sprite->tex_imgs[WOLF_WALK2])

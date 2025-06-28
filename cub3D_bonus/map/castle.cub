@@ -5,28 +5,31 @@ EA ./path_to_the_east_texture
 F 220,100,0
 C 225,30,0
 
-55555555555
-5fffffffff5
-5fffffffff555555555
-5fffffffffMfffffff5
-5fffffffff5555555f5
-5fffffffff5     5f5
-55555555555     5f5
-              555M555  5555555555
-              5fffff5  5fbffffff5
-              5fffff5  5fCfffCff5
-              5fffff5  5ffffffbf5
-              5fffff5  5fCbCffff5
+
+
+
+55555555555                                   5555
+5fffffffff5                      555555       5fB5
+5fffffffff555555555              5fff55 55555555d555555555
+5fffffffffMfffffff5              5AAAf5 5CffffffffffffffC5  55555555
+5fffffffff5555555f5        5555555555d555ffffffffffffffff5  5ffffff5
+5fffffffff5     5f5        5ffffffffffffsffffffbCffffdfff5555ffffff5
+55555555555     5f5        5f555555555555ffffffffffffffffMEfffffGff5
+              555M555  55555s5555       5ffffffffffffffff5555ffffff5
+              5fffff5  5fbfCffff5       5CffffffffffffffC5  5ffffff5
+              5fffff5  5fCfffCff5       55555555d555555555  55555555
+              5fffff5  5ffffffbf5              5Bf5
+              5fffff5  5fCbCffff5              5555
               5fffff5  5fffffCff5
-              5bfffb5  5fbfCffff5
+              5bfffb5  5fbfCfffb5
               5fffff5  5Cfffffff5
-              5ffCff5  5ffffbbbC5
+              5ffCff5  5ffffbfbC5
               5fffff5  5ffCfffff5
               5bfffb5  5fffffCfb5
               5fffff5  5bfffffff5
               5fffff5  5ffffbfff5
               555s555  55s5555555
                 5f5     5f5
-                5f5555555N5
+                5f5555555f5
                 5fffffffff5
                 55555555555

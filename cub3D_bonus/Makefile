@@ -6,7 +6,7 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/28 01:18:10 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/06/28 14:42:19 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,6 @@ SRC			= $(addprefix $(SRC_DIR)/, \
 				$(ENE_SRC) \
 				debug.c \
 				)
-
 MAP_SRC		= $(addprefix $(MAP_DIR)/, \
 				perror.c \
 				error.c \
@@ -74,7 +73,6 @@ MAP_SRC		= $(addprefix $(MAP_DIR)/, \
 				valid_texture_path.c \
 				doors.c \
 				)
-
 RAY_SRC		= $(addprefix $(RAY_DIR)/, \
 				raycast.c \
 				find_wall.c \
@@ -89,7 +87,6 @@ RAY_SRC		= $(addprefix $(RAY_DIR)/, \
 				sprite_init.c \
 				thread.c \
 				)
-
 MOV_SRC		= $(addprefix $(MOV_DIR)/, \
 				rotate.c \
 				movement.c \
@@ -147,7 +144,7 @@ fclean: clean
 	rm -f $(NAME)
 
 start: all
-	./$(NAME) map/castle.cub
+	./$(NAME) map/forest.cub
 
 re: fclean all
 

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   update_sprites.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/28 14:53:43 by mlitvino          #+#    #+#             */
+/*   Updated: 2025/06/28 14:53:44 by mlitvino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
 void	update_statue_alpha(t_data *data, t_char *player)
@@ -5,7 +17,7 @@ void	update_statue_alpha(t_data *data, t_char *player)
 	static double	alpha;
 	double			step;
 
-	step = data->fps / 80.0;
+	step = data->fps / 150.0;
 	if (player->facing_statue)
 	{
 		if (alpha + step > 255)

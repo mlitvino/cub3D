@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 20:21:27 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/28 01:23:55 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/28 14:54:26 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,7 @@ void	tune_audio(t_data *data, char *map_name)
 	SetSoundVolume(data->sound[S_MET_DOOR], 0.5);
 	SetSoundVolume(data->sound[S_SHOT], 2);
 	//PlayMusicStream(data->music[M_STORM]);
-	if (ft_strncmp(map_name, "map/forest", 6) == 0)
-		data->main_music = &data->music[M_FOREST];
-	else
-		data->main_music = &data->music[M_CASTLE];
+	data->main_music = &data->music[M_FOREST];
 }
 
 void	clean_audio(t_data *data)

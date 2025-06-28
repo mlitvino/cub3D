@@ -6,22 +6,31 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:51:51 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/28 12:33:23 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/28 14:52:23 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void draw_aim_cross(mlx_image_t *scr_img)
+void	draw_aim_cross(mlx_image_t *scr_img)
 {
-	for (int x = scr_img->width / 2
-		- 10; x < (int)scr_img->width / 2 + 10; x++)
-		mlx_put_pixel(scr_img, x, scr_img->height / 2,
-			0xFF0000FF);
-	for (int y = scr_img->height / 2
-		- 10; y < (int)scr_img->height / 2 + 10; y++)
-		mlx_put_pixel(scr_img, scr_img->width / 2, y,
-			0xFF0000FF);
+	int	x;
+	int	y;
+
+	x = scr_img->width / 2 - 10;
+	y = scr_img->height / 2;
+	while (x < (int)scr_img->width / 2 + 10)
+	{
+		mlx_put_pixel(scr_img, x, y, 0xFF0000FF);
+		x++;
+	}
+	y = scr_img->height / 2 - 10;
+	x = scr_img->width / 2;
+	while (y < (int)scr_img->height / 2 + 10)
+	{
+		mlx_put_pixel(scr_img, x, y, 0xFF0000FF);
+		y++;
+	}
 }
 
 void	show_fps(t_data *data)

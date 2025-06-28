@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/28 01:05:10 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/28 14:46:32 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	init_obj(t_data *data)
 		}
 		y++;
 	}
-
 }
 
 void	init_unit_map(t_data *data)
@@ -115,7 +114,7 @@ void	init_data(t_data *data, char *map_name)
 	init_player(data);
 	init_obj(data);
 	init_angle_table(data->angle_table);
-	//SetMasterVolume(0);
+	SetMasterVolume(0);
 	data->mlx_data.scr_size.x = WIN_W;
 	data->mlx_data.scr_size.y = WIN_H;
 	data->plane.center.x = WIN_W / 2;

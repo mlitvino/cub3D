@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   menu.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/28 14:46:06 by mlitvino          #+#    #+#             */
+/*   Updated: 2025/06/28 14:46:18 by mlitvino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
-void	change_game_state(t_data *data, int	new_state)
+void	change_game_state(t_data *data, int new_state)
 {
 	int	i;
 
