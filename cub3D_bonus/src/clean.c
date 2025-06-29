@@ -70,6 +70,7 @@ void	clean_obj(t_data *data)
 void	clean_all(t_data *data, char *perr_mess)
 {
 	free_map(data->grid_map, -1);
+	free_paths(data->sprite_list);
 	clean_map(data);
 	clean_mlx(data);
 	clean_obj(data);

@@ -227,7 +227,7 @@ typedef struct s_sprite
 	int				move_rate;
 	int				move_spd;
 	int				turn_spd;
-	float			attack_range;
+	int			attack_range;
 
 	int				has_player_in_sight;
 	t_dpoint			last_seen;
@@ -247,6 +247,8 @@ typedef struct s_sprite
 	double			angle;
 
 	struct s_sprite	*next;
+
+	int moved;
 
 }	t_sprite;
 
@@ -615,5 +617,7 @@ int	can_move_enemy_collision(t_sprite *sprite, float new_x, float new_y, t_data 
 void	free_visited(int **visited, int height);
 int	is_valid_tile(char **map, t_data *data, int x, int y);
 void	no_path(t_sprite *sprite);
+
+void	free_paths(t_sprite *sprites);
 
 #endif

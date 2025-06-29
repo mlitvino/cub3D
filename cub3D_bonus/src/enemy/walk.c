@@ -1,6 +1,6 @@
 #include "cub3D.h"
 
-/*static void print_path(t_path *path)
+static void print_path(t_path *path)
 {
 	int	step;
 
@@ -17,14 +17,18 @@
 		path = path->parent;
 	}
 	printf("---- PATH END ----\n");
-}*/
+}
 static void	attack_player(t_sprite *sprite)
 {
+	//printf("dist: %d, range: %d\n", sprite->dist, sprite->attack_range);
 	if (sprite->dist <= sprite->attack_range)
 	{
-		if (++sprite->move_rate >= 50)
+		//printf("%d\n", sprite->move_rate);
+		if (++sprite->move_rate >= 50 || sprite->moved > 5)
 		{
-			sprite->move_rate = 0;
+			//printf("moved: %d\n", sprite->moved);
+			if (sprite->move_rate >= 50)
+				sprite->move_rate = 0;
 			if (sprite->cur_img == sprite->tex_imgs[WOLF_WALK1]
 				|| sprite->cur_img == sprite->tex_imgs[WOLF_WALK2])
 				sprite->cur_img = sprite->tex_imgs[WOLF_ATTCK];
@@ -33,14 +37,12 @@ static void	attack_player(t_sprite *sprite)
 			else if (sprite->cur_img == sprite->tex_imgs[WOLF_WALK2])
 				sprite->cur_img = sprite->tex_imgs[WOLF_ATTCK];
 		}
-		free_path(sprite->path);
-		sprite->path = NULL;
+		if (sprite->path)
+		{
+			free_path(sprite->path);
+			sprite->path = NULL;
+		}
 		return ;
-	}
-	if (sprite->path)
-	{
-		free_path(sprite->path);
-		sprite->path = NULL;
 	}
 }
 
@@ -48,24 +50,71 @@ static void	wolf_action(t_sprite *sprite, t_data *data)
 {
 	attack_player(sprite);
 	if (has_line_of_sight(sprite, &data->player, data->unit_map)
-		&& sprite->dist < 7 * BLOCK_SIZE)
+		&& sprite->dist < 10 * BLOCK_SIZE)
 	{
+		//printf("called1\n");
+		if (sprite->path)
+		{
+			free_path(sprite->path);
+			sprite->path = NULL;
+		}
 		sprite->last_seen = data->player.pos;
 		sprite->has_player_in_sight = 1;
 		sprite->path = bfs_find_path(data, sprite->pos, data->player.pos);
 		if (sprite->path)
+		{
 			move_to_goal(sprite, data);
+		}
 	}
 	else if (sprite->has_player_in_sight)
 	{
-		sprite->path = bfs_find_path(data, sprite->pos, sprite->last_seen);
+		//printf("called2\n");
+		t_path *tmp = sprite->path;
+		t_path *prev = NULL;
+		t_door *door;
+
+		while (tmp && sprite->has_player_in_sight)
+		{
+			//printf("called\n");
+			if (tmp->parent)
+			{
+				int x = tmp->parent->pos.x;
+				int y = tmp->parent->pos.y;
+				if (data->grid_map[y][x] == 'D')
+				{
+					door = find_door(data->door_list, x * BLOCK_SIZE, y * BLOCK_SIZE);
+					if (door && door->state != OPEN)
+					{
+						if (prev)
+						{
+							tmp->parent = NULL;
+						}
+						else
+						{
+							sprite->path = NULL;
+						}
+					}
+				}
+			}
+			prev = tmp;
+			tmp = tmp->parent;
+		}
 		if (sprite->path)
+		{
+			//print_path(sprite->path);
 			move_to_goal(sprite, data);
+		}
+		//sprite->path = bfs_find_path(data, sprite->pos, sprite->last_seen);
+		//if (sprite->path)
+			//move_to_goal(sprite, data);
 		else
 			sprite->has_player_in_sight = 0;
 	}
 	else
+	{
+		//printf("called3\n");
 		sprite->cur_img = sprite->tex_imgs[WOLF_STAY];
+	}
 }
 
 int	can_move_enemy_collision(t_sprite *sprite, float new_x, float new_y,
@@ -130,7 +179,7 @@ void	update_wolf(t_data *data)
 	sprite = data->sprite_list;
 	while (sprite)
 	{
-		if (sprite->type == WOLF)
+		if (sprite->type == WOLF /*&& sprite->state != DIED*/)
 		{
 			wolf_action(sprite, data);
 		}

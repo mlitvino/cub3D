@@ -55,16 +55,13 @@ MAP_SRC		= $(addprefix $(MAP_DIR)/, \
 				perror.c \
 				error.c \
 				free.c \
-				colour_utils.c \
 				file_utils.c \
 				read_file.c \
-				colour.c \
 				map_borders.c \
 				map_utils.c \
 				map.c \
 				surrounding.c \
 				valid_file.c \
-				valid_texture_path.c \
 				doors.c \
 				)
 

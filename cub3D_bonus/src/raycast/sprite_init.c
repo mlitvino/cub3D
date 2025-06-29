@@ -47,8 +47,11 @@ t_sprite	*create_sprite(t_data *data, int type, int grid_x, int grid_y)
 	new_sprite->path = NULL;
 	new_sprite->next = NULL;
 	new_sprite->move_rate = 0;
-	new_sprite->attack_range = 4.0f * data->player.hitbox_radius;
+	new_sprite->moved = 0;
+	new_sprite->has_player_in_sight = 0;
+	new_sprite->attack_range = BLOCK_SIZE;
 	temp = data->sprite_list;
+	
 	while (temp && temp->next)
 		temp = temp->next;
 	if (!temp)

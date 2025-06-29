@@ -99,8 +99,8 @@ t_path	*bfs_find_path(t_data *data, t_point start, t_dpoint goal)
 	bfs.queue[bfs.rear++] = create_node(s.x, s.y, NULL);
 	bfs.visited[s.y][s.x] = 1;
 	result = bfs_loop(data, &bfs, &d, g);
-	if (!check_for_path(result))
-		return (NULL);
+	//if (!check_for_path(result))
+		//return (NULL);
 	free_visited(bfs.visited, data->map_h);
 	return (result);
 }
