@@ -728,7 +728,7 @@ void						get_damage(t_data *data, t_sprite *spr,
 void						shoot(t_data *data, t_char *player);
 
 // audio.c
-void						tune_audio(t_data *data, char *map_name);
+void						tune_audio(t_data *data);
 void						clean_audio(t_data *data);
 void						init_audio(t_data *data);
 
@@ -756,7 +756,7 @@ void						init_obj(t_data *data);
 void						init_unit_map(t_data *data);
 void						init_player(t_data *data);
 void						init_angle_table(t_table *angle_table);
-void						init_data(t_data *data, char *map_name);
+void						init_data(t_data *data);
 
 // debug.c
 void						draw_menu_but_grid(t_data *data, int main);

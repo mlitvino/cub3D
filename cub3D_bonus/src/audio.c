@@ -32,7 +32,7 @@ static const char	*g_music_path[MAX_MUSIC] = {
 [M_PLAYER_STEP] = M_PLAYER_STEP_PATH
 };
 
-void	tune_audio(t_data *data, char *map_name)
+void	tune_audio(t_data *data)
 {
 	PlaySound(data->sound[S_STATUE_HUM]);
 	SetMusicVolume(data->music[M_FOREST], 0.5);

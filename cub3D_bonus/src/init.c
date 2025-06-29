@@ -104,7 +104,7 @@ void	init_angle_table(t_table *angle_table)
 	}
 }
 
-void	init_data(t_data *data, char *map_name)
+void	init_data(t_data *data)
 {
 	data->game_state = START;
 	init_mlx(data);
