@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 20:21:27 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/28 14:54:26 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/30 02:54:03 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ void	clean_audio(t_data *data)
 	i = 0;
 	while (i < MAX_SOUND)
 	{
-		if (IsSoundValid(data->sound[i]))
+		if (IsSoundReady(data->sound[i]))
 			UnloadSound(data->sound[i]);
 		i++;
 	}
 	i = 0;
 	while (i < MAX_MUSIC)
 	{
-		if (IsMusicValid(data->music[i]))
+		if (IsMusicReady(data->music[i]))
 			UnloadMusicStream(data->music[i]);
 		i++;
 	}
@@ -72,7 +72,6 @@ void	init_audio(t_data *data)
 
 	ft_bzero(&data->sound[0], sizeof(Sound) * MAX_SOUND);
 	ft_bzero(&data->music[0], sizeof(Music) * MAX_MUSIC);
-	SetTraceLogLevel(LOG_WARNING);
 	InitAudioDevice();
 	if (IsAudioDeviceReady() == false)
 		clean_all(data, NULL);
@@ -80,7 +79,7 @@ void	init_audio(t_data *data)
 	while (i < MAX_SOUND)
 	{
 		data->sound[i] = LoadSound(g_sound_path[i]);
-		if (IsSoundValid(data->sound[i]) == false)
+		if (IsSoundReady(data->sound[i]) == false)
 			clean_all(data, NULL);
 		i++;
 	}
@@ -88,7 +87,7 @@ void	init_audio(t_data *data)
 	while (i < MAX_MUSIC)
 	{
 		data->music[i] = LoadMusicStream(g_music_path[i]);
-		if (IsMusicValid(data->music[i]) == false)
+		if (IsMusicReady(data->music[i]) == false)
 			clean_all(data, NULL);
 		i++;
 	}

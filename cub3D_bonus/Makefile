@@ -6,21 +6,21 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/28 22:38:30 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/06/30 02:38:47 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC			= cc  -Wall -Wextra -Ofast -march=native -flto
+CC			= cc  -Wall -Wextra
 # -Wall -Wextra -Werror -Ofast -march=native -flto
 HEADERS		= -I$(LIBFT_DIR)/$(INCLD_DIR) -I$(INCLD_DIR)
-HEADERS		+= -I$(MLX_DIR)/include -I$(RAYLIB_DIR)
-LIBS		= -L$(MLX_DIR)/build $(MLX) $(RAYLIB)
-LIBS		+= -lz -ldl -lglfw -pthread -lm -o
+HEADERS		+= -I$(MLX_DIR)/include -I$(RAUDIO_DIR)
+LIBS		= -L$(MLX_DIR)/build $(MLX)
+LIBS		+= -lz -ldl -lglfw -pthread -lm
 
 NAME		= cub3D
 LIBFT		= $(LIBFT_DIR)/libft.a
 MLX			= $(MLX_DIR)/build/libmlx42.a
-RAYLIB		= $(RAYLIB_DIR)/libraylib.a
+RAUDIO		= $(RAUDIO_DIR)/raudio.a
 
 OBJ_DIR		= obj
 INCLD_DIR	= includes
@@ -28,7 +28,7 @@ INCLD_DIR	= includes
 LIBS_DIR	= ../lib
 MLX_DIR		= $(LIBS_DIR)/MLX42
 LIBFT_DIR	= $(LIBS_DIR)/libft
-RAYLIB_DIR	= $(LIBS_DIR)/raylib/src
+RAUDIO_DIR	=  $(LIBS_DIR)/raudio/src
 
 SRC_DIR		= src
 RAY_DIR		= raycast
@@ -106,18 +106,22 @@ INCLD		= $(INCLD_DIR)/cub3D.h
 
 .SECONDARY: $(OBJ)
 
-all: $(LIBFT) $(MLX) $(RAYLIB) $(NAME)
+all: ra $(LIBFT) $(MLX) $(NAME)
 
-$(RAYLIB):
-	make -C $(RAYLIB_DIR)
+ra:
+	cd $(RAUDIO_DIR) && \
+	cc -c raudio.c -o raudio.o \
+	-I. -I../external -Wall -std=c99 \
+	-DSUPPORT_MODULE_RAUDIO \
+	-DRAUDIO_STANDALONE \
+	-DSUPPORT_FILEFORMAT_WAV \
+	-DSUPPORT_FILEFORMAT_OGG \
+	-DSUPPORT_FILEFORMAT_MP3 && \
+	ar rcs raudio.a raudio.o
 
 $(MLX):
 	cmake -S $(MLX_DIR) -B $(MLX_DIR)/build
 	cmake --build $(MLX_DIR)/build -j6
-	@cd $(MLX_DIR)/build && \
-	ar x libmlx42.a glad.c.o && \
-	objcopy --weaken glad.c.o && \
-	ar rcs libmlx42.a *.o
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INCLD)
 	@[ -d $(OBJ_DIR) ] || mkdir -p $(OBJ_DIR)
@@ -127,8 +131,8 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/*/%.c $(INCLD)
 	@[ -d $(OBJ_DIR) ] || mkdir -p $(OBJ_DIR)
 	$(CC) $(HEADERS) -c $< -o $@
 
-$(NAME): $(OBJ) $(LIBFT)
-	$(CC) $(OBJ) $(LIBFT) $(LIBS) $(HEADERS) -o $(NAME)
+$(NAME): $(OBJ) $(LIBFT) $(RAUDIO_DIR)/raudio.a  $(RAUDIO_DIR)/raudio.h
+	$(CC) $(OBJ) $(LIBFT) $(RAUDIO_DIR)/raudio.a  $(LIBS) $(HEADERS) -o $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFT_DIR) all
@@ -136,7 +140,6 @@ $(LIBFT):
 
 clean:
 	rm -rf $(OBJ_DIR)
-	make -C $(RAYLIB_DIR) clean
 	make -C $(LIBFT_DIR) clean
 
 fclean: clean

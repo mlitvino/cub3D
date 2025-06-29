@@ -6,17 +6,17 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/28 12:33:12 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/30 02:48:34 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# include "raudio.h"
 # include "MLX42/MLX42_Int.h"
 # include "float.h"
 # include "libft.h"
-# include "raylib.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <math.h>
