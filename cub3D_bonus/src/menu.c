@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 14:46:06 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/28 14:46:18 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:30:54 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	change_game_state(t_data *data, int new_state)
 		PlaySound(data->sound[S_PLAYER_DYING]);
 	else if (new_state == WIN)
 		PlaySound(data->sound[S_VICTORY]);
+	else if (new_state == START)
+		mlx_set_cursor_mode(data->mlx_data.mlx_ptr, MLX_MOUSE_HIDDEN);
 	data->game_state = new_state;
 }
 

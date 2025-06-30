@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/30 13:32:51 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:25:48 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -759,16 +759,6 @@ void						init_player(t_data *data);
 void						init_angle_table(t_table *angle_table);
 void						init_data(t_data *data);
 
-// debug.c
-void						draw_menu_but_grid(t_data *data, int main);
-void						show_sprites(t_sprite **sprite_array,
-								t_sprite *sprite_list);
-void						show_doors(t_door *list);
-void						show_char_pos(t_data *data, t_char *chr);
-void						show_unit_map(t_data *data);
-void						show_redline(t_data *data);
-void						draw_aim_cross(mlx_image_t *scr_img);
-
 //----------------------------------PARSING------------------------------------
 
 // free error functions
@@ -844,6 +834,7 @@ int							has_line_of_sight(t_sprite *enemy, t_char *player,
 								char **map);
 t_path						*reverse_path(t_path *end);
 void						free_path(t_path *path);
+void						free_paths(t_sprite *sprites);
 void						move_to_goal(t_sprite *sprite, t_data *data);
 int							can_move_wall_enemy(t_sprite *sprite, float new_x,
 								float new_y, t_data *data);

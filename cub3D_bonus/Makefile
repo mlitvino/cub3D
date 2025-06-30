@@ -6,7 +6,7 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/30 13:32:10 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/06/30 14:28:50 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ CC			= cc  -Wall -Wextra
 # -Wall -Wextra -Werror -Ofast -march=native -flto
 HEADERS		= -I$(LIBFT_DIR)/$(INCLD_DIR) -I$(INCLD_DIR)
 HEADERS		+= -I$(MLX_DIR)/include -I$(RAUDIO_DIR)
-LIBS		= -L$(MLX_DIR)/build $(MLX)
+LIBS		= -L$(MLX_DIR)/build $(MLX) $(RAUDIO)
 LIBS		+= -lz -ldl -lglfw -pthread -lm
 
 NAME		= cub3D
@@ -55,7 +55,6 @@ SRC			= $(addprefix $(SRC_DIR)/, \
 				$(RAY_SRC) \
 				$(MOV_SRC) \
 				$(ENE_SRC) \
-				debug.c \
 				)
 MAP_SRC		= $(addprefix $(MAP_DIR)/, \
 				perror.c \
@@ -103,9 +102,9 @@ INCLD		= $(INCLD_DIR)/cub3D.h
 
 .SECONDARY: $(OBJ)
 
-all: ra $(LIBFT) $(MLX) $(NAME)
+all: $(RAUDIO) $(LIBFT) $(MLX) $(NAME)
 
-ra:
+$(RAUDIO):
 	cd $(RAUDIO_DIR) && \
 	cc -c raudio.c -o raudio.o \
 	-I. -I../external -Wall -std=c99 \
@@ -128,8 +127,8 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/*/%.c $(INCLD)
 	@[ -d $(OBJ_DIR) ] || mkdir -p $(OBJ_DIR)
 	$(CC) $(HEADERS) -c $< -o $@
 
-$(NAME): $(OBJ) $(LIBFT) $(RAUDIO_DIR)/raudio.a  $(RAUDIO_DIR)/raudio.h
-	$(CC) $(OBJ) $(LIBFT) $(RAUDIO_DIR)/raudio.a  $(LIBS) $(HEADERS) -o $(NAME)
+$(NAME): $(OBJ) $(LIBFT)
+	$(CC) $(OBJ) $(LIBFT) $(LIBS) $(HEADERS) -o $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFT_DIR) all
@@ -137,11 +136,13 @@ $(LIBFT):
 
 clean:
 	rm -rf $(OBJ_DIR)
+	rm -rf $(RAUDIO_DIR)/raudio.o
 	make -C $(LIBFT_DIR) clean
 
 fclean: clean
 	make -C $(MLX_DIR)/build clean
 	make -C $(LIBFT_DIR) fclean
+	rm -rf $(RAUDIO)
 	rm -f $(NAME)
 
 start: all

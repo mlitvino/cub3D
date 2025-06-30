@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 20:21:27 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/30 02:54:03 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:35:42 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,10 @@ void	tune_audio(t_data *data)
 	SetMusicVolume(data->music[M_FOREST], 0.5);
 	SetMusicVolume(data->music[M_CASTLE], 0.3);
 	SetSoundVolume(data->sound[S_STATUE_HUM], 0);
-	SetSoundVolume(data->sound[S_MET_DOOR], 0.5);
+	SetSoundVolume(data->sound[S_MET_DOOR], 0.3);
 	SetSoundVolume(data->sound[S_SHOT], 2);
-	//PlayMusicStream(data->music[M_STORM]);
+	if (data->game_state == MAIN_MENU)
+		PlayMusicStream(data->music[M_STORM]);
 	data->main_music = &data->music[M_FOREST];
 }
 
