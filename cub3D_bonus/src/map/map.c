@@ -43,8 +43,7 @@ static int	valid_characters(char **map)
 		j = 0;
 		while (map[i][j])
 		{
-			if (!ft_strchr("01NSWEDBCF ", map[i][j]))
-				// can add extra characters for bonus
+			if (!ft_strchr(VALID_CHARS, map[i][j]))
 				return (0);
 			j++;
 		}
@@ -52,8 +51,6 @@ static int	valid_characters(char **map)
 	}
 	return (1);
 }
-
-// pad the map with "P"
 
 int	longest_line(char **map, int height)
 {
@@ -100,8 +97,6 @@ int	fill_padded_map(int height, t_data *data, char **padded_map, char **map)
 	padded_map[height] = NULL;
 	return (1);
 }
-
-// map borders
 
 int	valid_map(t_data *data)
 {

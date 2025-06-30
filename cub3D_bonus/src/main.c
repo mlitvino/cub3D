@@ -3,22 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/23 12:50:59 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:23:36 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
+void	print_usage(void)
+{
+	printf("Usage: ./cub3D <map_file.cub>\n\n");
+	printf("Map Legend:\n");
+	printf("  %-3s : %s\n", "0", "grass");
+	printf("  %-3s : %s\n", "X", "blood grass");
+	printf("  %-3s : %s\n", "F", "wood floor");
+	printf("  %-3s : %s\n", "f", "stone floor");
+	printf("  %-3s : %s\n", "1", "forest");
+	printf("  %-3s : %s\n", "2", "rock wall");
+	printf("  %-3s : %s\n", "3", "wagon");
+	printf("  %-3s : %s\n", "4", "wood wall");
+	printf("  %-3s : %s\n", "5", "stone wall");
+	printf("  %-3s : %s\n", "R", "stone road");
+	printf("  %-3s : %s\n", "D", "wood door");
+	printf("  %-3s : %s\n", "s", "stone door");
+	printf("  %-3s : %s\n", "M", "metal door");
+	printf("  %-3s : %s\n", "A", "ammo pickup");
+	printf("  %-3s : %s\n", "N/S/W/E", "player start");
+	printf("  %-3s : %s\n", "d", "dead man");
+	printf("  %-3s : %s\n", "C", "statue");
+	printf("  %-3s : %s\n", "B", "wolf enemy");
+	printf("  %-3s : %s\n", "b", "bones");
+	printf("  %-3s : %s\n", "T", "evil_tree");
+	printf("  %-3s : %s\n", "G", "exit\n");
+	exit(EXIT_SUCCESS);
+}
+
 int	parsing_file(t_data *data, char **argv, int argc)
 {
 	if (argc != 2)
-	{
-		printf("Usage: ./cub3D 'file'\n");
-		return (0);
-	}
+		print_usage();
 	data->map_data = read_file(argv[1], data);
 	if (!data->map_data)
 		return (0);
@@ -45,6 +70,8 @@ int	main(int argc, char *argv[])
 		return (1);
 	init_data(&data);
 	mlx_key_hook(data.mlx_data.mlx_ptr, &key_event_handler, &data);
+	mlx_resize_hook(data.mlx_data.mlx_ptr, &resize_handler, &data);
+	mlx_mouse_hook(data.mlx_data.mlx_ptr, &mouse_hook, &data);
 	mlx_loop_hook(data.mlx_data.mlx_ptr, render, &data);
 	mlx_loop(data.mlx_data.mlx_ptr);
 	clean_all(&data, NULL);

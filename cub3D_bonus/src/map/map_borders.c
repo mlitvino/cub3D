@@ -9,9 +9,8 @@ static int	check_first_row(char **map)
 	len = ft_strlen(map[0]);
 	while (i < len)
 	{
-		if (map[0][i] != '1' && map[0][i] != ' ')
+		if (!ft_strchr(WALLS, map[0][i]) && map[0][i] != ' ')
 		{
-			printf("1\n");
 			return (0);
 		}
 		i++;
@@ -28,9 +27,8 @@ static int	check_last_row(char **map, int height)
 	i = 0;
 	while (i < len)
 	{
-		if (map[height - 1][i] != '1' && map[height - 1][i] != ' ')
+		if (!ft_strchr(WALLS,map[height - 1][i]) && map[height - 1][i] != ' ')
 		{
-			printf("2\n");
 			return (0);
 		}
 		i++;
@@ -53,9 +51,9 @@ static int	check_middle_rows(char **map, int height)
 			return (0);
 		while (map[i][j] == ' ')
 			j++;
-		if (map[i][j] != '1')
+		if (!ft_strchr(WALLS, map[i][j]))
 			return (0);
-		if (map[i][len - 1] != '1')
+		if (!ft_strchr(WALLS, map[i][len - 1]))
 			return (0);
 		i++;
 	}

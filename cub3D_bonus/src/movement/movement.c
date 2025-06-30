@@ -39,10 +39,10 @@ int	can_move_wall(t_char *player, double new_x, double new_y)
 	{
 		return (0);
 	}
-	if (unit_map[cell_top][cell_left] == WALL
-		|| unit_map[cell_top][cell_right] == WALL
-		|| unit_map[cell_bottom][cell_left] == WALL
-		|| unit_map[cell_bottom][cell_right] == WALL)
+	if (ft_strchr(WALLS, unit_map[cell_top][cell_left])
+		|| ft_strchr(WALLS, unit_map[cell_top][cell_right])
+		|| ft_strchr(WALLS, unit_map[cell_bottom][cell_left])
+		|| ft_strchr(WALLS, unit_map[cell_bottom][cell_right]))
 	{
 		return (0);
 	}
@@ -78,10 +78,10 @@ int	can_move_door(t_char *player, double new_x, double new_y)
 	{
 		return (0);
 	}
-	if (unit_map[cell_top][cell_left] == DOOR
-		|| unit_map[cell_top][cell_right] == DOOR
-		|| unit_map[cell_bottom][cell_left] == DOOR
-		|| unit_map[cell_bottom][cell_right] == DOOR)
+	if (ft_strchr(DOORS, unit_map[cell_top][cell_left])
+		|| ft_strchr(DOORS, unit_map[cell_top][cell_right])
+		|| ft_strchr(DOORS, unit_map[cell_bottom][cell_left])
+		|| ft_strchr(DOORS, unit_map[cell_bottom][cell_right]))
 	{
 		return (open_closed_door(player, new_x, new_y));
 	}
@@ -96,7 +96,7 @@ static int	check_for_enemy_collision(t_char *player, double new_x, double new_y)
 
 	while (sprite)
 	{
-		if (sprite->type == WOLF)
+		if (sprite->walkable == false)
 		{
 			dx = sprite->pos.x - new_x;
 			dy = sprite->pos.y - new_y;

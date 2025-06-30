@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:39:09 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/22 20:01:23 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/27 00:46:38 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,18 @@
 
 void	put_minimap_pix(t_data *data, t_point map_pos, int x, int y)
 {
+	char	point;
+
 	if (is_on_map(data, &map_pos) == true)
 	{
-		if (data->unit_map[map_pos.y][map_pos.x] == WALL)
+		point = data->unit_map[map_pos.y][map_pos.x];
+		if (point == WALL)
 			mlx_put_pixel(data->mlx_data.minimap, x, y, GREEN_COL);
-		else if (data->unit_map[map_pos.y][map_pos.x] == DOOR)
+		else if (point == STONE_WALL || point == WAGON || point == ROCK_WALL)
+			mlx_put_pixel(data->mlx_data.minimap, x, y, GRAY_COL);
+		else if (point == WOOD_WALL)
+			mlx_put_pixel(data->mlx_data.minimap, x, y, BROWN_COL);
+		else if (ft_strchr(DOORS, point))
 			mlx_put_pixel(data->mlx_data.minimap, x, y, ORANGE_COL);
 	}
 }
@@ -34,7 +41,7 @@ void	draw_background(mlx_image_t *minimap)
 		y = 0;
 		while (y < minimap->height)
 		{
-			mlx_put_pixel(minimap, x, y, 0xAA);
+			mlx_put_pixel(minimap, x, y, 0x29292980);
 			y++;
 		}
 		x++;
@@ -48,7 +55,7 @@ void	draw_obj(t_data *data, t_point *mid_img, mlx_image_t *minimap)
 	t_point		map_pos;
 	int			step;
 
-	step = BLOCK_SIZE / SCALE;
+	step = BLOCK_SIZE / MINIMAP_ZOOM;
 	map_pos.x = data->player.pos.x - (mid_img->x * step);
 	x = 0;
 	while (x < minimap->width)

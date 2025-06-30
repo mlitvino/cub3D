@@ -78,9 +78,9 @@ int	is_valid_tile(char **map, t_data *data, int x, int y)
 
 	if (x < 0 || y < 0 || x >= data->map_w || y >= data->map_h)
 		return (0);
-	if (map[y][x] == '1')
+	if (ft_strchr(WALLS, map[y][x]))
 		return (0);
-	if (map[y][x] == 'D')
+	if (ft_strchr(DOORS, map[y][x]))
 	{
 		door = find_door(data->door_list, x * BLOCK_SIZE, y * BLOCK_SIZE);
 		if (!door || door->state != OPEN)

@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:43:06 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/21 13:20:51 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/24 13:17:07 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	compre_dist(t_raycast *raycast, t_point hor_wall, t_point ver_wall)
 	}
 }
 
-void	cast_ray(t_raycast *raycast, double ray_angl)
+void	cast_ray(t_raycast *raycast)
 {
 	find_wall(raycast, &raycast->hor_wall, HORIZONT, &raycast->hor_dist);
 	find_wall(raycast, &raycast->ver_wall, VERTICAL, &raycast->ver_dist);
@@ -101,7 +101,7 @@ void	raycast(t_data *data)
 	while (cur_ray < data->rays_count)
 	{
 		fill_ray_info(&raycast);
-		cast_ray(&raycast, raycast.ray_angle);
+		cast_ray(&raycast);
 		cur_ray++;
 		cur_angle -= data->rays_angle;
 		if (cur_angle < 0)

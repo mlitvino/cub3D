@@ -19,7 +19,7 @@
 	printf("---- PATH END ----\n");
 }*/
 
-static void	attack_player(t_sprite *sprite)
+static void	attack_player(t_data *data, t_sprite *sprite)
 {
 	if (sprite->dist <= sprite->attack_range)
 	{
@@ -27,19 +27,27 @@ static void	attack_player(t_sprite *sprite)
 		{
 			if (sprite->attack_rate >= 30)
 				sprite->attack_rate = 0;
+			if (IsSoundPlaying(data->sound[S_WOLF_GROWL]) == false)
+				PlaySound(data->sound[S_WOLF_GROWL]);
 			if (sprite->cur_img == sprite->tex_imgs[WOLF_WALK1]
 				|| sprite->cur_img == sprite->tex_imgs[WOLF_WALK2])
+			{
+				get_damage(data, NULL, &data->player);
 				sprite->cur_img = sprite->tex_imgs[WOLF_ATTCK];
+			}
 			else if (sprite->cur_img == sprite->tex_imgs[WOLF_ATTCK])
 				sprite->cur_img = sprite->tex_imgs[WOLF_WALK2];
 			else if (sprite->cur_img == sprite->tex_imgs[WOLF_WALK2])
+			{
+				get_damage(data, NULL, &data->player);
 				sprite->cur_img = sprite->tex_imgs[WOLF_ATTCK];
+			}
 		}
-		if (sprite->path)
+		/*if (sprite->path)
 		{
 			free_path(sprite->path);
 			sprite->path = NULL;
-		}
+		}*/
 		return ;
 	}
 }
@@ -83,7 +91,7 @@ static void	check_closed_door_in_path(t_data *data, t_sprite *sprite)
 
 static void	wolf_action(t_sprite *sprite, t_data *data)
 {
-	attack_player(sprite);
+	attack_player(data, sprite);
 	if (has_line_of_sight(sprite, &data->player, data->unit_map)
 		&& sprite->dist < 10 * BLOCK_SIZE)
 	{
@@ -122,7 +130,7 @@ int	can_move_enemy_collision(t_sprite *sprite, float new_x, float new_y,
 	other = data->sprite_list;
 	while (other)
 	{
-		if (other != sprite)
+		if (other != sprite && other->walkable == false)
 		{
 			dx = other->pos.x - new_x;
 			dy = other->pos.y - new_y;
@@ -155,10 +163,10 @@ int	can_move_wall_enemy(t_sprite *sprite, float new_x, float new_y,
 	{
 		return (0);
 	}
-	if (unit_map[cell_top][cell_left] == WALL
-		|| unit_map[cell_top][cell_right] == WALL
-		|| unit_map[cell_bottom][cell_left] == WALL
-		|| unit_map[cell_bottom][cell_right] == WALL)
+	if (ft_strchr(WALLS, unit_map[cell_top][cell_left])
+		|| ft_strchr(WALLS, unit_map[cell_top][cell_right])
+		|| ft_strchr(WALLS, unit_map[cell_bottom][cell_left])
+		|| ft_strchr(WALLS, unit_map[cell_bottom][cell_right]))
 	{
 		return (0);
 	}

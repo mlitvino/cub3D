@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:59:38 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/21 20:18:36 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/26 19:13:30 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	calc_norm_dist(t_raycast *raycast)
 {
-	double	temp;
+	long double	temp;
 
 	if (raycast->hor_wall.dist != INT_MAX)
 	{
@@ -32,26 +32,28 @@ void	select_tex(t_raycast *raycast, t_wall *wall, int axis)
 {
 	raycast->axis = axis;
 	raycast->data->rays_dist[raycast->cur_ray] = wall->dist;
-	if (wall->type == DOOR)
+	if (ft_strchr(DOORS, wall->type))
 	{
-		wall->img_i = DOOR_TEX;
+		if (wall->type == DOOR)
+			wall->img_i = DOOR_TEX;
+		else if (wall->type == MET_DOOR)
+			wall->img_i = MET_DOOR_TEX;
+		else if (wall->type == STONE_DOOR)
+			wall->img_i = STONE_DOOR_TEX;
 		if (raycast->cur_ray == WIN_W / 2)
 			raycast->player->door_facing = wall->dist;
+		return ;
 	}
-	else if (axis == VERTICAL)
-	{
-		if (ISEAST(raycast->ray_angle))
-			wall->img_i = WEST;
-		else
-			wall->img_i = EAST;
-	}
-	else
-	{
-		if (ISSOUTH(raycast->ray_angle))
-			wall->img_i = SOUTH;
-		else
-			wall->img_i = NORTH;
-	}
+	if (wall->type == WALL)
+		wall->img_i = WALL_TEX;
+	else if (wall->type == STONE_WALL)
+		wall->img_i = STONE_WALL_TEX;
+	else if (wall->type == WOOD_WALL)
+		wall->img_i = WOOD_WALL_TEX;
+	else if (wall->type == ROCK_WALL)
+		wall->img_i = ROCK_TEX;
+	else if (wall->type == WAGON)
+		wall->img_i = WAGON_TEX;
 }
 
 void	init_common_info(t_data *data, t_char *player, t_raycast *raycast)

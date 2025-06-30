@@ -6,11 +6,39 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/30 13:09:02 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:23:23 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+void	init_obj(t_data *data)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	while (y < data->map_h)
+	{
+		x = 0;
+		while (x < data->map_w)
+		{
+			if (ft_strchr("NSWE", data->grid_map[y][x]))
+				replace_unit_points(data, x, y);
+			if (ft_strchr(DOORS, data->grid_map[y][x]))
+				if (create_door(data, &data->door_list, x, y) == NULL)
+					clean_all(data, "malloc");
+			if (ft_strchr(SPRITES, data->grid_map[y][x]))
+			{
+				if (create_sprite(data, data->grid_map[y][x], x, y) == NULL)
+					clean_all(data, "malloc");
+				replace_unit_points(data, x, y);
+			}
+			x++;
+		}
+		y++;
+	}
+}
 
 void	init_unit_map(t_data *data)
 {
@@ -48,33 +76,12 @@ void	init_player(t_data *data)
 	player->height = BLOCK_SIZE / 2;
 	player->move_spd = BLOCK_SIZE / 16;
 	player->turn_spd = 2;
-	printf("x %d y %d\n", data->map_h, data->map_w);
-	for (int y = 0; y < data->map_h; y++)
-	{
-		for (int x = 0; x < data->map_w; x++)
-		{
-			if (data->grid_map[y][x] == DOOR)
-			{
-				if (create_door(&data->door_list, x, y) == NULL)
-					clean_all(data, "malloc"); // IMRPOVE
-			}
-			if (data->grid_map[y][x] == WOLF)
-			{
-				if (create_sprite(data, WOLF, x, y) == NULL)
-					clean_all(data, "malloc"); // IMRPOVE
-			}
-			if (data->grid_map[y][x] == STATUE)
-			{
-				if (create_sprite(data, STATUE, x, y) == NULL)
-					clean_all(data, "malloc"); // IMRPOVE
-			}
-			// if (data->grid_map[y][x] == LAMP)
-			// {
-			// 	if (create_sprite(&data->door_list, LAMP, x, y) == NULL)
-			// 		clean_all(data, "malloc"); // IMRPOVE
-			// }
-		}
-	}
+	player->ammo = PLAYER_AMMO;
+	player->hp = PLAYER_HP;
+	player->wall_rt = 1 + (player->height / (BLOCK_SIZE / 2));
+	player->ceiling_rt = BLOCK_SIZE / (1 + ((BLOCK_SIZE / 2) / (BLOCK_SIZE
+					- player->height)));
+	player->floor_rt = BLOCK_SIZE / (1 + ((BLOCK_SIZE / 2) / player->height));
 }
 
 void	init_angle_table(t_table *angle_table)
@@ -100,13 +107,17 @@ void	init_angle_table(t_table *angle_table)
 void	init_data(t_data *data)
 {
 	data->game_state = START;
-	init_audio(data);
 	init_mlx(data);
+	init_audio(data);
+	tune_audio(data);
+	tune_audio(data);
 	init_unit_map(data);
 	init_player(data);
+	init_obj(data);
 	init_angle_table(data->angle_table);
-	data->main_button = MAIN_BUTTON;
-	data->pause_button = PAUSE_BUTTON;
+	//SetMasterVolume(0);
+	data->mlx_data.scr_size.x = WIN_W;
+	data->mlx_data.scr_size.y = WIN_H;
 	data->plane.center.x = WIN_W / 2;
 	data->plane.center.y = WIN_H / 2;
 	data->plane.dist = (WIN_W / 2) / tan(deg_rad(FOV / 2));

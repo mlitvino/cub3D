@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/16 18:06:20 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/27 18:30:33 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
+# include "float.h"
 
 # define WIN_W 800
 # define WIN_H 600
@@ -200,7 +201,7 @@ void					render_col(t_raycast *raycast, t_point wall,
 							int wall_dist, int tex_indx);
 void					compre_dist(t_raycast *raycast, t_point hor_wall,
 							t_point ver_wall);
-void					cast_ray(t_raycast *raycast, double ray_angl);
+void					cast_ray(t_raycast *raycast);
 void					raycast(t_data *data);
 
 // find_wall.c
@@ -217,7 +218,7 @@ bool					find_wall(t_raycast *raycast, t_point *wall,
 // utils.c
 bool					is_on_map(t_data *data, t_point *p);
 double					deg_rad(double deg);
-double					calc_dist(t_point p1, t_point p2);
+long double				calc_dist(t_point p1, t_point p2);
 uint32_t				extract_rgba(uint8_t *raw);
 
 //-------------------------------MOVEMENT------------------------------------

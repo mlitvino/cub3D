@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 18:59:38 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/05/26 12:45:40 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/26 14:53:02 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	calc_norm_dist(t_raycast *raycast)
 {
-	double	temp;
+	long double	temp;
 
 	if (raycast->hor_dist != INT_MAX)
 	{

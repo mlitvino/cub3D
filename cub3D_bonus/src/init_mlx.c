@@ -6,185 +6,130 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:55:28 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/22 18:11:30 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:50:41 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-bool	resize_image(mlx_image_t *img, int img_i)
-{
-	if (img_i == SKY_TEX)
-		return (mlx_resize_image(img, SKY_W, SKY_H));
-	else if (img_i == CROSSBOW1 || img_i == CROSSBOW2 || img_i == STATUE_FACE)
-		return (mlx_resize_image(img, WIN_W, WIN_H));
-	else
-		return (mlx_resize_image(img, BLOCK_SIZE, BLOCK_SIZE));
-}
-
-// void	*init_tex(t_mlx *mlx_data, mlx_texture_t **tex)
-// {
-// 	mlx_image_t	**tex_img;
-// 	int			i;
-
-// 	tex_img = mlx_data->textrs_img;
-// 	i = 0;
-// 	while (i < MAX_TEX)
-// 	{
-// 		tex[i] = mlx_load_png(mlx_data->tex_path[i]);
-// 		if (!tex[i])
-// 			return (NULL);
-// 		tex_img[i] = mlx_texture_to_image(mlx_data->mlx_ptr, tex[i]);
-// 		if (!tex_img[i])
-// 			return (NULL);
-// 		if (i == SKY_TEX)
-// 			return (mlx_resize_image(tex_img[i], SKY_W, SKY_H));
-// 		else if (i >= MAIN_MENU)
-// 			return (mlx_resize_image(tex_img[i], WIN_W, WIN_H));
-// 		else
-// 			return (mlx_resize_image(tex_img[i], BLOCK_SIZE, BLOCK_SIZE));
-// 		i++;
-// 	}
-// }
+static const char	*g_tex_path[MAX_TEX] = {
+[NORTH] = NORTH_PATH,
+[EAST] = EAST_PATH,
+[WEST] = WEST_PATH,
+[SOUTH] = SOUTH_PATH,
+[WAGON_TEX] = WAGON_TEX_PATH,
+[ROCK_TEX] = ROCK_TEX_PATH,
+[WALL_TEX] = WALL_TEX_PATH,
+[WOOD_WALL_TEX] = WOOD_WALL_PATH,
+[STONE_WALL_TEX] = STONE_WALL_PATH,
+[STONE_FLOOR_TEX] = STONE_FLOOR_PATH,
+[DOOR_TEX] = DOOR_TEX_PATH,
+[STONE_DOOR_TEX] = STONE_DOOR_PATH,
+[MET_DOOR_TEX] = MET_DOOR_TEX_PATH,
+[FLOOR_TEX] = FLOOR_TEX_PATH,
+[BLD_GRASS_TEX] = BLD_GRASS_PATH,
+[ROAD_TEX] = ROAD_PATH,
+[GROUND_TEX] = GROUND_TEX_PATH,
+[CEILING_TEX] = CEILING_TEX_PATH,
+[SKY_TEX] = SKY_TEX_PATH,
+[WOODPILE_TEX] = WOODPILE_PATH,
+[BONES_TEX] = BONES_PATH,
+[DEAD_MAN_TEX] = DEAD_MAN_PATH,
+[WOLF_STAY] = WOLF_STAY_PATH,
+[WOLF_WALK1] = WOLF_WALK1_PATH,
+[WOLF_WALK2] = WOLF_WALK2_PATH,
+[WOLF_ATTCK] = WOLF_ATTCK_PATH,
+[WOLF_DEAD] = WOLF_DEAD_PATH,
+[STATUE_GREY] = STATUE_GREY_PATH,
+[STATUE_RED] = STATUE_RED_PATH,
+[EVIL_TREE] = EVIL_TREE_PATH,
+[MAIN_MENU] = MAIN_MENU_PATH,
+[PAUSE] = PAUSE_PATH,
+[DEATH] = DEATH_PATH,
+[CONTROLS] = CONTROLS_PATH,
+[WIN] = WIN_PATH,
+[STATUE_FACE] = STATUE_FACE_PATH,
+[HUD_TEX] = HUD_PATH,
+[N0_TEX] = N0_PATH,
+[N1_TEX] = N1_PATH,
+[N2_TEX] = N2_PATH,
+[N3_TEX] = N3_PATH,
+[N4_TEX] = N4_PATH,
+[N5_TEX] = N5_PATH,
+[N6_TEX] = N6_PATH,
+[N7_TEX] = N7_PATH,
+[N8_TEX] = N8_PATH,
+[N9_TEX] = N9_PATH,
+[CROSSBOW1] = CROSSBOW1_PATH,
+[CROSSBOW2] = CROSSBOW2_PATH,
+[EXIT_TEX] = EXIT_TEX_PATH,
+[AMMO_TEX] = AMMO_TEX_PATH
+};
 
 void	*init_tex(t_mlx *mlx_data, mlx_texture_t **tex)
 {
-	// mlx_image_t	**tex_img;
-	// int			i;
+	mlx_image_t	**tex_img;
+	int			i;
 
-	// tex_img = mlx_data->textrs_img;
-	// i = 0;
-	// while (i < MAX_TEX)
-	// {
-	// 	tex[i] = mlx_load_png(mlx_data->tex_path[i]);
-	// 	if (!tex[i])
-	// 		return (NULL);
-	// 	tex_img[i] = mlx_texture_to_image(mlx_data->mlx_ptr, tex[i]);
-	// 	if (!tex_img[i])
-	// 		return (NULL);
-	// 	if (!resize_image(tex_img[i], i))
-	// 		return (NULL);
-	// 	i++;
-	// }
-
-	mlx_data->textrs[NORTH] = mlx_load_png("./textures/wall/forest.png");
-	mlx_data->textrs_img[NORTH] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[NORTH]);
-	mlx_resize_image(mlx_data->textrs_img[NORTH], BLOCK_SIZE, BLOCK_SIZE);
-
-	mlx_data->textrs[EAST] = mlx_load_png("./textures/wall/forest.png");
-	mlx_data->textrs_img[EAST] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[EAST]);
-	mlx_resize_image(mlx_data->textrs_img[EAST], BLOCK_SIZE, BLOCK_SIZE);
-
-	mlx_data->textrs[WEST] = mlx_load_png("./textures/wall/forest.png");
-	mlx_data->textrs_img[WEST] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[WEST]);
-	mlx_resize_image(mlx_data->textrs_img[WEST], BLOCK_SIZE, BLOCK_SIZE);
-
-	mlx_data->textrs[SOUTH] = mlx_load_png("./textures/wall/forest.png");
-	mlx_data->textrs_img[SOUTH] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[SOUTH]);
-	mlx_resize_image(mlx_data->textrs_img[SOUTH], BLOCK_SIZE, BLOCK_SIZE);
-
-	mlx_data->textrs[DOOR_TEX] = mlx_load_png("./textures/wood_door.png");
-	mlx_data->textrs_img[DOOR_TEX] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[DOOR_TEX]);
-	mlx_resize_image(mlx_data->textrs_img[DOOR_TEX], BLOCK_SIZE, BLOCK_SIZE);
-
-
-	mlx_data->textrs[FLOOR_TEX] = mlx_load_png("./textures/floor/wood_floor.png");
-	mlx_data->textrs_img[FLOOR_TEX] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[FLOOR_TEX]);
-	mlx_resize_image(mlx_data->textrs_img[FLOOR_TEX], BLOCK_SIZE, BLOCK_SIZE);
-
-
-	mlx_data->textrs[GROUND_TEX] = mlx_load_png("./textures/floor/grass.png");
-	mlx_data->textrs_img[GROUND_TEX] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[GROUND_TEX]);
-	mlx_resize_image(mlx_data->textrs_img[GROUND_TEX], BLOCK_SIZE, BLOCK_SIZE);
-
-	mlx_data->textrs[WOLF_STAY] = mlx_load_png("./textures/wolf/wolf_stay.png");
-	mlx_data->textrs_img[WOLF_STAY] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[WOLF_STAY]);
-	mlx_resize_image(mlx_data->textrs_img[WOLF_STAY], BLOCK_SIZE, BLOCK_SIZE);
-
-	mlx_data->textrs[WOLF_WALK1] = mlx_load_png("./textures/wolf/wolf_walk1.png");
-	mlx_data->textrs_img[WOLF_WALK1] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[WOLF_WALK1]);
-	mlx_resize_image(mlx_data->textrs_img[WOLF_WALK1], BLOCK_SIZE, BLOCK_SIZE);
-
-	mlx_data->textrs[WOLF_WALK2] = mlx_load_png("./textures/wolf/wolf_walk2.png");
-	mlx_data->textrs_img[WOLF_WALK2] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[WOLF_WALK2]);
-	mlx_resize_image(mlx_data->textrs_img[WOLF_WALK2], BLOCK_SIZE, BLOCK_SIZE);
-
-	mlx_data->textrs[WOLF_ATTCK] = mlx_load_png("./textures/wolf/wolf_attck.png");
-	mlx_data->textrs_img[WOLF_ATTCK] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[WOLF_ATTCK]);
-	mlx_resize_image(mlx_data->textrs_img[WOLF_ATTCK], BLOCK_SIZE, BLOCK_SIZE);
-
-	mlx_data->textrs[WOLF_DEAD] = mlx_load_png("./textures/wolf/wolf_dead.png");
-	mlx_data->textrs_img[WOLF_DEAD] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[WOLF_DEAD]);
-	mlx_resize_image(mlx_data->textrs_img[WOLF_DEAD], BLOCK_SIZE, BLOCK_SIZE);
-
-
-
-	mlx_data->textrs[STATUE_GREY] = mlx_load_png("./textures/statue/statue_grey.png");
-	mlx_data->textrs_img[STATUE_GREY] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[STATUE_GREY]);
-	mlx_resize_image(mlx_data->textrs_img[STATUE_GREY], BLOCK_SIZE, BLOCK_SIZE);
-
-	mlx_data->textrs[STATUE_RED] = mlx_load_png("./textures/statue/statue_red.png");
-	mlx_data->textrs_img[STATUE_RED] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[STATUE_RED]);
-	mlx_resize_image(mlx_data->textrs_img[STATUE_RED], BLOCK_SIZE, BLOCK_SIZE);
-
-	mlx_data->textrs[CEILING_TEX] = mlx_load_png("./textures/ceiling/wood_ceiling.png");
-	mlx_data->textrs_img[CEILING_TEX] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[CEILING_TEX]);
-	mlx_resize_image(mlx_data->textrs_img[CEILING_TEX], BLOCK_SIZE, BLOCK_SIZE);
-
-
-	mlx_data->textrs[MAIN_MENU] = mlx_load_png("./textures/menu/main_menu.png");
-	mlx_data->textrs_img[MAIN_MENU] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[MAIN_MENU]);
-	mlx_resize_image(mlx_data->textrs_img[MAIN_MENU], mlx_data->scr_img->width, mlx_data->scr_img->height);
-
-	mlx_data->textrs[PAUSE] = mlx_load_png("./textures/menu/pause.png");
-	mlx_data->textrs_img[PAUSE] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[PAUSE]);
-	mlx_resize_image(mlx_data->textrs_img[PAUSE], mlx_data->scr_img->width, mlx_data->scr_img->height);
-
-	mlx_data->textrs[DEATH] = mlx_load_png("./textures/menu/death.png");
-	mlx_data->textrs_img[DEATH] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[DEATH]);
-	mlx_resize_image(mlx_data->textrs_img[DEATH], mlx_data->scr_img->width, mlx_data->scr_img->height);
-
-	mlx_data->textrs[CONTROLS] = mlx_load_png("./textures/menu/controls.png");
-	mlx_data->textrs_img[CONTROLS] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[CONTROLS]);
-	mlx_resize_image(mlx_data->textrs_img[CONTROLS], mlx_data->scr_img->width, mlx_data->scr_img->height);
-
-
-	mlx_data->textrs[STATUE_FACE] = mlx_load_png("./textures/statue/statue_face.png");
-	mlx_data->textrs_img[STATUE_FACE] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[STATUE_FACE]);
-	mlx_resize_image(mlx_data->textrs_img[STATUE_FACE], mlx_data->scr_img->width, mlx_data->scr_img->height);
-
-	mlx_data->textrs[CROSSBOW1] = mlx_load_png("./textures/crossbow1.png");
-	mlx_data->textrs_img[CROSSBOW1] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[CROSSBOW1]);
-	mlx_resize_image(mlx_data->textrs_img[CROSSBOW1], mlx_data->scr_img->width, mlx_data->scr_img->height);
-
-	mlx_data->textrs[CROSSBOW2] = mlx_load_png("./textures/crossbow2.png");
-	mlx_data->textrs_img[CROSSBOW2] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[CROSSBOW2]);
-	mlx_resize_image(mlx_data->textrs_img[CROSSBOW2], mlx_data->scr_img->width, mlx_data->scr_img->height);
-
-	mlx_data->textrs[SKY_TEX] = mlx_load_png("./textures/ceiling/sky.png");
-	mlx_data->textrs_img[SKY_TEX] = mlx_texture_to_image(mlx_data->mlx_ptr, mlx_data->textrs[SKY_TEX]);
-	mlx_resize_image(mlx_data->textrs_img[SKY_TEX], 1440, 5000);
-
-	return (*tex);
+	tex_img = mlx_data->textrs_img;
+	i = 0;
+	while (i < MAX_TEX)
+	{
+		tex[i] = mlx_load_png(g_tex_path[i]);
+		if (!tex[i])
+			return (NULL);
+		tex_img[i] = mlx_texture_to_image(mlx_data->mlx_ptr, tex[i]);
+		if (!tex_img[i])
+			return (NULL);
+		if (!resize_image(tex_img[i], i))
+			return (NULL);
+		i++;
+	}
+	return (tex);
 }
 
-void	put_img_to_win(t_data *data, mlx_image_t *img)
+void	init_hud(t_data *data, t_mlx *mlx_data, mlx_t *mlx)
+{
+	int			img_i;
+	mlx_image_t	*img;
+
+	img_i = HUD_TEX;
+	img = mlx_data->textrs_img[img_i];
+	if (mlx_image_to_window(mlx, img, 0, WIN_H - HUD_H) < 0)
+		clean_all(data, NULL);
+	mlx_set_instance_depth(&img->instances[0], 1);
+	while (++img_i < MAIN_MENU)
+	{
+		img = mlx_data->textrs_img[img_i];
+		if (mlx_image_to_window(mlx, img, HUD_W / 3, WIN_H - HUD_H) < 0)
+			clean_all(data, NULL);
+		if (mlx_image_to_window(mlx, img, HUD_W - HUD_W / 4, WIN_H - HUD_H) < 0)
+			clean_all(data, NULL);
+		mlx_set_instance_depth(&img->instances[0], 2);
+		mlx_set_instance_depth(&img->instances[1], 2);
+		img->instances[0].enabled = false;
+		img->instances[1].enabled = false;
+	}
+}
+
+void	put_img_to_win(t_data *data, mlx_image_t *img, int img_i)
 {
 	t_mlx	*mlx_data;
 
 	mlx_data = &data->mlx_data;
 	if (mlx_image_to_window(data->mlx_data.mlx_ptr, img, 0, 0) < 0)
-		clean_all(data, NULL); // add err message
-	if (img == mlx_data->minimap)
-		mlx_set_instance_depth(&img->instances[0], 1);
-	else if (img == mlx_data->textrs_img[CROSSBOW1]
-		|| img == mlx_data->textrs_img[CROSSBOW2])
-		mlx_set_instance_depth(&img->instances[0], 2);
-	else if (img == mlx_data->textrs_img[STATUE_FACE])
+		clean_all(data, NULL);
+	if (img_i == CROSSBOW1 || img_i == CROSSBOW2 || img == mlx_data->minimap)
+	{
+		if (img_i == CROSSBOW2)
+			img->enabled = false;
 		mlx_set_instance_depth(&img->instances[0], 3);
+	}
+	else if (img_i == STATUE_FACE)
+		mlx_set_instance_depth(&img->instances[0], 4);
 	else if (img != mlx_data->scr_img)
 	{
-		mlx_set_instance_depth(&img->instances[0], 4);
+		mlx_set_instance_depth(&img->instances[0], 5);
 		img->enabled = 0;
 	}
 }
@@ -193,16 +138,17 @@ bool	put_images_to_window(t_data *data, t_mlx *mlx_data)
 {
 	mlx_data->minimap = mlx_new_image(mlx_data->mlx_ptr, MINIMAP_W, MINIMAP_H);
 	if (!mlx_data->minimap)
-		clean_all(data, "mlx: minimap");
-	put_img_to_win(data, mlx_data->scr_img);
-	put_img_to_win(data, mlx_data->minimap);
-	put_img_to_win(data, mlx_data->textrs_img[CROSSBOW1]);
-	put_img_to_win(data, mlx_data->textrs_img[CROSSBOW2]);
-	put_img_to_win(data, mlx_data->textrs_img[STATUE_FACE]);
-	put_img_to_win(data, mlx_data->textrs_img[MAIN_MENU]);
-	put_img_to_win(data, mlx_data->textrs_img[PAUSE]);
-	put_img_to_win(data, mlx_data->textrs_img[DEATH]);
-	put_img_to_win(data, mlx_data->textrs_img[CONTROLS]);
+		clean_all(data, NULL);
+	put_img_to_win(data, mlx_data->scr_img, -1);
+	put_img_to_win(data, mlx_data->minimap, -1);
+	put_img_to_win(data, mlx_data->textrs_img[CROSSBOW1], CROSSBOW1);
+	put_img_to_win(data, mlx_data->textrs_img[CROSSBOW2], CROSSBOW2);
+	put_img_to_win(data, mlx_data->textrs_img[STATUE_FACE], STATUE_FACE);
+	put_img_to_win(data, mlx_data->textrs_img[MAIN_MENU], MAIN_MENU);
+	put_img_to_win(data, mlx_data->textrs_img[PAUSE], PAUSE);
+	put_img_to_win(data, mlx_data->textrs_img[DEATH], DEATH);
+	put_img_to_win(data, mlx_data->textrs_img[CONTROLS], CONTROLS);
+	put_img_to_win(data, mlx_data->textrs_img[WIN], WIN);
 	return (true);
 }
 
@@ -215,13 +161,13 @@ void	init_mlx(t_data *data)
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	mlx_data->mlx_ptr = mlx_init(WIN_W, WIN_H, "cub3D", true);
 	if (!mlx_data->mlx_ptr)
-		clean_all(data, "mlx");
+		clean_all(data, NULL);
 	mlx_data->scr_img = mlx_new_image(mlx_data->mlx_ptr, WIN_W, WIN_H);
 	if (!mlx_data->scr_img)
-		clean_all(data, "mlx");
+		clean_all(data, NULL);
 	if (!init_tex(mlx_data, mlx_data->textrs))
-		clean_all(data, "mlx");
-	if (!put_images_to_window(data, &data->mlx_data))
-		clean_all(data, "mlx");
+		clean_all(data, NULL);
+	put_images_to_window(data, &data->mlx_data);
+	init_hud(data, &data->mlx_data, data->mlx_data.mlx_ptr);
 	mlx_set_icon(mlx_data->mlx_ptr, mlx_data->textrs[WOLF_STAY]);
 }

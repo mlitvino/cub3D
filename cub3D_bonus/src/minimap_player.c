@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 23:08:27 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/22 20:09:22 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/28 14:52:58 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ void	fill_icon_with_color(mlx_image_t *minimap,
 	}
 }
 
-void	draw_player(t_data *data, int view_angle_i, mlx_image_t *minimap, t_point *mid)
+void	draw_player(t_data *data, int view_angle_i,
+		mlx_image_t *minimap, t_point *mid)
 {
 	t_point		tip;
 	t_point		base_left;

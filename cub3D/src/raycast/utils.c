@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:35:07 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/16 18:00:27 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/26 14:47:39 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,18 @@ double	deg_rad(double deg)
 	return (deg * M_PI / 180);
 }
 
-double	calc_dist(t_point p1, t_point p2)
+long double	calc_dist(t_point p1, t_point p2)
 {
-	return (sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y
-				- p2.y)));
+	long double	dx;
+	long double	dy;
+	long double	dist;
+
+	dy = (long double)p1.y - (long double)p2.y;
+	dx = (long double)p1.x - (long double)p2.x;
+	dist = dx * dx + dy * dy;
+	if (dist > LDBL_MAX)
+		dist = LDBL_MAX;
+	return (sqrtl(dist));
 }
 
 uint32_t	extract_rgba(uint8_t *raw)

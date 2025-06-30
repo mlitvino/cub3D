@@ -1,123 +1,60 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/27 16:51:51 by mlitvino          #+#    #+#             */
+/*   Updated: 2025/06/28 14:52:23 by mlitvino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
-static void update_bobbing(t_char *player, double delta_time)
+void	draw_aim_cross(mlx_image_t *scr_img)
 {
-	if (player->is_moving)
+	int	x;
+	int	y;
+
+	x = scr_img->width / 2 - 10;
+	y = scr_img->height / 2;
+	while (x < (int)scr_img->width / 2 + 10)
 	{
-		player->bobbing_time += delta_time * 10.0; // Tune the speed of bobbing
-		player->height = (BLOCK_SIZE / 2) + sin(player->bobbing_time) * 30;
-		//printf("%f\n", player->height);
+		mlx_put_pixel(scr_img, x, y, 0xFF0000FF);
+		x++;
 	}
-	else
+	y = scr_img->height / 2 - 10;
+	x = scr_img->width / 2;
+	while (y < (int)scr_img->height / 2 + 10)
 	{
-		if (fabs(player->height - player->height) > 0.1)
-			player->height = player->height * 0.9 + player->height * 0.1;
-		else
-		{
-			player->height = BLOCK_SIZE / 2;
-			player->bobbing_time = 0;
-		}
+		mlx_put_pixel(scr_img, x, y, 0xFF0000FF);
+		y++;
 	}
 }
 
-long get_time_in_ms(void)
+void	show_fps(t_data *data)
 {
-	struct timeval tv;
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
-}
+	static struct timeval	last = {0, 0};
+	static int				frames = 0;
+	struct timeval			now;
+	double					elapsed;
 
-void	update_statue(t_data *data, t_char *player, t_sprite *sprites)
-{
-	static int	alpha;
-	int			step;
-
-	step = 1;
-	while (sprites)
+	gettimeofday(&now, NULL);
+	if (last.tv_sec == 0 && last.tv_usec == 0)
 	{
-		if (sprites->type == STATUE)
-		{
-			if (sprites->dist < STATUE_MAX_VIS * BLOCK_SIZE)
-			{
-				sprites->state = STATUE_RED;
-				sprites->cur_img = data->mlx_data.textrs_img[STATUE_RED];
-			}
-			else
-			{
-				sprites->state = STATUE_GREY;
-				sprites->cur_img = data->mlx_data.textrs_img[STATUE_GREY];
-			}
-		}
-		sprites = sprites->next;
+		last = now;
+		return ;
 	}
-
-	if (player->facing_statue)
+	frames++;
+	elapsed = (now.tv_sec - last.tv_sec) + (now.tv_usec - last.tv_usec)
+		/ 1000000.0;
+	if (elapsed >= 1.0)
 	{
-		if (alpha >= 255)
-			data->game_state = DEATH;
-		alpha += step;
-		if (alpha > 255)
-			alpha = 255;
-	}
-	else if (alpha > 0)
-		alpha -= step;
-
-	if (alpha > 0)
-	{
-		data->mlx_data.textrs_img[STATUE_FACE]->enabled = 1;
-		adjust_image_alpha(data->mlx_data.textrs_img[STATUE_FACE], alpha);
-	}
-	else
-		data->mlx_data.textrs_img[STATUE_FACE]->enabled = 0;
-}
-
-int	check_mouse_click(t_data *data, t_point *but)
-{
-	t_point	*m_clck;
-
-	m_clck = &data->mouse_click;
-	if (!(but->x < m_clck->x && m_clck->x < but->x + BUTTON_DX))
-		return (-1);
-	if (but->y < m_clck->y && m_clck->y < but->y + BUTTON_DY)
-	{
-		return (START);
-	}
-	else if (but->y + BUTTON_DY + BUTTON_DY2 < m_clck->y
-		&& m_clck->y < but->y + (BUTTON_DY * 2) + BUTTON_DY2)
-	{
-		return (CONTROLS);
-	}
-	else if (but->y + (BUTTON_DY + BUTTON_DY2) * 2 < m_clck->y
-		&& m_clck->y < but->y + (BUTTON_DY + BUTTON_DY2) * 2 + BUTTON_DY)
-	{
-		return (EXIT);
-	}
-	return (-1);
-}
-
-void	manage_menu(t_data *data, mlx_image_t **tex_img)
-{
-	mlx_image_t	*cur_menu;
-	int			res;
-
-	cur_menu = tex_img[data->game_state];
-	cur_menu->enabled = 1;
-	res = -1;
-	// if (!mouse_click)
-	// 	{ }
-	if (data->game_state == MAIN_MENU /* || data->game_state == DEATH || data->game_state == CONTROLS*/)
-		res = check_mouse_click(data, &data->main_button);
-	else if (data->game_state == PAUSE /* || data->game_state == WIN*/)
-		res = check_mouse_click(data, &data->pause_button);
-	if (res != -1)
-	{
-		cur_menu->enabled = 0;
-		if (res == EXIT)
-			clean_all(data, NULL);
-		else if (res == START)
-			data->game_state = START;
-		else if (res == CONTROLS)
-			tex_img[CONTROLS]->enabled = 1;
+		printf("FPS: %d\n", frames);
+		data->fps = frames;
+		frames = 0;
+		last = now;
 	}
 }
 
@@ -128,60 +65,54 @@ void	update_audio(t_data *data)
 	i = 0;
 	while (i < MAX_MUSIC)
 		UpdateMusicStream(data->music[i++]);
-	if (data->game_state == MAIN_MENU)
-		if (IsMusicStreamPlaying(data->music[M_STORM]) == false)
-			PlayMusicStream(data->music[M_STORM]);
 	if (data->game_state == START)
-		if (IsMusicStreamPlaying(data->music[M_FOREST]) == false)
-			PlayMusicStream(data->music[M_FOREST]);
+	{
+		if (IsMusicStreamPlaying(*data->main_music) == false)
+		{
+			if (GetMusicTimePlayed(*data->main_music) > 0)
+				ResumeMusicStream(*data->main_music);
+			else
+				PlayMusicStream(*data->main_music);
+		}
+		if (IsSoundPlaying(data->sound[S_STATUE_HUM]) == false)
+			PlaySound(data->sound[S_STATUE_HUM]);
+	}
+}
+
+void	update_hud(t_char *player, mlx_image_t **tex_img)
+{
+	static int	prev_hp;
+	static int	prev_ammo;
+
+	if (prev_hp != player->hp)
+	{
+		tex_img[N0_TEX + prev_hp]->instances[0].enabled = false;
+		tex_img[N0_TEX + player->hp]->instances[0].enabled = true;
+		prev_hp = player->hp;
+	}
+	if (prev_ammo != player->ammo)
+	{
+		tex_img[N0_TEX + prev_ammo]->instances[1].enabled = false;
+		tex_img[N0_TEX + player->ammo]->instances[1].enabled = true;
+		prev_ammo = player->ammo;
+	}
 }
 
 void	render(void *data_arg)
 {
 	t_data	*data;
-	static long previous_time = 0;
-	long current_time;
-	double delta_time;
 
 	data = (t_data *)data_arg;
-
-	// handle mouse_click
-	current_time = get_time_in_ms();
-	delta_time = (current_time - previous_time) / 1000.0;
-	previous_time = current_time;
 	if (data->game_state == START)
 	{
-		if (data->keys.w)
-			move_player(&data->player, 0);
-		if (data->keys.a)
-			move_player(&data->player, 90);
-		if (data->keys.s)
-			move_player(&data->player, 180);
-		if (data->keys.d)
-			move_player(&data->player, -90);
-
-		if (data->keys.w || data->keys.a || data->keys.s || data->keys.d)
-			ResumeMusicStream(data->music[M_PLAYER_STEP]);
-		else
-			PauseMusicStream(data->music[M_PLAYER_STEP]);
-
-		if (data->keys.left)
-			rotate_player_right(&data->player);
-		if (data->keys.right)
-			rotate_player_left(&data->player);
-
-		if (data->keys.tab)
-			data->game_state = PAUSE;
-
-		update_bobbing(&data->player, delta_time);
-		//handle_mouse_rotation(data);
-		update_doors(data->door_list, data);
-		update_wolf(data);
-		update_statue(data, &data->player, data->sprite_list);
+		show_fps(data);
 		raycast(data);
-		show_fps();
 		draw_minimap(data, data->mlx_data.minimap);
 		draw_aim_cross(data->mlx_data.scr_img);
+		update_player(data, &data->player);
+		update_doors(data->door_list, data);
+		update_sprites(data, data->sprite_list);
+		update_hud(&data->player, data->mlx_data.textrs_img);
 	}
 	else
 	{

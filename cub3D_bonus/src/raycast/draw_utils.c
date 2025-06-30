@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 20:19:19 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/22 16:12:42 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/28 12:44:42 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,47 +47,73 @@ void	add_shadow(uint32_t *color, int dist)
 
 void	fill_wall_info(t_raycast *raycast, t_wall *wall)
 {
-	double	h_ratio;
-
 	wall->h = ceil(BLOCK_SIZE * raycast->plane->dist / (double)wall->dist);
 	wall->top = raycast->plane->center.y;
-	h_ratio = 1 + (raycast->data->player.height / (BLOCK_SIZE / 2));
-	wall->top = wall->top - (wall->h / h_ratio);
+	wall->top = wall->top - (wall->h / raycast->player->wall_rt);
 	if (raycast->axis == HORIZONT)
 	{
 		wall->tex_pos.x = wall->pos.x % BLOCK_SIZE;
-		if (wall->type == DOOR)
+		if (ft_strchr(DOORS, wall->type))
 			wall->tex_pos.x = BLOCK_SIZE - (wall->door_len - wall->tex_pos.x);
 	}
 	else if (raycast->axis == VERTICAL)
 	{
 		wall->tex_pos.x = wall->pos.y % BLOCK_SIZE;
-		if (wall->type == DOOR)
+		if (ft_strchr(DOORS, wall->type))
 			wall->tex_pos.x = BLOCK_SIZE - (wall->door_len - wall->tex_pos.x);
 	}
 	wall->img = raycast->data->mlx_data.textrs_img[wall->img_i];
 }
 
-void	fill_floor_info(t_raycast *raycast, t_point *ceil_pos, int *dist, int y)
+mlx_image_t	*fill_floor_info(t_raycast *raycast, t_point *floor_pos, int *dist,
+		int y)
 {
-	double		st;
-	double		ratio;
+	double	ratio;
+	char	point;
 
-	st = BLOCK_SIZE / (1 + ((BLOCK_SIZE / 2) / raycast->data->player.height));
-	ratio = st / (y - raycast->plane->center.y);
+	ratio = raycast->player->floor_rt / (y - raycast->plane->center.y);
 	*dist = (raycast->plane->dist * ratio) / raycast->angl_table->beta;
-	ceil_pos->x = (*dist * raycast->angl_table->cos) + raycast->char_pos.x;
-	ceil_pos->y = (*dist * -raycast->angl_table->sin) + raycast->char_pos.y;
+	floor_pos->x = (*dist * raycast->angl_table->cos) + raycast->char_pos.x;
+	floor_pos->y = (*dist * -raycast->angl_table->sin) + raycast->char_pos.y;
+	if (is_on_map(raycast->data, floor_pos) == true)
+	{
+		point = raycast->unit_map[floor_pos->y][floor_pos->x];
+		if (point == FLOOR || point == DOOR)
+			return (raycast->data->mlx_data.textrs_img[FLOOR_TEX]);
+		if (point == STONE_FLOOR || point == STONE_DOOR || point == MET_DOOR)
+			return (raycast->data->mlx_data.textrs_img[STONE_FLOOR_TEX]);
+		else if (point == BLOOD_GRASS)
+			return (raycast->data->mlx_data.textrs_img[BLD_GRASS_TEX]);
+		else if (point == ROAD)
+			return (raycast->data->mlx_data.textrs_img[ROAD_TEX]);
+		else
+			return (raycast->data->mlx_data.textrs_img[GROUND_TEX]);
+	}
+	return (NULL);
 }
 
-void	fill_ceil_info(t_raycast *raycast, t_point *ceil_pos, int *dist, int y)
+mlx_image_t	*fill_ceil_info(t_raycast *raycast, t_point *ceil_pos, int *dist,
+		int y)
 {
-	double		st;
-	double		ratio;
+	double	ratio;
+	char	point;
 
-	st = BLOCK_SIZE / (1 + ((BLOCK_SIZE / 2) / raycast->data->player.height));
-	ratio = st / (raycast->plane->center.y - y);
+	ratio = raycast->player->ceiling_rt / (raycast->plane->center.y - y);
 	*dist = (raycast->plane->dist * ratio) / raycast->angl_table->beta;
 	ceil_pos->x = (*dist * raycast->angl_table->cos) + raycast->char_pos.x;
 	ceil_pos->y = (*dist * -raycast->angl_table->sin) + raycast->char_pos.y;
+	if (is_on_map(raycast->data, ceil_pos) == true)
+	{
+		point = raycast->unit_map[ceil_pos->y][ceil_pos->x];
+		if (point == FLOOR || point == DOOR)
+		{
+			return (raycast->data->mlx_data.textrs_img[CEILING_TEX]);
+		}
+		else if (point == STONE_FLOOR || point == MET_DOOR
+			|| point == STONE_DOOR)
+		{
+			return (raycast->data->mlx_data.textrs_img[STONE_FLOOR_TEX]);
+		}
+	}
+	return (NULL);
 }
