@@ -6,19 +6,19 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:31:44 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/06/30 16:21:29 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/30 16:34:55 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static int	set_coordinates(int *coordinates, int player_x, int player_y)
+static int	set_coordinates(int **coordinates, int player_x, int player_y)
 {
-	coordinates = malloc(2 * sizeof(int));
-	if (!coordinates)
+	(*coordinates) = malloc(2 * sizeof(int));
+	if (!(*coordinates))
 		return (0);
-	coordinates[0] = player_y / BLOCK_SIZE;
-	coordinates[1] = player_x / BLOCK_SIZE;
+	(*coordinates)[0] = player_y / BLOCK_SIZE;
+	(*coordinates)[1] = player_x / BLOCK_SIZE;
 	return (1);
 }
 
@@ -42,7 +42,7 @@ int	*check_for_door(char **map, int player_x, int player_y,
 		if (ft_strchr(DOORS, map[(player_y / BLOCK_SIZE)][(player_x
 					/ BLOCK_SIZE)]))
 		{
-			if (!set_coordinates(coordinates, player_x, player_y))
+			if (!set_coordinates(&coordinates, player_x, player_y))
 				return (NULL);
 			return (coordinates);
 		}
