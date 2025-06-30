@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_borders.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 15:14:25 by ablodorn          #+#    #+#             */
+/*   Updated: 2025/06/30 15:52:35 by ablodorn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
 static int	check_first_row(char **map)
@@ -27,7 +39,7 @@ static int	check_last_row(char **map, int height)
 	i = 0;
 	while (i < len)
 	{
-		if (!ft_strchr(WALLS,map[height - 1][i]) && map[height - 1][i] != ' ')
+		if (!ft_strchr(WALLS, map[height - 1][i]) && map[height - 1][i] != ' ')
 		{
 			return (0);
 		}
@@ -59,6 +71,7 @@ static int	check_middle_rows(char **map, int height)
 	}
 	return (1);
 }
+
 int	check_map_borders(char **map, int height)
 {
 	if (height < 3)

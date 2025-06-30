@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 15:14:21 by ablodorn          #+#    #+#             */
+/*   Updated: 2025/06/30 15:53:17 by ablodorn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
 int	is_empty_line(char *line)
@@ -24,8 +36,8 @@ int	fill_map(t_data *data, char **map_data, int fd)
 	{
 		map_data[i++] = line;
 		line = get_next_line(fd);
-		if (!line && i < data->line_count && !last_line_no_newline(map_data[i
-				- 1]))
+		if (!line && i < data->line_count
+			&& !last_line_no_newline(map_data[i - 1]))
 			return (0);
 	}
 	map_data[i] = NULL;

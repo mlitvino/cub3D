@@ -1,4 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   valid_file.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 15:13:58 by ablodorn          #+#    #+#             */
+/*   Updated: 2025/06/30 15:18:04 by ablodorn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
+
+int	longest_line(char **map, int height)
+{
+	int	i;
+	int	max_len;
+	int	len;
+
+	max_len = 0;
+	i = 0;
+	while (i < height)
+	{
+		len = ft_strlen(map[i]);
+		if (len > max_len)
+			max_len = len;
+		i++;
+	}
+	return (max_len);
+}
 
 int	is_valid_data(char **map, t_data *data, int line_count)
 {
