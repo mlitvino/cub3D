@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:23:13 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/27 16:08:01 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:04:25 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_sprite	*create_sprite(t_data *data, int type, int grid_x, int grid_y)
 	new_sprite->move_rate = 0;
 	new_sprite->moved = 0;
 	new_sprite->has_player_in_sight = 0;
+	new_sprite->attack_rate = 0;
 	new_sprite->attack_range = BLOCK_SIZE;
 	temp = data->sprite_list;
 	

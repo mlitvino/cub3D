@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/27 16:50:11 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:03:56 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,7 @@ typedef struct s_sprite
 	int				move_spd;
 	int				turn_spd;
 	int			attack_range;
-
+	int			attack_rate;
 	int				has_player_in_sight;
 	t_dpoint			last_seen;
 

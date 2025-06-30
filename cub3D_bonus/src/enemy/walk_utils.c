@@ -33,6 +33,28 @@ static void	set_new_pos(t_data *data, t_sprite *sprite,
 		sprite->pos.y = new_y;
 }
 
+static void	check_end_of_path(t_sprite *sprite)
+{
+	t_path *tmp;
+
+	tmp = sprite->path;
+
+	if ((sprite->pos.x == sprite->last_seen.x
+				&& sprite->pos.y == sprite->last_seen.y))
+			sprite->has_player_in_sight = 0;
+	while (tmp)
+	{
+		if (!tmp->parent)
+		{
+			if (sprite->pos.x / BLOCK_SIZE == tmp->pos.x && sprite->pos.y / BLOCK_SIZE  == tmp->pos.y)
+			{
+				sprite->path = NULL;
+			}
+		}
+		tmp = tmp->parent;
+	}
+}
+
 static int	move_wolf(t_sprite *sprite, t_data *data, int x, int y)
 {
 	float	new_x;
@@ -56,21 +78,7 @@ static int	move_wolf(t_sprite *sprite, t_data *data, int x, int y)
 		sprite->moved++;
 		switch_img(sprite);
 		set_new_pos(data, sprite, new_x, new_y);
-		if ((sprite->pos.x == sprite->last_seen.x
-				&& sprite->pos.y == sprite->last_seen.y))
-			sprite->has_player_in_sight = 0;
-		t_path *tmp = sprite->path;
-		while (tmp)
-		{
-			if (!tmp->parent)
-			{
-				if (sprite->pos.x / BLOCK_SIZE == tmp->pos.x && sprite->pos.y / BLOCK_SIZE  == tmp->pos.y)
-				{
-					sprite->path = NULL;
-				}
-			}
-			tmp = tmp->parent;
-		}
+		check_end_of_path(sprite);
 	}
 	return (1);
 }
@@ -81,13 +89,9 @@ void	move_to_goal(t_sprite *sprite, t_data *data)
 	float	target_x;
 	float	target_y;
 
-	//printf("x: %d y: %d", sprite->pos.x /BLOCK_SIZE, sprite->pos.y /BLOCK_SIZE);
 	next_step = sprite->path;
-	//printf("x : %d, y: %d\n", sprite->path->pos.x, sprite->path->pos.y);
-	//printf("parentx : %d, parent y: %d\n", sprite->path->parent->pos.x, sprite->path->parent->pos.y);
 	if (!sprite->path)
 	{
-		//printf("path ended here\n");
 		no_path(sprite);
 		return ;
 	}
@@ -100,7 +104,6 @@ void	move_to_goal(t_sprite *sprite, t_data *data)
 	target_y = next_step->pos.y * BLOCK_SIZE + BLOCK_SIZE / 2;
 	if (!move_wolf(sprite, data, target_x, target_y))
 	{
-		//printf("here not path\n");
 		return ;
 	}
 }
