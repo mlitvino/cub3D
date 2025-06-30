@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/30 15:14:21 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/30 16:29:23 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -797,8 +797,7 @@ int							set_floor_ceiling(t_data *data, char *element,
 								char *line);
 char						**read_file(char *filename, t_data *data);
 int							valid_map(t_data *data);
-int							is_valid_surrounding(char **map, int height,
-								int width);
+int							is_valid_surrounding(t_data *data);
 int							is_valid_data(char **map, t_data *data,
 								int line_count);
 int							check_map_borders(char **map, int height);
@@ -835,5 +834,19 @@ void						free_visited(int **visited, int height);
 int							is_valid_tile(char **map, t_data *data, int x,
 								int y);
 void						no_path(t_sprite *sprite);
+void	check_end_of_path(t_sprite *sprite);
+
+void	free_paths(t_sprite *sprites);
+void	set_new_pos(t_data *data, t_sprite *sprite,
+	float new_x, float new_y);
+void	switch_img(t_sprite *sprite);
+int	no_path_return(t_sprite *sprite);
+void	wolf_action(t_sprite *sprite, t_data *data);
+int player_inside_door(t_data *data, t_door *door);
+int enemy_inside_door(t_data *data, t_door *door);
+int	has_10_seconds_passed(struct timeval start);
+struct timeval	get_current_time(void);
+int	*check_for_door(char **map, int player_x, int player_y,
+		t_data *data);
 
 #endif

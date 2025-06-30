@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
+#    By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/30 14:28:50 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/06/30 16:29:15 by ablodorn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,11 +82,14 @@ RAY_SRC		= $(addprefix $(RAY_DIR)/, \
 				sprite.c \
 				sprite_init.c \
 				thread.c \
+				door_utils.c \
+				update_door.c \
 				)
 MOV_SRC		= $(addprefix $(MOV_DIR)/, \
 				rotate.c \
 				movement.c \
 				event_handler.c \
+				movement_utils.c \
 				)
 ENE_SRC		=$(addprefix $(ENE_DIR)/, \
 				path.c \
@@ -95,6 +98,7 @@ ENE_SRC		=$(addprefix $(ENE_DIR)/, \
 				walk_utils.c \
 				line_of_sight.c \
 				free_enemy.c \
+				wolf_action.c \
 				)
 
 OBJ			= $(addprefix $(OBJ_DIR)/,$(notdir $(SRC:.c=.o)))

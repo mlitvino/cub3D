@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   path.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 14:53:52 by ablodorn          #+#    #+#             */
+/*   Updated: 2025/06/30 15:38:16 by ablodorn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
 static int	bfs_explore_neighbors(t_data *data, t_bfs *bfs, t_delta *d,
@@ -57,28 +69,6 @@ static t_path	*bfs_loop(t_data *data, t_bfs *bfs, t_delta *d, t_point goal)
 	return (NULL);
 }
 
-// static int	check_for_path(t_path *result)
-// {
-// 	t_path	*tmp;
-// 	int		count;
-
-// 	count = 0;
-// 	tmp = result;
-// 	while (result)
-// 	{
-// 		count++;
-// 		result = result->parent;
-// 	}
-// 	result = tmp;
-// 	if (count == 1)
-// 	{
-// 		free(result);
-// 		return (0);
-// 	}
-// 	else
-// 		return (1);
-// }
-
 t_path	*bfs_find_path(t_data *data, t_point start, t_dpoint goal)
 {
 	t_bfs	bfs;
@@ -99,8 +89,6 @@ t_path	*bfs_find_path(t_data *data, t_point start, t_dpoint goal)
 	bfs.queue[bfs.rear++] = create_node(s.x, s.y, NULL);
 	bfs.visited[s.y][s.x] = 1;
 	result = bfs_loop(data, &bfs, &d, g);
-	// if (!check_for_path(result))
-	// 	return (NULL);
 	free_visited(bfs.visited, data->map_h);
 	return (result);
 }

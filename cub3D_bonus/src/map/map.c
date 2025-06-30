@@ -1,6 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 15:14:16 by ablodorn          #+#    #+#             */
+/*   Updated: 2025/06/30 15:52:09 by ablodorn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
-// check characters and file extension
+static void	set_angle_position(char **map, t_data *data, int i, int j)
+{
+	set_angle(map[i][j], data);
+	data->player.pos.y = i * BLOCK_SIZE + (BLOCK_SIZE / 2);
+	data->player.pos.x = j * BLOCK_SIZE + (BLOCK_SIZE / 2);
+}
+
 static int	valid_player_count(char **map, t_data *data)
 {
 	int	player_count;
@@ -18,9 +36,7 @@ static int	valid_player_count(char **map, t_data *data)
 				|| map[i][j] == 'E')
 			{
 				player_count++;
-				set_angle(map[i][j], data);
-				data->player.pos.y = i * BLOCK_SIZE + (BLOCK_SIZE / 2);
-				data->player.pos.x = j * BLOCK_SIZE + (BLOCK_SIZE / 2);
+				set_angle_position(map, data, i, j);
 			}
 			j++;
 		}
@@ -50,24 +66,6 @@ static int	valid_characters(char **map)
 		i++;
 	}
 	return (1);
-}
-
-int	longest_line(char **map, int height)
-{
-	int	i;
-	int	max_len;
-	int	len;
-
-	max_len = 0;
-	i = 0;
-	while (i < height)
-	{
-		len = ft_strlen(map[i]);
-		if (len > max_len)
-			max_len = len;
-		i++;
-	}
-	return (max_len);
 }
 
 int	fill_padded_map(int height, t_data *data, char **padded_map, char **map)
@@ -100,20 +98,26 @@ int	fill_padded_map(int height, t_data *data, char **padded_map, char **map)
 
 int	valid_map(t_data *data)
 {
+	char	*m;
+
 	data->grid_map = pad_map(data->work_map, data->map_h, data);
 	if (!data->grid_map)
 		return (0);
 	if (!valid_player_count(data->work_map, data))
 		return (error_free_return("Error\nInvalid player count\n", data));
 	if (!valid_characters(data->work_map))
-		return (error_free_return("Error\nInvalid character found inside the map\n",
+		return (error_free_return("Error\nInvalid character found inside\n",
 				data));
 	if (!check_map_borders(data->work_map, data->map_h))
-		return (error_free_return("Error\nMap not surrounded by walls and/or invalid space inside the map\n",
-				data));
-	if (!is_valid_surrounding(data->grid_map, data->map_h, data->map_w))
-		return (error_free_return("Error\nMap not surrounded by walls and/or invalid space inside the map\n",
-				data));
+	{
+		m = "Error\nMap not surrounded by walls and/or invalid space found\n";
+		return (error_free_return(m, data));
+	}
+	if (!is_valid_surrounding(data))
+	{
+		m = "Error\nMap not surrounded by walls and/or invalid space found\n";
+		return (error_free_return(m, data));
+	}
 	if (!check_doors(data->work_map))
 		return (error_free_return("Error\nInvalid door detected\n", data));
 	free_map(data->work_map, -1);

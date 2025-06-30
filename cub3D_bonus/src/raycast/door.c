@@ -3,172 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   door.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:41:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/30 13:36:02 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/30 16:22:03 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-static struct timeval	get_current_time(void)
-{
-	struct timeval	now;
-
-	gettimeofday(&now, NULL);
-	return (now);
-}
-
-static int *check_for_door(char **map, int player_x, int player_y, t_data *data)
-{
-	int i;
-	int *coordinates;
-	double dir_x;
-	double dir_y;
-	double angle_rad;
-
-	i = 0;
-	angle_rad = DEG_TO_RAD(data->player.pov.view_angl);
-	dir_x = cos(angle_rad);
-	dir_y = -sin(angle_rad);
-
-	//int front_x = (int)(data->player.pos.x + cos(angle_rad) * BLOCK_SIZE) / BLOCK_SIZE;
-	//int front_y = (int)(data->player.pos.y + sin(angle_rad) * BLOCK_SIZE) / BLOCK_SIZE;
-
-	//printf("Tile in front: (%d, %d) = %c\n", front_y, front_x, map[front_y][front_x]);
-	while (i < 5)
-	{
-		player_x += dir_x * 80;
-		player_y += dir_y * 80;
-
-		if (ft_strchr(DOORS, map[(player_y /BLOCK_SIZE)][(player_x / BLOCK_SIZE)]))
-		{
-			coordinates = malloc(2 * sizeof(int));
-			if (!coordinates)
-				return (NULL);
-			coordinates[0] = player_y / BLOCK_SIZE;
-			coordinates[1] = player_x / BLOCK_SIZE;
-			return (coordinates);
-		}
-		i++;
-	}
-	return (NULL);
-}
-
-static int enemy_inside_door(t_data *data, t_door *door)
-{
-	int enemy_grid_x;
-	int enemy_grid_y;
-	t_sprite *sprite;
-
-	sprite = data->sprite_list;
-	while(sprite)
-	{
-		enemy_grid_x = sprite->pos.x / BLOCK_SIZE;
-		enemy_grid_y = sprite->pos.y / BLOCK_SIZE;
-		if (door->grid_y == enemy_grid_y && door->grid_x == enemy_grid_x)
-			return (1);
-		sprite = sprite->next;
-	}
-	return (0);
-}
-
-static int player_inside_door(t_data *data, t_door *door)
-{
-	int player_grid_x;
-	int player_grid_y;
-
-	player_grid_x = data->player.pos.x / BLOCK_SIZE;
-	player_grid_y = data->player.pos.y / BLOCK_SIZE;
-	if (door->grid_y == player_grid_y && door->grid_x == player_grid_x)
-		return (1);
-	else
-		return (0);
-}
-
-void open_close_door(t_data *data)
-{
-	int		*coordinates;
-	int		door_x;
-	int		door_y;
-	t_door	*door;
-
-	coordinates = check_for_door(data->grid_map, data->player.pos.x, data->player.pos.y, data);
-	if (coordinates)
-	{
-		door_x = coordinates[1];
-		door_y = coordinates[0];
-		free(coordinates);
-		door = find_door(data->door_list, door_x *BLOCK_SIZE, door_y *BLOCK_SIZE);
-		if (door)
-		{
-			if (door->type == DOOR)
-				PlaySound(data->sound[S_DOOR]);
-			else if (door->type == MET_DOOR)
-				PlaySound(data->sound[S_MET_DOOR]);
-			else if (door->type == STONE_DOOR)
-				PlaySound(data->sound[S_STONE_DOOR]);
-			if (door->state == CLOSED)
-			{
-				door->state = OPENING;
-				door->time_opened = get_current_time();
-			}
-			else if (door->state == OPEN && !player_inside_door(data, door) && !enemy_inside_door(data, door))
-				door->state = CLOSING;
-		}
-	}
-}
-
-static int	has_10_seconds_passed(struct timeval start)
-{
-	struct timeval	now;
-	long			seconds;
-	long			microseconds;
-
-	now = get_current_time();
-	seconds = now.tv_sec - start.tv_sec;
-	microseconds = now.tv_usec - start.tv_usec;
-	if (microseconds < 0)
-	{
-		seconds -= 1;
-		microseconds += 100000;
-	}
-	return (seconds >= 5);
-}
-
-
-
-void	update_doors(t_door *doors, t_data *data)
-{
-	while (doors)
-	{
-		if (doors->state == CLOSING)
-		{
-			if (!player_inside_door(data, doors))
-			{
-				doors->len += doors->move_spd;
-				if (doors->len > BLOCK_SIZE)
-					doors->state = CLOSED;
-			}
-		}
-		else if (doors->state == OPENING)
-		{
-			doors->len -= doors->move_spd;
-			if (doors->len < 0)
-				doors->state = OPEN;
-		}
-		if (doors->state == OPEN)
-		{
-			if (has_10_seconds_passed(doors->time_opened))
-			{
-				if (!player_inside_door(data, doors) && !enemy_inside_door(data, doors))
-					doors->state = CLOSING;
-			}
-		}
-		doors = doors->next;
-	}
-}
 
 t_door	*find_door(t_door *doors, int unit_x, int unit_y)
 {
@@ -207,4 +49,43 @@ t_door	*create_door(t_data *data, t_door **door_list, int grid_x, int grid_y)
 	else if (!temp->next)
 		temp->next = new_door;
 	return (new_door);
+}
+
+static void door_sound_and_state(t_data *data, t_door *door)
+{
+	if (door->type == DOOR)
+		PlaySound(data->sound[S_DOOR]);
+	else if (door->type == MET_DOOR)
+		PlaySound(data->sound[S_MET_DOOR]);
+	else if (door->type == STONE_DOOR)
+		PlaySound(data->sound[S_STONE_DOOR]);
+	if (door->state == CLOSED)
+	{
+		door->state = OPENING;
+		door->time_opened = get_current_time();
+	}
+	else if (door->state == OPEN && !player_inside_door(data, door)
+		&& !enemy_inside_door(data, door))
+		door->state = CLOSING;
+}
+
+void	open_close_door(t_data *data)
+{
+	int		*coordinates;
+	int		door_x;
+	int		door_y;
+	t_door	*door;
+
+	coordinates = check_for_door(data->grid_map, data->player.pos.x,
+			data->player.pos.y, data);
+	if (coordinates)
+	{
+		door_x = coordinates[1];
+		door_y = coordinates[0];
+		free(coordinates);
+		door = find_door(data->door_list, door_x * BLOCK_SIZE, door_y
+				* BLOCK_SIZE);
+		if (door)
+			door_sound_and_state(data, door);
+	}
 }

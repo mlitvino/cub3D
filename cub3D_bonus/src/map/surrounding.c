@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   surrounding.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 15:24:28 by ablodorn          #+#    #+#             */
+/*   Updated: 2025/06/30 16:26:01 by ablodorn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
-static int	check_single_neighbor(char **map, int n_row, int n_col, int height,
-		int width)
+static int	check_single_neighbor(char **map, int n_row,
+		int n_col, t_data *data)
 {
 	char	neighbor;
 
-	if (n_row >= 0 && n_row < height && n_col >= 0 && n_col < width)
+	if (n_row >= 0 && n_row < data->map_h && n_col >= 0 && n_col < data->map_w)
 	{
 		neighbor = map[n_row][n_col];
 		if (neighbor == ' ' || neighbor == 'P')
@@ -16,7 +28,7 @@ static int	check_single_neighbor(char **map, int n_row, int n_col, int height,
 	return (1);
 }
 
-static int	check_neighbors(char **map, int row, int col, int height, int width)
+static int	check_neighbors(t_data *data, int row, int col)
 {
 	int	delta_row;
 	int	delta_col;
@@ -33,7 +45,7 @@ static int	check_neighbors(char **map, int row, int col, int height, int width)
 			{
 				n_row = row + delta_row;
 				n_col = col + delta_col;
-				if (!check_single_neighbor(map, n_row, n_col, height, width))
+				if (!check_single_neighbor(data->grid_map, n_row, n_col, data))
 					return (0);
 			}
 			delta_col++;
@@ -43,23 +55,23 @@ static int	check_neighbors(char **map, int row, int col, int height, int width)
 	return (1);
 }
 
-int	is_valid_surrounding(char **map, int height, int width)
+int	is_valid_surrounding(t_data *data)
 {
 	int		row;
 	int		col;
 	char	current;
 
 	row = 0;
-	while (row < height)
+	while (row < data->map_h)
 	{
 		col = 0;
-		while (col < width)
+		while (col < data->map_w)
 		{
-			current = map[row][col];
+			current = data->grid_map[row][col];
 			if (!ft_strchr(WALLS, current) && ft_strchr(VALID_CHARS, current)
 				&& current != ' ')
 			{
-				if (!check_neighbors(map, row, col, height, width))
+				if (!check_neighbors(data, row, col))
 					return (0);
 			}
 			col++;

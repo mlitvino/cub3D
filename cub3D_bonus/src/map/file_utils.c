@@ -1,12 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   file_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 15:14:33 by ablodorn          #+#    #+#             */
+/*   Updated: 2025/06/30 15:45:48 by ablodorn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
+
+static void	skip_empty_lines(char **map, int *i)
+{
+	while (is_empty_line(map[(*i)]))
+		(*i)++;
+}
 
 int	create_temp_map(char **map, int *i, t_data *data)
 {
 	int	j;
 
 	j = 0;
-	while (is_empty_line(map[(*i)]))
-		(*i)++;
+	skip_empty_lines(map, i);
 	while (map[(*i)] != NULL && !is_empty_line(map[(*i)]))
 	{
 		data->work_map[j] = ft_strdup(map[(*i)]);
@@ -29,5 +46,3 @@ int	create_temp_map(char **map, int *i, t_data *data)
 	}
 	return (1);
 }
-
-
