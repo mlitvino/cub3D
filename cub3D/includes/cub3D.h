@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/27 18:30:33 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:09:23 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 
 # include "MLX42/MLX42_Int.h"
 # include "libft.h"
-# include <errno.h>
 # include <fcntl.h>
 # include <math.h>
-# include <stdio.h>
 # include "float.h"
 
 # define WIN_W 800
@@ -58,7 +56,6 @@ typedef struct s_point
 {
 	int					x;
 	int					y;
-	int					height;
 }						t_point;
 
 typedef struct s_rgbt
@@ -119,10 +116,7 @@ typedef struct s_keys
 
 typedef struct s_pov
 {
-	t_point				view_pos;
 	int					view_angl;
-	int					fov;
-
 }						t_pov;
 
 typedef struct s_char

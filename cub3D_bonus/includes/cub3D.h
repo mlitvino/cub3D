@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/30 14:25:48 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:14:21 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,9 @@
 # include "MLX42/MLX42_Int.h"
 # include "float.h"
 # include "libft.h"
-# include <errno.h>
 # include <fcntl.h>
 # include <math.h>
 # include <pthread.h>
-# include <stdio.h>
 # include <sys/time.h>
 
 # define WIN_W 1280
@@ -60,7 +58,9 @@
 # define ICON_SIZE 14
 # define ICON_BASE 5
 
-# define MODIF_BRIGHT 0.5
+# define MODIF_BRIGHT 1
+
+# define MAX_WOLF_VIS 8 * BLOCK_SIZE
 
 # define STATUE_MAX_VIS 4
 # define W_STATUE_VIS_DEC 25
@@ -114,11 +114,96 @@
 # define HORIZONT 1
 
 # define ISNORTH(a) (a < 180)
-# define ISSOUTH(a) (a > 180)
-# define ISWEST(a) (90 < a && a < 270)
 # define ISEAST(a) (270 < a || a < 90)
 
 # define DEG_TO_RAD(a) ((a)*M_PI / 180.0)
+
+# define GREEN_COL 0x124200ff
+# define ORANGE_COL 0xcc8b00ff
+# define GRAY_COL 0x545454ff
+# define BROWN_COL 0x6b3e00ff
+
+//------------------------------PATH---------------------------------
+
+# define NORTH_PATH "textures/wall/forest.png"
+# define EAST_PATH "textures/wall/forest.png"
+# define WEST_PATH "textures/wall/forest.png"
+# define SOUTH_PATH "textures/wall/forest.png"
+# define ROCK_TEX_PATH "textures/wall/rock_wall.png"
+# define WAGON_TEX_PATH "textures/wall/wagon.png"
+# define WALL_TEX_PATH "textures/wall/forest.png"
+# define WOOD_WALL_PATH "textures/wall/wood_wall.png"
+# define STONE_WALL_PATH "textures/wall/stone_wall.png"
+
+# define MET_DOOR_TEX_PATH "textures/metal_door.png"
+# define DOOR_TEX_PATH "textures/wood_door.png"
+# define STONE_DOOR_PATH "textures/stone_door.png"
+
+# define STONE_FLOOR_PATH "textures/floor/stone_floor.png"
+# define FLOOR_TEX_PATH "textures/floor/wood_floor.png"
+# define BLD_GRASS_PATH "textures/floor/blood_grass.png"
+# define ROAD_PATH "textures/floor/stone_road.png"
+# define GROUND_TEX_PATH "textures/floor/grass.png"
+# define CEILING_TEX_PATH "textures/ceiling/wood_ceiling.png"
+# define SKY_TEX_PATH "textures/ceiling/sky.png"
+
+# define BONES_PATH "textures/decor/bones.png"
+# define WOODPILE_PATH "textures/decor/woodpile.png"
+# define DEAD_MAN_PATH "textures/decor/dead_man.png"
+# define WOLF_STAY_PATH "textures/wolf/wolf_stay.png"
+# define WOLF_WALK1_PATH "textures/wolf/wolf_walk1.png"
+# define WOLF_WALK2_PATH "textures/wolf/wolf_walk2.png"
+# define WOLF_ATTCK_PATH "textures/wolf/wolf_attck.png"
+# define WOLF_DEAD_PATH "textures/wolf/wolf_dead.png"
+# define STATUE_GREY_PATH "textures/statue/statue_grey.png"
+# define STATUE_RED_PATH "textures/statue/statue_red.png"
+# define EVIL_TREE_PATH "textures/decor/evil_tree.png"
+# define EXIT_TEX_PATH "textures/exit.png"
+# define AMMO_TEX_PATH "textures/decor/ammo.png"
+
+# define HUD_PATH "textures/hud/hp_ammo.png"
+# define N0_PATH "textures/hud/n0.png"
+# define N1_PATH "textures/hud/n1.png"
+# define N2_PATH "textures/hud/n2.png"
+# define N3_PATH "textures/hud/n3.png"
+# define N4_PATH "textures/hud/n4.png"
+# define N5_PATH "textures/hud/n5.png"
+# define N6_PATH "textures/hud/n6.png"
+# define N7_PATH "textures/hud/n7.png"
+# define N8_PATH "textures/hud/n8.png"
+# define N9_PATH "textures/hud/n9.png"
+
+# define MAIN_MENU_PATH "textures/menu/main_menu.png"
+# define PAUSE_PATH "textures/menu/pause.png"
+# define DEATH_PATH "textures/menu/death.png"
+# define CONTROLS_PATH "textures/menu/controls.png"
+# define WIN_PATH "textures/menu/win.png"
+
+# define STATUE_FACE_PATH "textures/statue/statue_face.png"
+# define CROSSBOW1_PATH "textures/crossbow1.png"
+# define CROSSBOW2_PATH "textures/crossbow2.png"
+
+# define S_STONE_DOOR_PATH "audio/stone_door.mp3"
+# define S_DOOR_PATH "audio/wood_door.mp3"
+# define S_MET_DOOR_PATH "audio/metal_door.mp3"
+# define S_SHOT_PATH "audio/shot.mp3"
+# define S_WOLF_CHASE_PATH "audio/wolf_chase.mp3"
+# define S_WOLF_GROWL_PATH "audio/wolf_growl.mp3"
+# define S_STATUE_HUM_PATH "audio/hum.mp3"
+# define S_VICTORY_PATH "audio/victory.mp3"
+# define S_PLAYER_DYING_PATH "audio/player_dying.mp3"
+
+# define M_CASTLE_PATH "audio/castle.mp3"
+# define M_STORM_PATH "audio/storm.mp3"
+# define M_FOREST_PATH "audio/forest.mp3"
+# define M_PLAYER_STEP_PATH "audio/player_step.mp3"
+# define M_WOLF_STEP_PATH "audio/wolf_step.mp3"
+
+//------------------------------END_PATH---------------------------------
+
+typedef struct s_data		t_data;
+typedef struct s_raycast	t_raycast;
+typedef struct s_char		t_char;
 
 typedef enum e_texture
 {
@@ -176,86 +261,6 @@ typedef enum e_texture
 	MAX_TEX
 }							t_texture;
 
-# define NORTH_PATH "textures/wall/forest.png"
-# define EAST_PATH "textures/wall/forest.png"
-# define WEST_PATH "textures/wall/forest.png"
-# define SOUTH_PATH "textures/wall/forest.png"
-# define ROCK_TEX_PATH "textures/wall/rock_wall.png"
-# define WAGON_TEX_PATH "textures/wall/wagon.png"
-# define WALL_TEX_PATH "textures/wall/forest.png"
-# define WOOD_WALL_PATH "textures/wall/wood_wall.png"
-# define STONE_WALL_PATH "textures/wall/stone_wall.png"
-
-# define MET_DOOR_TEX_PATH "textures/metal_door.png"
-# define DOOR_TEX_PATH "textures/wood_door.png"
-# define STONE_DOOR_PATH "textures/stone_door.png"
-
-# define STONE_FLOOR_PATH "textures/floor/stone_floor.png"
-# define FLOOR_TEX_PATH "textures/floor/wood_floor.png"
-# define BLD_GRASS_PATH "textures/floor/blood_grass.png"
-# define ROAD_PATH "textures/floor/stone_road.png"
-# define GROUND_TEX_PATH "textures/floor/grass.png"
-# define CEILING_TEX_PATH "textures/ceiling/wood_ceiling.png"
-# define SKY_TEX_PATH "textures/ceiling/sky.png"
-
-# define BONES_PATH "textures/decor/bones.png"
-# define WOODPILE_PATH "textures/decor/woodpile.png"
-# define DEAD_MAN_PATH "textures/decor/dead_man.png"
-# define WOLF_STAY_PATH "textures/wolf/wolf_stay.png"
-# define WOLF_WALK1_PATH "textures/wolf/wolf_walk1.png"
-# define WOLF_WALK2_PATH "textures/wolf/wolf_walk2.png"
-# define WOLF_ATTCK_PATH "textures/wolf/wolf_attck.png"
-# define WOLF_DEAD_PATH "textures/wolf/wolf_dead.png"
-# define STATUE_GREY_PATH "textures/statue/statue_grey.png"
-# define STATUE_RED_PATH "textures/statue/statue_red.png"
-# define EVIL_TREE_PATH "textures/decor/evil_tree.png"
-# define EXIT_TEX_PATH "textures/exit.png"
-# define AMMO_TEX_PATH "textures/decor/ammo.png"
-
-# define HUD_PATH "textures/hud/hp_ammo.png"
-
-# define N0_PATH "textures/hud/n0.png"
-# define N1_PATH "textures/hud/n1.png"
-# define N2_PATH "textures/hud/n2.png"
-# define N3_PATH "textures/hud/n3.png"
-# define N4_PATH "textures/hud/n4.png"
-# define N5_PATH "textures/hud/n5.png"
-# define N6_PATH "textures/hud/n6.png"
-# define N7_PATH "textures/hud/n7.png"
-# define N8_PATH "textures/hud/n8.png"
-# define N9_PATH "textures/hud/n9.png"
-
-# define MAIN_MENU_PATH "textures/menu/main_menu.png"
-# define PAUSE_PATH "textures/menu/pause.png"
-# define DEATH_PATH "textures/menu/death.png"
-# define CONTROLS_PATH "textures/menu/controls.png"
-# define WIN_PATH "textures/menu/win.png"
-
-# define STATUE_FACE_PATH "textures/statue/statue_face.png"
-# define CROSSBOW1_PATH "textures/crossbow1.png"
-# define CROSSBOW2_PATH "textures/crossbow2.png"
-
-# define S_STONE_DOOR_PATH "audio/stone_door.mp3"
-# define S_DOOR_PATH "audio/wood_door.mp3"
-# define S_MET_DOOR_PATH "audio/metal_door.mp3"
-# define S_SHOT_PATH "audio/shot.mp3"
-# define S_WOLF_CHASE_PATH "audio/wolf_chase.mp3"
-# define S_WOLF_GROWL_PATH "audio/wolf_growl.mp3"
-# define S_STATUE_HUM_PATH "audio/hum.mp3"
-# define S_VICTORY_PATH "audio/victory.mp3"
-# define S_PLAYER_DYING_PATH "audio/player_dying.mp3"
-
-# define M_CASTLE_PATH "audio/castle.mp3"
-# define M_STORM_PATH "audio/storm.mp3"
-# define M_FOREST_PATH "audio/forest.mp3"
-# define M_PLAYER_STEP_PATH "audio/player_step.mp3"
-# define M_WOLF_STEP_PATH "audio/wolf_step.mp3"
-
-# define GREEN_COL 0x124200ff
-# define ORANGE_COL 0xcc8b00ff
-# define GRAY_COL 0x545454ff
-# define BROWN_COL 0x6b3e00ff
-
 typedef enum e_music
 {
 	M_PLAYER_STEP,
@@ -280,10 +285,6 @@ typedef enum e_sound
 	MAX_SOUND
 }							t_sound;
 
-typedef struct s_data		t_data;
-typedef struct s_raycast	t_raycast;
-typedef struct s_char		t_char;
-
 //------------------------------Graphic----------------------------------
 
 typedef struct s_dpoint
@@ -298,7 +299,6 @@ typedef struct s_point
 {
 	int						x;
 	int						y;
-	int						h;
 
 }							t_point;
 
@@ -320,8 +320,6 @@ typedef struct s_rgbt
 
 typedef struct s_project
 {
-	int						width;
-	int						height;
 	int						dist;
 	t_point					center;
 
@@ -433,9 +431,7 @@ typedef struct s_keys
 
 typedef struct s_pov
 {
-	t_point					view_pos;
 	double					view_angl;
-	int						fov;
 
 }							t_pov;
 
@@ -487,9 +483,6 @@ typedef struct s_raycast
 	t_sprite				*thread_sprite;
 	pthread_t				threads[MAX_THRD];
 	int						thrd_i;
-
-	int						flor_rgbt;
-	int						ceil_rgbt;
 
 	t_char					*player;
 
@@ -554,8 +547,6 @@ typedef struct s_data
 	int						rays_count;
 	int						rays_dist[WIN_W];
 	double					rays_angle;
-	t_rgbt					flor_rgb;
-	t_rgbt					ceil_rgb;
 
 	Music					*main_music;
 	Music					music[MAX_MUSIC];

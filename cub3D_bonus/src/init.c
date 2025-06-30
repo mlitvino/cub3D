@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/30 14:35:09 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:13:16 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	init_player(t_data *data)
 	player = &data->player;
 	player->data = data;
 	player->hitbox_radius = BLOCK_SIZE / 4;
-	player->pov.fov = FOV;
 	player->height = BLOCK_SIZE / 2;
 	player->move_spd = BLOCK_SIZE / 16;
 	player->turn_spd = 2;

@@ -93,7 +93,7 @@ static void	wolf_action(t_sprite *sprite, t_data *data)
 {
 	attack_player(data, sprite);
 	if (has_line_of_sight(sprite, &data->player, data->unit_map)
-		&& sprite->dist < 10 * BLOCK_SIZE)
+		&& sprite->dist < MAX_WOLF_VIS)
 	{
 		if (sprite->path)
 		{
