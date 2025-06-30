@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/30 16:21:36 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/30 16:35:59 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -866,5 +866,7 @@ int	has_10_seconds_passed(struct timeval start);
 struct timeval	get_current_time(void);
 int	*check_for_door(char **map, int player_x, int player_y,
 		t_data *data);
+int	can_move_wall(t_char *player, double new_x, double new_y);
+int	can_move_door(t_char *player, double new_x, double new_y);
 
 #endif

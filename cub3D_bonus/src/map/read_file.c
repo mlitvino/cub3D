@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:14:07 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/06/30 15:14:08 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/30 16:32:59 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ char	**read_file(char *filename, t_data *data)
 	if (!valid_extension(filename))
 		return (error_return("Error\nInvalid file extension\n"));
 	data->line_count = count_lines(filename);
-	if (data->line_count < 9)
+	if (data->line_count < 3)
 		return (error_return("Error\nInvalid file content\n"));
 	map_data = ft_calloc((data->line_count) + 1, sizeof(char *));
 	if (!map_data)

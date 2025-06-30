@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:54:01 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/06/30 15:10:26 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/06/30 16:45:08 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,19 @@ static void	attack_player(t_data *data, t_sprite *sprite)
 	}
 }
 
+static void free_after_door(t_path *path)
+{
+	t_path *tmp;
+
+	path = path->parent;
+	while (path)
+	{
+		tmp = path->parent;
+		free(path);
+		path = tmp;
+	}	
+}
+
 static void	truncate_path_if_closed_door(t_sprite *sprite, t_path *prev,
 		t_path *tmp, t_data *data)
 {
@@ -73,9 +86,14 @@ static void	truncate_path_if_closed_door(t_sprite *sprite, t_path *prev,
 		if (door && door->state != OPEN)
 		{
 			if (prev)
-				tmp->parent = NULL;
+			{
+				free_after_door(tmp);
+			}
 			else
+			{
+				free_path(sprite->path);
 				sprite->path = NULL;
+			}
 		}
 	}
 }
