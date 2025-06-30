@@ -6,7 +6,7 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/30 02:38:47 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/06/30 13:32:10 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,16 +61,13 @@ MAP_SRC		= $(addprefix $(MAP_DIR)/, \
 				perror.c \
 				error.c \
 				free.c \
-				colour_utils.c \
 				file_utils.c \
 				read_file.c \
-				colour.c \
 				map_borders.c \
 				map_utils.c \
 				map.c \
 				surrounding.c \
 				valid_file.c \
-				valid_texture_path.c \
 				doors.c \
 				)
 RAY_SRC		= $(addprefix $(RAY_DIR)/, \

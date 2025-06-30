@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:03:22 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/30 00:12:51 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:34:36 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,17 @@ int	parsing_file(t_data *data, char **argv, int argc)
 {
 	if (argc != 2)
 		print_usage();
-	init_null(data);
 	data->map_data = read_file(argv[1], data);
 	if (!data->map_data)
 		return (0);
 	if (!is_valid_data(data->map_data, data, data->line_count))
 	{
-		free_colours_textures_strings(data);
 		free_map(data->map_data, -1);
 		return (0);
 	}
 	free_map(data->map_data, -1);
 	if (!valid_map(data))
 	{
-		free_colours_textures_strings(data);
 		free_map(data->work_map, -1);
 		return (0);
 	}

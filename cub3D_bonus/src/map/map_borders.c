@@ -11,7 +11,6 @@ static int	check_first_row(char **map)
 	{
 		if (!ft_strchr(WALLS, map[0][i]) && map[0][i] != ' ')
 		{
-			printf("1\n");
 			return (0);
 		}
 		i++;
@@ -30,7 +29,6 @@ static int	check_last_row(char **map, int height)
 	{
 		if (!ft_strchr(WALLS,map[height - 1][i]) && map[height - 1][i] != ' ')
 		{
-			printf("2\n");
 			return (0);
 		}
 		i++;

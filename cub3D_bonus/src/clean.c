@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 23:12:04 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/25 22:19:10 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:34:01 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,10 @@ void	clean_obj(t_data *data)
 void	clean_all(t_data *data, char *perr_mess)
 {
 	free_map(data->grid_map, -1);
-	free_colours_textures_strings(data);
 	clean_map(data);
 	clean_mlx(data);
 	clean_obj(data);
 	clean_audio(data);
-	free_colours_textures_strings(data);
 	if (perr_mess)
 		perror(perr_mess);
 	exit(0);

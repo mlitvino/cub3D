@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/30 02:48:34 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:32:51 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -369,13 +369,14 @@ typedef struct s_sprite
 	t_point					pos;
 
 	double					dist_player;
-	int						move_rate;
-	int						move_spd;
-	int						turn_spd;
-	float					attack_range;
-
-	int						has_player_in_sight;
-	t_dpoint				last_seen;
+	int				move_rate;
+	int				move_spd;
+	int				turn_spd;
+	int			attack_range;
+	int			attack_rate;
+	int				has_player_in_sight;
+	t_dpoint			last_seen;
+	int				moved;
 
 	bool					visible;
 	t_path					*path;
@@ -777,7 +778,6 @@ char						**error_return(char *message);
 int							free_return(int *data);
 int							perror_free_map(char **map);
 char						**free_map(char **map, int fd);
-void						free_colours_textures_strings(t_data *data);
 int							error_free_return(char *message, t_data *data);
 int							free_map_return(t_data *data);
 int							free_error_exit(char *line, char *colour);

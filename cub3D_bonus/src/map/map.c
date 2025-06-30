@@ -52,8 +52,6 @@ static int	valid_characters(char **map)
 	return (1);
 }
 
-// pad the map with "P"
-
 int	longest_line(char **map, int height)
 {
 	int	i;
@@ -91,7 +89,6 @@ int	fill_padded_map(int height, t_data *data, char **padded_map, char **map)
 			padded_map[i][j] = map[i][j];
 			j++;
 		}
-		// j = line_len;
 		while (j < data->map_w)
 			padded_map[i][j++] = 'P';
 		padded_map[i][data->map_w] = '\0';
@@ -100,8 +97,6 @@ int	fill_padded_map(int height, t_data *data, char **padded_map, char **map)
 	padded_map[height] = NULL;
 	return (1);
 }
-
-// map borders
 
 int	valid_map(t_data *data)
 {

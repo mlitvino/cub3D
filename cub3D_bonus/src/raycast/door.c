@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:41:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/27 17:58:04 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:36:02 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,43 +19,6 @@ static struct timeval	get_current_time(void)
 	gettimeofday(&now, NULL);
 	return (now);
 }
-
-/*static int *check_for_door(char **map, int row, int col)
-{
-	int	delta_row;
-	int	delta_col;
-	int	n_row;
-	int	n_col;
-	int	*coordinates;
-
-	row = row / BLOCK_SIZE;
-	col = col / BLOCK_SIZE;
-    delta_row = -1;
-    while (delta_row <= 1)
-    {
-        delta_col = -1;
-        while (delta_col <= 1)
-        {
-            if (!(delta_row == 0 && delta_col == 0))
-            {
-                n_row = row + delta_row;
-                n_col = col + delta_col;
-                if (map[n_row][n_col] == 'D')
-                {
-                    coordinates = malloc(2 * sizeof(int));
-                    if (!coordinates)
-                        return (NULL);
-                    coordinates[0] = n_row;
-                    coordinates[1] = n_col;
-                    return (coordinates);
-                }
-            }
-            delta_col++;
-        }
-        delta_row++;
-    }
-    return (NULL);
-}*/
 
 static int *check_for_door(char **map, int player_x, int player_y, t_data *data)
 {

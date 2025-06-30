@@ -14,7 +14,7 @@ static void	switch_img(t_sprite *sprite)
 	{
 		sprite->move_rate = 0;
 		if (sprite->cur_img == sprite->tex_imgs[WOLF_ATTCK])
-			sprite->cur_img = sprite->tex_imgs[WOLF_STAY];
+			sprite->cur_img = sprite->tex_imgs[WOLF_WALK1];
 		if (sprite->cur_img == sprite->tex_imgs[WOLF_WALK1])
 			sprite->cur_img = sprite->tex_imgs[WOLF_WALK2];
 		else if (sprite->cur_img == sprite->tex_imgs[WOLF_WALK2])
@@ -33,6 +33,28 @@ static void	set_new_pos(t_data *data, t_sprite *sprite,
 		sprite->pos.y = new_y;
 }
 
+static void	check_end_of_path(t_sprite *sprite)
+{
+	t_path *tmp;
+
+	tmp = sprite->path;
+
+	if ((sprite->pos.x == sprite->last_seen.x
+				&& sprite->pos.y == sprite->last_seen.y))
+			sprite->has_player_in_sight = 0;
+	while (tmp)
+	{
+		if (!tmp->parent)
+		{
+			if (sprite->pos.x / BLOCK_SIZE == tmp->pos.x && sprite->pos.y / BLOCK_SIZE  == tmp->pos.y)
+			{
+				sprite->path = NULL;
+			}
+		}
+		tmp = tmp->parent;
+	}
+}
+
 static int	move_wolf(t_sprite *sprite, t_data *data, int x, int y)
 {
 	float	new_x;
@@ -45,18 +67,20 @@ static int	move_wolf(t_sprite *sprite, t_data *data, int x, int y)
 	dy = y - sprite->pos.y;
 	dist = sqrtf(dx * dx + dy * dy);
 	if (sprite->dist <= sprite->attack_range)
+	{
+		sprite->moved = 0;
 		return (no_path_return(sprite));
+	}
 	else
 	{
 		if (IsSoundPlaying(data->sound[S_WOLF_CHASE]) == false)
 			PlaySound(data->sound[S_WOLF_CHASE]);
 		new_x = sprite->pos.x + sprite->move_spd * (dx / dist);
 		new_y = sprite->pos.y + sprite->move_spd * (dy / dist);
+		sprite->moved++;
 		switch_img(sprite);
 		set_new_pos(data, sprite, new_x, new_y);
-		if ((sprite->pos.x == sprite->last_seen.x
-				&& sprite->pos.y == sprite->last_seen.y))
-			sprite->has_player_in_sight = 0;
+		check_end_of_path(sprite);
 	}
 	return (1);
 }
@@ -68,7 +92,7 @@ void	move_to_goal(t_sprite *sprite, t_data *data)
 	float	target_y;
 
 	next_step = sprite->path;
-	if (!sprite->path || !sprite->path->parent)
+	if (!sprite->path)
 	{
 		no_path(sprite);
 		return ;
@@ -81,5 +105,7 @@ void	move_to_goal(t_sprite *sprite, t_data *data)
 	target_x = next_step->pos.x * BLOCK_SIZE + BLOCK_SIZE / 2;
 	target_y = next_step->pos.y * BLOCK_SIZE + BLOCK_SIZE / 2;
 	if (!move_wolf(sprite, data, target_x, target_y))
+	{
 		return ;
+	}
 }

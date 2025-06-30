@@ -7,7 +7,7 @@ static int	door_in_line_of_sight(double x, double y, t_data *data, char **map)
 	if (ft_strchr(DOORS, map[(int)y][(int)x]))
 	{
 		door = find_door(data->door_list, x, y);
-		if (door && door->state == CLOSED)
+		if (door && door->state != OPEN)
 			return (1);
 	}
 	return (0);

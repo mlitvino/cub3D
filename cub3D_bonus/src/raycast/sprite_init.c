@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:23:13 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/27 18:58:49 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:20:21 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ void	fill_sprite_info(t_sprite *new_sprite, t_data *data, int type)
 	new_sprite->turn_spd = 2;
 	new_sprite->dist = 0;
 	new_sprite->path = NULL;
+	new_sprite->moved = 0;
+	new_sprite->has_player_in_sight = 0;
 	new_sprite->move_rate = 0;
+	new_sprite->attack_rate = 0;
 	new_sprite->attack_range = 4.0f * data->player.hitbox_radius;
 }
 

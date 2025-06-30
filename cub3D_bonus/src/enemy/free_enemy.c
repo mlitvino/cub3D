@@ -59,3 +59,13 @@ void	no_path(t_sprite *sprite)
 		sprite->path = NULL;
 	}
 }
+
+void	free_paths(t_sprite *sprites)
+{
+	while (sprites)
+	{
+		if (sprites->path)
+			free_path(sprites->path);
+		sprites = sprites->next;
+	}
+}

@@ -16,16 +16,6 @@ char	**free_map(char **map, int fd)
 	return (NULL);
 }
 
-void	free_colours_textures_strings(t_data *data)
-{
-	free(data->mlx_data.tex_path[WEST]);
-	free(data->mlx_data.tex_path[NORTH]);
-	free(data->mlx_data.tex_path[EAST]);
-	free(data->mlx_data.tex_path[SOUTH]);
-	free_map(data->mlx_data.ceiling_colour, -1);
-	free_map(data->mlx_data.floor_colour, -1);
-}
-
 int	error_free_return(char *message, t_data *data)
 {
 	ft_putstr_fd(message, 2);

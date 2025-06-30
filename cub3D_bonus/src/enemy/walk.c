@@ -1,6 +1,5 @@
 #include "cub3D.h"
 
-# define remove "del"
 /*static void print_path(t_path *path)
 {
 	int	step;
@@ -19,13 +18,15 @@
 	}
 	printf("---- PATH END ----\n");
 }*/
+
 static void	attack_player(t_data *data, t_sprite *sprite)
 {
 	if (sprite->dist <= sprite->attack_range)
 	{
-		if (++sprite->move_rate >= 50)
+		if (++sprite->attack_rate >= 30 || sprite->moved > 5)
 		{
-			sprite->move_rate = 0;
+			if (sprite->attack_rate >= 30)
+				sprite->attack_rate = 0;
 			if (IsSoundPlaying(data->sound[S_WOLF_GROWL]) == false)
 				PlaySound(data->sound[S_WOLF_GROWL]);
 			if (sprite->cur_img == sprite->tex_imgs[WOLF_WALK1]
@@ -37,16 +38,54 @@ static void	attack_player(t_data *data, t_sprite *sprite)
 			else if (sprite->cur_img == sprite->tex_imgs[WOLF_ATTCK])
 				sprite->cur_img = sprite->tex_imgs[WOLF_WALK2];
 			else if (sprite->cur_img == sprite->tex_imgs[WOLF_WALK2])
+			{
+				get_damage(data, NULL, &data->player);
 				sprite->cur_img = sprite->tex_imgs[WOLF_ATTCK];
+			}
 		}
-		free_path(sprite->path);
-		sprite->path = NULL;
+		if (sprite->path)
+		{
+			free_path(sprite->path);
+			sprite->path = NULL;
+		}
 		return ;
 	}
-	if (sprite->path)
+}
+
+static void	truncate_path_if_closed_door(t_sprite *sprite, t_path *prev, t_path *tmp, t_data *data)
+{
+	t_door *door;
+	int x;
+	int y;
+
+	x = tmp->parent->pos.x;
+	y = tmp->parent->pos.y;
+	if (data->grid_map[y][x] == 'D')
 	{
-		free_path(sprite->path);
-		sprite->path = NULL;
+		door = find_door(data->door_list, x * BLOCK_SIZE, y * BLOCK_SIZE);
+		if (door && door->state != OPEN)
+		{
+			if (prev)
+				tmp->parent = NULL;
+			else
+				sprite->path = NULL;
+		}
+	}
+}
+
+static void	check_closed_door_in_path(t_data *data, t_sprite *sprite)
+{
+	t_path *tmp;
+	t_path *prev;
+
+	prev = NULL;
+	tmp = sprite->path;
+	while (tmp && sprite->has_player_in_sight)
+	{
+		if (tmp->parent)
+			truncate_path_if_closed_door(sprite, prev, tmp, data);
+		prev = tmp;
+		tmp = tmp->parent;
 	}
 }
 
@@ -54,8 +93,13 @@ static void	wolf_action(t_sprite *sprite, t_data *data)
 {
 	attack_player(data, sprite);
 	if (has_line_of_sight(sprite, &data->player, data->unit_map)
-		&& sprite->dist < 7 * BLOCK_SIZE)
+		&& sprite->dist < 10 * BLOCK_SIZE)
 	{
+		if (sprite->path)
+		{
+			free_path(sprite->path);
+			sprite->path = NULL;
+		}
 		sprite->last_seen = data->player.pos;
 		sprite->has_player_in_sight = 1;
 		sprite->path = bfs_find_path(data, sprite->pos, data->player.pos);
@@ -64,7 +108,7 @@ static void	wolf_action(t_sprite *sprite, t_data *data)
 	}
 	else if (sprite->has_player_in_sight)
 	{
-		sprite->path = bfs_find_path(data, sprite->pos, sprite->last_seen);
+		check_closed_door_in_path(data, sprite);
 		if (sprite->path)
 			move_to_goal(sprite, data);
 		else
@@ -136,7 +180,7 @@ void	update_wolf(t_data *data)
 	sprite = data->sprite_list;
 	while (sprite)
 	{
-		if (sprite->type == WOLF && sprite->state != WOLF_DEAD)
+		if (sprite->type == WOLF /*&& sprite->state != DIED*/)
 		{
 			wolf_action(sprite, data);
 		}
