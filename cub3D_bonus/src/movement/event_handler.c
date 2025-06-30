@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   event_handler.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 16:02:35 by ablodorn          #+#    #+#             */
+/*   Updated: 2025/06/30 16:02:53 by ablodorn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
 void	resize_handler(int32_t width, int32_t height, void *data_arg)
@@ -84,7 +96,7 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 		open_close_door(data);
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 		clean_all(data, NULL);
-	if (keydata.action == MLX_PRESS /*|| keydata.action == MLX_REPEAT*/)
+	if (keydata.action == MLX_PRESS)
 		set_key_flag(&data->keys, keydata, 1, data);
 	else if (keydata.action == MLX_RELEASE)
 		set_key_flag(&data->keys, keydata, 0, data);
