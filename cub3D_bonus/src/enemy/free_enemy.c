@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:53:37 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/06/30 14:53:38 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 13:42:26 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	free_path(t_path *path)
 	}
 }
 
-void	free_queue_except_path(t_path **queue, int front, int rear,
+void	free_queue_except_path(t_path **queue, int rear,
 		t_path *path_end)
 {
 	t_path	*node;
@@ -32,7 +32,7 @@ void	free_queue_except_path(t_path **queue, int front, int rear,
 	int		on_path;
 	int		i;
 
-	i = front;
+	i = 0;
 	while (i < rear)
 	{
 		node = queue[i];

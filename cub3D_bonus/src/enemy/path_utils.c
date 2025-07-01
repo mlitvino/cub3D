@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:53:47 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/06/30 14:53:48 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 13:41:26 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ t_path	*reverse_path(t_path *end)
 int	is_valid_tile(char **map, t_data *data, int x, int y)
 {
 	t_door		*door;
-	t_sprite	*sprite;
 
 	if (x < 0 || y < 0 || x >= data->map_w || y >= data->map_h)
 		return (0);
