@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 14:46:48 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/07/01 15:17:12 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:14:55 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ bool	resize_image(mlx_image_t *img, int img_i)
 	int	hud_w;
 	int	hud_h;
 
-	hud_w = WIN_W / HUD_W;
-	hud_h = WIN_H / HUD_H;
+	hud_w = WIN_W / (double)HUD_W;
+	hud_h = WIN_H / (double)HUD_H;
 	if (img_i == SKY_TEX)
 		return (mlx_resize_image(img, SKY_W, SKY_H));
 	else if (img_i == HUD_TEX)

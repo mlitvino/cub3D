@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:55:28 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/07/01 15:10:14 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:51:55 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,18 +92,22 @@ void	init_hud(t_data *data, t_mlx *mlx_data, mlx_t *mlx)
 {
 	int			img_i;
 	mlx_image_t	*img;
+	int			hud_w;
+	int			hud_h;
 
 	img_i = HUD_TEX;
+	hud_w = WIN_W / HUD_W;
+	hud_h = WIN_H / HUD_H;
 	img = mlx_data->textrs_img[img_i];
-	if (mlx_image_to_window(mlx, img, 0, WIN_H - HUD_H) < 0)
+	if (mlx_image_to_window(mlx, img, 0, WIN_H - hud_h) < 0)
 		clean_all(data, NULL);
 	mlx_set_instance_depth(&img->instances[0], 1);
 	while (++img_i < MAIN_MENU)
 	{
 		img = mlx_data->textrs_img[img_i];
-		if (mlx_image_to_window(mlx, img, HUD_W / 3, WIN_H - HUD_H) < 0)
+		if (mlx_image_to_window(mlx, img, hud_w / 3, WIN_H - hud_h) < 0)
 			clean_all(data, NULL);
-		if (mlx_image_to_window(mlx, img, HUD_W - HUD_W / 4, WIN_H - HUD_H) < 0)
+		if (mlx_image_to_window(mlx, img, hud_w - hud_w / 4, WIN_H - hud_h) < 0)
 			clean_all(data, NULL);
 		mlx_set_instance_depth(&img->instances[0], 2);
 		mlx_set_instance_depth(&img->instances[1], 2);
