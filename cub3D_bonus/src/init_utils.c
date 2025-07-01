@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 14:46:48 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/28 14:46:49 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:17:12 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,17 @@ void	replace_unit_points(t_data *data, int grid_x, int grid_y)
 
 bool	resize_image(mlx_image_t *img, int img_i)
 {
+	int	hud_w;
+	int	hud_h;
+
+	hud_w = WIN_W / HUD_W;
+	hud_h = WIN_H / HUD_H;
 	if (img_i == SKY_TEX)
 		return (mlx_resize_image(img, SKY_W, SKY_H));
 	else if (img_i == HUD_TEX)
-		return (mlx_resize_image(img, HUD_W, HUD_H));
+		return (mlx_resize_image(img, hud_w, hud_h));
 	else if (img_i > HUD_TEX && img_i < MAIN_MENU)
-		return (mlx_resize_image(img, HUD_W / 4, HUD_H / 1));
+		return (mlx_resize_image(img, hud_w / 4, hud_h / 1));
 	else if (img_i >= MAIN_MENU)
 		return (mlx_resize_image(img, WIN_W, WIN_H));
 	else

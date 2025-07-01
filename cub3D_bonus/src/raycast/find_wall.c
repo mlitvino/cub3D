@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:57:05 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/21 18:41:43 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:43:33 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	init_wall(t_raycast *raycast, t_dpoint *temp,
 	if (axis == VERTICAL)
 	{
 		temp->x = floor((double)char_pos->x / BLOCK_SIZE) * BLOCK_SIZE;
-		if (ISEAST(raycast->ray_angle))
+		if (270 < raycast->ray_angle || raycast->ray_angle < 90)
 			temp->x += BLOCK_SIZE;
 		else
 			temp->x -= 1;
@@ -57,7 +57,7 @@ void	init_delta(t_raycast *raycast, int axis)
 	{
 		raycast->dx = BLOCK_SIZE;
 		raycast->dy = BLOCK_SIZE * raycast->angl_table->tan;
-		if (ISEAST(ray_angl))
+		if (270 < raycast->ray_angle || raycast->ray_angle < 90)
 			raycast->dy = -raycast->dy;
 		else
 			raycast->dx = -raycast->dx;
@@ -66,7 +66,7 @@ void	init_delta(t_raycast *raycast, int axis)
 	{
 		raycast->dx = BLOCK_SIZE / raycast->angl_table->tan;
 		raycast->dy = BLOCK_SIZE;
-		if (ISNORTH(ray_angl))
+		if (ray_angl < 180)
 			raycast->dy = -raycast->dy;
 		else
 			raycast->dx = -raycast->dx;
@@ -76,7 +76,8 @@ void	init_delta(t_raycast *raycast, int axis)
 void	norm_fract(t_dpoint *temp, t_wall *wall, int axis, double ray_angl)
 {
 	if ((axis == VERTICAL && ray_angl > 180)
-	|| (axis == HORIZONT && ISEAST(ray_angl)))
+		|| (axis == HORIZONT
+			&& (270 < ray_angl || ray_angl < 90)))
 	{
 		wall->pos.x = temp->x;
 		wall->pos.y = temp->y;

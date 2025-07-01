@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 14:46:06 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/30 14:30:54 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:40:22 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	change_game_state(t_data *data, int new_state)
 	i = 0;
 	while (i < MAX_MUSIC)
 		PauseMusicStream(data->music[i++]);
+	if (new_state != START)
+		mlx_set_cursor_mode(data->mlx_data.mlx_ptr, MLX_MOUSE_NORMAL);
 	if (new_state == DEATH)
 		PlaySound(data->sound[S_PLAYER_DYING]);
 	else if (new_state == WIN)
@@ -35,9 +37,9 @@ void	init_buttons(t_dpoint *but_r, t_point *d, int *dy2, t_point scr_size)
 {
 	but_r->x = scr_size.x / but_r->x;
 	but_r->y = scr_size.y / but_r->y;
-	d->x = scr_size.x / BUTTON_DX;
-	d->y = scr_size.y / BUTTON_DY;
-	*dy2 = scr_size.y / BUTTON_DY2;
+	d->x = scr_size.x / (1920.0 / BUTTON_DX);
+	d->y = scr_size.y / (1080.0 / BUTTON_DY);
+	*dy2 = scr_size.y / (1080.0 / BUTTON_DY2);
 }
 
 int	check_mouse_click(t_data *data, t_dpoint but_r, t_point scr_size)
@@ -67,7 +69,17 @@ int	check_mouse_click(t_data *data, t_dpoint but_r, t_point scr_size)
 	return (-1);
 }
 
-void	manage_menu(t_data *data, mlx_image_t **tex_img)
+t_dpoint	init_but(int but_x, int but_y)
+{
+	t_dpoint	but;
+
+	but.h = 0;
+	but.x = (1920.0 / but_x);
+	but.y = (1080.0 / but_y);
+	return (but);
+}
+
+void	manage_menu(t_data *data, mlx_image_t **tex_img, t_point scr_size)
 {
 	mlx_image_t	*cur_menu;
 	int			res;
@@ -78,9 +90,9 @@ void	manage_menu(t_data *data, mlx_image_t **tex_img)
 	if (!data->keys.click)
 		return ;
 	if (data->game_state == MAIN_MENU)
-		res = check_mouse_click(data, MAIN_BUTTON, data->mlx_data.scr_size);
+		res = check_mouse_click(data, init_but(MAIN_BUTX, MAIN_BUTY), scr_size);
 	else
-		res = check_mouse_click(data, PAUSE_BUTTON, data->mlx_data.scr_size);
+		res = check_mouse_click(data, init_but(PAUS_BUTX, PAUS_BUTY), scr_size);
 	if (res != -1)
 	{
 		data->keys.click = false;

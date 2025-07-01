@@ -6,11 +6,11 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/07/01 13:37:32 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/07/01 15:00:11 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC			= cc  -Wall -Wextra -g
+CC			= cc  -Wall -Wextra -Ofast -march=native -flto
 # -Wall -Wextra -Werror -Ofast -march=native -flto
 HEADERS		= -I$(LIBFT_DIR)/$(INCLD_DIR) -I$(INCLD_DIR)
 HEADERS		+= -I$(MLX_DIR)/include -I$(RAUDIO_DIR)

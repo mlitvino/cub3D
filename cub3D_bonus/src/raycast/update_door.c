@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_door.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:31:44 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/06/30 16:34:55 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:18:15 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	*check_for_door(char **map, int player_x, int player_y,
 	double	angle_rad;
 
 	i = 0;
-	angle_rad = DEG_TO_RAD(data->player.pov.view_angl);
+	angle_rad = deg_rad(data->player.pov.view_angl);
 	dir_x = cos(angle_rad);
 	dir_y = -sin(angle_rad);
 	while (i < 5)

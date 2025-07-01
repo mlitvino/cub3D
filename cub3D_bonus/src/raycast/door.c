@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   door.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:41:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/30 16:22:03 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:44:06 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_door	*create_door(t_data *data, t_door **door_list, int grid_x, int grid_y)
 	return (new_door);
 }
 
-static void door_sound_and_state(t_data *data, t_door *door)
+static void	door_sound_and_state(t_data *data, t_door *door)
 {
 	if (door->type == DOOR)
 		PlaySound(data->sound[S_DOOR]);

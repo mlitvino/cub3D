@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/30 15:09:23 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:05:48 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@
 
 # define VERTICAL 0
 # define HORIZONT 1
-
-# define DEG_TO_RAD(a) ((a)*M_PI / 180.0)
 
 enum
 {

@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:55:28 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/27 16:50:41 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:10:14 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,12 @@ void	put_img_to_win(t_data *data, mlx_image_t *img, int img_i)
 
 bool	put_images_to_window(t_data *data, t_mlx *mlx_data)
 {
-	mlx_data->minimap = mlx_new_image(mlx_data->mlx_ptr, MINIMAP_W, MINIMAP_H);
+	int	min_w;
+	int	min_h;
+
+	min_h = WIN_H / MINIMAP_H;
+	min_w = WIN_W / MINIMAP_W;
+	mlx_data->minimap = mlx_new_image(mlx_data->mlx_ptr, min_w, min_h);
 	if (!mlx_data->minimap)
 		clean_all(data, NULL);
 	put_img_to_win(data, mlx_data->scr_img, -1);

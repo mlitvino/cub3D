@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   action.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/01 15:42:45 by mlitvino          #+#    #+#             */
+/*   Updated: 2025/07/01 15:42:57 by mlitvino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
 void	get_damage(t_data *data, t_sprite *spr, t_char *player)
@@ -33,13 +45,6 @@ void	shoot(t_data *data, t_char *player)
 		if (enemy)
 		{
 			get_damage(data, enemy, player);
-			printf("type_name: %s\n",
-				enemy->type == WOLF ? "WOLF" : enemy->type == STATUE ? "STATUE" : "UNKNOWN");
-			printf("x %d, y %d\n", enemy->pos.x, enemy->pos.y);
-		}
-		else
-		{
-			printf("Enemy is not in center of screen\n");
 		}
 		PlaySound(data->sound[S_SHOT]);
 		data->mlx_data.textrs_img[CROSSBOW1]->enabled = false;

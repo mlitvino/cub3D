@@ -3,33 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   wolf_action.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:54:01 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/06/30 16:45:08 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:45:43 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-/*static void print_path(t_path *path)
-{
-	int	step;
-
-	step = 0;
-	if (!path)
-	{
-		printf("Path is NULL\n");
-		return ;
-	}
-	printf("---- PATH START ----\n");
-	while (path)
-	{
-		printf("Step %d: Tile (%d, %d)\n", step++, path->pos.x, path->pos.y);
-		path = path->parent;
-	}
-	printf("---- PATH END ----\n");
-}*/
 static void	attack_player(t_data *data, t_sprite *sprite)
 {
 	if (sprite->dist <= sprite->attack_range)
@@ -68,7 +50,7 @@ static void free_after_door(t_path *path)
 		tmp = path->parent;
 		free(path);
 		path = tmp;
-	}	
+	}
 }
 
 static void	truncate_path_if_closed_door(t_sprite *sprite, t_path *prev,
@@ -118,7 +100,7 @@ void	wolf_action(t_sprite *sprite, t_data *data)
 {
 	attack_player(data, sprite);
 	if (has_line_of_sight(sprite, &data->player, data->unit_map)
-		&& sprite->dist < 10 * BLOCK_SIZE)
+		&& sprite->dist < MAX_WOLF_VIS * BLOCK_SIZE)
 	{
 		if (sprite->path)
 		{

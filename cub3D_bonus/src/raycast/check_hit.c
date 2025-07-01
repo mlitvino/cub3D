@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:24:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/24 23:54:37 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:43:15 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 bool	is_on_map(t_data *data, t_point *p)
 {
 	return ((0 <= p->x && p->x < data->map_w * BLOCK_SIZE)
-			&& (0 <= p->y && p->y < data->map_h * BLOCK_SIZE));
+		&& (0 <= p->y && p->y < data->map_h * BLOCK_SIZE));
 }
 
 bool	extend_door(t_raycast *raycast, t_wall *wall, int axis)

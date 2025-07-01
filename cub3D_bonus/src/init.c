@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/30 16:29:30 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:23:00 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	init_angle_table(t_table *angle_table)
 	while (i < total)
 	{
 		deg = (double)i / ANGLE_PRES;
-		rad = DEG_TO_RAD(deg);
+		rad = deg_rad(deg);
 		angle_table[i].sin = sin(rad);
 		angle_table[i].cos = cos(rad);
 		angle_table[i].tan = tan(rad);
@@ -105,7 +105,7 @@ void	init_angle_table(t_table *angle_table)
 
 void	init_data(t_data *data)
 {
-	data->game_state = START;
+	data->game_state = MAIN_MENU;
 	init_mlx(data);
 	init_audio(data);
 	tune_audio(data);
