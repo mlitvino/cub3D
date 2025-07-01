@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:06:08 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/07/01 14:45:01 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:31:41 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	update_wolf(t_data *data)
 	sprite = data->sprite_list;
 	while (sprite)
 	{
-		if (sprite->type == WOLF /*&& sprite->state != DIED*/)
+		if (sprite->type == WOLF && sprite->state != WOLF_DEAD)
 		{
 			wolf_action(sprite, data);
 		}

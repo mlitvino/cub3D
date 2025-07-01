@@ -33,9 +33,9 @@ void	shoot(t_data *data, t_char *player)
 		if (enemy)
 		{
 			get_damage(data, enemy, player);
-			printf("type_name: %s\n",
-				enemy->type == WOLF ? "WOLF" : enemy->type == STATUE ? "STATUE" : "UNKNOWN");
-			printf("x %d, y %d\n", enemy->pos.x, enemy->pos.y);
+			//printf("type_name: %s\n",
+				//enemy->type == WOLF ? "WOLF" : enemy->type == STATUE ? "STATUE" : "UNKNOWN");
+			//printf("x %d, y %d\n", enemy->pos.x, enemy->pos.y);
 		}
 		else
 		{

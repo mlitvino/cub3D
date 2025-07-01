@@ -13,10 +13,10 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "raudio.h"
 # include "MLX42/MLX42_Int.h"
 # include "float.h"
 # include "libft.h"
+# include "raudio.h"
 # include <fcntl.h>
 # include <math.h>
 # include <pthread.h>
@@ -365,14 +365,14 @@ typedef struct s_sprite
 	t_point					pos;
 
 	double					dist_player;
-	int				move_rate;
-	int				move_spd;
-	int				turn_spd;
-	int			attack_range;
-	int			attack_rate;
-	int				has_player_in_sight;
-	t_dpoint			last_seen;
-	int				moved;
+	int						move_rate;
+	int						move_spd;
+	int						turn_spd;
+	int						attack_range;
+	int						attack_rate;
+	int						has_player_in_sight;
+	t_dpoint				last_seen;
+	int						moved;
 
 	bool					visible;
 	t_path					*path;
@@ -816,8 +816,8 @@ t_path						*bfs_find_path(t_data *data, t_point start,
 int							init_visited(int ***visited, t_data *data);
 void						init_delta_path(t_delta *d);
 t_path						*create_node(int x, int y, t_path *parent);
-void						free_queue_except_path(t_path **queue,
-								int rear, t_path *path_end);
+void						free_queue_except_path(t_path **queue, int rear,
+								t_path *path_end);
 int							has_line_of_sight(t_sprite *enemy, t_char *player,
 								char **map);
 t_path						*reverse_path(t_path *end);
@@ -832,21 +832,23 @@ void						free_visited(int **visited, int height);
 int							is_valid_tile(char **map, t_data *data, int x,
 								int y);
 void						no_path(t_sprite *sprite);
-void	check_end_of_path(t_sprite *sprite);
+void						check_end_of_path(t_sprite *sprite);
 
-void	free_paths(t_sprite *sprites);
-void	set_new_pos(t_data *data, t_sprite *sprite,
-	float new_x, float new_y);
-void	switch_img(t_sprite *sprite);
-int	no_path_return(t_sprite *sprite);
-void	wolf_action(t_sprite *sprite, t_data *data);
-int player_inside_door(t_data *data, t_door *door);
-int enemy_inside_door(t_data *data, t_door *door);
-int	has_10_seconds_passed(struct timeval start);
-struct timeval	get_current_time(void);
-int	*check_for_door(char **map, int player_x, int player_y,
-		t_data *data);
-int	can_move_wall(t_char *player, double new_x, double new_y);
-int	can_move_door(t_char *player, double new_x, double new_y);
+void						free_paths(t_sprite *sprites);
+void						set_new_pos(t_data *data, t_sprite *sprite,
+								float new_x, float new_y);
+void						switch_img(t_sprite *sprite);
+int							no_path_return(t_sprite *sprite);
+void						wolf_action(t_sprite *sprite, t_data *data);
+int							player_inside_door(t_data *data, t_door *door);
+int							enemy_inside_door(t_data *data, t_door *door);
+int							has_10_seconds_passed(struct timeval start);
+struct timeval				get_current_time(void);
+int							*check_for_door(char **map, int player_x,
+								int player_y, t_data *data);
+int							can_move_wall(t_char *player, double new_x,
+								double new_y);
+int							can_move_door(t_char *player, double new_x,
+								double new_y);
 
 #endif
