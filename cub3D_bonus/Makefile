@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+         #
+#    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/06/30 16:29:15 by ablodorn         ###   ########.fr        #
+#    Updated: 2025/07/01 13:37:32 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC			= cc  -Wall -Wextra
+CC			= cc  -Wall -Wextra -g
 # -Wall -Wextra -Werror -Ofast -march=native -flto
 HEADERS		= -I$(LIBFT_DIR)/$(INCLD_DIR) -I$(INCLD_DIR)
 HEADERS		+= -I$(MLX_DIR)/include -I$(RAUDIO_DIR)
@@ -114,8 +114,6 @@ $(RAUDIO):
 	-I. -I../external -Wall -std=c99 \
 	-DSUPPORT_MODULE_RAUDIO \
 	-DRAUDIO_STANDALONE \
-	-DSUPPORT_FILEFORMAT_WAV \
-	-DSUPPORT_FILEFORMAT_OGG \
 	-DSUPPORT_FILEFORMAT_MP3 && \
 	ar rcs raudio.a raudio.o
 
