@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:31:44 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/06/30 16:34:55 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:32:06 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ void	update_doors(t_door *doors, t_data *data)
 			if (doors->len < 0)
 				doors->state = OPEN;
 		}
-		if (doors->state == OPEN)
-			close_door_10(doors, data);
+		//if (doors->state == OPEN)
+			//close_door_10(doors, data);
 		doors = doors->next;
 	}
 }

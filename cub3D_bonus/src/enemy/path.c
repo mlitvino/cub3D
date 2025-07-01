@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:53:52 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/06/30 15:38:16 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 13:52:34 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static int	bfs_explore_neighbors(t_data *data, t_bfs *bfs, t_delta *d,
 	int	i;
 	int	nx;
 	int	ny;
+	t_path *node;
 
 	i = 0;
 	while (i < 4)
@@ -28,7 +29,10 @@ static int	bfs_explore_neighbors(t_data *data, t_bfs *bfs, t_delta *d,
 			&& !bfs->visited[ny][nx])
 		{
 			bfs->visited[ny][nx] = 1;
-			bfs->queue[bfs->rear++] = create_node(nx, ny, current);
+			node = create_node(nx, ny, current);
+			if (!node)
+				return (0);
+			bfs->queue[bfs->rear++] = node;
 			if (bfs->rear >= 150)
 				return (0);
 		}
@@ -41,7 +45,7 @@ static int	bfs_check_goal(t_path *current, t_bfs *bfs, t_point goal)
 {
 	if (current->pos.x == goal.x && current->pos.y == goal.y)
 	{
-		free_queue_except_path(bfs->queue, bfs->front, bfs->rear, current);
+		free_queue_except_path(bfs->queue, bfs->rear, current);
 		return (1);
 	}
 	return (0);

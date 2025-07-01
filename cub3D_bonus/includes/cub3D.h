@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/30 16:35:59 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 13:43:05 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -837,7 +837,7 @@ t_path						*bfs_find_path(t_data *data, t_point start,
 int							init_visited(int ***visited, t_data *data);
 void						init_delta_path(t_delta *d);
 t_path						*create_node(int x, int y, t_path *parent);
-void						free_queue_except_path(t_path **queue, int front,
+void						free_queue_except_path(t_path **queue,
 								int rear, t_path *path_end);
 int							has_line_of_sight(t_sprite *enemy, t_char *player,
 								char **map);

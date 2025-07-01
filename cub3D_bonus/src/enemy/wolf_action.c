@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:54:01 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/06/30 16:45:08 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:27:55 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,20 @@ static void	attack_player(t_data *data, t_sprite *sprite)
 static void free_after_door(t_path *path)
 {
 	t_path *tmp;
+	t_path *last;
 
+	last = path;
 	path = path->parent;
 	while (path)
 	{
 		tmp = path->parent;
 		free(path);
 		path = tmp;
-	}	
+	}
+	last->parent = NULL;
 }
 
-static void	truncate_path_if_closed_door(t_sprite *sprite, t_path *prev,
+static int	truncate_path_if_closed_door(t_sprite *sprite, t_path *prev,
 		t_path *tmp, t_data *data)
 {
 	t_door	*door;
@@ -88,14 +91,17 @@ static void	truncate_path_if_closed_door(t_sprite *sprite, t_path *prev,
 			if (prev)
 			{
 				free_after_door(tmp);
+				return (1);
 			}
 			else
 			{
 				free_path(sprite->path);
 				sprite->path = NULL;
+				return (1);
 			}
 		}
 	}
+	return (0);
 }
 
 static void	check_closed_door_in_path(t_data *data, t_sprite *sprite)
@@ -108,7 +114,10 @@ static void	check_closed_door_in_path(t_data *data, t_sprite *sprite)
 	while (tmp && sprite->has_player_in_sight)
 	{
 		if (tmp->parent)
-			truncate_path_if_closed_door(sprite, prev, tmp, data);
+		{
+			if (truncate_path_if_closed_door(sprite, prev, tmp, data))
+				return ;
+		}
 		prev = tmp;
 		tmp = tmp->parent;
 	}
