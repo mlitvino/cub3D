@@ -40,10 +40,10 @@ static void	attack_player(t_data *data, t_sprite *sprite)
 	}
 }
 
-static void free_after_door(t_path *path)
+static void	free_after_door(t_path *path)
 {
-	t_path *tmp;
-	t_path *last;
+	t_path	*tmp;
+	t_path	*last;
 
 	last = path;
 	path = path->parent;

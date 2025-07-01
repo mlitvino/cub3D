@@ -15,10 +15,10 @@
 static int	bfs_explore_neighbors(t_data *data, t_bfs *bfs, t_delta *d,
 		t_path *current)
 {
-	int	i;
-	int	nx;
-	int	ny;
-	t_path *node;
+	int		i;
+	int		nx;
+	int		ny;
+	t_path	*node;
 
 	i = 0;
 	while (i < 4)

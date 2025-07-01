@@ -72,6 +72,7 @@ void	check_end_of_path(t_sprite *sprite)
 		tmp = tmp->parent;
 	}
 }
+
 int	can_move_enemy_collision(t_sprite *sprite, float new_x, float new_y,
 		t_data *data)
 {
