@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 14:53:43 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/28 14:53:44 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:14:36 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	update_sprites(t_data *data, t_sprite *sprites)
 	{
 		if (sprites->type == WOLF && sprites->state != WOLF_DEAD)
 		{
-			update_wolf(data);
+			wolf_action(sprites, data);
 		}
 		else if (sprites->type == STATUE)
 			update_statue(data, &data->player, sprites);

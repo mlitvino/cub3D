@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:23:13 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/07/01 15:51:06 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:16:44 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	fill_sprite_info(t_sprite *new_sprite, t_data *data, int type)
 	new_sprite->visible = true;
 	new_sprite->type = type;
 	new_sprite->hitbox_radius = BLOCK_SIZE / 2;
-	new_sprite->move_spd = BLOCK_SIZE / 16;
+	new_sprite->move_spd = BLOCK_SIZE / 8;
 	new_sprite->turn_spd = 2;
 	new_sprite->dist = 0;
 	new_sprite->path = NULL;

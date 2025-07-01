@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wolf_action.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:54:01 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/07/01 16:26:05 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:31:17 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	attack_player(t_data *data, t_sprite *sprite)
 {
 	if (sprite->dist <= sprite->attack_range)
 	{
-		if (++sprite->attack_rate >= 50 || sprite->moved > 40)
+		if (++sprite->attack_rate >= 50 || sprite->moved > 20)
 		{
 			if (sprite->attack_rate >= 50)
 				sprite->attack_rate = 0;

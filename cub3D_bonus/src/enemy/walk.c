@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   walk.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:06:08 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/07/01 16:27:01 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:14:29 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,6 @@ int	can_move_wall_enemy(t_sprite *sprite, float new_x, float new_y,
 		return (0);
 	}
 	return (1);
-}
-
-void	update_wolf(t_data *data)
-{
-	t_sprite	*sprite;
-
-	sprite = data->sprite_list;
-	while (sprite)
-	{
-		if (sprite->type == WOLF && sprite->state != WOLF_DEAD)
-		{
-			wolf_action(sprite, data);
-		}
-		sprite = sprite->next;
-	}
 }
 
 void	handle_img_set_pos(t_data *data, t_sprite *sprite,
