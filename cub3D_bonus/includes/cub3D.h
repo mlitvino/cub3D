@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/07/01 15:06:13 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:49:40 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,23 @@
 # define WIN_W 1280
 # define WIN_H 720
 
-# define MINIMAP_W (WIN_W / 5)
-# define MINIMAP_H (WIN_W / 6)
+# define MINIMAP_W 5
+# define MINIMAP_H 6
 
 # define SKY_W 1440
 # define SKY_H 5000
 
-# define HUD_W (WIN_W / 4)
-# define HUD_H (WIN_H / 10)
+# define HUD_W 4
+# define HUD_H 10
 
-# define MAIN_BUTTON                  \
-	(t_dpoint)                       \
-	{                                \
-		1920.0 / 79, 1080.0 / 603, 0 \
-	}
-# define PAUSE_BUTTON                  \
-	(t_dpoint)                        \
-	{                                 \
-		1920.0 / 764, 1080.0 / 583, 0 \
-	}
-# define BUTTON_DX (1920.0 / 369)
-# define BUTTON_DY (1080.0 / 108)
-# define BUTTON_DY2 (1080.0 / 52)
+# define MAIN_BUTX 79
+# define MAIN_BUTY 603
+# define PAUS_BUTX 764
+# define PAUS_BUTY 583
+
+# define BUTTON_DX 369
+# define BUTTON_DY 108
+# define BUTTON_DY2 52
 
 # define MAX_THRD 6
 
@@ -60,7 +55,7 @@
 
 # define MODIF_BRIGHT 1
 
-# define MAX_WOLF_VIS 8 * BLOCK_SIZE
+# define MAX_WOLF_VIS 8
 
 # define STATUE_MAX_VIS 4
 # define W_STATUE_VIS_DEC 25
@@ -112,9 +107,6 @@
 
 # define VERTICAL 0
 # define HORIZONT 1
-
-# define ISNORTH(a) (a < 180)
-# define ISEAST(a) (270 < a || a < 90)
 
 # define GREEN_COL 0x124200ff
 # define ORANGE_COL 0xcc8b00ff
@@ -706,11 +698,13 @@ void						render(void *data_arg);
 
 // menu.c
 void						change_game_state(t_data *data, int new_state);
+t_dpoint					init_but(int but_x, int but_y);
 void						init_buttons(t_dpoint *but_r, t_point *d, int *dy2,
 								t_point scr_size);
 int							check_mouse_click(t_data *data, t_dpoint but_r,
 								t_point scr_size);
-void						manage_menu(t_data *data, mlx_image_t **tex_img);
+void						manage_menu(t_data *data, mlx_image_t **tex_img,
+								t_point scr_size);
 
 // action.c
 void						get_damage(t_data *data, t_sprite *spr,

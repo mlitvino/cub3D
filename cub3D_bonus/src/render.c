@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:51:51 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/28 14:52:23 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:37:08 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	render(void *data_arg)
 	}
 	else
 	{
-		manage_menu(data, data->mlx_data.textrs_img);
+		manage_menu(data, data->mlx_data.textrs_img, data->mlx_data.scr_size);
 	}
 	update_audio(data);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:11:45 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/07/01 15:33:17 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:50:10 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	init_angle_table(t_table *angle_table)
 
 void	init_data(t_data *data)
 {
-	data->game_state = START;
+	data->game_state = MAIN_MENU;
 	init_mlx(data);
 	init_audio(data);
 	tune_audio(data);

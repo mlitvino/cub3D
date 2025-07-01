@@ -35,14 +35,6 @@ void	key_event_handler(mlx_key_data_t keydata, void *param)
 	t_data	*data;
 
 	data = (t_data *)param;
-	if (keydata.key == 'R')
-	{
-		data->plane.center.y += 200;
-	}
-	if (keydata.key == 'T')
-	{
-		data->plane.center.y -= 200;
-	}
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 	{
 		mlx_close_window(data->mlx_data.mlx_ptr);
