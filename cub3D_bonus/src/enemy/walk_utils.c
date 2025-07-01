@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:53:55 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/06/30 15:07:54 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:26:01 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,35 @@ void	check_end_of_path(t_sprite *sprite)
 			{
 				free_path(sprite->path);
 				sprite->path = NULL;
+				return ;
 			}
 		}
 		tmp = tmp->parent;
 	}
+}
+
+int	can_move_enemy_collision(t_sprite *sprite, float new_x, float new_y,
+		t_data *data)
+{
+	t_sprite	*other;
+	float		dx;
+	float		dy;
+	float		dist_squared;
+	float		min_dist;
+
+	other = data->sprite_list;
+	while (other)
+	{
+		if (other != sprite && other->walkable == false)
+		{
+			dx = other->pos.x - new_x;
+			dy = other->pos.y - new_y;
+			dist_squared = dx * dx + dy * dy;
+			min_dist = sprite->hitbox_radius / 4 + other->hitbox_radius / 4;
+			if (dist_squared < (min_dist * min_dist))
+				return (0);
+		}
+		other = other->next;
+	}
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:06:08 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/07/01 15:31:41 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:27:01 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void	update_wolf(t_data *data)
 	}
 }
 
-void	handle_img_set_pos(t_data *data, t_sprite *sprite, float new_x, float new_y)
+void	handle_img_set_pos(t_data *data, t_sprite *sprite,
+		float new_x, float new_y)
 {
 	switch_img(sprite);
 	set_new_pos(data, sprite, new_x, new_y);

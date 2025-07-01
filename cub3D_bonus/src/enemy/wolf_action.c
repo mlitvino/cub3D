@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wolf_action.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:54:01 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/07/01 15:50:41 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:26:05 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ static void	attack_player(t_data *data, t_sprite *sprite)
 {
 	if (sprite->dist <= sprite->attack_range)
 	{
-		if (++sprite->attack_rate >= 30 || sprite->moved > 5)
+		if (++sprite->attack_rate >= 50 || sprite->moved > 40)
 		{
-			if (sprite->attack_rate >= 30)
+			if (sprite->attack_rate >= 50)
 				sprite->attack_rate = 0;
 			if (IsSoundPlaying(data->sound[S_WOLF_GROWL]) == false)
 				PlaySound(data->sound[S_WOLF_GROWL]);
@@ -40,10 +40,10 @@ static void	attack_player(t_data *data, t_sprite *sprite)
 	}
 }
 
-static void free_after_door(t_path *path)
+static void	free_after_door(t_path *path)
 {
-	t_path *tmp;
-	t_path *last;
+	t_path	*tmp;
+	t_path	*last;
 
 	last = path;
 	path = path->parent;
@@ -132,30 +132,4 @@ void	wolf_action(t_sprite *sprite, t_data *data)
 	}
 	else
 		sprite->cur_img = sprite->tex_imgs[WOLF_STAY];
-}
-
-int	can_move_enemy_collision(t_sprite *sprite, float new_x, float new_y,
-		t_data *data)
-{
-	t_sprite	*other;
-	float		dx;
-	float		dy;
-	float		dist_squared;
-	float		min_dist;
-
-	other = data->sprite_list;
-	while (other)
-	{
-		if (other != sprite && other->walkable == false)
-		{
-			dx = other->pos.x - new_x;
-			dy = other->pos.y - new_y;
-			dist_squared = dx * dx + dy * dy;
-			min_dist = sprite->hitbox_radius / 4 + other->hitbox_radius / 4;
-			if (dist_squared < (min_dist * min_dist))
-				return (0);
-		}
-		other = other->next;
-	}
-	return (1);
 }

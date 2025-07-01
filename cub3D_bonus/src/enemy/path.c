@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:53:52 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/07/01 13:52:34 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:35:02 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 static int	bfs_explore_neighbors(t_data *data, t_bfs *bfs, t_delta *d,
 		t_path *current)
 {
-	int	i;
-	int	nx;
-	int	ny;
-	t_path *node;
+	int		i;
+	int		nx;
+	int		ny;
+	t_path	*node;
 
 	i = 0;
 	while (i < 4)
