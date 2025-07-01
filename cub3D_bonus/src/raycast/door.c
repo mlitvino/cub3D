@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:41:42 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/07/01 14:32:25 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:57:45 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_door	*create_door(t_data *data, t_door **door_list, int grid_x, int grid_y)
 	new_door->grid_x = grid_x;
 	new_door->grid_y = grid_y;
 	new_door->next = NULL;
-	new_door->move_spd = BLOCK_SIZE / 16;
+	new_door->move_spd = BLOCK_SIZE / 64;
 	temp = *door_list;
 	while (temp && temp->next)
 		temp = temp->next;

@@ -6,30 +6,12 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:54:01 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/07/01 14:27:55 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:57:24 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-/*static void print_path(t_path *path)
-{
-	int	step;
-
-	step = 0;
-	if (!path)
-	{
-		printf("Path is NULL\n");
-		return ;
-	}
-	printf("---- PATH START ----\n");
-	while (path)
-	{
-		printf("Step %d: Tile (%d, %d)\n", step++, path->pos.x, path->pos.y);
-		path = path->parent;
-	}
-	printf("---- PATH END ----\n");
-}*/
 static void	attack_player(t_data *data, t_sprite *sprite)
 {
 	if (sprite->dist <= sprite->attack_range)

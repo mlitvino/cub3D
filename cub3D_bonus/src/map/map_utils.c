@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:14:21 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/06/30 15:53:17 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:13:17 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	**pad_map(char **map, int height, t_data *data)
 	if (!padded_map)
 		return (NULL);
 	data->map_w = longest_line(map, height);
-	if (data->map_w > 1000)
+	if (data->map_h * data->map_w > 6500)
 	{
 		free(padded_map);
 		ft_putstr_fd("Error\nMap is too big\n", 2);

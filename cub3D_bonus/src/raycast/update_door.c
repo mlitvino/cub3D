@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:31:44 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/07/01 14:32:06 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:06:37 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	*check_for_door(char **map, int player_x, int player_y,
 	double	angle_rad;
 
 	i = 0;
-	angle_rad = DEG_TO_RAD(data->player.pov.view_angl);
+	angle_rad = dg_rad(data->player.pov.view_angl);
 	dir_x = cos(angle_rad);
 	dir_y = -sin(angle_rad);
 	while (i < 5)
@@ -80,8 +80,8 @@ void	update_doors(t_door *doors, t_data *data)
 			if (doors->len < 0)
 				doors->state = OPEN;
 		}
-		//if (doors->state == OPEN)
-			//close_door_10(doors, data);
+		if (doors->state == OPEN)
+			close_door_10(doors, data);
 		doors = doors->next;
 	}
 }

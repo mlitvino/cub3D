@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:04:13 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/06/30 16:12:38 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:06:29 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	move_player(t_char *player, double angle_offset)
 	int		new_x;
 	int		new_y;
 
-	angle_rad = DEG_TO_RAD(player->pov.view_angl + angle_offset);
+	angle_rad = deg_rad(player->pov.view_angl + angle_offset);
 	dx = cos(angle_rad) * player->move_spd;
 	dy = -sin(angle_rad) * player->move_spd;
 	new_x = player->pos.x + dx;

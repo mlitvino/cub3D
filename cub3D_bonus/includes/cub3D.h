@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/07/01 14:44:55 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:06:13 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,6 @@
 
 # define ISNORTH(a) (a < 180)
 # define ISEAST(a) (270 < a || a < 90)
-
-# define DEG_TO_RAD(a) ((a)*M_PI / 180.0)
 
 # define GREEN_COL 0x124200ff
 # define ORANGE_COL 0xcc8b00ff
