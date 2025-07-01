@@ -6,12 +6,11 @@
 #    By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 12:51:25 by mlitvino          #+#    #+#              #
-#    Updated: 2025/07/01 15:00:11 by mlitvino         ###   ########.fr        #
+#    Updated: 2025/07/01 17:44:07 by mlitvino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC			= cc  -Wall -Wextra -Ofast -march=native -flto
-# -Wall -Wextra -Werror -Ofast -march=native -flto
+CC			= cc  -Wall -Wextra -Werror -Ofast -march=native -flto
 HEADERS		= -I$(LIBFT_DIR)/$(INCLD_DIR) -I$(INCLD_DIR)
 HEADERS		+= -I$(MLX_DIR)/include -I$(RAUDIO_DIR)
 LIBS		= -L$(MLX_DIR)/build $(MLX) $(RAUDIO)
@@ -37,72 +36,72 @@ MAP_DIR		= map
 ENE_DIR		= enemy
 
 SRC			= $(addprefix $(SRC_DIR)/, \
-				main.c \
-				init.c \
-				init_mlx.c \
-				init_utils.c \
-				clean.c \
-				audio.c \
-				render.c \
-				update_sprites.c \
-				update_player.c \
-				action.c \
-				menu.c \
-				minimap.c \
-				minimap_player.c \
-				minimap_utils.c \
+				main_bonus.c \
+				init_bonus.c \
+				init_mlx_bonus.c \
+				init_utils_bonus.c \
+				clean_bonus.c \
+				audio_bonus.c \
+				render_bonus.c \
+				update_sprites_bonus.c \
+				update_player_bonus.c \
+				action_bonus.c \
+				menu_bonus.c \
+				minimap_bonus.c \
+				minimap_player_bonus.c \
+				minimap_utils_bonus.c \
 				$(MAP_SRC) \
 				$(RAY_SRC) \
 				$(MOV_SRC) \
 				$(ENE_SRC) \
 				)
 MAP_SRC		= $(addprefix $(MAP_DIR)/, \
-				perror.c \
-				error.c \
-				free.c \
-				file_utils.c \
-				read_file.c \
-				map_borders.c \
-				map_utils.c \
-				map.c \
-				surrounding.c \
-				valid_file.c \
-				doors.c \
+				perror_bonus.c \
+				error_bonus.c \
+				free_bonus.c \
+				file_utils_bonus.c \
+				read_file_bonus.c \
+				map_borders_bonus.c \
+				map_utils_bonus.c \
+				map_bonus.c \
+				surrounding_bonus.c \
+				valid_file_bonus.c \
+				doors_bonus.c \
 				)
 RAY_SRC		= $(addprefix $(RAY_DIR)/, \
-				raycast.c \
-				find_wall.c \
-				check_hit.c \
-				helper.c \
-				raycast_utils.c \
-				draw.c \
-				draw_utils.c \
-				door.c \
-				face_enemy.c \
-				sprite.c \
-				sprite_init.c \
-				thread.c \
-				door_utils.c \
-				update_door.c \
+				raycast_bonus.c \
+				find_wall_bonus.c \
+				check_hit_bonus.c \
+				helper_bonus.c \
+				raycast_utils_bonus.c \
+				draw_bonus.c \
+				draw_utils_bonus.c \
+				door_bonus.c \
+				face_enemy_bonus.c \
+				sprite_bonus.c \
+				sprite_init_bonus.c \
+				thread_bonus.c \
+				door_utils_bonus.c \
+				update_door_bonus.c \
 				)
 MOV_SRC		= $(addprefix $(MOV_DIR)/, \
-				rotate.c \
-				movement.c \
-				event_handler.c \
-				movement_utils.c \
+				rotate_bonus.c \
+				movement_bonus.c \
+				event_handler_bonus.c \
+				movement_utils_bonus.c \
 				)
 ENE_SRC		=$(addprefix $(ENE_DIR)/, \
-				path.c \
-				path_utils.c \
-				walk.c \
-				walk_utils.c \
-				line_of_sight.c \
-				free_enemy.c \
-				wolf_action.c \
+				path_bonus.c \
+				path_utils_bonus.c \
+				walk_bonus.c \
+				walk_utils_bonus.c \
+				line_of_sight_bonus.c \
+				free_enemy_bonus.c \
+				wolf_action_bonus.c \
 				)
 
 OBJ			= $(addprefix $(OBJ_DIR)/,$(notdir $(SRC:.c=.o)))
-INCLD		= $(INCLD_DIR)/cub3D.h
+INCLD		= $(INCLD_DIR)/cub3D_bonus.h
 
 .SECONDARY: $(OBJ)
 

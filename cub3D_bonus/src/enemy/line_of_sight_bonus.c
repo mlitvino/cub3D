@@ -1,0 +1,53 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   line_of_sight_bonus.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 14:53:43 by ablodorn          #+#    #+#             */
+/*   Updated: 2025/07/01 17:42:27 by mlitvino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "cub3D_bonus.h"
+
+static int	door_in_line_of_sight(double x, double y, t_data *data, char **map)
+{
+	t_door	*door;
+
+	if (ft_strchr(DOORS, map[(int)y][(int)x]))
+	{
+		door = find_door(data->door_list, x, y);
+		if (door && door->state != OPEN)
+			return (1);
+	}
+	return (0);
+}
+
+int	has_line_of_sight(t_sprite *enemy, t_char *player, char **map)
+{
+	double	dx;
+	double	dy;
+	double	x;
+	double	y;
+	double	dist;
+
+	x = enemy->pos.x;
+	y = enemy->pos.y;
+	dx = player->pos.x - enemy->pos.x;
+	dy = player->pos.y - enemy->pos.y;
+	dist = sqrt(dx * dx + dy * dy);
+	enemy->dist_player = dist;
+	while (dist > 0)
+	{
+		x += (dx / enemy->dist_player) * 0.5;
+		y += (dy / enemy->dist_player) * 0.5;
+		dist -= 0.5;
+		if (ft_strchr(WALLS, map[(int)y][(int)x]))
+			return (0);
+		if (door_in_line_of_sight(x, y, player->data, map))
+			return (0);
+	}
+	return (1);
+}
