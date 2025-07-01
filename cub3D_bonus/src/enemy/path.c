@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:53:52 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/07/01 16:35:02 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:05:34 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ t_path	*bfs_find_path(t_data *data, t_point start, t_dpoint goal)
 		return (NULL);
 	init_delta_path(&d);
 	bfs.queue[bfs.rear++] = create_node(s.x, s.y, NULL);
+	if (!bfs.queue[bfs.rear - 1])
+		return (NULL);
 	bfs.visited[s.y][s.x] = 1;
 	result = bfs_loop(data, &bfs, &d, g);
 	free_visited(bfs.visited, data->map_h);
