@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:53:55 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/06/30 15:07:54 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:06:22 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	check_end_of_path(t_sprite *sprite)
 			{
 				free_path(sprite->path);
 				sprite->path = NULL;
-			}
+				return ;
 		}
 		tmp = tmp->parent;
 	}
