@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_wall.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 14:57:05 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/18 15:44:16 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:07:34 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	norm_fract(t_dpoint *temp, t_point *line, int axis_flag,
 		double ray_angl)
 {
 	if ((axis_flag == VERTICAL && ray_angl > 180) || (axis_flag == HORIZONT
-		&& (270 < ray_angl || ray_angl < 90)))
+			&& (270 < ray_angl || ray_angl < 90)))
 	{
 		line->x = temp->x;
 		line->y = temp->y;
