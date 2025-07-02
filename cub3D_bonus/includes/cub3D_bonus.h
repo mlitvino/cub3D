@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/07/01 17:40:10 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/07/02 13:17:46 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define WIN_H 720
 
 # define MINIMAP_W 5
-# define MINIMAP_H 6
+# define MINIMAP_H 3
 
 # define SKY_W 1440
 # define SKY_H 5000
@@ -62,7 +62,7 @@
 # define H_STATUE_VIS_DEC 3
 
 # define PLAYER_HP 8
-# define PLAYER_AMMO 8
+# define PLAYER_AMMO 7
 # define ENEMY_HP 2
 
 # define START 100
@@ -529,6 +529,7 @@ typedef struct s_data
 
 	t_door					*door_list;
 	t_sprite				*sprite_list;
+	t_sprite				**sprite_array;
 
 	t_char					player;
 	t_keys					keys;
@@ -572,7 +573,7 @@ t_door						*create_door(t_data *data, t_door **doors_list,
 void						check_screen_center(t_raycast *raycast,
 								t_sprite *sprite, t_point center);
 void						check_statue_look(t_raycast *raycast,
-								t_sprite *sprite);
+								t_sprite *sprite, t_point center);
 void						chck_facing_enemy(t_raycast *raycast,
 								t_sprite **sprite_array, t_char *player);
 

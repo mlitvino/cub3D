@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 23:12:04 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/07/01 17:42:27 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/07/02 13:17:54 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	clean_obj(t_data *data)
 
 void	clean_all(t_data *data, char *perr_mess)
 {
+	free(data->sprite_array);
 	free_map(data->grid_map, -1);
 	free_paths(data->sprite_list);
 	clean_map(data);

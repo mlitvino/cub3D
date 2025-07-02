@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:24:23 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/07/01 17:42:27 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/07/02 13:18:02 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	update_player_rotation(t_data *game, int delta_x)
 {
 	float	sensitivity;
 
-	sensitivity = 0.06f;
+	sensitivity = 0.03f;
 	game->player.pov.view_angl -= delta_x * sensitivity;
 	if (game->player.pov.view_angl >= 360)
 		game->player.pov.view_angl -= 360;

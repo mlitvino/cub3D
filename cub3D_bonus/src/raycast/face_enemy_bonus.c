@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 20:19:33 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/07/01 17:42:27 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/07/02 13:18:18 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	check_screen_center(t_raycast *raycast,
 	}
 }
 
-void	check_statue_look(t_raycast *raycast, t_sprite *sprite)
+void	check_statue_look(t_raycast *raycast, t_sprite *sprite, t_point center)
 {
 	t_point	scr_size;
 	int		left;
@@ -41,6 +41,7 @@ void	check_statue_look(t_raycast *raycast, t_sprite *sprite)
 	top = sprite->size.y - sprite->height / H_STATUE_VIS_DEC;
 	if (!raycast->player->facing_statue && sprite->type == STATUE
 		&& sprite->dist < STATUE_MAX_VIS * BLOCK_SIZE
+		&& sprite->size.x < raycast->data->rays_dist[center.x]
 		&& (!(sprite->size.x + sprite->width / W_STATUE_VIS_DEC < 0
 				|| left >= scr_size.x)
 			&& !(sprite->size.y + sprite->height / H_STATUE_VIS_DEC < 0
@@ -67,7 +68,7 @@ void	chck_facing_enemy(t_raycast *raycast, t_sprite **sprite_array,
 	while (i >= 0)
 	{
 		check_screen_center(raycast, sprite_array[i], center);
-		check_statue_look(raycast, sprite_array[i]);
+		check_statue_look(raycast, sprite_array[i], center);
 		i--;
 	}
 }
