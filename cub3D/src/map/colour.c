@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:58:34 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/07/01 14:58:35 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/02 12:49:55 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ static int	set_floor(t_data *data, char *line)
 	while (j < 4)
 		data->mlx_data.floor_colour[j++] = NULL;
 	if (!set_rgb(1, line_trim, &i, data))
+	{
+		free(line_trim);
 		return (0);
+	}
 	free(line_trim);
 	return (1);
 }
@@ -83,7 +86,10 @@ static int	set_ceiling(t_data *data, char *line)
 	while (j < 4)
 		data->mlx_data.ceiling_colour[j++] = NULL;
 	if (!set_rgb(0, line_trim, &i, data))
+	{
+		free(line_trim);
 		return (0);
+	}
 	free(line_trim);
 	return (1);
 }

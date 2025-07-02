@@ -6,7 +6,7 @@
 /*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:58:50 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/07/01 14:58:51 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/02 12:55:19 by ablodorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,12 @@ char	**pad_map(char **map, int height, t_data *data)
 
 	padded_map = malloc(sizeof(char *) * (height + 1));
 	if (!padded_map)
+	{
+		perror("cub3D");
 		return (NULL);
+	}
 	data->map_w = longest_line(map, height);
-	if (data->map_w > 1000)
+	if (data->map_h * data->map_w > 6500)
 	{
 		free(padded_map);
 		ft_putstr_fd("Error\nMap is too big\n", 2);
