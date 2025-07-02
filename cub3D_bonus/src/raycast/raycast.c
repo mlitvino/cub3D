@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:43:06 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/06/21 19:05:52 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/07/02 13:07:50 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	handle_sprites(t_raycast *raycast)
 	int			thrd_i;
 
 	sprite_array = init_spite_array(raycast);
+	raycast->data->sprite_array = sprite_array;
 	calc_sprite(raycast, sprite_array);
 	sort_sprite_dist(raycast, sprite_array);
 	chck_facing_enemy(raycast, sprite_array, raycast->player);
@@ -71,6 +72,7 @@ void	handle_sprites(t_raycast *raycast)
 		i++;
 	}
 	free(sprite_array);
+	raycast->data->sprite_array = NULL;
 }
 
 void	raycast(t_data *data)

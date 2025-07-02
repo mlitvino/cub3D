@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/07/02 13:01:32 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/07/02 13:07:32 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -529,6 +529,7 @@ typedef struct s_data
 
 	t_door					*door_list;
 	t_sprite				*sprite_list;
+	t_sprite				**sprite_array;
 
 	t_char					player;
 	t_keys					keys;
