@@ -6,7 +6,7 @@
 /*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:53:29 by mlitvino          #+#    #+#             */
-/*   Updated: 2025/07/02 13:17:46 by mlitvino         ###   ########.fr       */
+/*   Updated: 2025/07/02 13:19:03 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@
 # define W_STATUE_VIS_DEC 25
 # define H_STATUE_VIS_DEC 3
 
-# define PLAYER_HP 8
+# define PLAYER_HP 9
 # define PLAYER_AMMO 7
 # define ENEMY_HP 2
 
