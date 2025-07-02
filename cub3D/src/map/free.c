@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:58:42 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/07/02 12:48:30 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/02 19:41:18 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ int	free_map_return(t_data *data)
 
 int	free_error_exit(char *line, char *colour)
 {
-	free(line);
+	if (line)
+		free(line);
 	free(colour);
 	return (error_exit("Error\nInvalid colour format\n"));
 }

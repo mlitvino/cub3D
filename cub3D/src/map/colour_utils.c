@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colour_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablodorn <ablodorn@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mlitvino <mlitvino@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:58:28 by ablodorn          #+#    #+#             */
-/*   Updated: 2025/07/02 13:05:07 by ablodorn         ###   ########.fr       */
+/*   Updated: 2025/07/02 19:47:06 by mlitvino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ int	valid_end_of_string(int *i, int done, char *line, char *colour)
 	while (line[*i] == ' ')
 		(*i)++;
 	if ((done && line[*i] != '\0') || (!done && line[*i] != ','))
-		return (free_error_exit(line, colour));
+		return (free_error_exit(NULL, colour));
 	if (done && ft_strlen(colour) == 0)
-		return (free_error_exit(line, colour));
+		return (free_error_exit(NULL, colour));
 	if (line[(*i)] && done)
-		return (free_error_exit(line, colour));
+		return (free_error_exit(NULL, colour));
 	if (((!line[(*i)]) && !done) || (line[(*i)] && line[(*i)] != ','))
-		return (free_error_exit(line, colour));
+		return (free_error_exit(NULL, colour));
 	if (line[(*i)] && line[(*i)] == ',')
 		(*i)++;
 	return (1);
@@ -93,7 +93,7 @@ char	*set_colour(char *line, int *i, int done)
 	{
 		if (!ft_isdigit(line[(*i)]))
 		{
-			free_error_exit(line, colour);
+			free_error_exit(NULL, colour);
 			return (NULL);
 		}
 		colour[k++] = line[(*i)++];
