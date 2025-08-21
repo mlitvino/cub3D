@@ -12,6 +12,21 @@
 
 #include "cub3D_bonus.h"
 
+static t_data	data;
+
+EMSCRIPTEN_KEEPALIVE
+void	js_handle_mouse_rotation(int dx, int dy)
+{
+	extern void handle_mouse_rotation(t_data *game, int, int);
+	extern t_data data;
+	handle_mouse_rotation(&data, dx, dy);
+}
+
+void	emscripten_main_loop()
+{
+	mlx_loop(data.mlx_data.mlx_ptr);
+}
+
 void	print_usage(void)
 {
 	printf("Usage: ./cub3D <map_file.cub>\n\n");
@@ -63,8 +78,6 @@ int	parsing_file(t_data *data, char **argv, int argc)
 
 int	main(int argc, char *argv[])
 {
-	t_data	data;
-
 	ft_memset(&data, 0, sizeof(t_data));
 	if (!parsing_file(&data, argv, argc))
 		return (1);
@@ -73,7 +86,7 @@ int	main(int argc, char *argv[])
 	mlx_resize_hook(data.mlx_data.mlx_ptr, &resize_handler, &data);
 	mlx_mouse_hook(data.mlx_data.mlx_ptr, &mouse_hook, &data);
 	mlx_loop_hook(data.mlx_data.mlx_ptr, render, &data);
-	mlx_loop(data.mlx_data.mlx_ptr);
+	emscripten_set_main_loop(emscripten_main_loop, 0, true);
 	clean_all(&data, NULL);
 	return (0);
 }

@@ -10,7 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 
-CC			= cc  -Wall -Wextra -Werror -Ofast -march=native -flto
+CC			?= cc  -Wall -Wextra -Werror -O3
+## -Ofast -march=native -flto
 HEADERS		= -I$(LIBFT_DIR)/$(INCLD_DIR) -I$(INCLD_DIR)
 HEADERS		+= -I$(MLX_DIR)/include -I$(RAUDIO_DIR)
 LIBS		= -L$(MLX_DIR)/build $(MLX) $(RAUDIO)
@@ -105,20 +106,21 @@ INCLD		= $(INCLD_DIR)/cub3D_bonus.h
 
 .SECONDARY: $(OBJ)
 
-all: $(RAUDIO) $(LIBFT) $(MLX) $(NAME)
+all: $(MLX) $(LIBFT) ra $(NAME)
 
-$(RAUDIO):
+ra:
 	cd $(RAUDIO_DIR) && \
-	cc -c raudio.c -o raudio.o \
-	-I. -I../external -Wall -std=c99 \
+	$(CC) -c raudio.c -o raudio.o \
+	-I. -I../external -Wall \
 	-DSUPPORT_MODULE_RAUDIO \
 	-DRAUDIO_STANDALONE \
-	-DSUPPORT_FILEFORMAT_MP3 && \
-	ar rcs raudio.a raudio.o
+	-DSUPPORT_FILEFORMAT_MP3 \
+	&& ar rcs raudio.a raudio.o
 
 $(MLX):
-	cmake -S $(MLX_DIR) -B $(MLX_DIR)/build
-	cmake --build $(MLX_DIR)/build -j6
+	cd $(MLX_DIR) \
+	&& cmake -B build \
+	&& cmake --build build -j10
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INCLD)
 	@[ -d $(OBJ_DIR) ] || mkdir -p $(OBJ_DIR)
@@ -141,17 +143,47 @@ clean:
 	make -C $(LIBFT_DIR) clean
 
 fclean: clean
-	make -C $(MLX_DIR)/build clean
+	rm -rf $(MLX_DIR)/build
+	rm -rf $(RAUDIO_DIR)/raudio.a
 	make -C $(LIBFT_DIR) fclean
-	rm -rf $(RAUDIO)
 	rm -f $(NAME)
+	rm -f web/cub3D.js web/cub3D.data web/cub3D.wasm
 
 start: all
 	./$(NAME) map/forest.cub
 
+web:
+	make ra CC="emcc -s USE_PTHREADS=1 -s SHARED_MEMORY=1"
+	cd $(MLX_DIR) \
+	&& emcmake cmake -B build \
+	&& cmake --build build --parallel
+	make -C $(LIBFT_DIR) CC=emcc
+	emcc -O3 \
+		-pthread \
+		$(SRC) \
+		$(HEADERS) \
+		$(LIBS) \
+		$(LIBFT) \
+		$(RAUDIO) \
+		-o web/cub3D.js \
+		--preload-file map/forest.cub \
+		--preload-file audio@/audio \
+		--preload-file textures@/textures \
+		-s USE_GLFW=3 \
+		-s USE_WEBGL2=1 \
+		-s FULL_ES3=1 \
+		-s WASM=1 \
+		-s NO_EXIT_RUNTIME=1 \
+		-s EXPORTED_RUNTIME_METHODS='["ccall","cwrap"]' \
+		-s INITIAL_MEMORY=671088640 \
+		-s TOTAL_STACK=512000000 \
+		-s ALLOW_MEMORY_GROWTH=1 \
+		-s USE_ZLIB=1 \
+		-s USE_SDL=2
+
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re web ra
 
 
 

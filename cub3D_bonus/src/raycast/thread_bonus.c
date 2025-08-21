@@ -49,24 +49,32 @@ void	*thread_raycast(void *arg)
 
 void	init_threads(t_raycast *raycast, void *(routine)(void *arg))
 {
-	int	i;
-	int	err;
-
-	i = 0;
-	err = 0;
-	while (i < MAX_THRD)
+	for (int i = 0; i < MAX_THRD; i++)
 	{
 		raycast[i].thrd_i = i;
-		err |= pthread_create(&raycast[i].threads[i], NULL, routine,
-				(void *)&raycast[i]);
-		i++;
+		routine(&raycast[i]);
 	}
-	i = 0;
-	while (i < MAX_THRD)
-	{
-		pthread_join(raycast[i].threads[i], NULL);
-		i++;
-	}
-	if (err)
-		clean_all(raycast->data, "pthread_create");
+	return ;
+
+	// Right now is unaviable on web
+	// int	i;
+	// int	err;
+
+	// i = 0;
+	// err = 0;
+	// while (i < MAX_THRD)
+	// {
+	// 	raycast[i].thrd_i = i;
+	// 	err |= pthread_create(&raycast[i].threads[i], NULL, routine,
+	// 			(void *)&raycast[i]);
+	// 	i++;
+	// }
+	// i = 0;
+	// while (i < MAX_THRD)
+	// {
+	// 	pthread_join(raycast[i].threads[i], NULL);
+	// 	i++;
+	// }
+	// if (err)
+	// 	clean_all(raycast->data, "pthread_create");
 }

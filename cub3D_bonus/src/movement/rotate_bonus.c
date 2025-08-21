@@ -50,17 +50,8 @@ static void	update_camera_pitch(t_data *game, int delta_y)
 		game->plane.center.y = -400;
 }
 
-void	handle_mouse_rotation(t_data *game)
+void	handle_mouse_rotation(t_data *game, int dx, int dy)
 {
-	int	x;
-	int	y;
-	int	center_x;
-	int	center_y;
-
-	center_x = WIN_W / 2;
-	center_y = WIN_H / 2;
-	mlx_get_mouse_pos(game->mlx_data.mlx_ptr, &x, &y);
-	update_player_rotation(game, x - center_x);
-	update_camera_pitch(game, y - center_y);
-	mlx_set_mouse_pos(game->mlx_data.mlx_ptr, center_x, center_y);
+	update_player_rotation(game, dx);
+	update_camera_pitch(game, dy);
 }

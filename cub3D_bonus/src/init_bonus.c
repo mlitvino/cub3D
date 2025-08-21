@@ -114,6 +114,7 @@ void	init_data(t_data *data)
 	init_player(data);
 	init_obj(data);
 	init_angle_table(data->angle_table);
+	SDL_SetRelativeMouseMode(SDL_TRUE);
 	data->mlx_data.scr_size.x = WIN_W;
 	data->mlx_data.scr_size.y = WIN_H;
 	data->plane.center.x = WIN_W / 2;

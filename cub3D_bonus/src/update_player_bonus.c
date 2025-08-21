@@ -87,14 +87,24 @@ void	update_player(t_data *data, t_char *player)
 {
 	check_keys(data, &data->keys, &data->player);
 	if (!data->keys.cursor)
-		handle_mouse_rotation(data);
-	update_bobbing(player);
-	if (player->is_shooting == true && player->ammo > 0
-		&& IsSoundPlaying(data->sound[S_SHOT]) == false)
 	{
-		player->is_shooting = false;
-		data->mlx_data.textrs_img[CROSSBOW1]->enabled = true;
-		data->mlx_data.textrs_img[CROSSBOW2]->enabled = false;
+		int dx = 0, dy = 0;
+		SDL_GetRelativeMouseState(&dx, &dy);
+		handle_mouse_rotation(data, dx, dy);
+	}
+	update_bobbing(player);
+	if (player->is_shooting == true)
+	{
+		static long shot_time = 0;
+		if (shot_time == 0)
+			shot_time = get_time_in_ms();
+		if (get_time_in_ms() - shot_time > 2000 && player->ammo > 0) // && IsSoundPlaying(data->sound[S_SHOT]) == false
+		{
+			shot_time = get_time_in_ms();
+			player->is_shooting = false;
+			data->mlx_data.textrs_img[CROSSBOW1]->enabled = true;
+			data->mlx_data.textrs_img[CROSSBOW2]->enabled = false;
+		}
 	}
 	if (data->unit_map[(int)player->pos.y][(int)player->pos.x] == STONE_FLOOR)
 	{

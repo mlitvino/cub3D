@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cub3D Web</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        canvas {
+            display: block;
+            background-color: black;
+            /* make canvas fill the viewport by default; exact pixel buffer is set by JS */
+            width: 100vw;
+            height: 100vh;
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" width="1280" height="720"></canvas>
+    <script>
+        // Size the canvas to the user's window resolution and handle DPR for crisp rendering.
+        (function() {
+            const canvas = document.getElementById('canvas');
+            function resizeCanvas() {
+                const dpr = window.devicePixelRatio || 1;
+                const width = Math.max(1, Math.floor(window.innerWidth));
+                const height = Math.max(1, Math.floor(window.innerHeight));
+                // Set CSS size (device-independent pixels)
+                canvas.style.width = width + 'px';
+                canvas.style.height = height + 'px';
+                // Set backing store size (physical pixels)
+                canvas.width = Math.floor(width * dpr);
+                canvas.height = Math.floor(height * dpr);
+            }
+            // Initial size
+            resizeCanvas();
+            // Resize on window events
+            window.addEventListener('resize', resizeCanvas);
+            window.addEventListener('orientationchange', resizeCanvas);
+        })();
+    </script>
+    <script>
+        var Module = {
+            arguments: ["./map/forest.cub"],
+            canvas: (function () {
+                var c = document.getElementById('canvas');
+                c.addEventListener('webglcontextlost', function (e) {
+                    alert('WebGL context lost. Reload the page.');
+                    e.preventDefault();
+                }, false);
+                return c;
+            })(),
+            onRuntimeInitialized: function () {
+                if (Module._SDL_SetRelativeMouseMode) {
+                    Module._SDL_SetRelativeMouseMode(1);
+                }
+            }
+        };
+    </script>
+    <script src="cub3D.js"></script>
+    <script>
+        (function() {
+            const canvas = document.getElementById('canvas');
+            // Lock pointer when canvas is clicked
+            canvas.addEventListener('click', function() {
+                if (canvas.requestPointerLock) {
+                    canvas.requestPointerLock();
+                }
+            });
+            // Log pointer lock status
+            document.addEventListener('pointerlockchange', function() {
+                if (document.pointerLockElement === canvas) {
+                    console.log('Pointer locked');
+                } else {
+                    console.log('Pointer unlocked');
+                }
+            });
+            // Forward pointer movement deltas to C
+            document.addEventListener('mousemove', function(e) {
+                if (document.pointerLockElement === canvas) {
+                    Module.ccall('js_handle_mouse_rotation', null, ['number','number'], [e.movementX, e.movementY]);
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>

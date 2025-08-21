@@ -14,6 +14,11 @@
 # define CUB3D_BONUS_H
 
 # include "MLX42/MLX42_Int.h"
+
+# include <SDL2/SDL.h>
+# include <emscripten/html5.h>
+# include <emscripten/emscripten.h>
+
 # include "float.h"
 # include "libft.h"
 # include "raudio.h"
@@ -802,7 +807,7 @@ int							check_double_element_wall(int *map_element,
 								char *element, char *line, t_data *data);
 int							check_doors(char **map);
 
-void						handle_mouse_rotation(t_data *game);
+void						handle_mouse_rotation(t_data *game, int dx, int dy);
 void						open_close_door(t_data *data);
 
 void						update_wolf(t_data *data);

@@ -36,8 +36,7 @@ void	shoot(t_data *data, t_char *player)
 {
 	t_sprite	*enemy;
 
-	if (player->ammo > 0 && player->is_shooting == 0
-		&& IsSoundPlaying(data->sound[S_SHOT]) == false)
+	if (player->ammo > 0 && player->is_shooting == 0) // && IsSoundPlaying(data->sound[S_SHOT]) == false
 	{
 		enemy = player->facing_enemy;
 		player->ammo--;
@@ -46,7 +45,7 @@ void	shoot(t_data *data, t_char *player)
 		{
 			get_damage(data, enemy, player);
 		}
-		PlaySound(data->sound[S_SHOT]);
+		//PlaySound(data->sound[S_SHOT]);
 		data->mlx_data.textrs_img[CROSSBOW1]->enabled = false;
 		data->mlx_data.textrs_img[CROSSBOW2]->enabled = true;
 	}

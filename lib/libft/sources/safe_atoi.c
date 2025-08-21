@@ -12,10 +12,10 @@
 
 #include "libft.h"
 
-long	safe_atoi(const char *str)
+long long	safe_atoi(const char *str)
 {
-	long		res;
-	int			sign;
+		long long	res;
+		long long	sign;
 
 	res = 0;
 	sign = 1;
@@ -26,17 +26,17 @@ long	safe_atoi(const char *str)
 	if (*str == '+' || *str == '-')
 		if (*str++ == '-')
 			sign *= -1;
-	if (!(*str >= '0' && *str <= '9'))
-		return ((long)INT_MAX + 1);
+	   if (!(*str >= '0' && *str <= '9'))
+		   return (((long long)INT_MAX) + 1LL);
 	while (*str >= '0' && *str <= '9')
 	{
 		res = res * 10 + (*str++ - '0');
-		if (res > INT_MAX || res < INT_MIN)
-			return ((long)INT_MAX + 1);
+		   if (res > INT_MAX || res < INT_MIN)
+			   return (((long long)INT_MAX) + 1LL);
 	}
 	while (ft_isspace(*str))
 		str++;
-	if (*str)
-		return ((long)INT_MAX + 1);
-	return (res * sign);
+	   if (*str)
+		   return (((long long)INT_MAX) + 1LL);
+		return (res * sign);
 }
