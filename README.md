@@ -17,6 +17,14 @@ You play as Van Helsing, a monster hunter. You must traverse the forest and cast
 
 <img width="680" height="400" alt="controls" src="https://github.com/user-attachments/assets/be3315f2-6118-4b5e-bc8f-0f3a883b3ed6" />
 
+
+
+## Web version
+
+If you do not want to or cannot build the source files, you can try the web version! It lacks sound and performance, unlike the local version. 
+
+https://mlitvino.github.io/cub3D/
+
 ## Usage
 
 Dependencies: 
@@ -37,7 +45,7 @@ To ensure that you have all the required dependencies, I recommend you run this 
       libglu1-mesa-dev \
       zlib1g-dev \
       libbsd-dev \
-      libxext-dev \
+      libxext-dev
 
 * go to cub3D_bonus directory
 * make ``make``
