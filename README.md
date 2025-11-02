@@ -57,6 +57,7 @@ To ensure that you have all the required dependencies, I recommend you run this 
 ## Credits
 
 - **Music**: [alkakrab Game Music](mailto:alkakrab04@gmail.com)  
-- **Textures (wolf & weapon)**: Viktoriia Lebedeva  
+- **Textures (wolf & weapon)**: Viktoriia Lebedeva
+- **Textures (walls and grass)**: Jestan twitter: @jestanpixels, e-mail: jestanql@hotmail.com
 - **Other textures**: sora (via OpenAI)
 
